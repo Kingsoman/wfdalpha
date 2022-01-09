@@ -9,6 +9,7 @@ import OurMissions from '../components/OurMissions'
 import RoadMap from '../components/Roadmap'
 import Footer from '../components/Footer'
 import { Container } from '../components/Container'
+import '../styles/transition.scss'
 import '../styles/transition.css'
 
 export default () => {
