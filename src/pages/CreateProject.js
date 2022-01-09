@@ -36,8 +36,9 @@ export default function CreateProject() {
   const { state, dispatch } = useStore()
   const [isUST, setIsUST] = useState(true)
 
-  const [whitepaper, setWhitepaper] = useState('')
   const [logo, setLogo] = useState('')
+  const [whitepaper, setWhitepaper] = useState('')
+  const [milestone, setMilestone] = useState([{}])
 
   const [prjCategory, setPrjCategory] = useState('Crypto')
   const [prjName, setPrjName] = useState('')
@@ -294,17 +295,27 @@ export default function CreateProject() {
       })
   }
 
+  function newMileStone() {
+    let ar = [...milestone]
+    ar.concat({})
+  }
+
   return (
     <ChakraProvider resetCSS theme={theme}>
       <div
         style={{
-          background: 'linear-gradient(90deg, #1F0021 0%, #120054 104.34%)',
           width: '100%',
           color: 'white',
+          display: 'flex',
           fontSize: '18px',
           fontWeight: '500',
+          marginBottom: '2em',
+          alignItems: 'center',
           paddingBottom: '2em',
+          flexDirection: 'column',
+          justifyContent: 'center',
           fontFamily: 'Sk-Modernist-Regular',
+          background: 'linear-gradient(90deg, #1F0021 0%, #120054 104.34%)',
         }}
       >
         <div
@@ -338,7 +349,7 @@ export default function CreateProject() {
             </Flex>
             <Flex
               mt="11px"
-              pb="90px"
+              pb="80px"
               justify="center"
               style={{ fontFamily: 'PilatExtended-Bold' }}
             >
@@ -354,12 +365,7 @@ export default function CreateProject() {
             </Flex>
           </div>
         </div>
-        <Flex
-          width="100%"
-          justify="center"
-          mb={'150px'}
-          zIndex={'1'}
-        >
+        <Flex width="100%" justify="center" mb={'150px'} zIndex={'1'}>
           <div
             style={{
               width: '900px',
@@ -957,278 +963,301 @@ export default function CreateProject() {
               </Box>
             </Flex>
 
-            {/* -----------------Create New Milestone----------------- */}
-            <Flex
-              mt="100px"
-              mb="20px"
-              justify="center"
-              style={{ fontFamily: 'PilatExtended-Bold' }}
-            >
-              <Text fontSize={{ base: '25px', md: '25px' }}>Create&nbsp;</Text>
-              <Text fontSize={{ base: '25px', md: '25px' }} color="#4790f5">
-                Milestones
-              </Text>
-              <Text fontSize={{ base: '25px', md: '25px' }}>
-                &nbsp;for the Project
-              </Text>
-            </Flex>
-            <Box mt="40px">
-              <Flex justify="space-between">
-                <Text mb="20px">Milestone Title</Text>
-                <Text fontSize="15px" opacity="0.5">
-                  {prjNameLen}/100 words
-                </Text>
-              </Flex>
-              <InputTransition
-                unitid="projectname"
-                selected={prjName == '' ? false : true}
-                width="100%"
-                height="55px"
-                rounded="md"
-              >
-                <InputGroup
-                  style={{ background: 'rgba(255, 255, 255, 0.05)' }}
-                  size="sm"
-                  border="0px"
-                >
-                  <Input
-                    style={{ border: '0', background: 'transparent' }}
-                    type="text"
-                    h="55px"
-                    rounded="md"
-                    value={prjName}
-                    placeholder="Type here"
-                    onChange={(e) => onChangePrjName(e)}
-                  />
-                </InputGroup>
-              </InputTransition>
-            </Box>
-            <Flex direction="row" mt="40px" justify="space-between">
-              <Box w="100%">
-                <Flex justify="space-between">
-                  <Text mb="20px">Milestone Type</Text>
-                </Flex>
-                <InputTransition
-                  unitid="projectemail"
-                  width="100%"
-                  height="55px"
-                  rounded="md"
-                >
-                  <InputGroup
-                    size="sm"
-                    style={{ background: 'rgba(255, 255, 255, 0.05)' }}
+            {milestone.map(() => {
+              return (
+                <>
+                  {/* -----------------Create New Milestone----------------- */}
+                  <Flex
+                    mt="100px"
+                    mb="20px"
+                    justify="center"
+                    style={{ fontFamily: 'PilatExtended-Bold' }}
                   >
-                    <InputLeftElement
-                      style={{ background: 'transparent', border: '0' }}
-                      pointerEvents="none"
-                      color="gray.300"
-                      fontSize="1.2em"
-                      children=" "
-                    />
-                    <Input
-                      style={{ background: 'transparent', border: '0' }}
-                      type="email"
-                      h="55px"
-                      placeholder="Type here"
-                      focusBorderColor="purple.800"
-                      rounded="md"
-                      value={prjEmail}
-                      onChange={(e) => setPrjEmail(e.target.value)}
-                    />
-                  </InputGroup>
-                </InputTransition>
-              </Box>
-              <Box ml="24px" w="100%">
-                <Flex justify="space-between">
-                  <Text mb="20px">Amount Required</Text>
-                </Flex>
-                <InputTransition
-                  unitid="projectamount"
-                  selected={prjEmail == '' ? false : true}
-                  width="100%"
-                  height="55px"
-                  rounded="md"
-                >
-                  <InputGroup
-                    size="sm"
-                    style={{ background: 'rgba(255, 255, 255, 0.05' }}
-                  >
-                    <Input
-                      style={{ border: '0', background: 'transparent' }}
-                      type="text"
-                      h="55px"
-                      placeholder="Type here"
-                      focusBorderColor="purple.800"
-                      rounded="md"
-                      value={prjAmount}
-                      onChange={(e) => {
-                        onChangePrjAmount(e)
-                      }}
-                    />
-                    <InputRightElement
-                      style={{ border: '0', background: 'transparent' }}
-                      w="125px"
-                      h="55px"
-                      pointerEvents="none"
-                      align="center"
-                      color="blue.200"
-                    />
-                    <Select
-                      id="peg"
-                      style={{ border: '0', background: 'transparent' }}
-                      h="55px"
-                      w="140px"
-                      name="peg"
-                      autoComplete="peg"
-                      focusBorderColor="purple.800"
-                      shadow="sm"
-                      size="sm"
-                      rounded="md"
-                      fontSize="16px"
-                      value=""
-                      onChange={(e) => {
-                        setPrjChain(e.target.value)
-                      }}
+                    <Text fontSize={{ base: '25px', md: '25px' }}>
+                      Create&nbsp;
+                    </Text>
+                    <Text
+                      fontSize={{ base: '25px', md: '25px' }}
+                      color="#4790f5"
                     >
-                      <option selected style={{ backgroundColor: '#1B0645' }}>
-                        ($)UST
-                      </option>
-                    </Select>
-                  </InputGroup>
-                </InputTransition>
-              </Box>
-            </Flex>
-            <Box mt="40px">
-              <Flex justify="space-between">
-                <Text mb="20px">Milestone Description</Text>
-                <Text fontSize="15px" opacity="0.5">
-                  {prjTeamdescriptionLen}/5000 words
-                </Text>
-              </Flex>
-              <InputTransition
-                unitid="prjTeamdescription"
-                selected={prjTeamdescription == '' ? false : true}
-                width="100%"
-                height="175px"
-                rounded="md"
-                style={{ background: 'transparent', border: '0' }}
-              >
-                <Textarea
-                  style={{ background: 'transparent', border: '0' }}
-                  h="165px"
-                  value={prjTeamdescription}
-                  onChange={(e) => onChangePrjTeamDescription(e)}
-                  placeholder="Type here"
-                  size="sm"
-                  rounded="md"
-                />
-              </InputTransition>
-            </Box>
-            <Flex direction="row" mt="40px" justify="space-between">
-              <Box w="48%">
-                <Flex justify="space-between">
-                  <Text mb="20px">Milestone Duration</Text>
-                </Flex>
-                <InputTransition
-                  unitid="projectemail"
-                  width="100%"
-                  height="55px"
-                  rounded="md"
-                >
-                  <InputGroup
-                    size="sm"
-                    style={{ background: 'rgba(255, 255, 255, 0.05)' }}
-                  >
-                    <InputLeftElement
-                      style={{ background: 'transparent', border: '0' }}
-                      pointerEvents="none"
-                      color="gray.300"
-                      fontSize="1.2em"
-                      children=" "
-                    />
-                    <Input
-                      style={{ background: 'transparent', border: '0' }}
-                      type="date"
-                      h="55px"
-                      placeholder="Start Date ( dd - mm - yyyy )"
-                      focusBorderColor="purple.800"
+                      Milestones
+                    </Text>
+                    <Text fontSize={{ base: '25px', md: '25px' }}>
+                      &nbsp;for the Project
+                    </Text>
+                  </Flex>
+                  <Box mt="40px">
+                    <Flex justify="space-between">
+                      <Text mb="20px">Milestone Title</Text>
+                      <Text fontSize="15px" opacity="0.5">
+                        {prjNameLen}/100 words
+                      </Text>
+                    </Flex>
+                    <InputTransition
+                      unitid="projectname"
+                      selected={prjName == '' ? false : true}
+                      width="100%"
+                      height="55px"
                       rounded="md"
-                      value={prjEmail}
-                      onChange={(e) => setPrjEmail(e.target.value)}
-                    />
-                  </InputGroup>
-                </InputTransition>
-              </Box>
-              <Box w="48%" pt={'45px'}>
-                <InputTransition
-                  unitid="projectemail"
-                  width="100%"
-                  height="55px"
-                  rounded="md"
-                >
-                  <InputGroup
-                    size="sm"
-                    style={{ background: 'rgba(255, 255, 255, 0.05)' }}
-                  >
-                    <InputLeftElement
-                      style={{ background: 'transparent', border: '0' }}
-                      pointerEvents="none"
-                      color="gray.300"
-                      fontSize="1.2em"
-                      children=" "
-                    />
-                    <Input
-                      style={{ background: 'transparent', border: '0' }}
-                      type="date"
-                      h="55px"
-                      placeholder="Start Date ( dd - mm - yyyy )"
-                      focusBorderColor="purple.800"
+                    >
+                      <InputGroup
+                        style={{ background: 'rgba(255, 255, 255, 0.05)' }}
+                        size="sm"
+                        border="0px"
+                      >
+                        <Input
+                          style={{ border: '0', background: 'transparent' }}
+                          type="text"
+                          h="55px"
+                          rounded="md"
+                          value={prjName}
+                          placeholder="Type here"
+                          onChange={(e) => onChangePrjName(e)}
+                        />
+                      </InputGroup>
+                    </InputTransition>
+                  </Box>
+                  <Flex direction="row" mt="40px" justify="space-between">
+                    <Box w="100%">
+                      <Flex justify="space-between">
+                        <Text mb="20px">Milestone Type</Text>
+                      </Flex>
+                      <InputTransition
+                        unitid="projectemail"
+                        width="100%"
+                        height="55px"
+                        rounded="md"
+                      >
+                        <InputGroup
+                          size="sm"
+                          style={{ background: 'rgba(255, 255, 255, 0.05)' }}
+                        >
+                          <InputLeftElement
+                            style={{ background: 'transparent', border: '0' }}
+                            pointerEvents="none"
+                            color="gray.300"
+                            fontSize="1.2em"
+                            children=" "
+                          />
+                          <Input
+                            style={{ background: 'transparent', border: '0' }}
+                            type="email"
+                            h="55px"
+                            placeholder="Type here"
+                            focusBorderColor="purple.800"
+                            rounded="md"
+                            value={prjEmail}
+                            onChange={(e) => setPrjEmail(e.target.value)}
+                          />
+                        </InputGroup>
+                      </InputTransition>
+                    </Box>
+                    <Box ml="24px" w="100%">
+                      <Flex justify="space-between">
+                        <Text mb="20px">Amount Required</Text>
+                      </Flex>
+                      <InputTransition
+                        unitid="projectamount"
+                        selected={prjEmail == '' ? false : true}
+                        width="100%"
+                        height="55px"
+                        rounded="md"
+                      >
+                        <InputGroup
+                          size="sm"
+                          style={{ background: 'rgba(255, 255, 255, 0.05' }}
+                        >
+                          <Input
+                            style={{ border: '0', background: 'transparent' }}
+                            type="text"
+                            h="55px"
+                            placeholder="Type here"
+                            focusBorderColor="purple.800"
+                            rounded="md"
+                            value={prjAmount}
+                            onChange={(e) => {
+                              onChangePrjAmount(e)
+                            }}
+                          />
+                          <InputRightElement
+                            style={{ border: '0', background: 'transparent' }}
+                            w="125px"
+                            h="55px"
+                            pointerEvents="none"
+                            align="center"
+                            color="blue.200"
+                          />
+                          <Select
+                            id="peg"
+                            style={{ border: '0', background: 'transparent' }}
+                            h="55px"
+                            w="140px"
+                            name="peg"
+                            autoComplete="peg"
+                            focusBorderColor="purple.800"
+                            shadow="sm"
+                            size="sm"
+                            rounded="md"
+                            fontSize="16px"
+                            value=""
+                            onChange={(e) => {
+                              setPrjChain(e.target.value)
+                            }}
+                          >
+                            <option
+                              selected
+                              style={{ backgroundColor: '#1B0645' }}
+                            >
+                              ($)UST
+                            </option>
+                          </Select>
+                        </InputGroup>
+                      </InputTransition>
+                    </Box>
+                  </Flex>
+                  <Box mt="40px">
+                    <Flex justify="space-between">
+                      <Text mb="20px">Milestone Description</Text>
+                      <Text fontSize="15px" opacity="0.5">
+                        {prjTeamdescriptionLen}/5000 words
+                      </Text>
+                    </Flex>
+                    <InputTransition
+                      unitid="prjTeamdescription"
+                      selected={prjTeamdescription == '' ? false : true}
+                      width="100%"
+                      height="175px"
                       rounded="md"
-                      value={prjEmail}
-                      onChange={(e) => setPrjEmail(e.target.value)}
-                    />
-                  </InputGroup>
-                </InputTransition>
-              </Box>
-            </Flex>
-            <Flex w="310px" mt="50px" justify="space-between" mb="50px">
+                      style={{ background: 'transparent', border: '0' }}
+                    >
+                      <Textarea
+                        style={{ background: 'transparent', border: '0' }}
+                        h="165px"
+                        value={prjTeamdescription}
+                        onChange={(e) => onChangePrjTeamDescription(e)}
+                        placeholder="Type here"
+                        size="sm"
+                        rounded="md"
+                      />
+                    </InputTransition>
+                  </Box>
+                  <Flex direction="row" mt="40px" justify="space-between">
+                    <Box w="48%">
+                      <Flex justify="space-between">
+                        <Text mb="20px">Milestone Duration</Text>
+                      </Flex>
+                      <InputTransition
+                        unitid="projectemail"
+                        width="100%"
+                        height="55px"
+                        rounded="md"
+                      >
+                        <InputGroup
+                          size="sm"
+                          style={{ background: 'rgba(255, 255, 255, 0.05)' }}
+                        >
+                          <InputLeftElement
+                            style={{ background: 'transparent', border: '0' }}
+                            pointerEvents="none"
+                            color="gray.300"
+                            fontSize="1.2em"
+                            children=" "
+                          />
+                          <Input
+                            style={{ background: 'transparent', border: '0' }}
+                            type="date"
+                            h="55px"
+                            placeholder="Start Date ( dd - mm - yyyy )"
+                            focusBorderColor="purple.800"
+                            rounded="md"
+                            value={prjEmail}
+                            onChange={(e) => setPrjEmail(e.target.value)}
+                          />
+                        </InputGroup>
+                      </InputTransition>
+                    </Box>
+                    <Box w="48%" pt={'45px'}>
+                      <InputTransition
+                        unitid="projectemail"
+                        width="100%"
+                        height="55px"
+                        rounded="md"
+                      >
+                        <InputGroup
+                          size="sm"
+                          style={{ background: 'rgba(255, 255, 255, 0.05)' }}
+                        >
+                          <InputLeftElement
+                            style={{ background: 'transparent', border: '0' }}
+                            pointerEvents="none"
+                            color="gray.300"
+                            fontSize="1.2em"
+                            children=" "
+                          />
+                          <Input
+                            style={{ background: 'transparent', border: '0' }}
+                            type="date"
+                            h="55px"
+                            placeholder="Start Date ( dd - mm - yyyy )"
+                            focusBorderColor="purple.800"
+                            rounded="md"
+                            value={prjEmail}
+                            onChange={(e) => setPrjEmail(e.target.value)}
+                          />
+                        </InputGroup>
+                      </InputTransition>
+                    </Box>
+                  </Flex>
+                  <Flex w="310px" mt="50px" justify="space-between">
+                    <ButtonBackTransition
+                      unitid="Save"
+                      selected={false}
+                      width="150px"
+                      height="45px"
+                      rounded="33px"
+                    >
+                      <Box
+                        variant="solid"
+                        color="white"
+                        justify="center"
+                        align="center"
+                      >
+                        Save
+                      </Box>
+                    </ButtonBackTransition>
+                    <ButtonBackTransition
+                      unitid="Cancel"
+                      selected={false}
+                      width="150px"
+                      height="45px"
+                      rounded="33px"
+                    >
+                      <Box
+                        variant="solid"
+                        color="white"
+                        justify="center"
+                        align="center"
+                      >
+                        Cancel
+                      </Box>
+                    </ButtonBackTransition>
+                  </Flex>
+                  {/* -----------------submit----------------- */}
+                </>
+              )
+            })}
+            <Flex
+              w="100%"
+              mt="50px"
+              pt="30px"
+              pb="30px"
+              mb="50px"
+              justify="center"
+              borderTop={'1px solid rgba(255, 255, 255, 0.3)'}
+              borderBottom={'1px solid rgba(255, 255, 255, 0.3)'}
+            >
               <ButtonBackTransition
-                unitid="submit"
-                selected={false}
-                width="150px"
-                height="45px"
-                rounded="33px"
-              >
-                <Box
-                  variant="solid"
-                  color="white"
-                  justify="center"
-                  align="center"
-                >
-                  Save
-                </Box>
-              </ButtonBackTransition>
-              <ButtonBackTransition
-                unitid="submit"
-                selected={false}
-                width="150px"
-                height="45px"
-                rounded="33px"
-              >
-                <Box
-                  variant="solid"
-                  color="white"
-                  justify="center"
-                  align="center"
-                >
-                  Cancel
-                </Box>
-              </ButtonBackTransition>
-            </Flex>
-            {/* -----------------submit----------------- */}
-            <Flex w="100%" justify="center">
-              <ButtonBackTransition
-                unitid="submit"
+                unitid="AddNewMilestone"
                 selected={false}
                 width="250px"
                 height="45px"
@@ -1239,13 +1268,13 @@ export default function CreateProject() {
                   color="white"
                   justify="center"
                   align="center"
-                  onClick={() => createProject()}
+                  onClick={newMileStone}
                 >
                   Add New Milestone
                 </Box>
               </ButtonBackTransition>
             </Flex>
-            <Flex w="100%" mt="50px" justify="center" mb="50px">
+            <Flex w="100%" mt="30px" justify="center" mb="30px">
               <ButtonTransition
                 unitid="submit"
                 selected={false}
