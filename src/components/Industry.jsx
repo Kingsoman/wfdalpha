@@ -29,91 +29,84 @@ export default function Industry() {
         </Flex>
 
         <Flex id="projectpad">
-          {PROJECT_ITEMS.map((projectItem, index) => {
-            const isOdd = index % 2 == 1
-            return (
-              <Flex
-                key={index}
-                className={isOdd ? 'PROJECT_ITEMS_ROW1' : 'PROJECT_ITEMS_ROW2'}
+          {PROJECT_ITEMS.map((projectItem, index) => (
+            <div class="containerIndustry">
+              <div
+                class="containerIndustry__image"
+                style={{ backgroundImage: `url(${projectItem.imgsrc})` }}
               >
-                <Flex className="projectItemContentCol">
+                <Text
+                  fontFamily="PilatExtended-Regular"
+                  fontWeight="300"
+                  color="#FFFFFF8A"
+                  className="projectLabel containerIndustry__info"
+                >
+                  -{projectItem.label}
+                </Text>
+                <Text
+                  fontFamily="PilatExtended-Regular"
+                  className="projectTitle containerIndustry__info"
+                >
+                  {projectItem.title}
+                </Text>
+                <Text
+                  fontFamily="Sk-Modernist-Regular"
+                  fontWeight="700"
+                  color={
+                    projectItem.state === 'Ongoing' ? '#2BC54D' : '#FE8600'
+                  }
+                  className="projectState containerIndustry__info"
+                  fontSize="18px"
+                  mt="10px"
+                >
+                  {projectItem.state}
+                </Text>
+                <Text
+                  fontSize="18px"
+                  fontWeight="400"
+                  fontFamily="Sk-Modernist-Regular"
+                  className="projectDesc containerIndustry__info"
+                >
+                  {projectItem.description}
+                </Text>
+
+                {projectItem.state === 'Ongoing' && (
                   <Box>
-                    <Text
-                      fontFamily="PilatExtended-Regular"
-                      fontWeight="300"
-                      color="#FFFFFF8A"
-                      className="projectLabel"
+                    <Flex
+                      id="displayNoneInMobile"
+                      className="containerIndustry__info"
                     >
-                      -{projectItem.label}
-                    </Text>
-                    <Text
-                      fontFamily="PilatExtended-Regular"
-                      className="projectTitle"
+                      <ButtonTransition
+                        unitid={'cryptofunding' + index}
+                        selected={false}
+                        width="192px"
+                        height="50px"
+                        rounded="100px"
+                      >
+                        Start Funding
+                      </ButtonTransition>
+                    </Flex>
+                    <Flex
+                      id="displayNoneInDesktop"
+                      className="containerIndustry__info"
                     >
-                      {projectItem.title}
-                    </Text>
-                    <Text
-                      fontFamily="Sk-Modernist-Regular"
-                      fontWeight="700"
-                      color={
-                        projectItem.state === 'Ongoing' ? '#2BC54D' : '#FE8600'
-                      }
-                      className="projectState"
-                      fontSize="18px"
-                      mt="10px"
-                    >
-                      {projectItem.state}
-                    </Text>
-                    <Text
-                      fontFamily="Sk-Modernist-Regular"
-                      fontWeight="400"
-                      fontSize="18px"
-                      className="projectDesc"
-                    >
-                      {projectItem.description}
-                    </Text>
-                  </Box>
-                  {projectItem.state === 'Ongoing' && (
-                    <Box>
-                      <Flex id="displayNoneInMobile">
-                        <ButtonTransition
-                          unitid={'cryptofunding' + index}
-                          selected={false}
-                          width="192px"
-                          height="50px"
-                          rounded="100px"
-                        >
+                      <ButtonTransition
+                        unitid={'cryptofunding' + index}
+                        selected={false}
+                        width="120px"
+                        height="30px"
+                        rounded="5px"
+                      >
+                        <Text color="white" fontSize="13px">
                           Start Funding
-                        </ButtonTransition>
-                      </Flex>
-                      <Flex id="displayNoneInDesktop">
-                        <ButtonTransition
-                          unitid={'cryptofunding' + index}
-                          selected={false}
-                          width="120px"
-                          height="30px"
-                          rounded="5px"
-                        >
-                          <Text color="white" fontSize="13px">
-                            Start Funding
-                          </Text>
-                        </ButtonTransition>
-                      </Flex>
-                    </Box>
-                  )}
-                </Flex>
-                <Box className="projectItemImageCol">
-                  <Image
-                    alt="Crypto project"
-                    style={{ objectFit: 'cover', borderRadius: '20px' }}
-                    src={projectItem.imgsrc}
-                    w="100%"
-                    h="100%"
-                  />
-                </Box>
-              </Flex>
-            )
-          })}
+                        </Text>
+                      </ButtonTransition>
+                    </Flex>
+                  </Box>
+                )}
+              </div>
+            </div>
+          ))}
         </Flex>
       </Flex>
     </Flex>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Flex, Text, Box } from '@chakra-ui/react'
+import { Image, Flex, Text } from '@chakra-ui/react'
 
 export default function OurMissions() {
   return (

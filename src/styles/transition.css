@@ -1,3 +1,14 @@
+#projectpad {
+  width: 100%;
+  display: flex;
+  transition: 1s;
+  font-size: 14px;
+  margin-top: 70px;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
 #footerBottomStyle {
   width: 100%;
   align-items: center;
@@ -261,6 +272,9 @@
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.15);
 }
+.missionCard:hover {
+  background: linear-gradient(180deg, #00a3ff 0%, #0048ff5b 100%);
+}
 .missionTitle {
   font-size: 18px;
   font-weight: 700;
@@ -303,26 +317,20 @@
 #heroLogo {
   width: 12em;
 }
-#projectpad {
-  width: 100%;
-  transition: 1s;
-  margin-top: 70px;
-  position: relative;
-  flex-direction: column;
-}
 .projectTitle {
   font-weight: 700;
-  line-height: 35px;
-  font-size: 33px;
+  line-height: 23px;
+  font-size: 22px;
 }
 .projectDesc {
   margin-top: 5px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
-  margin-bottom: 15px;
+  line-height: 20px;
+  margin-bottom: 20px;
 }
 .projectLabel {
-  font-size: 16px;
+  font-size: 14px;
 }
 .projectItemContentCol {
   width: 63%;
