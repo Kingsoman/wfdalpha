@@ -126,6 +126,7 @@
   display: none;
 }
 #RoadMapDesktop {
+  margin-top: 2em;
   position: relative;
   align-items: center;
   flex-direction: column;
@@ -158,7 +159,7 @@
 .RoadmapTitle {
   color: white;
   font-size: 18px;
-  margin-top: 5px;
+  margin-top: -5px;
   font-weight: bolder;
   margin-bottom: 20px;
   font-family: 'Sk-Modernist-Bold';
@@ -176,62 +177,49 @@
 #roadmapBox4,
 #roadmapBox5,
 #roadmapBox6,
-#roadmapBox7 {
+#roadmapBox7,
+#roadmapBox8,
+#roadmapBox9,
+#roadmapBox10 {
   width: 50em;
-  height: 14em;
   display: flex;
   position: absolute;
   align-items: flex-start;
   justify-content: space-between;
 }
-#roadmapBox1 {
-  top: 4%;
-}
-#circle1 {
+#circleD {
   width: 1em;
   height: 1em;
+}
+#roadmapBox1 {
+  top: 3%;
 }
 #roadmapBox2 {
-  top: 18%;
-}
-#circle2 {
-  width: 1em;
-  height: 1em;
+  top: 20%;
 }
 #roadmapBox3 {
-  top: 32%;
-}
-#circle3 {
-  width: 1em;
-  height: 1em;
+  top: 28%;
 }
 #roadmapBox4 {
-  top: 46%;
-}
-#circle4 {
-  width: 1em;
-  height: 1em;
+  top: 35%;
 }
 #roadmapBox5 {
-  top: 60%;
-}
-#circle5 {
-  width: 1em;
-  height: 1em;
+  top: 41%;
 }
 #roadmapBox6 {
-  top: 74%;
-}
-#circle6 {
-  width: 1em;
-  height: 1em;
+  top: 51%;
 }
 #roadmapBox7 {
-  top: 88%;
+  top: 60%;
 }
-#circle7 {
-  width: 1em;
-  height: 1em;
+#roadmapBox8 {
+  top: 73%;
+}
+#roadmapBox9 {
+  top: 80%;
+}
+#roadmapBox10 {
+  top: 90%;
 }
 #rotateHandGo {
   -webkit-transform: scaleX(-1);
@@ -705,9 +693,11 @@
   #roadmapBox4,
   #roadmapBox5,
   #roadmapBox6,
-  #roadmapBox7 {
+  #roadmapBox7,
+  #roadmapBox8,
+  #roadmapBox9,
+  #roadmapBox10 {
     width: 45em;
-    /* height: 25em; */
   }
   #sphere {
     width: 40%;
@@ -755,9 +745,11 @@
   #roadmapBox4,
   #roadmapBox5,
   #roadmapBox6,
-  #roadmapBox7 {
+  #roadmapBox7,
+  #roadmapBox8,
+  #roadmapBox9,
+  #roadmapBox10 {
     width: 40em;
-    /* height: 25em; */
   }
   #sphere {
     display: none;
@@ -862,9 +854,10 @@
   #roadmapBox4,
   #roadmapBox5,
   #roadmapBox6,
-  #roadmapBox7 {
+  #roadmapBox8,
+  #roadmapBox9,
+  #roadmapBox10 {
     width: 100%;
-    /* height: 25em; */
     display: flex;
     position: absolute;
     align-items: flex-start;
@@ -994,19 +987,6 @@
     font-size: 13px;
     padding-top: 5px;
     margin-bottom: 10px;
-  }
-  #roadmapBox1,
-  #roadmapBox2,
-  #roadmapBox3,
-  #roadmapBox4,
-  #roadmapBox5,
-  #roadmapBox6,
-  #roadmapBox7 {
-    width: 100%;
-    display: flex;
-    position: absolute;
-    align-items: flex-start;
-    justify-content: space-between;
   }
   .RoadmapHeading {
     font-size: 13px;
@@ -1167,62 +1147,64 @@
   #roadmapBox4,
   #roadmapBox5,
   #roadmapBox6,
-  #roadmapBox7 {
+  #roadmapBox7,
+  #roadmapBox8,
+  #roadmapBox9,
+  #roadmapBox10 {
     width: 100%;
-    height: 10em;
     display: flex;
     position: absolute;
     align-items: flex-start;
     justify-content: space-between;
   }
+  .RoadmapTitle {
+    color: white;
+    font-size: 13px;
+    margin-top: -5px;
+    font-weight: bolder;
+    margin-bottom: 10px;
+    font-family: 'Sk-Modernist-Bold';
+  }
+  .RoadmapDesc {
+    font-size: 11px;
+    color: #aea3b2;
+    margin-top: -5px;
+    margin-bottom: 10px;
+    font-family: 'Sk-Modernist-Regular';
+  }
+  #circleD {
+    width: 0.8em;
+    height: 0.8em;
+  }
   #roadmapBox1 {
     top: 4%;
   }
-  #circle1 {
-    width: 0.8em;
-    height: 0.8em;
-  }
   #roadmapBox2 {
-    top: 22%;
-  }
-  #circle2 {
-    width: 0.8em;
-    height: 0.8em;
+    top: 21%;
   }
   #roadmapBox3 {
-    top: 36%;
-  }
-  #circle3 {
-    width: 0.8em;
-    height: 0.8em;
+    top: 28%;
   }
   #roadmapBox4 {
-    top: 47%;
-  }
-  #circle4 {
-    width: 0.8em;
-    height: 0.8em;
+    top: 36%;
   }
   #roadmapBox5 {
-    top: 63%;
-  }
-  #circle5 {
-    width: 0.8em;
-    height: 0.8em;
+    top: 43%;
   }
   #roadmapBox6 {
-    top: 77%;
-  }
-  #circle6 {
-    width: 0.8em;
-    height: 0.8em;
+    top: 55%;
   }
   #roadmapBox7 {
-    top: 88%;
+    top: 64%;
   }
-  #circle7 {
-    width: 0.8em;
-    height: 0.8em;
+  #roadmapBox8 {
+    top: 75%;
+  }
+  #roadmapBox9 {
+    top: 82%;
+  }
+  #roadmapBox10 {
+    top: 92%;
   }
   #footerBottomStyle {
     width: 100%;

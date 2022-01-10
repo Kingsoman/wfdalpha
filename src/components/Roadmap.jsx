@@ -29,177 +29,225 @@ export default function Roadmaps() {
         <Image src="/RoadmapLine.svg" />
         <Flex id="roadmapBox1">
           <Flex className="RoadmapContent2"></Flex>
-          <Image src="/circle.svg" id="circle1" />
+          <Image src="/circle.svg" id="circleD" />
           <Flex className="RoadmapContent">
-            <Text className="RoadmapHeading">Q4 2021</Text>
-            <Image src="/beautifulDash.svg" />
-            <Text className="RoadmapTitle">Platform V1</Text>
-            <Text className="RoadmapDesc">
-              Release a demo platform to create projects, back projects, and
-              stake in Anchor will be completed in December 2021
-            </Text>
-          </Flex>
-        </Flex>
-        <Flex id="roadmapBox2">
-          <Flex className="RoadmapContent2">
-            <Text className="RoadmapHeading">Q4 2021</Text>
-            <Image src="/beautifulDash.svg" />
-            <Text className="RoadmapTitle">Core Team Setup</Text>
-            <Text className="RoadmapDesc">
-              Establish a strong core team with strong knowledge,
-              responsibility, team management, and holds a similar vision will
-              be completed in December 2021.
-            </Text>
-          </Flex>
-          <Image src="/circle.svg" id="circle2" />
-          <Flex className="RoadmapContent"></Flex>
-        </Flex>
-        <Flex id="roadmapBox3">
-          <Flex className="RoadmapContent2"></Flex>
-          <Image src="/circle.svg" id="circle3" />
-          <Flex className="RoadmapContent">
-            <Text className="RoadmapHeading">Q4 2021</Text>
-            <Image src="/beautifulDash.svg" />
-            <Text className="RoadmapTitle">Whitepaper V2</Text>
-            <Text className="RoadmapDesc">
-              Whitepaper 2.0 completed in December 2021
-            </Text>
-          </Flex>
-        </Flex>
-        <Flex id="roadmapBox4">
-          <Flex className="RoadmapContent2">
-            <Text className="RoadmapHeading">Q1 2022</Text>
-            <Image src="/beautifulDash.svg" />
-            <Text className="RoadmapTitle">Tokenomics</Text>
-            <Text className="RoadmapDesc">
-              Finalized tokenomics, seed round closing date, pre-sale timeline,
-              and IWO strategy will be completed in January 2022
-            </Text>
-          </Flex>
-          <Image src="/circle.svg" id="circle4" />
-          <Flex className="RoadmapContent"></Flex>
-        </Flex>
-        <Flex id="roadmapBox5">
-          <Flex className="RoadmapContent2"></Flex>
-          <Image src="/circle.svg" id="circle5" />
-          <Flex className="RoadmapContent">
-            <Text className="RoadmapHeading">2022</Text>
+            <Text className="RoadmapHeading">January 2022</Text>
             <Image src="/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V2</Text>
             <Text className="RoadmapDesc">
-              Have a full functionality platform with all functions mentioned in
-              the Whitepaper 2.0 completed by the TGE
+              -Community registration system -Community Project Approval by
+              voting power -Create project with milestone system -Multi-stage
+              fundraising -Milestone money release with Backers approval voting
+              power -Customer Service
+            </Text>
+          </Flex>
+        </Flex>
+        <Flex id="roadmapBox2">
+          <Flex className="RoadmapContent2">
+            <Text className="RoadmapTitle">WeFund Investment Status</Text>
+            <Text className="RoadmapDesc">
+              -Seed Phase until end of January -Starting PreSale
+            </Text>
+          </Flex>
+          <Image src="/circle.svg" id="circleD" />
+          <Flex className="RoadmapContent"></Flex>
+        </Flex>
+        <Flex id="roadmapBox3">
+          <Flex className="RoadmapContent2"></Flex>
+          <Image src="/circle.svg" id="circleD" />
+          <Flex className="RoadmapContent">
+            <Text className="RoadmapTitle">Projects Incubates</Text>
+            <Text className="RoadmapDesc">
+              Bakso Mania Seed Phase, Pandai Crypto Seed Phase, LinkxVR Seed
+              Phase
+            </Text>
+          </Flex>
+        </Flex>
+        <Flex id="roadmapBox4">
+          <Flex className="RoadmapContent2">
+            <Text className="RoadmapTitle">Documentation</Text>
+            <Text className="RoadmapDesc">
+              Release WhitePaper 2.0 Update Litepaper
+            </Text>
+          </Flex>
+          <Image src="/circle.svg" id="circleD" />
+          <Flex className="RoadmapContent"></Flex>
+        </Flex>
+        <Flex id="roadmapBox5">
+          <Flex className="RoadmapContent2"></Flex>
+          <Image src="/circle.svg" id="circleD" />
+          <Flex className="RoadmapContent">
+            <Text className="RoadmapHeading">February 2022</Text>
+            <Image src="/beautifulDash.svg" />
+            <Text className="RoadmapTitle">Platform V3</Text>
+            <Text className="RoadmapDesc">
+              Set up Community allocation, Set up WeFund holder allocation, Set
+              up staking mechanism
             </Text>
           </Flex>
         </Flex>
         <Flex id="roadmapBox6">
           <Flex className="RoadmapContent2">
-            <Text className="RoadmapHeading">2022</Text>
-            <Image src="/beautifulDash.svg" />
-            <Text className="RoadmapTitle">Whitepaper V3</Text>
+            <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <Text className="RoadmapDesc">
-              Whitepaper 3.0 completed in 2022
+              -PreSale Phase until end of February -Pre marketing for IWO
             </Text>
           </Flex>
-          <Image src="/circle.svg" id="circle6" />
+          <Image src="/circle.svg" id="circleD" />
           <Flex className="RoadmapContent"></Flex>
         </Flex>
         <Flex id="roadmapBox7">
           <Flex className="RoadmapContent2"></Flex>
-          <Image src="/circle.svg" id="circle7" />
+          <Image src="/circle.svg" id="circleD" />
           <Flex className="RoadmapContent">
-            <Text className="RoadmapHeading">Q1 2022</Text>
-            <Image src="/beautifulDash.svg" />
-            <Text className="RoadmapTitle">Seed - Pre Sale - Ico</Text>
+            <Text className="RoadmapTitle">Projects Incubates</Text>
             <Text className="RoadmapDesc">
-              Release a demo platform to create projects, back projects, and
-              stake in Anchor will be completed in December 2021
+              Green House Seed Phase (Real World Projects), Recycling Bali Seed
+              Phase (Real World Projects), NaturalPool Seed Phase (Real World
+              Projects), GreenProtocol Seed Phase, BattleChain of Duty Seed
+              Phase, JobChain Seed Phase
             </Text>
           </Flex>
         </Flex>
+        <Flex id="roadmapBox8">
+          <Flex className="RoadmapContent2">
+            <Text className="RoadmapTitle">Documentation</Text>
+            <Text className="RoadmapDesc">
+              Release WhitePaper 3.0, Update Litepaper
+            </Text>
+          </Flex>
+          <Image src="/circle.svg" id="circleD" />
+          <Flex className="RoadmapContent"></Flex>
+        </Flex>
+        <Flex id="roadmapBox9">
+          <Flex className="RoadmapContent2"></Flex>
+          <Image src="/circle.svg" id="circleD" />
+          <Flex className="RoadmapContent">
+            <Text className="RoadmapHeading">March 2022</Text>
+            <Image src="/beautifulDash.svg" />
+            <Text className="RoadmapTitle">WeFund Investment Status</Text>
+            <Text className="RoadmapDesc">- IWO</Text>
+          </Flex>
+        </Flex>
+        <Flex id="roadmapBox10">
+          <Flex className="RoadmapContent2">
+            <Text className="RoadmapTitle">Project Incubate</Text>
+            <Text className="RoadmapDesc">
+              Sport Industry first Project Seed Phase, Game Industry first
+              Project Seed Phase, Creative Industry first Project Seed Phase,
+              Real Estate Industry first Project Seed Phase
+            </Text>
+          </Flex>
+          <Image src="/circle.svg" id="circleD" />
+          <Flex className="RoadmapContent"></Flex>
+        </Flex>
       </Flex>
+      {/* {/ Road Map For Desktop /} */}
 
       {/* {/ Road Map For Mobile /} */}
-
-      {/* {/ Road Map For Desktop /} */}
       <Flex id="RoadMapMobile">
         <Image src="/RoadmapLine.svg" id="roadMapLineId" />
         <Flex id="roadmapBox1">
-          <Image src="/circle.svg" id="circle1" />
+          <Image src="/circle.svg" id="circleD" />
           <Flex className="RoadmapContent">
-            <Text className="RoadmapHeading">V1 Q4 2021</Text>
-            <Text className="RoadmapTitle">Platform</Text>
+            <Text className="RoadmapHeading">January 2022</Text>
+            <Image src="/beautifulDash.svg" />
+            <Text className="RoadmapTitle">Platform V2</Text>
             <Text className="RoadmapDesc">
-              Make running the platform with the basic functionality, create a
-              project, back a project and stak the amount in Anchor, project
-              done and project fail + yield transfer, will be done in December
-              2021
+              -Community registration system -Community Project Approval by
+              voting power -Create project with milestone system -Multi-stage
+              fundraising -Milestone money release with Backers approval voting
+              power -Customer Service
             </Text>
           </Flex>
         </Flex>
         <Flex id="roadmapBox2">
-          <Image src="/circle.svg" id="circle2" />
+          <Image src="/circle.svg" id="circleD" />
           <Flex className="RoadmapContent">
-            <Text className="RoadmapHeading">V2 Q4 2021</Text>
-            <Text className="RoadmapTitle">Whitepaper</Text>
+            <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <Text className="RoadmapDesc">
-              Set up the Core Team, in terms of knowledge, responsability, team
-              management and following the same vision, will be done in December
-              2021
+              -Seed Phase until end of January -Starting PreSale
             </Text>
           </Flex>
         </Flex>
         <Flex id="roadmapBox3">
-          <Image src="/circle.svg" id="circle3" />
+          <Image src="/circle.svg" id="circleD" />
           <Flex className="RoadmapContent">
-            <Text className="RoadmapHeading">Q4 2021</Text>
-            <Text className="RoadmapTitle">Core Team Set-up</Text>
+            <Text className="RoadmapTitle">Projects Incubates</Text>
             <Text className="RoadmapDesc">
-              Whitepaper 2.0, will be done in December 2021
+              Bakso Mania Seed Phase, Pandai Crypto Seed Phase, LinkxVR Seed
+              Phase
             </Text>
           </Flex>
         </Flex>
         <Flex id="roadmapBox4">
-          <Image src="/circle.svg" id="circle4" />
+          <Image src="/circle.svg" id="circleD" />
           <Flex className="RoadmapContent">
-            <Text className="RoadmapHeading">Q1 2022</Text>
-            <Text className="RoadmapTitle">Tokenomics</Text>
+            <Text className="RoadmapTitle">Documentation</Text>
             <Text className="RoadmapDesc">
-              Set up the tokenomics, the date for closing the seed, when and how
-              long for the Pre Sale and understand what kind of IDO we want to
-              apply and when, will be done in January 2022
+              Release WhitePaper 2.0 Update Litepaper
             </Text>
           </Flex>
         </Flex>
         <Flex id="roadmapBox5">
-          <Image src="/circle.svg" id="circle5" />
+          <Image src="/circle.svg" id="circleD" />
           <Flex className="RoadmapContent">
-            <Text className="RoadmapHeading">Q1 2022</Text>
-            <Text className="RoadmapTitle">Seed - Pre Sale - Ico</Text>
+            <Text className="RoadmapHeading">February 2022</Text>
+            <Image src="/beautifulDash.svg" />
+            <Text className="RoadmapTitle">Platform V3</Text>
             <Text className="RoadmapDesc">
-              Integrate the community voting power, equity crowdfunding system
-              and Investor Protection using Milestone System.
+              Set up Community allocation, Set up WeFund holder allocation, Set
+              up staking mechanism
             </Text>
           </Flex>
         </Flex>
         <Flex id="roadmapBox6">
-          <Image src="/circle.svg" id="circle6" />
+          <Image src="/circle.svg" id="circleD" />
           <Flex className="RoadmapContent">
-            <Text className="RoadmapHeading">2022</Text>
-            <Text className="RoadmapTitle">Whitepaper V3</Text>
+            <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <Text className="RoadmapDesc">
-              Whitepaper 3.0 completed in 2022
+              -PreSale Phase until end of February -Pre marketing for IWO
             </Text>
           </Flex>
         </Flex>
         <Flex id="roadmapBox7">
-          <Image src="/circle.svg" id="circle7" />
+          <Image src="/circle.svg" id="circleD" />
           <Flex className="RoadmapContent">
-            <Text className="RoadmapHeading">Q1 2022</Text>
-            <Text className="RoadmapTitle">Seed - Pre Sale - Ico</Text>
+            <Text className="RoadmapTitle">Projects Incubates</Text>
             <Text className="RoadmapDesc">
-              Release a demo platform to create projects, back projects, and
-              stake in Anchor will be completed in December 2021
+              Green House Seed Phase (Real World Projects), Recycling Bali Seed
+              Phase (Real World Projects), NaturalPool Seed Phase (Real World
+              Projects), GreenProtocol Seed Phase, BattleChain of Duty Seed
+              Phase, JobChain Seed Phase
+            </Text>
+          </Flex>
+        </Flex>
+        <Flex id="roadmapBox8">
+          <Image src="/circle.svg" id="circleD" />
+          <Flex className="RoadmapContent">
+            <Text className="RoadmapTitle">Documentation</Text>
+            <Text className="RoadmapDesc">
+              Release WhitePaper 3.0, Update Litepaper
+            </Text>
+          </Flex>
+        </Flex>
+        <Flex id="roadmapBox9">
+          <Image src="/circle.svg" id="circleD" />
+          <Flex className="RoadmapContent">
+            <Text className="RoadmapHeading">March 2022</Text>
+            <Image src="/beautifulDash.svg" />
+            <Text className="RoadmapTitle">WeFund Investment Status</Text>
+            <Text className="RoadmapDesc">- IWO</Text>
+          </Flex>
+        </Flex>
+        <Flex id="roadmapBox10">
+          <Image src="/circle.svg" id="circleD" />
+          <Flex className="RoadmapContent">
+            <Text className="RoadmapTitle">Project Incubate</Text>
+            <Text className="RoadmapDesc">
+              Sport Industry first Project Seed Phase, Game Industry first
+              Project Seed Phase, Creative Industry first Project Seed Phase,
+              Real Estate Industry first Project Seed Phase
             </Text>
           </Flex>
         </Flex>
