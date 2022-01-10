@@ -58,7 +58,7 @@ export default function Roadmaps() {
           <Flex className="RoadmapContent">
             <Text className="RoadmapTitle">Projects Incubates</Text>
             <Text className="RoadmapDesc">
-              Bakso Mania Seed Phase, Pandai Crypto Seed Phase, LinkxVR Seed
+              Bakso Mania Seed Phase, Pandai Crypto Seed Phase, LynxVR Seed
               Phase
             </Text>
           </Flex>
