@@ -16,19 +16,6 @@ a {
     color: $primary;
 }
 
-//Coingecko widget styling
-
-.cg-container {
-    background-color: #281b59 !important;
-    color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    .cg-widget-container {
-        background-color: #281b59 !important;
-        color: #fff;
-    }
-}
-
 //to local todo
 @import './fonts';
 

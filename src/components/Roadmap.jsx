@@ -58,7 +58,7 @@ export default function Roadmaps() {
           <Flex className="RoadmapContent">
             <Text className="RoadmapTitle">Projects Incubates</Text>
             <Text className="RoadmapDesc">
-              Bakso Mania Seed Phase, Pandai Crypto Seed Phase, LinkxVR Seed
+              Bakso Mania Seed Phase, Pandai Crypto Seed Phase, LynxVR Seed
               Phase
             </Text>
           </Flex>
@@ -102,10 +102,7 @@ export default function Roadmaps() {
           <Flex className="RoadmapContent">
             <Text className="RoadmapTitle">Projects Incubates</Text>
             <Text className="RoadmapDesc">
-              Green House Seed Phase (Real World Projects), Recycling Bali Seed
-              Phase (Real World Projects), NaturalPool Seed Phase (Real World
-              Projects), GreenProtocol Seed Phase, BattleChain of Duty Seed
-              Phase, JobChain Seed Phase
+              Real World Projects (Details coming soon)
             </Text>
           </Flex>
         </Flex>

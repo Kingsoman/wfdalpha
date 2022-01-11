@@ -1,5 +1,5 @@
 {
-    "name": "loterra",
+    "name": "wefundapp",
     "private": false,
     "license": "MIT",
     "scripts": {
@@ -8,7 +8,9 @@
         "build": "react-static build",
         "analyze": "react-static build --analyze",
         "serve": "serve dist -p 3000",
-        "lint": "prettier --write ."
+        "lint": "prettier --write .",
+        "upload": "rsync -azP --delete dist/ deploy@wefund.app:~/wefund.app",
+        "deploy": "yarn build && yarn upload"
     },
     "dependencies": {
         "@chakra-ui/icons": "^1.1.1",
