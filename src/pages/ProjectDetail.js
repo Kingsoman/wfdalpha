@@ -204,7 +204,7 @@ export default function ProjectDetail() {
           </div>
         </div>
         {/* ------------Parent Box for the Details------------ */}
-        <Flex width="100%" justify="center" mt="50px" minHeight={'2000px'}>
+        <Flex width="100%" justify="center" mt="50px" minHeight={'3000px'}>
           <Box style={{ fontFamily: 'Sk-Modernist-Regular' }}>
             {/* ------------Details------------ */}
             <Flex
@@ -361,6 +361,7 @@ export default function ProjectDetail() {
                       <Flex
                         mt={{ base: '20px', md: '20px', lg: '30px' }}
                         ml={{ base: '0px', md: '0px', lg: '0px' }}
+                        alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
                       >
                         <ImageTransition
                           unitid="visit"
@@ -389,7 +390,8 @@ export default function ProjectDetail() {
                       </Flex>
                       <Flex
                         mt={{ base: '20px', md: '20px', lg: '30px' }}
-                        ml={{ base: '0px', md: '-30px', lg: '10px' }}
+                        ml={{ base: '0px', md: '0px', lg: '10px' }}
+                        alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
                       >
                         <ImageTransition
                           unitid="view"
@@ -418,7 +420,8 @@ export default function ProjectDetail() {
                       <Flex
                         mt={{ base: '20px', md: '20px', lg: '30px' }}
                         mb={{ base: '40px', md: '40px', lg: '20px' }}
-                        ml={{ base: '0px', md: '-30px', lg: '10px' }}
+                        ml={{ base: '0px', md: '0px', lg: '10px' }}
+                        alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
                       >
                         <ImageTransition
                           unitid="back"
@@ -698,6 +701,7 @@ export default function ProjectDetail() {
                         {state.oneprojectData.project_description}
                       </chakra.p>
                     </Flex>
+                    {/* ------------Milestone of Project------------ */}
                     <Flex
                       mt="40px"
                       px={'45px'}
@@ -709,6 +713,7 @@ export default function ProjectDetail() {
                       flexDirection="column"
                       background={'rgba(255, 255, 255, 0.05)'}
                       border={'1.5px solid rgba(255, 255, 255, 0.15)'}
+                      visibility={{base:'hidden',md:'hidden', lg:'visible'}}
                     >
                       <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} visibility={{base:'hidden',md:'hidden', lg:'visible'}} >
                         <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
@@ -771,7 +776,7 @@ export default function ProjectDetail() {
                       paddingTop={'35px'}
                       height={{ lg: '325px' }}
                     >
-                      {/* ------------Some Words the Project creator would like to say------------ */}
+                      {/* ------------Some Words that details the team------------ */}
                       {/* ------------Descriptions/Texts------------ */}
                       <Text
                         mb={'20px'}
@@ -780,9 +785,9 @@ export default function ProjectDetail() {
                         lineHeight={'36px'}
                         fontFamily="PilatExtended-Heavy"
                       >
-                        Project{' '}
+                        The Project{' '}
                         <span style={{ color: '#00A3FF' }} mb="25px">
-                          Founder Speaks
+                          Team
                         </span>
                       </Text>
                       <Box
@@ -798,7 +803,7 @@ export default function ProjectDetail() {
                           paddingBottom={'35px'}
                         >
                           <Text fontSize={'18px'} fontWeight={'bold'}>
-                            WeFund Mission
+                            WeFund Core Team
                           </Text>
                           <br />
                           <Text color={'rgba(255, 255, 255, 0.54)'}></Text>
@@ -823,11 +828,10 @@ export default function ProjectDetail() {
                               textAlign={'left'}
                               alignSelf={'flex-start'}
                             >
-                              WeFund Team
+                               Andrea Bello Co Founder & CEO & Co-CTO
                             </Text>
-                            <Text textAlign={'left'}>
-                              Andrea Bello Co Founder & CEO & Co-CTO Most
-                              recently behind the development of a smart
+                            <Text textAlign={'left'} fontWeight={'100'}>
+                              Most recently behind the development of a smart
                               contract (Fan$quad) that was deployed Col-4 during
                               a hackathon organized by Terraformlabs and former
                               CTO of a Guild Game, successfully raising a $10
@@ -837,9 +841,16 @@ export default function ProjectDetail() {
                               Bali, Indonesia. Founder of Bello Service, Domotic
                               System for smart-home efficiency, reducing
                               electrical consumption by 30%. R&D engineer at ABB
-                              UPS system, an expert in coding C programming. Ika
-                              Afifah Co Founder & CMO Previous CMO at Gamesta to
-                              successfully raise a $10 million Seed round. Prior
+                              UPS system, an expert in coding C programming. 
+                              </Text>
+                              <Text
+                              fontWeight={'bold'}
+                              textAlign={'left'}
+                              alignSelf={'flex-start'}
+                            >
+                              Ika Afifah Co Founder & CMO Previous CMO at Gamesta
+                            </Text> 
+                            <Text textAlign={'left'} fontWeight={'100'}>Prior
                               to Guild Game, she worked at Tencent as an
                               operation specialist, in a partnership division.
                               Before Tencent, she was senior partnership manager
@@ -847,13 +858,32 @@ export default function ProjectDetail() {
                               executive position at one of the digital marketing
                               agencies under Jet Group and was a manager at
                               Waves who successfully helped founders to raise
-                              $1.2M in pre-seed funding. Jason Galvin Co-CTO
+                              $1.2M in pre-seed funding. 
+                              </Text>
+                              <Text
+                              fontWeight={'bold'}
+                              textAlign={'left'}
+                              alignSelf={'flex-start'}
+                            >
+                              Jason Galvin Co-CTO
+                            </Text>
+                            <Text textAlign={'left'} fontWeight={'100'}>
                               World explorer, entrepreneur, and blockchain
                               technology enthusiast. Came from a career in
                               Silicon Valley building web applications during
                               the dot-com boom. Wanting to do it all over again,
-                              this time helping to build Web 3.0. Austin Taylor
-                              CCO Comes from a background in investment and
+                              this time helping to build Web 3.0. 
+                              </Text>
+                              <Text
+                              fontWeight={'bold'}
+                              textAlign={'left'}
+                              alignSelf={'flex-start'}
+                            >
+                              
+                              Austin Taylor COO
+                            </Text>
+                            <Text textAlign={'left'} fontWeight={'100'}>
+                              Comes from a background in investment and
                               corporate finance. After completing his education,
                               he worked as a Business Analyst for a large tech
                               company in Seattle, Washington USA building AI
