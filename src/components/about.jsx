@@ -54,6 +54,7 @@ export default function Aboutone() {
               <option value='/Litepaper_Wefund.pdf' style={{ backgroundColor: '#1B0645' }}>English</option>
               <option value='/Litepaper_Wefund_ID.pdf' style={{ backgroundColor: '#1B0645' }}>Indonesian</option>
               <option value='/Litepaper_Wefund_ITA.pdf' style={{ backgroundColor: '#1B0645' }}>Italian</option>
+              <option value='/Litepaper_Wefund_SP.pdf' style={{ backgroundColor: '#1B0645' }}>Spanish</option>
               <option value='/Litepaper_Wefund_KOR.pdf' style={{ backgroundColor: '#1B0645' }}>Korea</option>
             </Select>
             <a href={selectedLang}>
