@@ -14,8 +14,17 @@ import {
   HStack,
   VStack,
   CircularProgress,
-  CircularProgressLabel,
+  CircularProgressLabel, Table,Thead,Tbody,Tr,Th,Td,TableCaption, 
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
   Progress,
+  useDisclosure,
+  Button,
 } from '@chakra-ui/react'
 import React, { useEffect, useState, useMemo } from 'react'
 import { WasmAPI, LCDClient } from '@terra-money/terra.js'
@@ -29,7 +38,7 @@ import {
 import { Router, Link, useNavigate } from '@reach/router'
 
 import { useStore } from '../store'
-import { ImageTransition } from '../components/ImageTransition'
+import { ImageTransition,ButtonBackTransition } from '../components/ImageTransition'
 import Notification from '../components/Notification'
 import Footer from '../components/Footer'
 
@@ -156,8 +165,10 @@ export default function ProjectDetail() {
   useEffect(() => {
     fetchContractQuery()
   }, [connectedWallet, lcd])
-
+  
+  const { isOpen, onOpen, onClose } = useDisclosure()
   return (
+
     <ChakraProvider resetCSS theme={theme}>
       <div
         style={{
@@ -689,6 +700,71 @@ export default function ProjectDetail() {
                     </Flex>
                     <Flex
                       mt="40px"
+                      px={'45px'}
+                      py={'45px'}
+                      width={'80%'}
+                      borderRadius="25px"
+                      justify='center' 
+                      align='center' 
+                      flexDirection="column"
+                      background={'rgba(255, 255, 255, 0.05)'}
+                      border={'1.5px solid rgba(255, 255, 255, 0.15)'}
+                    >
+                      <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} visibility={{base:'hidden',md:'hidden', lg:'visible'}} >
+                        <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
+                        <Table variant='simple'>
+                          <TableCaption style={{color:'#00A3FF'}}>Milestones that project have. Details might be more on Project own's website. Project Milestone up for voting would be listed for voting. 
+                          Rejected Milestones means project funds would not be released or project suspended. Voted and Approved would result in project rewarded for milestone</TableCaption>
+                          <Thead bgColor={'rgba(255, 255, 255, 0.12)'} borderRadius={'10px 10px 0px 0px'}>
+                            <Tr>
+                              <Th style={{color:'#00A3FF'}}>Milestone No</Th>
+                              <Th style={{color:'#00A3FF'}}>Name </Th>
+                              <Th style={{color:'#00A3FF'}}>Proposed Start Date</Th>
+                              <Th style={{color:'#00A3FF'}}>Proposed End Date</Th>
+                              <Th style={{color:'#00A3FF'}}>Milestone Fund Amount</Th>
+                              <Th style={{color:'#00A3FF'}}>Milestone Voting</Th>
+                              <Th style={{color:'#00A3FF'}}>Milestone Status</Th>
+                              <Th style={{color:'#00A3FF'}}>Milestone External Detail</Th>
+                            </Tr>
+                          </Thead>
+                          <Tbody bgColor={' rgba(196, 196, 196, 0.08)'} borderRadius={'10px 10px 0px 0px'}> 
+                            <Tr>
+                            <Td >1</Td>
+                            <Td >Prototype Making </Td>
+                            <Td >20 . 02 . 2022 </Td>
+                            <Td >20 . 04 . 2022 </Td>
+                            <Td >$20.000,00 </Td>
+                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
+                            <Td >Not Yet Started</Td>
+                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
+                            </Tr>
+                            <Tr>
+                            <Td >2</Td>
+                            <Td >Prototype Making </Td>
+                            <Td >20 . 02 . 2022 </Td>
+                            <Td >20 . 04 . 2022 </Td>
+                            <Td >$20.000,00 </Td>
+                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
+                            <Td >Not Yet Started</Td>
+                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
+                            </Tr>
+                            <Tr>
+                            <Td >3</Td>
+                            <Td >Prototype Making </Td>
+                            <Td >20 . 02 . 2022 </Td>
+                            <Td >20 . 04 . 2022 </Td>
+                            <Td >$20.000,00 </Td>
+                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
+                            <Td >Not Yet Started</Td>
+                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
+                            </Tr>
+                          </Tbody>
+                        </Table>
+
+                      </Flex>
+                    </Flex>
+                    <Flex
+                      mt="40px"
                       as={Stack}
                       mb={'50px'}
                       width={'80%'}
@@ -800,6 +876,39 @@ export default function ProjectDetail() {
         </Flex>
         <Footer />
       </div>
+      {/*--This is Where to Vote Pop Up is--*/}
+      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+        <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Vote The Project</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Text textAlign={'left'}>
+                                  Project Project Milestone Description <br/>
+                                  Aliquip mollit sunt qui irure. Irure ullamco Lorem
+                                  excepteur dolor qui ea ad quis. Enim fugiat cillum enim
+                                  ad occaecat sint qui elit labore mollit sunt laborum
+                                  fugiat consequat. Voluptate labore sunt duis eu
+                                  deserunt. Occaecat do ut ut labore cillum enim dolore ad
+                                  enim enim id. Aliquip do veniam ad excepteur ad cillum
+                                  qui deserunt nostrud sunt aliqua duis sunt occaecat.
+                                  Laborum incididunt commodo ullamco proident quis.
+                </Text>
+            </ModalBody>
+            <ModalFooter>
+                <Button colorScheme='grey' mr={3} onClick={onClose}>
+                  Close
+                </Button>
+                <Button colorScheme='blue' mr={3} >
+                  Vote Yes
+                </Button>
+                <Button colorScheme='red' mr={3} >
+                  Vote No
+                </Button>
+            </ModalFooter>
+          </ModalContent>
+      </Modal>
     </ChakraProvider>
+    
   )
 }
