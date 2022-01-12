@@ -30,7 +30,7 @@ export default function Industry() {
 
         <Flex id="projectpad">
           {PROJECT_ITEMS.map((projectItem, index) => (
-            <div class="containerIndustry" key={index}>
+            <div className="containerIndustry" key={index}>
               <div
                 className="containerIndustry__image"
                 style={{ backgroundImage: `url(${projectItem.imgsrc})` }}

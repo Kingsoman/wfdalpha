@@ -177,7 +177,7 @@ export default function ExplorerProject() {
                       {/* ------------------project snippet detail---------- */}
                       {state.projectData != '' && state.projectData.map((projectItem, index) => (
                       <Box w= "100%" h= "300px" mx="auto" borderTop= "1px solid rgba(255, 255, 255, 0.1)"
-                        boxSizing="border-box" shadow="lg" rounded="lg" overflow="hidden" >
+                        boxSizing="border-box" shadow="lg" rounded="lg" overflow="hidden" key={index}>
                         <HStack w= "100%">
                           <Flex  my={"6px"} mx={"6px"} width="400px" height="270px" bg="#FFFFFF"
                           boxShadow={"0px 2px 10px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.25)"}
@@ -311,6 +311,7 @@ export default function ExplorerProject() {
                           alignSelf={'center'} 
                           direction={'column'}
                           mb='20px'
+                          key={index}
                         >
                           {/* ------------------project image---------- */}
                           <Flex width={'300px'} direction={'column'} alignSelf={'center'}>
