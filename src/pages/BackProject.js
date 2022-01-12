@@ -246,7 +246,7 @@ export default function BackProject() {
         </Box>
         </Flex>
         <Footer/>
-        <Notification useRef={notificationRef}/>
+        <Notification ref={notificationRef}/>
       </div>
     </ChakraProvider>
   )

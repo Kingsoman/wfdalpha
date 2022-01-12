@@ -30,7 +30,6 @@ import { Router, Link, useNavigate } from '@reach/router'
 
 import { useStore } from '../store'
 import { ImageTransition } from '../components/ImageTransition'
-import Notification from '../components/Notification'
 import Footer from '../components/Footer'
 
 let useConnectedWallet = {}

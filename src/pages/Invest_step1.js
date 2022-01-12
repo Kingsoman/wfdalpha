@@ -96,7 +96,6 @@ export default function NewProject() {
                 </Box>
             </ImageTransition>
           </Flex>
-          
         </Box>
         </Flex>
       </div>

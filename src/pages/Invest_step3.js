@@ -326,7 +326,7 @@ export default function Invest_step3() {
           <Faq/>
         </Box>
         </Flex>
-        <Notification useRef={notificationRef}/>
+        <Notification ref={notificationRef}/>
       </div>
     </ChakraProvider>
   )
