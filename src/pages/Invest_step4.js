@@ -91,7 +91,7 @@ export default function Invest_step4() {
               }
             /></HStack>
             <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} maxWidth={'500px'} justifyContent={'center'} textAlign={'center'}  maxW={'390px'}>
-              You have invested in WeFund. For more update, please get in touch with us. We will confirm your investment status via email. </Text>
+              You have invested in WeFund. <Text color={'#FE8600'}>Please be sure to check the transaction in your wallet. If there are any issues, please contact info@wefund.app</Text>  </Text>
             
           </Flex>
           {/* --------Table confirmation dekstop---------- */}
@@ -150,6 +150,7 @@ export default function Invest_step4() {
                   </a>
               </Td>
             </Tr>
+            
           </Table>
 
           </Flex> 

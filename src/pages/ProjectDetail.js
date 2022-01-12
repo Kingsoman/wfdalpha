@@ -610,55 +610,30 @@ export default function ProjectDetail() {
                         marginBottom={'20px'}
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
-                        Commodo labore ut nisi laborum amet eu qui magna ullamco
-                        ut labore. Aliquip consectetur labore consectetur dolor
-                        exercitation est minim quis. Magna non irure qui ex est
-                        laborum nulla excepteur qui. Anim Lorem dolore cupidatat
-                        pariatur ex tempor. Duis ea excepteur proident ex
-                        commodo irure est.
+                        WeFund is a community crowdfunding incubator for blockchain and real-world projects
                       </chakra.p>
                       <chakra.p
                         fontSize={'18px'}
                         marginBottom={'20px'}
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
-                        Nisi commodo qui pariatur enim sint laborum consequat
-                        enim in officia. Officia fugiat incididunt commodo et
-                        mollit aliqua non aute. Enim dolor eiusmod aliqua amet
-                        ipsum in enim eiusmod. Quis exercitation sit velit duis.
-                      </chakra.p>
-                      <chakra.p
-                        fontSize={'18px'}
+                        WeFund Mission is: 
+                        Host high-quality projects that align with WeFund’s investor community.
+                        </chakra.p>
+                        <chakra.p fontSize={'18px'}
                         marginBottom={'20px'}
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
-                        Est Lorem labore consectetur minim sit eu eiusmod mollit
-                        velit. Consectetur voluptate ex amet id eiusmod laborum
-                        irure. Aliquip ad qui id exercitation irure amet commodo
-                        nisi quis. Occaecat minim incididunt eiusmod nostrud
-                        veniam quis culpa. Nisi ipsum et consequat id deserunt
-                        excepteur. Cillum non pariatur culpa ut occaecat laboris
-                        eu. Ullamco ad Lorem et elit laboris eu qui irure nulla
-                        qui culpa et. Cupidatat sunt ipsum proident aute
-                        exercitation do tempor aliqua cupidatat quis non
-                        exercitation. Adipisicing do minim dolore nulla mollit.
-                        Adipisicing incididunt irure ipsum et in esse ipsum elit
-                        tempor.
-                      </chakra.p>
-                      <chakra.p
-                        fontSize={'18px'}
+                        Community-driven decisions on the platform for 100% transparency.
+                        </chakra.p>
+                        <chakra.p fontSize={'18px'}
                         marginBottom={'20px'}
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
-                        Aliquip mollit sunt qui irure. Irure ullamco Lorem
-                        excepteur dolor qui ea ad quis. Enim fugiat cillum enim
-                        ad occaecat sint qui elit labore mollit sunt laborum
-                        fugiat consequat. Voluptate labore sunt duis eu
-                        deserunt. Occaecat do ut ut labore cillum enim dolore ad
-                        enim enim id. Aliquip do veniam ad excepteur ad cillum
-                        qui deserunt nostrud sunt aliqua duis sunt occaecat.
-                        Laborum incididunt commodo ullamco proident quis.
+                        Project funds managed exclusively on Terra’s Anchor protocol using smart contracts and following the Milestone.
                       </chakra.p>
+              
+                  
                       <chakra.p
                         fontSize={'18px'}
                         marginBottom={'20px'}
