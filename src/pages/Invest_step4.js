@@ -13,40 +13,9 @@ import Notification from '../components/Notification'
 export default function Invest_step4() {
   const {state, dispatch} = useStore();
 
-  //---------------notification setting---------------------------------
-  const [notification, setNotification] = useState({
-    type: 'success',
-    message: '',
-    show: false,
-  })
+  //------------notification setting---------------------------------
+  const notificationRef = useRef();
 
-  function hideNotification() {
-    setNotification({
-        message: notification.message,
-        type: notification.type,
-        show: false,
-    })
-  }
-
-  function showNotification(message, type, duration) {
-    // console.log('fired notification')
-    setNotification({
-        message: message,
-        type: type,
-        show: true,
-    })
-    // console.log(notification)
-    // Disable after $var seconds
-    setTimeout(() => {
-        setNotification({
-            message: message,
-            type: type,
-            show: false,
-        })
-        // console.log('disabled',notification)
-    }, duration)
-  }
-  
   function download_pdf(){
     showNotification("Downloading", "success", 10000);
 
@@ -206,10 +175,7 @@ export default function Invest_step4() {
           
         </Box>
         </Flex>
-        <Notification
-            notification={notification}
-            close={() => hideNotification()}
-        />
+        <Notification useRef={notificationRef}/>
       </div>
     </ChakraProvider>
   )

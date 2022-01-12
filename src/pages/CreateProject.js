@@ -68,9 +68,10 @@ export default function CreateProject() {
   if (typeof document !== 'undefined') {
     connectedWallet = useConnectedWallet()
   }
+  
+  //------------notification setting---------------------------------
+  const notificationRef = useRef();
 
-  //---------------notification setting---------------------------------
-const notificationRef = useRef();
   //---------------input functions------------------------------
   function openUpload() {
     if (typeof document !== 'undefined') {
@@ -130,8 +131,6 @@ const notificationRef = useRef();
       e.target.value != '' &&
       e.target.value != parseInt(e.target.value).toString()
     ) {
-console.log(notificationRef);
-console.log(notificationRef.current);      
       notificationRef.current.showNotification('Please input number only', 'error', 4000)
       return
     }
@@ -161,7 +160,7 @@ console.log(notificationRef.current);
       e.target.value != '' &&
       e.target.value != parseInt(e.target.value).toString()
     ) {
-      showNotification('Please input number only', 'error', 4000)
+      notificationRef.current.showNotification('Please input number only', 'error', 4000)
       return
     }
 
@@ -200,50 +199,50 @@ console.log(notificationRef.current);
   async function createProject() {
     //----------verify connection--------------------------------
     if (connectedWallet == '' || typeof connectedWallet == 'undefined') {
-      showNotification('Please connect wallet first!', 'error', 6000)
+      notificationRef.current.showNotification('Please connect wallet first!', 'error', 6000)
       return
     }
 
     console.log(connectedWallet)
     if (state.net == 'mainnet' && connectedWallet.network.name == 'testnet') {
-      showNotification('Please switch to mainnet!', 'error', 4000)
+      notificationRef.current.showNotification('Please switch to mainnet!', 'error', 4000)
       return
     }
     if (state.net == 'testnet' && connectedWallet.network.name == 'mainnet') {
-      showNotification('Please switch to testnet!', 'error', 4000)
+      notificationRef.current.showNotification('Please switch to testnet!', 'error', 4000)
       return
     }
 
     if (prjNameLen == 0) {
-      showNotification('Please fill project name!', 'error', 4000)
+      notificationRef.current.showNotification('Please fill project name!', 'error', 4000)
       return
     }
     console.log(parseInt(prjAmount))
 
     if (parseInt(prjAmount) < 6) {
-      showNotification('Collected money at least 6 UST', 'error', 4000)
+      notificationRef.current.showNotification('Collected money at least 6 UST', 'error', 4000)
       return
     }
 
     let total_release = 0;
     for(let i=0; i<milestone_title.length; i++){
       if (milestoneTitle[i] == '') {
-        showNotification('Please fill milestone title!', 'error', 4000)
+        notificationRef.current.showNotification('Please fill milestone title!', 'error', 4000)
         return
       }
       if (parseInt(milestoneAmount[i]) < 6) {
-        showNotification('Collected money at least 6 UST', 'error', 4000)
+        notificationRef.current.showNotification('Collected money at least 6 UST', 'error', 4000)
         return
       }
       total_release += parseInt(milestoneAmount[i]);
     }
     if (total_release != parseInt(prjAmount)){
-      showNotification('milestone total amount should equal to collected amount', 'error', 4000)
+      notificationRef.current.showNotification('milestone total amount should equal to collected amount', 'error', 4000)
       return
     }
 
     //----------upload whitepaper---------------------------------------
-    showNotification('Please wait', 'success', 10000)
+    notificationRef.current.showNotification('Please wait', 'success', 10000)
 
     let realWhitepaer = ''
     if (whitepaper != '') {
@@ -260,7 +259,7 @@ console.log(notificationRef.current);
         .then((res) => res.json())
         .then((data) => {
           realWhitepaer = data.data
-          showNotification(
+          notificationRef.current.showNotification(
             data.data + 'Whitepaper upload Success',
             'success',
             1000,
@@ -268,7 +267,7 @@ console.log(notificationRef.current);
         })
         .catch((e) => {
           console.log('Error:' + e)
-          showNotification('upload whitepaper failed', 'error', 1000)
+          notificationRef.current.showNotification('upload whitepaper failed', 'error', 1000)
         })
     }
     //---------upload logo-------------------------------------------------
@@ -287,11 +286,11 @@ console.log(notificationRef.current);
         .then((res) => res.json())
         .then((data) => {
           realLogo = data.data
-          showNotification(data.data + 'Logo upload Success', 'success', 1000)
+          notificationRef.current.showNotification(data.data + 'Logo upload Success', 'success', 1000)
         })
         .catch((e) => {
           console.log('Error:' + e)
-          showNotification('upload logo failed', 'error', 1000)
+          notificationRef.current.showNotification('upload logo failed', 'error', 1000)
         })
     }
     //---------------execute contract----------------------------------
@@ -352,13 +351,13 @@ console.log(notificationRef.current);
       })
       .then((e) => {
         if (e.success) {
-          showNotification('Create Project Success', 'success', 4000)
+          notificationRef.current.showNotification('Create Project Success', 'success', 4000)
         } else {
-          showNotification(e.message, 'error', 4000)
+          notificationRef.current.showNotification(e.message, 'error', 4000)
         }
       })
       .catch((e) => {
-        showNotification(e.message, 'error', 4000)
+        notificationRef.current.showNotification(e.message, 'error', 4000)
       })
   }
 
@@ -1366,9 +1365,7 @@ console.log(notificationRef.current);
           </div>
         </Flex>
         <Footer />
-        <Notification
- ref={notificationRef}
-        />
+        <Notification  ref={notificationRef}/>
       </div>
     </ChakraProvider>
   )

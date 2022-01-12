@@ -30,7 +30,7 @@ export default {
         },
         {
             path: 'explorer',
-            template: 'src/pages/ExplorerProject',
+            template: 'src/pages/ExploreComingSoon',
         },
         {
             path: 'detail',

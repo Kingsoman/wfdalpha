@@ -2,8 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from '../theme';
 import { CheckIcon } from "@chakra-ui/icons";
 import {Fee, MsgExecuteContract, MsgSend } from '@terra-money/terra.js'
-import {chakra, Box, Flex, Text, Input, InputGroup,  Stack, Image, InputLeftElement, Button, HStack, VStack, Img
-  } from "@chakra-ui/react";
+import { Box, Flex, Text, Input, InputGroup,  InputLeftElement, HStack, } from "@chakra-ui/react";
 import React, { useEffect, useState,  useCallback, useContext, useRef, } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { navigate } from '@reach/router'
@@ -35,39 +34,9 @@ export default function Invest_step3() {
     connectedWallet = useConnectedWallet()
   }
 
-  //---------------notification setting---------------------------------
-  const [notification, setNotification] = useState({
-    type: 'success',
-    message: '',
-    show: false,
-  })
+  //------------notification setting---------------------------------
+  const notificationRef = useRef();
 
-  function hideNotification() {
-    setNotification({
-        message: notification.message,
-        type: notification.type,
-        show: false,
-    })
-  }
-
-  function showNotification(message, type, duration) {
-    // console.log('fired notification')
-    setNotification({
-        message: message,
-        type: type,
-        show: true,
-    })
-    console.log(notification)
-    // Disable after $var seconds
-    setTimeout(() => {
-        setNotification({
-            message: message,
-            type: type,
-            show: false,
-        })
-        // console.log('disabled',notification)
-    }, duration)
-  }
   //----------------upload signature----------------------------
   function openUpload(){
     if(typeof document !== 'undefined') {
@@ -99,23 +68,23 @@ export default function Invest_step3() {
   async function onNext(){
     //----------verify connection--------------------------------
     if(connectedWallet == '' || typeof connectedWallet == 'undefined'){
-      showNotification("Please connect wallet first!", 'error', 6000);
+      notificationRef.current.showNotification("Please connect wallet first!", 'error', 6000);
       return;
     }
 
     console.log(connectedWallet);
     if(state.net == 'mainnet' && connectedWallet.network.name == 'testnet'){
-      showNotification("Please switch to mainnet!", "error", 4000);
+      notificationRef.current.showNotification("Please switch to mainnet!", "error", 4000);
       return;
     }
     if(state.net == 'testnet' && connectedWallet.network.name == 'mainnet'){
-      showNotification("Please switch to testnet!", "error", 4000);
+      notificationRef.current.showNotification("Please switch to testnet!", "error", 4000);
       return;
     }
     
     if(parseInt(state.investAmount) <= 0 )
     {
-      showNotification("Please input UST amount", "error", 40000);
+      notificationRef.current.showNotification("Please input UST amount", "error", 40000);
       return;
     }
 
@@ -155,7 +124,7 @@ export default function Invest_step3() {
       body: formData,
     };
 
-    showNotification("Uploading", 'success', 100000)
+    notificationRef.current.showNotification("Uploading", 'success', 100000)
 
     await fetch(state.request + '/pdfmake', requestOptions)
     .then((res) => res.json())
@@ -174,7 +143,7 @@ export default function Invest_step3() {
     let amount = parseInt(state.investAmount) * 10**6;
     if(parseInt(state.investAmount) > state.ustBalance){
       amount = (state.ustBalance-1) * 10**6;
-      showNotification("Your maxmize invest amount is " + amount, 'success', 100000)
+      notificationRef.current.showNotification("Your maxmize invest amount is " + amount, 'success', 100000)
     }
     const send = new MsgSend(
       connectedWallet.walletAddress,
@@ -192,14 +161,14 @@ export default function Invest_step3() {
       })
       .then((e) => {
           if (e.success) {
-              showNotification('Invest Success', 'success', 4000)
+              notificationRef.current.showNotification('Invest Success', 'success', 4000)
               navigate('/invest_step4');
           } else {
-              showNotification(e.message, 'error', 4000)
+              notificationRef.current.showNotification(e.message, 'error', 4000)
           }
       })
       .catch((e) => {
-          showNotification(e.message, 'error', 4000)
+          notificationRef.current.showNotification(e.message, 'error', 4000)
       })
   }
 
@@ -357,10 +326,7 @@ export default function Invest_step3() {
           <Faq/>
         </Box>
         </Flex>
-        <Notification
-            notification={notification}
-            close={() => hideNotification()}
-        />
+        <Notification useRef={notificationRef}/>
       </div>
     </ChakraProvider>
   )

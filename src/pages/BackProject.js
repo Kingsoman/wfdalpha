@@ -1,7 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import {Fee, MsgExecuteContract, WasmAPI, LCDClient } from '@terra-money/terra.js'
 import { Box, Flex, Text, Input, InputGroup, InputRightElement, Img } from "@chakra-ui/react";
-import React, { useEffect, useState,  useCallback, useContext, useRef, } from 'react';
+import React, { useEffect, useState, useRef, } from 'react';
 import { IoChevronUpOutline, IoChevronDownOutline, IoCheckmark } from 'react-icons/io5';
 import { ButtonTransition, InputTransition, InputTransitiongrey, ImageTransition } from "../components/ImageTransition";
 import theme from '../theme';
@@ -41,44 +41,14 @@ export default function BackProject() {
   }
   const api = new WasmAPI(state.lcd_client.apiRequester);
 
-//------------notification setting---------------------------------
-  const [notification, setNotification] = useState({
-    type: 'success',
-    message: '',
-    show: false,
-  })
+  //------------notification setting---------------------------------
+  const notificationRef = useRef();
 
-  function hideNotification() {
-    setNotification({
-        message: notification.message,
-        type: notification.type,
-        show: false,
-    })
-  }
-
-  function showNotification(message, type, duration) {
-    // console.log('fired notification')
-    setNotification({
-        message: message,
-        type: type,
-        show: true,
-    });
-    console.log(message + type + duration);
-    // Disable after $var seconds
-    setTimeout(() => {
-        setNotification({
-            message: message,
-            type: type,
-            show: false,
-        })
-        // console.log('disabled',notification)
-    }, duration)
-  }
 //----------------------change Amount--------------------------
   function changeAmount(e)
   {
     if(e.target.value != '' && e.target.value != parseInt(e.target.value).toString()){
-      showNotification("Please input number only", "error", 4000);
+      notificationRef.current.showNotification("Please input number only", "error", 4000);
       return;
     }
     
@@ -93,26 +63,26 @@ export default function BackProject() {
   async function backProject()
   {
     if(connectedWallet == '' || typeof connectedWallet == 'undefined'){
-      showNotification("Please connect wallet first!", 'error', 6000);
+      notificationRef.current.showNotification("Please connect wallet first!", 'error', 6000);
       return;
     }
 
     console.log(connectedWallet);
     if(state.net == 'mainnet' && connectedWallet.network.name == 'testnet'){
-      showNotification("Please switch to mainnet!", "error", 4000);
+      notificationRef.current.showNotification("Please switch to mainnet!", "error", 4000);
       return;
     }
     if(state.net == 'testnet' && connectedWallet.network.name == 'mainnet'){
-      showNotification("Please switch to testnet!", "error", 4000);
+      notificationRef.current.showNotification("Please switch to testnet!", "error", 4000);
       return;
     }
     
     if(backAmount != parseInt(backAmount).toString()){
-      showNotification("Invalid number format!", "error", 4000);
+      notificationRef.current.showNotification("Invalid number format!", "error", 4000);
       return;
     }
     if(parseInt(backAmount) < 100){
-      showNotification("Back money at least 100 UST", "error", 4000);
+      notificationRef.current.showNotification("Back money at least 100 UST", "error", 4000);
       return;
     }
 
@@ -130,12 +100,12 @@ export default function BackProject() {
     )
 
     if(projectData == ''){
-      showNotification("Can't fetch Project Data", 'error', 6000);
+      notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
       return;
     }
 
     if(projectData.project_needback == false){
-      showNotification("Project already collected! You can't back", 'error', 6000);
+      notificationRef.current.showNotification("Project already collected! You can't back", 'error', 6000);
       return;
     }
 
@@ -166,13 +136,13 @@ export default function BackProject() {
       })
       .then((e) => {
           if (e.success) {
-            showNotification('Back to Project Success', 'success', 4000);
+            notificationRef.current.showNotification('Back to Project Success', 'success', 4000);
           } else {
-              showNotification(e.message, 'error', 4000)
+              notificationRef.current.showNotification(e.message, 'error', 4000)
           }
       })
       .catch((e) => {
-          showNotification(e.message, 'error', 4000)
+          notificationRef.current.showNotification(e.message, 'error', 4000)
       })
   }
 
@@ -276,10 +246,7 @@ export default function BackProject() {
         </Box>
         </Flex>
         <Footer/>
-        <Notification 
-          notification={notification}
-          close={() => hideNotification()}
-          />
+        <Notification useRef={notificationRef}/>
       </div>
     </ChakraProvider>
   )

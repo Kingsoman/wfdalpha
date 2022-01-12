@@ -12,6 +12,7 @@ import { useStore } from '../store'
 import theme from '../theme';
 import { ImageTransition, InputTransition } from "../components/ImageTransition";
 import Footer from '../components/Footer';
+import Notification from '../components/Notification'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -34,6 +35,8 @@ export default function ExplorerProject() {
   if (typeof document !== 'undefined') {
       connectedWallet = useConnectedWallet()
   }
+  //------------notification setting---------------------------------
+  const notificationRef = useRef();
 
   //----------init api, lcd-------------------------
   const lcd = useMemo(() => {
@@ -64,7 +67,7 @@ export default function ExplorerProject() {
       projectData[0] = oneprojectData;
 
       if(projectData == ''){
-        showNotification("Can't fetch Project Data", 'error', 6000);
+        notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
         return;
       }
 
@@ -99,7 +102,7 @@ export default function ExplorerProject() {
         type: 'setProjectdata',
         message: projectData,
       })
-console.log(projectData);          
+
       totalBacked /= 10**6;
       totalDeposit /= 10**6;
 
@@ -409,6 +412,7 @@ console.log(projectData);
           </Box>
         </Flex>
         <Footer/>
+        <Notification  ref={notificationRef}/>        
       </div>
     </ChakraProvider>
   )

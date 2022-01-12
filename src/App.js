@@ -16,7 +16,7 @@ import theme from './theme';
 
 import Navbar from './components/Navbar'
 import Index from 'pages/Index'
-import ExplorerProject from 'pages/ExplorerProject'
+import ExplorerProject from 'pages/ExploreComingSoon'
 import CreateProject from 'pages/CreateProject'
 import BackProject from 'pages/BackProject'
 import DetailProject from 'pages/ProjectDetail'
