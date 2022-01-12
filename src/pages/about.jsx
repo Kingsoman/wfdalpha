@@ -28,17 +28,15 @@ export default function Aboutone() {
               blockchain and real-world projects.
               <br />
               <br />
-              WeFund’s mission is to host high-quality projects that align with
-              WeFund’s investor community, community-driven decision making for
-              100% transparency, and manage funds exclusively on Terra’s Anchor
+              WeFund's mission is to host high-quality projects that align with
+              WeFund's investor community, community-driven decision making for
+              100% transparency, and manage funds exclusively on Terra's Anchor
               protocol using smart contracts for investor security.
             </Text>
-
             <Flex id="rocket" position="relative">
               <Image h="200px" src="/rocket.svg" />
             </Flex>
-
-            <a href="/Litepaper.pptx">
+            <a href="/Litepaper_Wefund.pdf">
               <Flex w="100%" mt="30px" id="displayNoneInMobile">
                 <ButtonBackTransition
                   width="100%"
@@ -47,7 +45,6 @@ export default function Aboutone() {
                   selected={false}
                   unitid="downwhitepaper"
                 >
-                  
                   <Flex
                     w="100%"
                     pl="25px"
@@ -102,7 +99,6 @@ export default function Aboutone() {
               </Text>
             </Flex>
           </Flex>
-
           <Flex alignItems="center" justifyContent="center">
             <Flex className="aboutUsBox" bg="#200E55">
               <Image className="aboutUsSectionImages" src="/incubatore.svg" />
@@ -117,7 +113,6 @@ export default function Aboutone() {
               </Text>
             </Flex>
           </Flex>
-
           <Flex alignItems="center" justifyContent="center">
             <Flex className="aboutUsBox LeftBottomRadiusAboutUs" bg="#291554">
               <Image alt="Crypto Industry" src="/voting.svg" />

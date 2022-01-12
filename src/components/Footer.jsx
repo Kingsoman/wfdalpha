@@ -18,13 +18,13 @@ const SocialMediaLinks = () => (
       aria-label="Youtube"
       className="footerButton"
       icon={<FaYoutube className="footerIcon" />}
-      href="https://www.youtube.com/channel/UCjwo-9Yj7NQSmSqiY6FvEdw"
+      href="https://youtube.com/channel/UCjwo-9Yj7NQSmSqiY6FvEdw"
     />
     <IconButton
       as="a"
       aria-label="Telegram"
       className="footerButton"
-      href="http://t.me/wefundofficial"
+      href="https://t.me/wefundofficial"
       icon={<FaTelegram className="footerIcon" />}
     />
     <IconButton
