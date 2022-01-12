@@ -71,39 +71,6 @@ export default function ProjectDetail() {
 
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
-  //------------notification setting---------------------------------
-  const [notification, setNotification] = useState({
-    type: 'success',
-    message: '',
-    show: false,
-  })
-
-  function hideNotification() {
-    setNotification({
-      message: notification.message,
-      type: notification.type,
-      show: false,
-    })
-  }
-
-  function showNotification(message, type, duration) {
-    // console.log('fired notification')
-    setNotification({
-      message: message,
-      type: type,
-      show: true,
-    })
-
-    // Disable after $var seconds
-    setTimeout(() => {
-      setNotification({
-        message: message,
-        type: type,
-        show: false,
-      })
-      // console.log('disabled',notification)
-    }, duration)
-  }
   //------------back button-----------------------------------
   function next() {
     if (project_id == 2)

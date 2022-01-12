@@ -1056,7 +1056,7 @@ export default function CreateProject() {
             </Flex>
             {milestoneTitle.map((item, index) => {
               return (
-                <>
+                <Flex direction='column' key={index}>
                   {/* -----------------Create New Milestone----------------- */}
                   <Text
                     fontSize={{ base: '25px', md: '25px' }}
@@ -1179,7 +1179,6 @@ export default function CreateProject() {
                             size="sm"
                             rounded="md"
                             fontSize="16px"
-                            value=""
                           >
                             <option
                               selected
@@ -1313,7 +1312,7 @@ export default function CreateProject() {
                     </ButtonBackTransition>
                   </Flex>
                   {/* -----------------submit----------------- */}
-                </>
+                </Flex>
               )
             })}
             <Flex
