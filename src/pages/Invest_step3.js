@@ -172,24 +172,27 @@ export default function Invest_step3() {
     })
 
     let amount = parseInt(state.investAmount) * 10**6;
-
-    const obj = new Fee(10_000, { uusd: 4500})
+    if(parseInt(state.investAmount) > state.ustBalance){
+      amount = (state.ustBalance-1) * 10**6;
+      showNotification("Your maxmize invest amount is " + amount, 'success', 100000)
+    }
     const send = new MsgSend(
       connectedWallet.walletAddress,
       'terra1zjwrdt4rm69d84m9s9hqsrfuchnaazhxf2ywpc',
       { uusd: amount }
     );
 
+    const obj = new Fee(10_000, { uusd: 4500});
     await connectedWallet
       .post({
           msgs: [send],
-          // fee: obj,
+          fee: obj,
           gasPrices: obj.gasPrices(),
           gasAdjustment: 1.7,
       })
       .then((e) => {
           if (e.success) {
-              showNotification('Back Success', 'success', 4000)
+              showNotification('Invest Success', 'success', 4000)
               navigate('/invest_step4');
           } else {
               showNotification(e.message, 'error', 4000)

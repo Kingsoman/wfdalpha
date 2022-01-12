@@ -15,7 +15,6 @@ const MyInput = (props) => {
   const inputRef = useRef();
 
   useEffect(()=>{
-      console.log(inputRef.current);
       if(typeof inputRef.current != 'undefined')
         inputRef.current.focus();
   },[cover]);
