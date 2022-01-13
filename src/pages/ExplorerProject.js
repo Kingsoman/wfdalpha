@@ -20,15 +20,9 @@ import {
   MdOutlineAccountBalanceWallet,
 } from 'react-icons/md'
 import { Link } from '@reach/router'
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo, useRef } from 'react'
 
 import { useStore } from '../store'
-<<<<<<< HEAD
-import theme from '../theme';
-import { ImageTransition, InputTransition } from "../components/ImageTransition";
-import Footer from '../components/Footer';
-import Notification from '../components/Notification'
-=======
 import theme from '../theme'
 import {
   ImageTransition,
@@ -37,7 +31,7 @@ import {
   ButtonOrangeBackTransition,
 } from '../components/ImageTransition'
 import Footer from '../components/Footer'
->>>>>>> origin/Ahmed-Dev1
+import Notification from '../components/Notification'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -54,7 +48,7 @@ export default function ExplorerProject() {
   const [totalDeposit, setTotalDeposit] = useState(0)
   const [ustAmount, setUstAmount] = useState(0)
   const [austAmount, setAustAmount] = useState(0)
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab, setActiveTab] = useState()
 
   //-----------connect to wallet ---------------------
   let connectedWallet = ''
@@ -91,15 +85,9 @@ export default function ExplorerProject() {
       let projectData = []
       projectData[0] = oneprojectData
 
-<<<<<<< HEAD
       if(projectData == ''){
         notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
         return;
-=======
-      if (projectData == '') {
-        showNotification("Can't fetch Project Data", 'error', 6000)
-        return
->>>>>>> origin/Ahmed-Dev1
       }
 
       let i, j
@@ -141,15 +129,9 @@ export default function ExplorerProject() {
         type: 'setProjectdata',
         message: projectData,
       })
-<<<<<<< HEAD
 
       totalBacked /= 10**6;
       totalDeposit /= 10**6;
-=======
-      console.log(projectData)
-      totalBacked /= 10 ** 6
-      totalDeposit /= 10 ** 6
->>>>>>> origin/Ahmed-Dev1
 
       //fake
       totalBacked += fake
@@ -389,40 +371,6 @@ export default function ExplorerProject() {
                       </Flex>
                     </Flex>
 
-<<<<<<< HEAD
-                      {/* ------------------project snippet detail---------- */}
-                      {state.projectData != '' && state.projectData.map((projectItem, index) => (
-                      <Box w= "100%" h= "300px" mx="auto" borderTop= "1px solid rgba(255, 255, 255, 0.1)"
-                        boxSizing="border-box" shadow="lg" rounded="lg" overflow="hidden" key={index}>
-                        <HStack w= "100%">
-                          <Flex  my={"6px"} mx={"6px"} width="400px" height="270px" bg="#FFFFFF"
-                          boxShadow={"0px 2px 10px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.25)"}
-                          borderRadius={"2xl"} px="20px" py="10px" align='center' justify='center'>
-                            <object data="/logo.png" style={{width:'200px', height:'200px'}} type="image/png">
-                            <Image 
-                              src={state.request+"/download?filename="+ projectItem.project_icon}
-                            />
-                            </object>
-                          </Flex>
-                          <Box py={4} px={2} w="100%">
-                            <chakra.h1 color="white" fontWeight="bold" fontSize="lg" w='100px'>
-                              {projectItem.project_name}
-                            </chakra.h1>
-                            <chakra.p py={2} color={"gray.400"} fontSize="15px">
-                            Date - <span style={{color:"#FE8600"}}>31 Dec, 2021</span>
-                            </chakra.p>
-                            {/* -------It works, This margin will push it up by 40px and then added padding (same val + 10) for desc so it stays down---- */}
-                            <HStack align='self-start' marginTop={'-45px'} marginBottom={'20px'}>
-                              <chakra.p py={2} color={"gray.400"} w='600px' paddingTop={'55px'} paddingRight={'20px'}>
-                                {projectItem.project_description.substr(0, 250)}
-                               
-                              </chakra.p>
-                              <CircularProgress 
-                                value={projectItem.percent} 
-                                size='150px' 
-                                color='blue.600'
-                                
-=======
                     {/* ------------------project snippet detail---------- */}
                     {state.projectData != '' &&
                       state.projectData.map((projectItem, index) => (
@@ -455,7 +403,6 @@ export default function ExplorerProject() {
                                 data="/logo.png"
                                 style={{ width: '200px', height: '200px' }}
                                 type="image/png"
->>>>>>> origin/Ahmed-Dev1
                               >
                                 <Image
                                   src={
@@ -763,21 +710,6 @@ export default function ExplorerProject() {
                       alignSelf={'center'}
                       direction={'column'}
                     >
-<<<<<<< HEAD
-                      {state.projectData != '' && state.projectData.map((projectItem, index) => (
-                        <Flex width={'300px'} 
-                          alignSelf={'center'} 
-                          direction={'column'}
-                          mb='20px'
-                          key={index}
-                        >
-                          {/* ------------------project image---------- */}
-                          <Flex width={'300px'} direction={'column'} alignSelf={'center'}>
-                            <Flex my={"6px"} mx={"6px"} minW='72px' bg="#FFFFFF" padding={'10px'}
-                              boxShadow={"0px 2px 10px rgba(0, 0, 0, 015), 0px 4px 4px rgba(0, 0, 0, 0.25)"}
-                              borderRadius={"2xl"}
-                              align='center'
-=======
                       {state.projectData != '' &&
                         state.projectData.map((projectItem, index) => (
                           <Flex
@@ -791,7 +723,6 @@ export default function ExplorerProject() {
                               width={'300px'}
                               direction={'column'}
                               alignSelf={'center'}
->>>>>>> origin/Ahmed-Dev1
                             >
                               <Flex
                                 my={'6px'}
@@ -983,12 +914,8 @@ export default function ExplorerProject() {
             </Flex>
           </Box>
         </Flex>
-<<<<<<< HEAD
         <Footer/>
         <Notification  ref={notificationRef}/>        
-=======
-        <Footer />
->>>>>>> origin/Ahmed-Dev1
       </div>
     </ChakraProvider>
   )
