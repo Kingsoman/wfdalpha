@@ -7,7 +7,7 @@ import React, { useState} from 'react';
 import { IoChevronUpOutline, IoChevronDownOutline, IoCheckmark } from 'react-icons/io5';
 
 import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
-import ESign from './EsignEdit';
+import ESign from '../components/Pdf';
 import Faq from '../components/FAQ';
 
 export default function NewProject() {

@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
-import { Fee, MsgExecuteContract } from '@terra-money/terra.js'
+import { Fee, MsgExecuteContract, WasmAPI, LCDClient} from '@terra-money/terra.js'
 import {
   Box,
   Flex,
@@ -25,6 +25,7 @@ import theme from '../theme'
 import { useStore } from '../store'
 import Notification from '../components/Notification'
 import Footer from '../components/Footer'
+import {EstimateSend} from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -69,6 +70,19 @@ export default function CreateProject() {
     connectedWallet = useConnectedWallet()
   }
   
+  //----------init api, lcd-------------------------
+  const lcd = useMemo(() => {
+    if (!connectedWallet) {
+      return null
+    }
+    return new LCDClient({
+      URL: connectedWallet.network.lcd,
+      chainID: connectedWallet.network.chainID,
+    })
+  }, [connectedWallet])
+
+  const api = new WasmAPI(state.lcd_client.apiRequester)
+
   //------------notification setting---------------------------------
   const notificationRef = useRef();
 
@@ -139,8 +153,6 @@ export default function CreateProject() {
 
   function onChangeMilestoneTitle(e, index){
     if (e.target.value.length < 100) {
-      setPrjName(e.target.value)
-    
       let ar=[...milestoneTitle];
       ar[index] = e.target.value;
       setMilestoneTitle(ar);
@@ -194,7 +206,10 @@ export default function CreateProject() {
     if(typeof val == 'undefined' || val == '')
       return true;
     return false;
-  } 
+  }
+  function getVal(val){
+    return isNull(val)? '' : val;
+  }
   //---------------create project---------------------------------
   async function createProject() {
     //----------verify connection--------------------------------
@@ -225,7 +240,7 @@ export default function CreateProject() {
     }
 
     let total_release = 0;
-    for(let i=0; i<milestone_title.length; i++){
+    for(let i=0; i<milestoneTitle.length; i++){
       if (milestoneTitle[i] == '') {
         notificationRef.current.showNotification('Please fill milestone title!', 'error', 4000)
         return
@@ -300,10 +315,10 @@ export default function CreateProject() {
       let milestone={
         milestone_step: `${i}`,
         milestone_name: milestoneTitle[i],
-        milestone_description: milestoneDescription[i],
-        milestone_startdate: milestoneStartdate[i],
-        milestone_enddate: milestoneEnddate[i],
-        milestone_amount: milestoneAmount[i],
+        milestone_description: getVal(milestoneDescription[i]),
+        milestone_startdate: getVal(milestoneStartdate[i]),
+        milestone_enddate: getVal(milestoneEnddate[i]),
+        milestone_amount: getVal(milestoneAmount[i]),
         milestone_status: "0",
         milestone_votes: []
       };
@@ -335,30 +350,13 @@ export default function CreateProject() {
     }
 
     let wefundContractAddress = state.WEFundContractAddress
-    const obj = new Fee(10_000, { uusd: 4500 })
+
     let msg = new MsgExecuteContract(
       connectedWallet.walletAddress,
       wefundContractAddress,
       AddProjectMsg,
     )
-
-    await connectedWallet
-      .post({
-        msgs: [msg],
-        fee: obj,
-        gasPrices: obj.gasPrices(),
-        gasAdjustment: 1.7,
-      })
-      .then((e) => {
-        if (e.success) {
-          notificationRef.current.showNotification('Create Project Success', 'success', 4000)
-        } else {
-          notificationRef.current.showNotification(e.message, 'error', 4000)
-        }
-      })
-      .catch((e) => {
-        notificationRef.current.showNotification(e.message, 'error', 4000)
-      })
+    EstimateSend(connectedWallet, lcd, msg, "Create Project success", notificationRef);
   }
 
   function onNewMilestone() {
