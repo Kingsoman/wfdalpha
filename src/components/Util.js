@@ -6,7 +6,7 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
   const accountInfo = await lcd.auth.accountInfo(
     connectedWallet.walletAddress
   );
-console.log(obj.gasPrices());
+console.log(msg);
   let txOptions = 
   {
     msgs: [msg],
@@ -15,7 +15,8 @@ console.log(obj.gasPrices());
     gasAdjustment: 1.7,
   };
 
-  const rawFee = await lcd.tx.estimateFee(
+  let rawFee; 
+  await lcd.tx.estimateFee(
     [
       {
         sequenceNumber: accountInfo.getSequenceNumber(),
@@ -23,7 +24,18 @@ console.log(obj.gasPrices());
       },
     ],
     txOptions
-  );
+  )
+  .then((e) => {
+    rawFee = e;
+    notificationRef.current.showNotification("Estimate success", 'success', 4000)
+
+    
+  })
+  .catch((e) => {
+    notificationRef.current.showNotification(e.message, 'error', 4000)
+    console.log(e.message);
+    return;
+  })
 
   await connectedWallet
   .post({
@@ -44,4 +56,25 @@ console.log(obj.gasPrices());
     notificationRef.current.showNotification(e.message, 'error', 4000)
     console.log(e.message);
   })
+}
+export function GetProjectStatus(mode){
+  let projectstatus = 0;
+  switch(mode){
+    case 'WeFundApproval':
+      projectstatus =0;
+      break;
+    case 'CommuntyApproval':
+      projectstatus = 1;
+      break;
+    case 'MileStoneFundraising':
+      projectstatus = 2;
+      break;
+    case 'MileStoneDelivery':
+      projectstatus = 3;
+      break;
+    case 'ProjectComplete':
+      projectstatus = 4;
+      break;
+  }
+  return projectstatus;
 }

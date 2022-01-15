@@ -33,6 +33,7 @@ import {
 } from '../components/ImageTransition'
 import Footer from '../components/Footer'
 import Notification from '../components/Notification'
+import {GetProjectStatus, EstimateSend} from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -139,7 +140,19 @@ export default function ExplorerProject() {
         type: 'setProjectdata',
         message: projectData,
       })
-
+      //-----------------initialize--------------------------
+      let projectstatus = GetProjectStatus('WeFundApproval');
+      let activeProjectdata = projectData.filter(project => parseInt(project.project_status) == projectstatus);
+      
+      dispatch({
+        type: 'setActiveProjectData',
+        message: activeProjectdata,
+      })
+  
+      //onChangePaginator(1);
+      setCurrent(1);
+      setPostProjectData(activeProjectdata.slice(0, pageSize));
+      //------------------extra information----------------------------
       totalBacked /= 10**6;
       totalDeposit /= 10**6;
 
@@ -159,35 +172,18 @@ export default function ExplorerProject() {
       console.log(e)
     }
   }
-
+  //-----------Change---------------------
   function onChangeActivetab(mode){
     setActiveTab(mode);
 
-    let projectstatus = 0;
-    switch(mode){
-      case 'WeFundApproval':
-        projectstatus =0;
-        break;
-      case 'CommuntyApproval':
-        projectstatus = 1;
-        break;
-      case 'MileStoneFundraising':
-        projectstatus = 2;
-        break;
-      case 'MileStoneDelivery':
-        projectstatus = 3;
-        break;
-      case 'ProjectComplete':
-        projectstatus = 4;
-        break;
-    }
+    let projectstatus = GetProjectStatus(mode);
 
     let activeProjectdata = '';
     if(state.projectData != '')
       activeProjectdata = state.projectData.filter(project => parseInt(project.project_status) == projectstatus);
     
     dispatch({
-      type: 'setActiveProjectdata',
+      type: 'setActiveProjectData',
       message: activeProjectdata,
     })
 
@@ -195,11 +191,25 @@ export default function ExplorerProject() {
     setCurrent(1);
     setPostProjectData(activeProjectdata.slice(0, pageSize));
   }
-
+  //------------Wefund Approve-----------------
+  function WefundApprove(project_id){
+    let WefundApproveMsg = {
+      wefund_approve: {
+        project_id: project_id,
+      },
+    }
+  
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      WefundApproveMsg,
+    )
+    EstimateSend(connectedWallet, lcd, msg, "WeFund Approve success", notificationRef);
+  }
+  //---------initialize fetching---------------------
   useEffect(() => {
     fetchContractQuery();
-    onChangeActivetab('WeFundApproval');
-    // onChangePaginator(1);
   }, [connectedWallet, lcd])
 
   return (
@@ -488,22 +498,12 @@ export default function ExplorerProject() {
                                 {activeTab === 'WeFundApproval' && (
                                   <Flex w={'330px'} justify={'space-between'}>
                                     <ButtonTransition
-                                      unitid={'Reject' + index}
-                                      width="160px"
-                                      height="50px"
-                                      selected={false}
-                                      rounded="33px"
-                                      onClick={() => WeFundApprove(false)}
-                                    >
-                                      Reject Project
-                                    </ButtonTransition>
-
-                                    <ButtonTransition
                                       unitid={'Approve' + index}
                                       selected={false}
                                       width="160px"
                                       height="50px"
                                       rounded="33px"
+                                      onClick={() => WefundApprove(projectItem.project_id)}
                                     >
                                       Approve Project
                                     </ButtonTransition>

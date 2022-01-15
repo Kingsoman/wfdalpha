@@ -22,6 +22,7 @@ const initialState = {
     projectData: '',
     activeProjectdata: '',
     oneprojectData: '',
+    communityData: '',
     wallet: {},    
     allNativeCoins: [],
     config: {},
@@ -51,7 +52,12 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'setActiveProjectdata':
+    case 'setCommunityData':
+        return {
+            ...state,
+            communityData: action.message,
+        }
+    case 'setActiveProjectData':
         return {
             ...state,
             activeProjectdata: action.message,
@@ -71,7 +77,7 @@ const reducer = (state, action) => {
             ...state,
             investDate: action.message,
         }
-    case 'setInvestWfdamount':
+    case 'setInvestWfdAmount':
         return {
             ...state,
             investWfdamount: action.message,

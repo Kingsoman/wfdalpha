@@ -33,7 +33,7 @@ export default function NewProject() {
       message: backAmount,
     })
     dispatch({
-      type: 'setInvestWfdamount',
+      type: 'setInvestWfdAmount',
       message: wfdAmount,
     })
     navigate('/invest_step3');

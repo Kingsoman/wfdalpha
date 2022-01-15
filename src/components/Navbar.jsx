@@ -205,4 +205,8 @@ const NAV_ITEMS = [
     label: 'Invest in WeFund',
     href: 'invest_step1',
   },
+  {
+    label: 'Dashboard',
+    href: 'dashboard',
+  }
 ]

@@ -54,6 +54,10 @@ export default {
             template: 'src/pages/Invest_step4',
         },
         {
+            path: 'dashboard',
+            template: 'src/pages/Dashboard',
+        },
+        {
             path: '404',
             template: 'src/pages/NotFound',
         },
