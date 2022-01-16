@@ -54,8 +54,38 @@ export default {
             template: 'src/pages/Invest_step4',
         },
         {
+<<<<<<< HEAD
             path: 'dashboard',
             template: 'src/pages/Dashboard',
+=======
+            path: 'invest_kyc1',
+            template: 'src/pages/Invest_KYC1',
+        },
+        
+        {
+            path: 'invest_kyc2',
+            template: 'src/pages/Invest_KYC2',
+        },
+        
+        {
+            path: 'invest_kyc3',
+            template: 'src/pages/Invest_KYC3',
+        },
+        
+        {
+            path: 'invest_kyc4',
+            template: 'src/pages/Invest_KYC4',
+        },
+        
+        {
+            path: 'invest_kyc5',
+            template: 'src/pages/Invest_KYC5',
+        },
+        
+        {
+            path: 'usercenter',
+            template: 'src/pages/UserInfoCenter',
+>>>>>>> origin/hrd1
         },
         {
             path: '404',
