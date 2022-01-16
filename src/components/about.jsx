@@ -1,15 +1,13 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Flex, Text, Image, Select } from '@chakra-ui/react'
 import { ButtonBackTransition } from '../components/ImageTransition'
 
-
-
 export default function Aboutone() {
-        const [selectedLang,setSelectedlang] = useState('/Litepaper_Wefund.pdf'); //default value
-        function handleSelectChange(event) {
-            setSelectedlang(event.target.value);
-        }
-      
+  const [selectedLang, setSelectedlang] = useState('/Litepaper_Wefund.pdf') //default value
+  function handleSelectChange(event) {
+    setSelectedlang(event.target.value)
+  }
+
   return (
     <Flex id="aboutSection">
       <Flex id="aboutFirstSection">
@@ -47,15 +45,46 @@ export default function Aboutone() {
             <Text id="aboutUsPageHeadingDesc" mt="30px">
               Select Paper Languange
             </Text>
-            <Select value={selectedLang} onChange={handleSelectChange} placeholder='Select option' id='paper-lang' 
-                    border="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-                    background="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
-                    color="white" mt="10px">
-              <option value='/Litepaper_Wefund.pdf' style={{ backgroundColor: '#1B0645' }}>English</option>
-              <option value='/Litepaper_Wefund_ID.pdf' style={{ backgroundColor: '#1B0645' }}>Indonesian</option>
-              <option value='/Litepaper_Wefund_ITA.pdf' style={{ backgroundColor: '#1B0645' }}>Italian</option>
-              <option value='/Litepaper_Wefund_SP.pdf' style={{ backgroundColor: '#1B0645' }}>Spanish</option>
-              <option value='/Litepaper_Wefund_KOR.pdf' style={{ backgroundColor: '#1B0645' }}>Korea</option>
+            <Select
+              value={selectedLang}
+              onChange={handleSelectChange}
+              placeholder="Select option"
+              id="paper-lang"
+              border="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
+              background="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
+              color="white"
+              mt="10px"
+            >
+              <option
+                value="/Litepaper_Wefund.pdf"
+                style={{ backgroundColor: '#1B0645' }}
+              >
+                English
+              </option>
+              <option
+                value="/Litepaper_Wefund_ID.pdf"
+                style={{ backgroundColor: '#1B0645' }}
+              >
+                Indonesian
+              </option>
+              <option
+                value="/Litepaper_Wefund_ITA.pdf"
+                style={{ backgroundColor: '#1B0645' }}
+              >
+                Italian
+              </option>
+              <option
+                value="/Litepaper_Wefund_SP.pdf"
+                style={{ backgroundColor: '#1B0645' }}
+              >
+                Spanish
+              </option>
+              <option
+                value="/Litepaper_Wefund_KOR.pdf"
+                style={{ backgroundColor: '#1B0645' }}
+              >
+                Korea
+              </option>
             </Select>
             <a href={selectedLang}>
               <Flex w="100%" mt="30px" id="displayNoneInMobile">

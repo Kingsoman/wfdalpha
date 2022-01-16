@@ -1,3 +1,58 @@
+body {
+  background: linear-gradient(90deg, #1f0021 0%, #120054 104.34%) !important;
+}
+#Splash {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.loaderContainer {
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+.loader {
+  border: 4px solid rgba(151, 175, 213, 0.3);
+  width: 300px;
+  height: 300px;
+  display: flex;
+  border-radius: 50%;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  border-top: 4px solid #f42f54;
+  border-bottom: 4px solid #f42f54;
+  animation: spin 2s linear infinite;
+}
+.loader2 {
+  border: 4px solid rgba(151, 175, 213, 0.3);
+  width: 230px;
+  height: 230px;
+  display: flex;
+  border-radius: 50%;
+  position: relative;
+  align-items: center;
+  border-left: 4px solid #f42f54;
+  border-right: 4px solid #f42f54;
+  animation: spin 1.5s linear infinite;
+}
+#SplashLoaderLogo {
+  width: 100px;
+  position: absolute;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 #projectpad {
   width: 100%;
   display: flex;
