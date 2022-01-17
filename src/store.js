@@ -20,9 +20,11 @@ const initialState = {
     WEFundContractAddress: "terra17e7t7m9wxm4twr90cfgwrvtx7p40vnr2ywrdra", //testnet
     // WEFundContractAddress: "terra1qcm9957c2gyghkaqgsk0h5mw6xf6ym4xdu7kmu",
     projectData: '',
-    activeProjectdata: '',
+    activeProjectData: '',
     oneprojectData: '',
     communityData: '',
+    configData: '',
+    timer: '',
     wallet: {},    
     allNativeCoins: [],
     config: {},
@@ -52,6 +54,16 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'setTimer':
+        return {
+            ...state,
+            timer: action.message,
+        }
+    case 'setConfigData':
+        return {
+            ...state,
+            configData: action.message,
+        }
     case 'setCommunityData':
         return {
             ...state,
@@ -60,7 +72,7 @@ const reducer = (state, action) => {
     case 'setActiveProjectData':
         return {
             ...state,
-            activeProjectdata: action.message,
+            activeProjectData: action.message,
         }
     case 'setLogo':
         return {

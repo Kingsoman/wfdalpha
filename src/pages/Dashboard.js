@@ -91,21 +91,23 @@ export default function ExplorerProject() {
   //-----------fetch project data=-------------------------
   async function fetchContractQuery() {
     try {
-      const communityData = await api.contractQuery(
-        state.WEFundContractAddress,
-        {
-          get_communitymembers: {},
-        }
-      )
+      if(state.communityData == ''){
+        const communityData = await api.contractQuery(
+          state.WEFundContractAddress,
+          {
+            get_communitymembers: {},
+          }
+        )
 
-      if(communityData == ''){
-        notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
-        return;
+        if(communityData == ''){
+          notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
+          return;
+        }
+        dispatch({
+          type: 'setCommunityData',
+          message: communityData,
+        })
       }
-      dispatch({
-        type: 'setCommunityData',
-        message: communityData,
-      })
       //-----------------initialize--------------------------
       setCurrent(1);
       setPostCommunityData(communityData.slice(0, pageSize));
@@ -349,7 +351,7 @@ export default function ExplorerProject() {
                     current={current}
                     onChange={(page) => onChangePaginator(page)}        
                     pageSize={pageSize}
-                    total={state.activeProjectdata == ''? 0 : state.activeProjectdata.length}
+                    total={state.activeProjectData == ''? 0 : state.activeProjectData.length}
                     itemRender={itemRender}
                     paginationProps={{ display: 'flex' }}
                   />

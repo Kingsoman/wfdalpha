@@ -6,7 +6,7 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
   const accountInfo = await lcd.auth.accountInfo(
     connectedWallet.walletAddress
   );
-console.log(msg);
+
   let txOptions = 
   {
     msgs: [msg],
@@ -77,4 +77,34 @@ export function GetProjectStatus(mode){
       break;
   }
   return projectstatus;
+}
+export function AddExtraInfo(projectData, communityData){
+  if(typeof projectData === 'undefined' || projectData == '')
+    return '';
+
+  for (let i = 0; i < projectData.length; i++) {
+    let backedAmount = parseInt(projectData[i].backerbacked_amount) + parseInt(projectData[i].communitybacked_amount);
+    projectData[i].backedPercent = parseInt(
+      (backedAmount / 10 ** 6 / parseInt(projectData[i].project_collected)) *
+        100,
+    );
+
+    let communityVoted = 0;
+    for(let j=0; j < projectData[i].community_votes.length; j++){
+      if(projectData[i].community_votes[j].voted){
+          communityVoted++;
+      }
+    }
+    projectData[i].communityVotedPercent = parseInt(communityVoted / communityData.length * 100);
+
+    let released = 0;
+    for(let j=0; j < projectData[i].milestone_states.length; j++){
+      if(projectData[i].milestone_states[j].milestone_status == 2){
+        released++;
+      }
+    }
+    projectData[i].releasedPercent = parseInt(released / projectData[i].milestone_states.length * 100);
+  }
+
+  return projectData;
 }
