@@ -7,6 +7,7 @@ import {chakra, Box, Flex, Text, Input, InputGroup,  Stack, Image, InputLeftElem
 import React, { useEffect, useState,  useCallback, useContext, useRef, } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { navigate } from '@reach/router'
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { useStore } from '../store'
 import { ImageTransition, ButtonTransition, InputTransition } from "../components/ImageTransition";
@@ -330,6 +331,14 @@ export default function Invest_step3() {
                   onClick={()=>{openUpload()}} /> 
                 </InputGroup>}
                */}
+            </Box>
+          </Flex>
+          <Flex>
+          <Box>
+            {/*-----Bot Verification before submit----- */}
+            <ReCAPTCHA
+            sitekey="6LdNrhkeAAAAACIAeAea2JU1lLHXHANiikg2G5iT"
+          />
             </Box>
           </Flex>
           <Flex w='100%' mt='60px'justify='center' mb='170px'>
