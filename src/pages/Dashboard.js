@@ -23,7 +23,7 @@ import {
 } from '../components/ImageTransition'
 import Footer from '../components/Footer'
 import Notification from '../components/Notification'
-import {EstimateSend} from '../components/Util'
+import {EstimateSend, FetchData} from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -91,23 +91,8 @@ export default function ExplorerProject() {
   //-----------fetch project data=-------------------------
   async function fetchContractQuery() {
     try {
-      if(state.communityData == ''){
-        const communityData = await api.contractQuery(
-          state.WEFundContractAddress,
-          {
-            get_communitymembers: {},
-          }
-        )
+      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
 
-        if(communityData == ''){
-          notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
-          return;
-        }
-        dispatch({
-          type: 'setCommunityData',
-          message: communityData,
-        })
-      }
       //-----------------initialize--------------------------
       setCurrent(1);
       setPostCommunityData(communityData.slice(0, pageSize));

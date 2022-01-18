@@ -1,13 +1,14 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import {Fee, MsgExecuteContract, WasmAPI, LCDClient } from '@terra-money/terra.js'
 import { Box, Flex, Text, Input, InputGroup, InputRightElement, Img } from "@chakra-ui/react";
-import React, { useEffect, useState, useRef, } from 'react';
-import { IoChevronUpOutline, IoChevronDownOutline, IoCheckmark } from 'react-icons/io5';
-import { ButtonTransition, InputTransition, InputTransitiongrey, ImageTransition } from "../components/ImageTransition";
+import React, { useEffect, useState, useRef, useMemo } from 'react';
+import { IoCheckmark } from 'react-icons/io5';
+import { ButtonTransition, InputTransition } from "../components/ImageTransition";
 import theme from '../theme';
 import Footer from "../components/Footer"
 import { useStore } from '../store'
 import Notification from '../components/Notification'
+import { EstimateSend, CheckNetwork, FetchData, isCommunityWallet, GetOneProject } from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -21,24 +22,30 @@ export default function BackProject() {
   const [backAmount, setBackAmount] = useState('');
   const [wfdAmount, setWfdamount] = useState('');
 
-  const [blog1, setBlog1] = useState(false);
-  const [blog2, setBlog2] = useState(false);
-  const [blog3, setBlog3] = useState(false);
-  const [blog4, setBlog4] = useState(false);
-  const [blog5, setBlog5] = useState(false);
-
 //----------extract project id------------------------------------------
-  let queryString, urlParams, project_id;
+  let project_id;
   if(typeof window != 'undefined'){
+    let queryString, urlParams;
     queryString = window.location.search;
     urlParams = new URLSearchParams(queryString);
     project_id = urlParams.get('project_id')
   }
-//-----------connect wallet and init lcd api ---------------------------
+//-----------connect wallet---------------------------
   let connectedWallet = ''
   if (typeof document !== 'undefined') {
       connectedWallet = useConnectedWallet()
   }
+
+  //----------init api, lcd-------------------------
+  const lcd = useMemo(() => {
+    if (!connectedWallet) {
+      return null
+    }
+    return new LCDClient({
+      URL: connectedWallet.network.lcd,
+      chainID: connectedWallet.network.chainID,
+    })
+  }, [connectedWallet])
   const api = new WasmAPI(state.lcd_client.apiRequester);
 
   //------------notification setting---------------------------------
@@ -62,56 +69,46 @@ export default function BackProject() {
 //---------------------back project-----------------------------
   async function backProject()
   {
-    if(connectedWallet == '' || typeof connectedWallet == 'undefined'){
-      notificationRef.current.showNotification("Please connect wallet first!", 'error', 6000);
-      return;
-    }
+    CheckNetwork(connectedWallet, notificationRef, state);
 
-    console.log(connectedWallet);
-    if(state.net == 'mainnet' && connectedWallet.network.name == 'testnet'){
-      notificationRef.current.showNotification("Please switch to mainnet!", "error", 4000);
-      return;
-    }
-    if(state.net == 'testnet' && connectedWallet.network.name == 'mainnet'){
-      notificationRef.current.showNotification("Please switch to testnet!", "error", 4000);
-      return;
-    }
-    
     if(backAmount != parseInt(backAmount).toString()){
       notificationRef.current.showNotification("Invalid number format!", "error", 4000);
       return;
     }
-    if(parseInt(backAmount) < 100){
-      notificationRef.current.showNotification("Back money at least 100 UST", "error", 4000);
+    if(parseInt(backAmount) < 6){
+      notificationRef.current.showNotification("Back money at least 6 UST", "error", 4000);
       return;
     }
+
+    let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
 
     let _project_id = 1;
     if(project_id != null)
       _project_id = project_id;
 
-    const projectData = await api.contractQuery(
-      state.WEFundContractAddress,
-        {
-            get_project: {
-              project_id: `${_project_id}`
-            },
-        }
-    )
-
-    if(projectData == ''){
+    const oneprojectData = GetOneProject(projectData, _project_id);
+    if(oneprojectData == ''){
       notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
       return;
     }
+    const isCommunityMember = isCommunityWallet(connectedWallet, communityData);
+    const targetAmount = parseInt(oneprojectData.project_collected)*(10**6)/2;
 
-    if(projectData.project_needback == false){
-      notificationRef.current.showNotification("Project already collected! You can't back", 'error', 6000);
+    let leftAmount = 0;
+    if(isCommunityMember)
+      leftAmount = targetAmount - oneprojectData.communitybacked_amount;
+    else
+      leftAmount = targetAmount - oneprojectData.backerbacked_amount;
+
+    if(leftAmount <= 0){
+      if(isCommunityMember)
+        notificationRef.current.showNotification("Community allocation is already collected! You can't back", 'error', 6000);
+      else
+        notificationRef.current.showNotification("Backer allocation is already collected! You can't back", 'error', 6000);
       return;
     }
 
     let wefundContractAddress = state.WEFundContractAddress;
-
-    const obj = new Fee(10_000, { uusd: 4500})
     let BackProjectMsg = {
         back2_project: {
           backer_wallet: connectedWallet.walletAddress,
@@ -127,23 +124,7 @@ export default function BackProject() {
       {uusd: amount}
     )
 
-    await connectedWallet
-      .post({
-          msgs: [msg],
-          // fee: obj,
-          gasPrices: obj.gasPrices(),
-          gasAdjustment: 1.7,
-      })
-      .then((e) => {
-          if (e.success) {
-            notificationRef.current.showNotification('Back to Project Success', 'success', 4000);
-          } else {
-              notificationRef.current.showNotification(e.message, 'error', 4000)
-          }
-      })
-      .catch((e) => {
-          notificationRef.current.showNotification(e.message, 'error', 4000)
-      })
+    EstimateSend(connectedWallet, lcd, msg, "Back to Project Success", notificationRef);
   }
 
   return (
@@ -196,7 +177,7 @@ export default function BackProject() {
             width='300px' height='55px' rounded='md'
           >      
             <InputGroup size="sm" style={{border:'0', background:'rgba(255, 255, 255, 0.05)'}}>
-              <Input type="text"  h='55px' style={{border:'0', background:'transparent', paddingLeft:'25px'}} placeholder="Type here" focusBorderColor="purple.800" rounded="md"  value=''
+              <Input type="text"  h='55px' style={{border:'0', background:'transparent', paddingLeft:'25px'}} placeholder="Type here" focusBorderColor="purple.800" rounded="md"  value={wfdAmount}
               onChange={(e)=>{}} />
               <InputRightElement w='60px'  h='55px' pointerEvents='none' children={<Text>WFD</Text>} 
               />          
@@ -233,7 +214,7 @@ export default function BackProject() {
               width='200px' height='50px' rounded='33px'
             >
               <Box variant="solid" color="white" justify='center' align='center'
-                  onClick = {()=>{}} >
+                  onClick = {()=>{backProject()}} >
                 Back Project
               </Box>
             </ButtonTransition>

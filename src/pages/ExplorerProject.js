@@ -21,7 +21,6 @@ import {
 } from 'react-icons/md'
 import { Link } from '@reach/router'
 import React, { useEffect, useState, useMemo, useRef } from 'react'
-
 import { useStore } from '../store'
 import theme from '../theme'
 import {
@@ -78,7 +77,7 @@ export default function ExplorerProject() {
         state.WEFundContractAddress,
         {
           get_project: {
-            project_id: '2',
+            project_id: `$(state.fakeid)`,
           },
         },
       )
@@ -110,7 +109,7 @@ export default function ExplorerProject() {
           }
         }
 
-        if (projectData[i].project_id == 2)
+        if (projectData[i].project_id == state.fakeid)
           //fake
           percent = parseInt(
             ((percent / 10 ** 6 + fake) /

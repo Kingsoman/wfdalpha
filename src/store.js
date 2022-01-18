@@ -50,6 +50,7 @@ const initialState = {
     pdfFile: '',
     whitepaper: '',
     logo: '',
+    fakeid: 0,
 }
 
 const reducer = (state, action) => {

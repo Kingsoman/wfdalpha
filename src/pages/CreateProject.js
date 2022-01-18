@@ -25,7 +25,7 @@ import theme from '../theme'
 import { useStore } from '../store'
 import Notification from '../components/Notification'
 import Footer from '../components/Footer'
-import {EstimateSend} from '../components/Util'
+import { EstimateSend, CheckNetwork, FetchData} from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -107,7 +107,6 @@ export default function CreateProject() {
       })
     }
   }
-
   function openLogoUpload() {
     if (typeof document !== 'undefined') {
       let fileSelector = document.getElementById('fileLogoSelector')
@@ -150,7 +149,6 @@ export default function CreateProject() {
     }
     setPrjAmount(e.target.value)
   }
-
   function onChangeMilestoneTitle(e, index){
     if (e.target.value.length < 100) {
       let ar=[...milestoneTitle];
@@ -201,7 +199,6 @@ export default function CreateProject() {
     ar[index] = e.target.value;
     setMilestoneEnddate(ar);
   }
-  
   function isNull(val){
     if(typeof val == 'undefined' || val == '')
       return true;
@@ -212,21 +209,7 @@ export default function CreateProject() {
   }
   //---------------create project---------------------------------
   async function createProject() {
-    //----------verify connection--------------------------------
-    if (connectedWallet == '' || typeof connectedWallet == 'undefined') {
-      notificationRef.current.showNotification('Please connect wallet first!', 'error', 6000)
-      return
-    }
-
-    console.log(connectedWallet)
-    if (state.net == 'mainnet' && connectedWallet.network.name == 'testnet') {
-      notificationRef.current.showNotification('Please switch to mainnet!', 'error', 4000)
-      return
-    }
-    if (state.net == 'testnet' && connectedWallet.network.name == 'mainnet') {
-      notificationRef.current.showNotification('Please switch to testnet!', 'error', 4000)
-      return
-    }
+    CheckNetwork(connectedWallet, notificationRef, state);
 
     if (prjNameLen == 0) {
       notificationRef.current.showNotification('Please fill project name!', 'error', 4000)
@@ -358,7 +341,6 @@ export default function CreateProject() {
     )
     EstimateSend(connectedWallet, lcd, msg, "Create Project success", notificationRef);
   }
-
   function onNewMilestone() {
     let ar = [...milestoneTitle]
     ar.push('');

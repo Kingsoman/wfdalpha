@@ -11,6 +11,7 @@ import { useStore } from '../store'
 import { ImageTransition, ButtonTransition, InputTransition } from "../components/ImageTransition";
 import Notification from '../components/Notification'
 import Faq from '../components/FAQ'
+import { EstimateSend, CheckNetwork, FetchData} from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -145,31 +146,15 @@ export default function Invest_step3() {
       amount = (state.ustBalance-1) * 10**6;
       notificationRef.current.showNotification("Your maxmize invest amount is " + amount, 'success', 100000)
     }
-    const send = new MsgSend(
+    const msg = new MsgSend(
       connectedWallet.walletAddress,
       'terra1zjwrdt4rm69d84m9s9hqsrfuchnaazhxf2ywpc',
       { uusd: amount }
     );
 
-    const obj = new Fee(10_000, { uusd: 4500});
-    await connectedWallet
-      .post({
-          msgs: [send],
-          fee: obj,
-          gasPrices: obj.gasPrices(),
-          gasAdjustment: 1.7,
-      })
-      .then((e) => {
-          if (e.success) {
-              notificationRef.current.showNotification('Invest Success', 'success', 4000)
-              navigate('/invest_step4');
-          } else {
-              notificationRef.current.showNotification(e.message, 'error', 4000)
-          }
-      })
-      .catch((e) => {
-          notificationRef.current.showNotification(e.message, 'error', 4000)
-      })
+    let res = await EstimateSend(connectedWallet, lcd, msg, "Invest success", notificationRef);
+    if(res)
+      navigate('/invest_step4');
   }
 
   return (

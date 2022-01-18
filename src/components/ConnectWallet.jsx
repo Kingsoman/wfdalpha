@@ -11,9 +11,6 @@ import { Wallet, CaretRight, Power, Check } from 'phosphor-react'
 import numeral from 'numeral'
 import { useStore } from '../store'
 
-const DialogButton = {
-  margin: '10px 20px 10px 20px',
-}
 export default function ConnectWallet() {
   let connectedWallet = ''
   const [bank, setBank] = useState()
@@ -48,33 +45,22 @@ export default function ConnectWallet() {
       wallet.disconnect()
       dispatch({ type: 'setWallet', message: {} })
     }
-    // setConnected(!connected)
+    location.reload();
   }
 
   async function contactBalance() {
-    if (connectedWallet && connectedWallet.walletAddress && lcd) {
-      //   setShowConnectOptions(false);
+    if (connectedWallet && connectedWallet.walletAddress && lcd) 
+    {
       dispatch({ type: 'setWallet', message: connectedWallet })
 
       let coins
-
       try {
         const api = new WasmAPI(lcd.apiRequester)
         coins = await lcd.bank.balance(connectedWallet.walletAddress)
       } catch (e) {
         console.log(e)
       }
-
-      //Store coins global state
       dispatch({ type: 'setAllNativeCoins', message: coins })
-      // console.log(coins)
-
-    
-      // let uusd = coins[0]._coins.filter((c) => {
-      //   return c.denom === 'uusd'
-      // })
-      console.log("type");
-      console.log(typeof coins[0]._coins);
 
       let uusd;
       if(typeof coins[0]._coins === 'undefined' ||
@@ -87,7 +73,6 @@ export default function ConnectWallet() {
       setBank(numeral(ust).format('0,0.00'))
       dispatch({ type: 'setUstBalance', message: ust })
 
-      // connectTo("extension")
     } else {
       setBank(null)
       dispatch({ type: 'setWallet', message: {} })
@@ -128,7 +113,7 @@ export default function ConnectWallet() {
     )
   }
 
-  const [scrolled, setScrolled] = React.useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const handleScroll = () => {
     const offset = window.scrollY
     if (offset > 25) {
@@ -143,7 +128,6 @@ export default function ConnectWallet() {
       contactBalance()
     }
 
-    //console.log(connectedWallet)
     window.addEventListener('scroll', handleScroll)
   }, [connectedWallet, lcd])
 

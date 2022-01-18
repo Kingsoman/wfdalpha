@@ -33,7 +33,7 @@ import {
 } from '../components/ImageTransition'
 import Footer from '../components/Footer'
 import Notification from '../components/Notification'
-import {GetProjectStatus, EstimateSend, AddExtraInfo} from '../components/Util'
+import {GetProjectStatus, EstimateSend, CheckNetwork, FetchData} from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -85,7 +85,7 @@ export default function ExplorerProject() {
     if(postRef.current != '')
     {
       for(let i=0; i<postRef.current.length; i++)
-        postRef.current[i].leftTime = Date.now(); //parseInt((1644971555140 - Date.now())); //for hour
+        postRef.current[i].leftTime = parseInt((1644971555140 - Date.now())/1000/60); //for minutes
     }
     setPostProjectData(postRef.current);
     forceUpdate();
@@ -94,8 +94,9 @@ export default function ExplorerProject() {
   useEffect(
     () => {
         if(activeTab == 'CommuntyApproval'){
-        const id = setInterval(myTimer, 1000);
-        return () => { clearInterval(id); console.log("return"); }
+          myTimer();
+          const id = setInterval(myTimer, 1000*60);
+          return () => clearInterval(id);
         }
     },
     [postProjectData]
@@ -111,7 +112,6 @@ export default function ExplorerProject() {
       Next
     </Button>
   ));
-
   const itemRender = (_, type) => {
     if (type === "prev") {
       return Prev;
@@ -148,95 +148,11 @@ export default function ExplorerProject() {
   }, [connectedWallet])
 
   const api = new WasmAPI(state.lcd_client.apiRequester)
-  //----------get wallet type------------------------
-  function isWefundWallet(){
-    if(connectedWallet.walletAddress == state.configData.wefund)
-      return true;
-    return false;
-  }
-  function isCommunityWallet(){
-    for(let i=0; i<state.communityData.length; i++){
-      if(connectedWallet.walletAddress == state.communityData[i])
-        return true;
-    }
-    return false;
-  }
-  function isBackerWallet(project_id){
-    for(let i=0; i<state.projectData.length; i++){
-      if(state.projectData[i].project_id == project_id){
-        for(let j=0; j<state.projectData[i].backer_states.length; j++){
-          if(connectedWallet.walletAddress == state.projectData[i].backer_states[i].backer_wallet){
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
+
   //-----------fetch project data=-------------------------
   async function fetchContractQuery() {
     try {
-      let projectData, communityData, configData;
-      //-----------------fetch community members-----------------
-      communityData = state.communityData;
-      if(state.communityData == ''){
-        communityData = await api.contractQuery(
-          state.WEFundContractAddress,
-          {
-            get_communitymembers: {},
-          }
-        )
-
-        if(communityData == ''){
-          notificationRef.current.showNotification("Can't fetch Community Data", 'error', 6000);
-          return;
-        }
-        dispatch({
-          type: 'setCommunityData',
-          message: communityData,
-        })
-      }
-      //-----------------fetch config-----------------------
-      configData = state.configData;
-      if(state.configData == ''){
-        configData = await api.contractQuery(
-          state.WEFundContractAddress,
-          {
-            get_config: {},
-          }
-        )
-
-        if(configData == ''){
-          notificationRef.current.showNotification("Can't fetch Config Data", 'error', 6000);
-          return;
-        }
-        dispatch({
-          type: 'setConfigData',
-          message: configData,
-        })
-      }
-      //---------------fetch project Data---------------------
-      projectData = state.projectData;
-      if(state.projectData == ''){
-        projectData = await api.contractQuery(
-          state.WEFundContractAddress,
-          {
-              get_all_project: {
-              },
-          }
-        )
-        
-        if(projectData == ''){
-          notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
-          return;
-        }
-
-        projectData = AddExtraInfo(projectData, communityData);
-        dispatch({
-          type: 'setProjectdata',
-          message: projectData,
-        })  
-      }
+      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
       //-----------------initialize--------------------------
       let activeProjectData = projectData.filter(project => parseInt(project.project_status) == GetProjectStatus(activeTab));
       
@@ -244,14 +160,17 @@ export default function ExplorerProject() {
         type: 'setActiveProjectData',
         message: activeProjectData,
       })
-      setCurrent(1);
+
       setPostProjectData(activeProjectData.slice(0, pageSize));
+      setCurrent(1);
     } catch (e) {
       console.log(e)
     }
   }
   //------------Wefund Approve-----------------
   function WefundApprove(project_id){
+    CheckNetwork(connectedWallet, notificationRef, state);
+
     let WefundApproveMsg = {
       wefund_approve: {
         project_id: project_id,
@@ -267,7 +186,12 @@ export default function ExplorerProject() {
     EstimateSend(connectedWallet, lcd, msg, "WeFund Approve success", notificationRef);
   }
   //-----------Community Vote----------------
-  function CommunityVote(project_id, voted){
+  function CommunityVote(project_id, voted, leftTime){
+    CheckNetwork(connectedWallet, notificationRef, state);
+    if(leftTime <= 0){
+      notificationRef.current.showNotification("Time is expired", "error", 4000);
+      return;
+    }
     let CommunityVoteMsg = {
       set_community_vote: {
         project_id: project_id,
@@ -275,7 +199,7 @@ export default function ExplorerProject() {
         voted: voted
       },
     }
-  
+
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
       connectedWallet.walletAddress,
@@ -283,6 +207,25 @@ export default function ExplorerProject() {
       CommunityVoteMsg,
     )
     EstimateSend(connectedWallet, lcd, msg, "Community vote success", notificationRef);
+  }
+  function MilestoneVote(project_id, voted){
+    CheckNetwork(connectedWallet, notificationRef, state);
+
+    let MilestoneVoteMsg = {
+      set_milestone_vote: {
+        project_id: project_id,
+        wallet: connectedWallet.walletAddress,
+        voted: voted
+      },
+    }
+
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      MilestoneVoteMsg,
+    )
+    EstimateSend(connectedWallet, lcd, msg, "Milestone vote success", notificationRef);
   }
   //---------initialize fetching---------------------
   useEffect(() => {
@@ -595,7 +538,7 @@ export default function ExplorerProject() {
                                       height="50px"
                                       selected={false}
                                       rounded="33px"
-                                      onClick={() => CommunityVote(projectItem.project_id, true)}
+                                      onClick={() => CommunityVote(projectItem.project_id, true, projectItem.leftTime)}
                                     >
                                       Vote Yes
                                     </ButtonTransition>
@@ -606,7 +549,7 @@ export default function ExplorerProject() {
                                       width="160px"
                                       height="50px"
                                       rounded="33px"
-                                      onClick={() => CommunityVote(projectItem.project_id, false)}
+                                      onClick={() => CommunityVote(projectItem.project_id, false, projectItem.leftTime)}
                                     >
                                       Vote No
                                     </ButtonTransition>
@@ -620,6 +563,7 @@ export default function ExplorerProject() {
                                     selected={false}
                                     rounded="33px"
                                     mb="10px"
+                                    onClick={()=>{navigate('/back?project_id=' + projectItem.project_id)}}
                                   >
                                     Back Project
                                   </ButtonTransition>
@@ -627,21 +571,23 @@ export default function ExplorerProject() {
                                 {GetActiveTab() === 'MileStoneDelivery' && (
                                   <Flex w={'330px'} justify={'space-between'}>
                                     <ButtonTransition
-                                      unitid={'visit' + index}
+                                      unitid={'milestonevoteyes' + index}
                                       width="160px"
                                       height="50px"
                                       selected={false}
                                       rounded="33px"
+                                      onClick={() => MilestoneVote(projectItem.project_id, true)}
                                     >
                                       Vote Yes
                                     </ButtonTransition>
 
                                     <ButtonTransition
-                                      unitid={'view' + index}
+                                      unitid={'milestonevoteno' + index}
                                       selected={false}
                                       width="160px"
                                       height="50px"
                                       rounded="33px"
+                                      onClick={() => MilestoneVote(projectItem.project_id, false)}
                                     >
                                       Vote No
                                     </ButtonTransition>
@@ -677,18 +623,6 @@ export default function ExplorerProject() {
                                       250,
                                     )}
                                   </chakra.p>
-                                  {GetActiveTab() === 'MileStoneDelivery' && (
-                                    <ButtonTransition
-                                      unitid={'visit' + index}
-                                      width="160px"
-                                      height="50px"
-                                      selected={false}
-                                      rounded="33px"
-                                      mb="10px"
-                                    >
-                                      Check Milestone Progress
-                                    </ButtonTransition>
-                                  )}
                                 </Box>
                                 {GetActiveTab() == 'CommuntyApproval' &&
                                 <CircularProgress
@@ -702,15 +636,26 @@ export default function ExplorerProject() {
                                 </CircularProgress>
                                 }
                                 {GetActiveTab() == 'MileStoneFundraising' &&
-                                <CircularProgress
-                                  value={projectItem.backedPercent}
-                                  size="150px"
-                                  color="blue.600"
-                                >
-                                  <CircularProgressLabel>
-                                    {projectItem.backedPercent}%
-                                  </CircularProgressLabel>
-                                </CircularProgress>
+                                <>
+                                  <CircularProgress
+                                    value={projectItem.community_backedPercent}
+                                    size="150px"
+                                    color="blue.600"
+                                  >
+                                    <CircularProgressLabel>
+                                      {projectItem.community_backedPercent}%
+                                    </CircularProgressLabel>
+                                  </CircularProgress>
+                                  <CircularProgress
+                                    value={projectItem.backer_backedPercent}
+                                    size="150px"
+                                    color="blue.600"
+                                  >
+                                    <CircularProgressLabel>
+                                      {projectItem.backer_backedPercent}%
+                                    </CircularProgressLabel>
+                                  </CircularProgress>
+                                </>
                                 }
                                 {GetActiveTab() == 'MileStoneDelivery' &&
                                 <CircularProgress
@@ -733,7 +678,20 @@ export default function ExplorerProject() {
                                       paddingTop={'55px'}
                                       paddingRight={'20px'}
                                     >
-                                      Community Voting will be finished in {projectItem.leftTime}
+                                      Community Voting will be finished in {projectItem.leftTime} minutes
+                                    </chakra.p>
+                                </HStack>
+                              }
+                              {GetActiveTab() === 'MileStoneDelivery' &&
+                                <HStack>
+                                  <chakra.p
+                                      py={2}
+                                      w="600px"
+                                      color={'gray.400'}
+                                      paddingTop={'55px'}
+                                      paddingRight={'20px'}
+                                    >
+                                      Project Milestone step - {parseInt(projectItem.project_milestonestep) + 1}
                                     </chakra.p>
                                 </HStack>
                               }
