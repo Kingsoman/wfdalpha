@@ -456,7 +456,7 @@ export default function ProjectDetail() {
                     height={{ lg: '484px' }}
                     paddingLeft={{ lg: '55px' }}
                   >
-                    <Text>
+                    <Text  alignSelf={'flex-start'}>
                       Details
                     </Text>
 
@@ -485,7 +485,7 @@ export default function ProjectDetail() {
                         color={'rgba(255, 255, 255, 0.84)'}
                         fontFamily={'Pilat-Extended'}
                         fontSize={'18px'}>
-                          Status
+                          Platform
                         </Text>
                       </Flex>
                       <Flex width={'50%'} alignSelf={'flex-end'}>
@@ -504,7 +504,7 @@ export default function ProjectDetail() {
                         color={'rgba(255, 255, 255, 0.84)'}
                         fontFamily={'Pilat-Extended'}
                         fontSize={'18px'}>
-                          Status
+                          Backer
                         </Text>
                       </Flex>
                       <Flex width={'50%'} alignSelf={'flex-end'}>
@@ -523,7 +523,7 @@ export default function ProjectDetail() {
                         color={'rgba(255, 255, 255, 0.84)'}
                         fontFamily={'Pilat-Extended'}
                         fontSize={'18px'}>
-                          Status
+                          Funding Pool
                         </Text>
                       </Flex>
                       <Flex width={'50%'} alignSelf={'flex-end'}>
@@ -542,7 +542,7 @@ export default function ProjectDetail() {
                         color={'rgba(255, 255, 255, 0.84)'}
                         fontFamily={'Pilat-Extended'}
                         fontSize={'18px'}>
-                          Status
+                          Category
                         </Text>
                       </Flex>
                       <Flex width={'50%'} alignSelf={'flex-end'}>
@@ -682,7 +682,6 @@ export default function ProjectDetail() {
                       mb={'50px'}
                       width={'80%'}
                       paddingTop={'35px'}
-                      height={{ lg: '325px' }}
                     >
                       {/* ------------Some Words that details the team------------ */}
                       {/* ------------Descriptions/Texts------------ */}
@@ -807,7 +806,6 @@ export default function ProjectDetail() {
                     </Flex>
                     {/* ------------Milestone of Project------------ */}
                     <Flex
-                      mt="390px"
                       px={'45px'}
                       py={'45px'}
                       width={'80%'}
