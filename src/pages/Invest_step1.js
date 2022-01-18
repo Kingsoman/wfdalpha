@@ -54,19 +54,6 @@ export default function NewProject() {
               <Text fontSize='22px' fontWeight={'300'}>SAFT Form</Text>
               <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} mt={'20px'} textAlign={'center'}>Please check and confirm the form and go next step</Text>
             </Flex>
-<<<<<<< HEAD
-          {/* --------amount to back----------- */}
-          <Flex mt='83px' justify='center' align='center' direction='column'>
-            <Flex >
-              {/* <Image alignSelf={'flex-start'} alt={'WeFund'} src={ 'saft.svg' } /> */}
-              <ESign/>
-            </Flex>
-
-            <Flex mt='25px' direction="row">
-              {/* <Input type="checkbox"  h='55px' bg='#FFFFFF0D' borderColor="#FFFFFF33" placeholder="Type here" focusBorderColor="purple.800" rounded="md"  onChange={(e)=>{}} /> */}
-              <InputTransition 
-                unitid='conditioncheck'
-=======
           {/* --------PDF----------- */}
           <Flex mt='83px' justify='center' align='center' direction='column'>
             <Flex mt='25px' direction="row">
@@ -94,39 +81,9 @@ export default function NewProject() {
                 background2='linear-gradient(180deg, #1A133E 0%, #1A133E 100%)'
                 border3="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
                 background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
->>>>>>> origin/hrd1
                 selected={false}
                 width='200px' height='50px' rounded='33px'
               >
-<<<<<<< HEAD
-                {condition &&
-                <IoCheckmark width='24px' height='24px' color='#FE8600'></IoCheckmark>
-                }
-              </InputTransition>
-
-              <Text ml='10px' fontSize='14px' fontWeight='400'>I agree with all conditions of this Project and WeFund</Text>
-            </Flex>
-          </Flex>
-          {/* -----------------Back Project----------------- */}
-          <Flex w='100%' mt='60px'justify='center' mb='170px'>
-            <ImageTransition 
-              unitid='investnext'
-              border1='linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)' 
-              background1='linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)'
-              border2='linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)'
-              background2='linear-gradient(180deg, #1A133E 0%, #1A133E 100%)'
-              border3="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-              background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
-              selected={false}
-              width='200px' height='50px' rounded='33px'
-            >
-                <Box variant="solid" color="white" justify='center' align='center'
-                onClick={()=>onNext()}>
-                  Next
-                </Box>
-            </ImageTransition>
-          </Flex>
-=======
                   <Box variant="solid" color="white" justify='center' align='center'
                   onClick={()=>onNext()}>
                     Next
@@ -142,7 +99,6 @@ export default function NewProject() {
           </Flex>
           
           
->>>>>>> origin/hrd1
         </Box>
         </Flex>
       </div>
