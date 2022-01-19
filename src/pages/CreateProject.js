@@ -211,6 +211,13 @@ export default function CreateProject() {
   async function createProject() {
     CheckNetwork(connectedWallet, notificationRef, state);
 
+    let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+
+    if (communityData == ''){
+      notificationRef.current.showNotification('There is no any community member!', 'error', 4000);
+      return;
+    }
+
     if (prjNameLen == 0) {
       notificationRef.current.showNotification('Please fill project name!', 'error', 4000)
       return
