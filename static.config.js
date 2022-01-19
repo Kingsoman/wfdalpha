@@ -54,6 +54,7 @@ export default {
             template: 'src/pages/Invest_step4',
         },
         {
+<<<<<<< HEAD
             path: 'invest_kyc1',
             template: 'src/pages/Invest_KYC1',
         },
@@ -81,6 +82,10 @@ export default {
         {
             path: 'usercenter',
             template: 'src/pages/UserInfoCenter',
+=======
+            path: 'dashboard',
+            template: 'src/pages/Dashboard',
+>>>>>>> marko
         },
         {
             path: '404',
