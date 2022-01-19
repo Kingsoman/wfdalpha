@@ -16,12 +16,27 @@ export default () => {
   return (
     <ChakraProvider resetCSS theme={theme}>
       <Container>
+<<<<<<< HEAD
         <Hero />
         <About />
         <OurMissions />
         <Industry />
         <RoadMap />
         <Footer />
+=======
+        {isSplash ? (
+          <Splash />
+        ) : (
+          <>
+            <Hero />
+            <About />
+            <OurMissions />
+            <Industry />
+            <RoadMap />
+            <Footer />
+          </>
+        )}
+>>>>>>> parent of 29b13d2 (Merge branch 'hrd1' of https://github.com/WeFundOfficial/wfdalpha into Ahmed-Dev1)
       </Container>
     </ChakraProvider>
   )
