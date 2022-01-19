@@ -45,7 +45,7 @@ export default function Aboutone() {
               <Image h="200px" src="/rocket.svg" />
             </Flex>
             <Text id="aboutUsPageHeadingDesc" mt="30px">
-              Select Paper Languange
+              Select Litepaper Languange
             </Text>
             <Select value={selectedLang} onChange={handleSelectChange} placeholder='Select option' id='paper-lang' 
                     border="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
@@ -97,6 +97,55 @@ export default function Aboutone() {
                   >
                     <Text color="white" fontSize="12px">
                       Download Litepaper{' '}
+                    </Text>
+                    <Image src="Download.svg" height="12px" />
+                  </Flex>
+                </ButtonBackTransition>
+              </Flex>
+            </a>
+            <Text id="aboutUsPageHeadingDesc" mt="30px">
+              OR
+            </Text>
+            <a href='/Whitepaper%202.0%20New%20Update.pdf'>
+              <Flex w="100%" mt="30px" id="displayNoneInMobile">
+                <ButtonBackTransition
+                  width="100%"
+                  height="55px"
+                  rounded="100px"
+                  selected={false}
+                  unitid="downfullwhitepaper"
+                >
+                  <Flex
+                    w="100%"
+                    pl="25px"
+                    pr="25px"
+                    alignItems="center"
+                    justify="space-between"
+                  >
+                    <Text color="white">Download Whitepaper (ENG Only) </Text>
+                    <Image src="Download.svg" />
+                  </Flex>
+                </ButtonBackTransition>
+              </Flex>
+            </a>
+            <a href='/Whitepaper%202.0%20New%20Update.pdf'>
+              <Flex w="100%" mt="30px" id="displayNoneInDesktop">
+                <ButtonBackTransition
+                  width="100%"
+                  height="40px"
+                  rounded="100px"
+                  selected={false}
+                  unitid="downfullwhitepaper"
+                >
+                  <Flex
+                    w="100%"
+                    pl="25px"
+                    pr="25px"
+                    alignItems="center"
+                    justify="space-between"
+                  >
+                    <Text color="white" fontSize="12px">
+                      Download Whitepaper (ENG Only){' '}
                     </Text>
                     <Image src="Download.svg" height="12px" />
                   </Flex>
