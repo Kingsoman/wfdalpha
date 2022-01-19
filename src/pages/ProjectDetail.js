@@ -175,8 +175,31 @@ console.log(oneprojectData);
           fontWeight: '500',
         }}
       >
+        <div
+          style={{
+            backgroundImage: "url('/createproject_banner_emphasis.svg')",
+            boxShadow: '0px 5px 50px 0px #000000A6',
+            width: '100%',
+            zIndex: '10',
+          }}
+        >
+          <div
+            style={{
+              backgroundImage: "url('/projectbanner.svg')",
+              width: '100%',
+              width: '100%',
+              zIndex: '11',
+              backgroundPosition: 'left',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+              zIndex: '11',
+            }}
+          >
+            <Flex pt="64px" ml="100px" justify="left" height="200px"></Flex>
+          </div>
+        </div>
         {/* ------------Parent Box for the Details------------ */}
-        <Flex width="100%" justify="center"  minHeight={'3000px'}>
+        <Flex width="100%" justify="center" mt="50px" minHeight={'3000px'}>
           <Box style={{ fontFamily: 'Sk-Modernist-Regular' }}>
             {/* ------------Details------------ */}
             <Flex
@@ -184,18 +207,77 @@ console.log(oneprojectData);
               justify="center"
               alignItems={'center'}
               zIndex={'1'}
+              mt={'-180px'}
             >
               <VStack>
                 <Flex
                   alignContent={'center'}
                   direction={{ base: 'column', md: 'column', lg: 'row' }}
                 >
-                  
+                  <Flex
+                    width={{ lg: '300px' }}
+                    marginRight={{ lg: '25px' }}
+                    // height={'490px'}
+                    bg="rgba(20, 0, 75, 0.74)"
+                    objectFit="contain"
+                    boxShadow={
+                      '0px 2px 10px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.25)'
+                    }
+                    border="2px solid rgba(255, 255, 255, 0.05)"
+                    borderRadius={'2xl'}
+                    justify={'center'}
+                    backdropFilter={'blur(54px)'}
+                    align="center"
+                  >
+                    <Image
+                      src={
+                        state.request +
+                        '/download?filename=' +
+                        state.oneprojectData.project_icon
+                      }
+                    />
+                  </Flex>
                   <VStack
                     width={{ lg: '880px' }}
                     height={{ lg: '484px' }}
                     paddingLeft={{ lg: '55px' }}
+                    style={{
+                      backdropFilter: 'blur(54px)',
+                      paddingTop: '45px',
+                      background: 'rgba(20, 0, 75, 0.74)',
+                      border: '2px solid rgba(255, 255, 255, 0.05)',
+                      borderRadius: '25px',
+                    }}
                   >
+                    <Flex
+                      alignSelf={{
+                        base: 'center',
+                        md: 'center',
+                        lg: 'flex-start',
+                      }}
+                    >
+                      <Text
+                        fontSize="16px"
+                        fontWeight="normal"
+                        color={'rgba(255, 255, 255, 0.54)'}
+                      >
+                        Home &gt;&nbsp;
+                      </Text>
+                      <Text
+                        fontSize="16px"
+                        fontWeight="normal"
+                        color={'rgba(255, 255, 255, 0.54)'}
+                      >
+                        Projects &gt;&nbsp;
+                      </Text>
+                      <Text
+                        fontSize="16px"
+                        color={'rgba(255, 255, 255, 0.84)'}
+                        textAlign="center"
+                      >
+                        {state.oneprojectData.project_name}
+                      </Text>
+                    </Flex>
                     <Flex
                       style={{ fontFamily: 'PilatExtended-Bold' }}
                       alignSelf={{
@@ -206,21 +288,25 @@ console.log(oneprojectData);
                     >
                       <Text fontSize="40px" fontWeight={'900'}>
                         {state.oneprojectData.project_name}
-                        Project Name
                       </Text>
                     </Flex>
-                    <Flex>
-                    <Text textAlign={'left'} fontWeight={'400'} fontSize={'18px'}>
-                                  Project Project Milestone Description <br/>
-                                  Aliquip mollit sunt qui irure. Irure ullamco Lorem
-                                  excepteur dolor qui ea ad quis. Enim fugiat cillum enim
-                                  ad occaecat sint qui elit labore mollit sunt laborum
-                                  fugiat consequat. Voluptate labore sunt duis eu
-                                  deserunt. Occaecat do ut ut labore cillum enim dolore ad
-                                  enim enim id. Aliquip do veniam ad excepteur ad cillum
-                                  qui deserunt nostrud sunt aliqua duis sunt occaecat.
-                                  Laborum incididunt commodo ullamco proident quis.
-                </Text>
+                    <Flex
+                      alignSelf={{
+                        base: 'center',
+                        md: 'center',
+                        lg: 'flex-start',
+                      }}
+                      marginBottom={'40px !important'}
+                    >
+                      <chakra.p color={'gray.100'} fontSize="15px">
+                        Date -{' '}
+                        <span style={{ color: '#FE8600' }}>10 Dec, 2021</span>
+                      </chakra.p>
+                      <Icon as={MdOutlinePlace} h={6} w={6} mr={2} ml={3} />
+
+                      <chakra.h1 fontSize="sm" marginTop={'4px'}>
+                        {state.oneprojectData.project_category}
+                      </chakra.h1>
                     </Flex>
                     <Flex
                       alignSelf={{
@@ -229,120 +315,50 @@ console.log(oneprojectData);
                         lg: 'flex-start',
                       }}
                     >
-                    {/* The Countdown and Vote*/}
-                      <Flex>
-                        <Flex
-                            mt={{ base: '20px', md: '20px', lg: '00px' }}
-                            mr={{ base: '0px', md: '0px', lg: '25px' }}
-                            alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
-                          >
-                            <ImageTransition
-                              unitid="vote"
-                              border1="linear-gradient(180deg, #21EC77 0%, #2ECC711A 100%)"
-                              background1="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
-                              border2="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
-                              background2="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
-                              border3="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
-                              background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
-                              selected={false}
-                              width="90px"
-                              height="90px"
-                              rounded="15px"
-                            >
-                              <Box
-                                variant="solid"
-                                color="white"
-                                justify="center"
-                                align="center"
-                                onClick={() => {}}
-                              >
-                                Vote{' '}
-                              </Box>
-                            </ImageTransition>
-                        </Flex>
-                        <Flex 
-                          direction={{ base: 'column', md: 'column', lg: 'column' }} 
-                          ml={{ base: '0px', md: '0px', lg: '25px' }}
-                        >
+                      {/* The progress - Replace with functional ones*/}
+                      <VStack alignSelf={'flex-start'}>
+                        <Flex>
                           <Text>
-                            Voting Ends
+                            Progress : {totalBackedMoney} out of&nbsp;
+                            {state.oneprojectData.project_collected} UST
                           </Text>
-                          <HStack>
-                            <Box >
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                          </HStack>
                         </Flex>
-                      </Flex>
+                        <Flex
+                          alignSelf={{
+                            base: 'center',
+                            md: 'center',
+                            lg: 'flex-start',
+                          }}
+                        >
+                          <CircularProgress
+                            value={percent}
+                            size="120px"
+                            color="#00A3FF;"
+                          >
+                            <CircularProgressLabel>
+                              {percent}%
+                            </CircularProgressLabel>
+                          </CircularProgress>
+                          <CircularProgress
+                            value={state.oneprojectData.community_backedPercent}
+                            size="120px"
+                            color="#00A3FF;"
+                          >
+                            <CircularProgressLabel>
+                              {state.oneprojectData.community_backedPercent}%
+                            </CircularProgressLabel>
+                          </CircularProgress>
+                          <CircularProgress
+                            value={state.oneprojectData.backer_backedPercent}
+                            size="120px"
+                            color="#00A3FF;"
+                          >
+                            <CircularProgressLabel>
+                              {state.oneprojectData.backer_backedPercent}%
+                            </CircularProgressLabel>
+                          </CircularProgress>
+                        </Flex>
+                      </VStack>
                     </Flex>
                     {/* The Buttons*/}
                     <Flex
@@ -445,150 +461,176 @@ console.log(oneprojectData);
                       </Flex>
                     </Flex>
                   </VStack>
-                  {/* --------The Side Details--------- */}
-                  <VStack
-                    width={{ lg: '450px' }}
-                    height={{ lg: '484px' }}
-                    paddingLeft={{ lg: '55px' }}
-                  >
-                    <Text  alignSelf={'flex-start'}>
-                      Details
-                    </Text>
-
-                    <HStack width={'100%'}>
-                      <Flex width={'50%'} alignSelf={'flex-start'}>
-                        <Text
-                        color={'rgba(255, 255, 255, 0.84)'}
-                        fontFamily={'Pilat-Extended'}
-                        fontSize={'18px'}>
-                          Status
-                        </Text>
-                      </Flex>
-                      <Flex width={'50%'} alignSelf={'flex-end'}>
-                        <Text 
-                          color={' #FE8600'}
-                          fontFamily={'Pilat-Extended'}
-                          fontWeight={'700'}
-                          fontSize={'18px'}>
-                          Voting
-                        </Text>
-                      </Flex>
-                    </HStack>
-                    <HStack width={'100%'}>
-                      <Flex width={'50%'} alignSelf={'flex-start'}>
-                        <Text
-                        color={'rgba(255, 255, 255, 0.84)'}
-                        fontFamily={'Pilat-Extended'}
-                        fontSize={'18px'}>
-                          Platform
-                        </Text>
-                      </Flex>
-                      <Flex width={'50%'} alignSelf={'flex-end'}>
-                        <Text 
-                          color={' #FE8600'}
-                          fontFamily={'Pilat-Extended'}
-                          fontWeight={'700'}
-                          fontSize={'18px'}>
-                          Voting
-                        </Text>
-                      </Flex>
-                    </HStack>
-                    <HStack width={'100%'}>
-                      <Flex width={'50%'} alignSelf={'flex-start'}>
-                        <Text
-                        color={'rgba(255, 255, 255, 0.84)'}
-                        fontFamily={'Pilat-Extended'}
-                        fontSize={'18px'}>
-                          Backer
-                        </Text>
-                      </Flex>
-                      <Flex width={'50%'} alignSelf={'flex-end'}>
-                        <Text 
-                          color={' #FE8600'}
-                          fontFamily={'Pilat-Extended'}
-                          fontWeight={'700'}
-                          fontSize={'18px'}>
-                          Voting
-                        </Text>
-                      </Flex>
-                    </HStack>
-                    <HStack width={'100%'}>
-                      <Flex width={'50%'} alignSelf={'flex-start'}>
-                        <Text
-                        color={'rgba(255, 255, 255, 0.84)'}
-                        fontFamily={'Pilat-Extended'}
-                        fontSize={'18px'}>
-                          Funding Pool
-                        </Text>
-                      </Flex>
-                      <Flex width={'50%'} alignSelf={'flex-end'}>
-                        <Text 
-                          color={' #FE8600'}
-                          fontFamily={'Pilat-Extended'}
-                          fontWeight={'700'}
-                          fontSize={'18px'}>
-                          Voting
-                        </Text>
-                      </Flex>
-                    </HStack>
-                    <HStack width={'100%'}>
-                      <Flex width={'50%'} alignSelf={'flex-start'}>
-                        <Text
-                        color={'rgba(255, 255, 255, 0.84)'}
-                        fontFamily={'Pilat-Extended'}
-                        fontSize={'18px'}>
-                          Category
-                        </Text>
-                      </Flex>
-                      <Flex width={'50%'} alignSelf={'flex-end'}>
-                        <Text 
-                          color={' #FE8600'}
-                          fontFamily={'Pilat-Extended'}
-                          fontWeight={'700'}
-                          fontSize={'18px'}>
-                          Voting
-                        </Text>
-                      </Flex>
-                    </HStack>
-                    <Flex
-                      alignSelf={{
-                        base: 'center',
-                        md: 'center',
-                        lg: 'flex-start',
-                      }}
-                    >
-                      {/* The progress - Replace with better ones*/}
-                      <VStack alignSelf={'flex-start'}>
-                        <Flex>
-                          <Text>
-                            Progress : {totalBackedMoney} out of{' '}
-                            {state.oneprojectData.project_collected} UST
-                          </Text>
-                        </Flex>
-                        <Flex
-                          alignSelf={{
-                            base: 'center',
-                            md: 'center',
-                            lg: 'flex-start',
-                          }}
-                        >
-                          <CircularProgress
-                            value={40}
-                            size="120px"
-                            color="#00A3FF;"
-                          >
-                            <CircularProgressLabel>
-                              {percent}%
-                            </CircularProgressLabel>
-                          </CircularProgress>
-                          {/* The progress - Replace with functional ones*/}
-                        </Flex>
-                      </VStack>
-                    </Flex>
-                  </VStack>
                 </Flex>
                 <Flex>
                   <VStack>
+                    <Flex mt={'45px'} mb={'45px'}>
+                      {/* ------------Details on key factors, as SimpleGrid with 1 Col at base, and 4 when in medium res. Stack of Stats------------ */}
+                      <Flex
+                        borderTop="1.5px solid rgba(255, 255, 255, 0.15)"
+                        borderBottom="1.5px solid rgba(255, 255, 255, 0.15)"
+                        width={'100%'}
+                        paddingTop={'15px'}
+                        paddingBottom={'15px'}
+                      >
+                        <Flex
+                          spacing={{ base: 5, lg: 8 }}
+                          gridColumn={{ base: 1, lg: 4 }}
+                          direction={{
+                            base: 'column',
+                            md: 'column',
+                            lg: 'row',
+                          }}
+                          justifyContent={'center'}
+                          paddingLeft={{ lg: '110px' }}
+                        >
+                          <Stat
+                            px={{ base: 2, md: 4 }}
+                            py={'5'}
+                            width={'320px'}
+                            shadow={'xl'}
+                            borderLeft={{
+                              base: '1px solid',
+                              md: '1px solid',
+                              lg: '0px solid',
+                            }}
+                            borderRight={'1px solid'}
+                            borderColor={'rgba(255, 255, 255, 0.15)'}
+                          >
+                            <Flex
+                              justifyContent={{
+                                base: 'center',
+                                md: 'center',
+                                lg: 'space-between',
+                              }}
+                            >
+                              <Box pl={{ base: 2, md: 4 }}>
+                                <HStack>
+                                  <Image src="/3_User.svg" />
+                                  <StatLabel fontWeight={'medium'} isTruncated>
+                                    Backer
+                                  </StatLabel>
+                                </HStack>
+                                <StatNumber
+                                  fontSize={'2xl'}
+                                  fontFamily="PilatExtended-Heavy"
+                                >
+                                  {totalBackedMoney}
+                                </StatNumber>
+                              </Box>
+                            </Flex>
+                          </Stat>
+                          <Stat
+                            px={{ base: 2, md: 4 }}
+                            py={'5'}
+                            width={'320px'}
+                            shadow={'xl'}
+                            borderRight={{
+                              base: '1px solid',
+                              md: '1px solid',
+                              lg: '0px solid',
+                            }}
+                            borderLeft={'1px solid'}
+                            borderColor={'rgba(255, 255, 255, 0.15)'}
+                          >
+                            <Flex
+                              justifyContent={{
+                                base: 'center',
+                                md: 'center',
+                                lg: 'space-between',
+                              }}
+                            >
+                              <Box pl={{ base: 2, md: 4 }}>
+                                <HStack>
+                                  <Image src="/Wallet.svg" />
+                                  <StatLabel fontWeight={'medium'} isTruncated>
+                                    Funding Pool
+                                  </StatLabel>
+                                </HStack>
+                                <StatNumber
+                                  fontSize={'2xl'}
+                                  fontFamily="PilatExtended-Heavy"
+                                >
+                                  {`$${state.oneprojectData.project_collected}`}
+                                </StatNumber>
+                              </Box>
+                            </Flex>
+                          </Stat>
+                          <Stat
+                            px={{ base: 2, md: 4 }}
+                            py={'5'}
+                            width={'320px'}
+                            shadow={'xl'}
+                            borderRight={{
+                              base: '1px solid',
+                              md: '1px solid',
+                              lg: '0px solid',
+                            }}
+                            borderLeft={'1px solid'}
+                            borderColor={'rgba(255, 255, 255, 0.15)'}
+                          >
+                            <Flex
+                              justifyContent={{
+                                base: 'center',
+                                md: 'center',
+                                lg: 'space-between',
+                              }}
+                            >
+                              <Box pl={{ base: 2, md: 4 }}>
+                                <HStack>
+                                  <Image src="/Graph.svg" />
+                                  <StatLabel fontWeight={'medium'} isTruncated>
+                                    Category
+                                  </StatLabel>
+                                </HStack>
+                                <StatNumber
+                                  fontSize={'2xl'}
+                                  fontFamily="PilatExtended-Heavy"
+                                >
+                                  {state.oneprojectData.project_subcategory}
+                                </StatNumber>
+                              </Box>
+                            </Flex>
+                          </Stat>
+                          <Stat
+                            px={{ base: 2, md: 4 }}
+                            py={'5'}
+                            width={'320px'}
+                            shadow={'xl'}
+                            visibility={{
+                              base: 'hidden',
+                              md: 'hidden',
+                              lg: 'visible',
+                            }}
+                            borderLeft={'1px solid'}
+                            borderColor={'rgba(255, 255, 255, 0.15)'}
+                          >
+                            <Flex
+                              justifyContent={{
+                                base: 'center',
+                                md: 'center',
+                                lg: 'space-between',
+                              }}
+                            >
+                              <Box pl={{ base: 2, md: 4 }}>
+                                <HStack>
+                                  <Image src="/Work.svg" />
+                                  <StatLabel fontWeight={'medium'} isTruncated>
+                                    Platform
+                                  </StatLabel>
+                                </HStack>
+                                <StatNumber
+                                  fontSize={'2xl'}
+                                  fontFamily="PilatExtended-Heavy"
+                                >
+                                  {state.oneprojectData.project_chain}
+                                </StatNumber>
+                              </Box>
+                            </Flex>
+                          </Stat>
+                        </Flex>
+                      </Flex>
+                    </Flex>
                     <Flex
                       mt="40px"
                       px={'45px'}
@@ -646,12 +688,63 @@ console.log(oneprojectData);
                         {state.oneprojectData.project_description}
                       </chakra.p>
                     </Flex>
+                    {/* ------------Milestone of Project------------ */}
+                    <Flex
+                      mt="40px"
+                      px={'45px'}
+                      py={'45px'}
+                      width={'80%'}
+                      borderRadius="25px"
+                      justify='center' 
+                      align='center' 
+                      flexDirection="column"
+                      background={'rgba(255, 255, 255, 0.05)'}
+                      border={'1.5px solid rgba(255, 255, 255, 0.15)'}
+                      visibility={{base:'hidden',md:'hidden', lg:'visible'}}
+                    >
+                      <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} visibility={{base:'hidden',md:'hidden', lg:'visible'}} >
+                        <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
+                        <Table variant='simple'>
+                          <TableCaption style={{color:'#00A3FF'}}>Milestones that project have. Details might be more on Project own's website. Project Milestone up for voting would be listed for voting. 
+                          Rejected Milestones means project funds would not be released or project suspended. Voted and Approved would result in project rewarded for milestone</TableCaption>
+                          <Thead bgColor={'rgba(255, 255, 255, 0.12)'} borderRadius={'10px 10px 0px 0px'}>
+                            <Tr>
+                              <Th style={{color:'#00A3FF'}}>Milestone Step</Th>
+                              <Th style={{color:'#00A3FF'}}>Title</Th>
+                              <Th style={{color:'#00A3FF'}}>Proposed Start Date</Th>
+                              <Th style={{color:'#00A3FF'}}>Proposed End Date</Th>
+                              <Th style={{color:'#00A3FF'}}>Milestone Fund Amount</Th>
+                              <Th style={{color:'#00A3FF'}}>Milestone Voting</Th>
+                              <Th style={{color:'#00A3FF'}}>Milestone Status</Th>
+                            </Tr>
+                          </Thead>
+                          <Tbody bgColor={' rgba(196, 196, 196, 0.08)'} borderRadius={'10px 10px 0px 0px'}>
+                            {state.oneprojectData != '' && 
+                            state.oneprojectData.milestone_states.map((milestone, index) => (
+                            <Tr key={index}>
+                            <Td >{milestone.milestone_step}</Td>
+                            <Td >{milestone.milestone_name} </Td>
+                            <Td >{milestone.milestone_startdate}</Td>
+                            <Td >{milestone.milestone_enddate}</Td>
+                            <Td >{milestone.milestone_amount}</Td>
+                            <Td >
+                              {milestone.milestone_votingavailable &&
+                              <Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button>}
+                            </Td>
+                            <Td >{milestone.milestone_statusmessage}</Td>
+                            </Tr>
+                            ))}
+                          </Tbody>
+                        </Table>
+                      </Flex>
+                    </Flex>
                     <Flex
                       mt="40px"
                       as={Stack}
                       mb={'50px'}
                       width={'80%'}
                       paddingTop={'35px'}
+                      height={{ lg: '325px' }}
                     >
                       {/* ------------Some Words that details the team------------ */}
                       {/* ------------Descriptions/Texts------------ */}
@@ -773,72 +866,6 @@ console.log(oneprojectData);
                           </VStack>
                         </HStack>
                       </Box>
-                    </Flex>
-                    {/* ------------Milestone of Project------------ */}
-                    <Flex
-                      px={'45px'}
-                      py={'45px'}
-                      width={'80%'}
-                      borderRadius="25px"
-                      justify='center' 
-                      align='center' 
-                      flexDirection="column"
-                      background={'rgba(255, 255, 255, 0.05)'}
-                      border={'1.5px solid rgba(255, 255, 255, 0.15)'}
-                      visibility={{base:'hidden',md:'hidden', lg:'visible'}}
-                    >
-                      <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} visibility={{base:'hidden',md:'hidden', lg:'visible'}} >
-                        <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
-                        <Table variant='simple'>
-                          <TableCaption style={{color:'#00A3FF'}}>Milestones that project have. Details might be more on Project own's website. Project Milestone up for voting would be listed for voting. 
-                          Rejected Milestones means project funds would not be released or project suspended. Voted and Approved would result in project rewarded for milestone</TableCaption>
-                          <Thead bgColor={'rgba(255, 255, 255, 0.12)'} borderRadius={'10px 10px 0px 0px'}>
-                            <Tr>
-                              <Th style={{color:'#00A3FF'}}>Milestone No</Th>
-                              <Th style={{color:'#00A3FF'}}>Name </Th>
-                              <Th style={{color:'#00A3FF'}}>Proposed Start Date</Th>
-                              <Th style={{color:'#00A3FF'}}>Proposed End Date</Th>
-                              <Th style={{color:'#00A3FF'}}>Milestone Fund Amount</Th>
-                              <Th style={{color:'#00A3FF'}}>Milestone Voting</Th>
-                              <Th style={{color:'#00A3FF'}}>Milestone Status</Th>
-                              <Th style={{color:'#00A3FF'}}>Milestone External Detail</Th>
-                            </Tr>
-                          </Thead>
-                          <Tbody bgColor={' rgba(196, 196, 196, 0.08)'} borderRadius={'10px 10px 0px 0px'}> 
-                            <Tr>
-                            <Td >1</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
-                            </Tr>
-                            <Tr>
-                            <Td >2</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
-                            </Tr>
-                            <Tr>
-                            <Td >3</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
-                            </Tr>
-                          </Tbody>
-                        </Table>
-
-                      </Flex>
                     </Flex>
                   </VStack>
                 </Flex>

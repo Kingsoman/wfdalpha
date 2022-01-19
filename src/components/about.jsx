@@ -1,19 +1,20 @@
-import React, { useState } from 'react'
-
+import React, {useState} from 'react'
 import { Flex, Text, Image, Select } from '@chakra-ui/react'
 import { ButtonBackTransition } from '../components/ImageTransition'
 
-export default function Aboutone() {
-  const [selectedLang, setSelectedlang] = useState('/Litepaper_Wefund.pdf') //default value
-  function handleSelectChange(event) {
-    setSelectedlang(event.target.value)
-  }
 
+
+export default function Aboutone() {
+        const [selectedLang,setSelectedlang] = useState('/Litepaper_Wefund.pdf'); //default value
+        function handleSelectChange(event) {
+            setSelectedlang(event.target.value);
+        }
+      
   return (
     <Flex id="aboutSection">
       <Flex id="aboutFirstSection">
-        <Flex id="aboutFirstSection1" data-aos="fade-right">
-          <Flex direction="row" data-aos="fade-down">
+        <Flex id="aboutFirstSection1">
+          <Flex direction="row">
             <Text id="aboutUsPageLable">ABOUT WEFUND</Text>
           </Flex>
           <Flex direction="row" mt="20px">
@@ -40,51 +41,12 @@ export default function Aboutone() {
               protocol using smart contracts for investor security.
             </Text>
 
+            <Flex id="rocket" position="relative">
+              <Image h="200px" src="/rocket.svg" />
+            </Flex>
             <Text id="aboutUsPageHeadingDesc" mt="30px">
               Select Litepaper Languange
             </Text>
-<<<<<<< HEAD
-            <Select
-              value={selectedLang}
-              onChange={handleSelectChange}
-              placeholder="Select option"
-              id="paper-lang"
-              border="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-              background="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
-              color="white"
-              mt="10px"
-            >
-              <option
-                value="/Litepaper_Wefund.pdf"
-                style={{ backgroundColor: '#1B0645' }}
-              >
-                English
-              </option>
-              <option
-                value="/Litepaper_Wefund_ID.pdf"
-                style={{ backgroundColor: '#1B0645' }}
-              >
-                Indonesian
-              </option>
-              <option
-                value="/Litepaper_Wefund_ITA.pdf"
-                style={{ backgroundColor: '#1B0645' }}
-              >
-                Italian
-              </option>
-              <option
-                value="/Litepaper_Wefund_SP.pdf"
-                style={{ backgroundColor: '#1B0645' }}
-              >
-                Spanish
-              </option>
-              <option
-                value="/Litepaper_Wefund_KOR.pdf"
-                style={{ backgroundColor: '#1B0645' }}
-              >
-                Korea
-              </option>
-=======
             <Select value={selectedLang} onChange={handleSelectChange} placeholder='Select option' id='paper-lang' 
                     border="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
                     background="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
@@ -92,8 +54,8 @@ export default function Aboutone() {
               <option value='/Litepaper_Wefund.pdf' style={{ backgroundColor: '#1B0645' }}>English</option>
               <option value='/Litepaper_Wefund_ID.pdf' style={{ backgroundColor: '#1B0645' }}>Indonesian</option>
               <option value='/Litepaper_Wefund_ITA.pdf' style={{ backgroundColor: '#1B0645' }}>Italian</option>
+              <option value='/Litepaper_Wefund_SP.pdf' style={{ backgroundColor: '#1B0645' }}>Spanish</option>
               <option value='/Litepaper_Wefund_KOR.pdf' style={{ backgroundColor: '#1B0645' }}>Korea</option>
->>>>>>> 614a989072227495b82eaf8324dd2f6dcf85a4dd
             </Select>
             <a href={selectedLang}>
               <Flex w="100%" mt="30px" id="displayNoneInMobile">
@@ -192,7 +154,7 @@ export default function Aboutone() {
             </a>
           </Flex>
         </Flex>
-        <Flex id="aboutFirstSection2" data-aos="fade-left">
+        <Flex id="aboutFirstSection2">
           <Flex alignItems="center" justifyContent="center">
             <Flex bg="#291554" className="aboutUsBox LeftRadiusAboutUs">
               <Image className="aboutUsSectionImages" src="/gift.svg" />

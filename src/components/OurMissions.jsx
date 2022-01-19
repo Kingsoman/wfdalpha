@@ -15,7 +15,6 @@ export default function OurMissions() {
           justify="center"
           textAlign="center"
           alignItems="center"
-          data-aos="fade-down"
           flexDirection="column"
           fontFamily="PilatExtended-Regular"
         >
@@ -35,7 +34,7 @@ export default function OurMissions() {
 
         <Flex id="missionList">
           {PROJECT_ITEMS.map((projectItem, index) => (
-            <Flex key={index} className="missionCard" data-aos="zoom-in-up">
+            <Flex key={index} className="missionCard">
               <Image src={projectItem.imgsrc} className="missionImage" />
               <Text className="missionTitle">{projectItem.title}</Text>
               <Text className="missionDesc">{projectItem.description}</Text>
