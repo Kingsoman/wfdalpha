@@ -4,11 +4,7 @@ import { useNavigate } from '@reach/router'
 import {chakra, Box, Flex, Text, VStack, Image, Img, HStack, Select
   } from "@chakra-ui/react";
 import React, { useState} from 'react';
-import { IoChevronUpOutline, IoChevronDownOutline, IoCheckmark } from 'react-icons/io5';
-
 import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
-import ESign from './EsignEdit';
-import Faq from '../components/FAQ';
 
 export default function NewProject() {
   const [condition, setCondition] = useState(false);
