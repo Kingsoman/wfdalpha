@@ -4,7 +4,7 @@ import { Router, Link } from '@reach/router'
 import './styles/base.scss'
 import { Head } from 'react-static'
 import { popper } from '@popperjs/core'
-
+import Particles from 'react-tsparticles'
 let bootstrap = {}
 if (typeof document !== 'undefined') {
     bootstrap = require('bootstrap')
@@ -26,11 +26,24 @@ import Invest_step3 from 'pages/Invest_step3'
 import Invest_step4 from 'pages/Invest_step4'
 import Dashboard from 'pages/Dashboard'
 import NotFound from 'pages/NotFound'
+import {IntercomProvider, useIntercom } from 'react-use-intercom'
 
 class App extends Component {
+<<<<<<< HEAD
  
     render() {
         return (
+=======
+    
+    
+
+    render() {
+        return (
+            <IntercomProvider appId="n17lzygf"
+            onHide={false} autoBoot
+            >
+                
+>>>>>>> 614a989072227495b82eaf8324dd2f6dcf85a4dd
             <Suspense
                 fallback={
                     <div className="vh-100 d-flex">
