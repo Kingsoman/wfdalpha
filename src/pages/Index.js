@@ -13,11 +13,14 @@ import { Container } from '../components/Container'
 import '../styles/transition.scss'
 import '../styles/transition.css'
 
+import AOS from 'aos'
+import 'aos/dist/aos.css' // You can also use <link> for styles
+
 export default () => {
-  const [isSplash, setSplash] = useState(false)
+  const [isSplash, setSplash] = useState(true)
 
   useEffect(() => {
-    setSplash(true)
+    AOS.init({ duration: 1000 })
     setTimeout(() => setSplash(false), 3000)
   }, [])
 
