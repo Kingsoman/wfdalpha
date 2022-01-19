@@ -81,6 +81,8 @@ export default {
         {
             path: 'usercenter',
             template: 'src/pages/UserInfoCenter',
+            path: 'dashboard',
+            template: 'src/pages/Dashboard',
         },
         {
             path: '404',
