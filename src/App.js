@@ -131,20 +131,13 @@ class App extends Component {
                             <Invest_step2 path='invest_step2' />
                             <Invest_step3 path='invest_step3' />
                             <Invest_step4 path='invest_step4' />
-<<<<<<< HEAD
                             <Dashboard path='dashboard' />
-=======
->>>>>>> 614a989072227495b82eaf8324dd2f6dcf85a4dd
                             <NotFound default />
                         </Router>
                     </ChakraProvider>
                     </StoreProvider>
                 </Root>
             </Suspense>
-<<<<<<< HEAD
-=======
-            </IntercomProvider>
->>>>>>> 614a989072227495b82eaf8324dd2f6dcf85a4dd
         )
 
     }
