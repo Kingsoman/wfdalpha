@@ -189,6 +189,7 @@ export default function ProjectDetail() {
               justify="center"
               alignItems={'center'}
               zIndex={'1'}
+              mt={'50px'}
             >
               <VStack>
                 <Flex
@@ -214,7 +215,7 @@ export default function ProjectDetail() {
                         Project Name
                       </Text>
                     </Flex>
-                    <Flex>
+                    <Flex widtht={{ base: '70%', md: '70%', lg: '100%' }}>
                     <Text textAlign={'left'} fontWeight={'400'} fontSize={'18px'}>
                                   Project Project Milestone Description <br/>
                                   Aliquip mollit sunt qui irure. Irure ullamco Lorem
@@ -238,8 +239,9 @@ export default function ProjectDetail() {
                       <Flex>
                         <Flex
                             mt={{ base: '20px', md: '20px', lg: '00px' }}
-                            mr={{ base: '0px', md: '0px', lg: '25px' }}
+                            mr={{ base: '25px', md: '25px', lg: '25px' }}
                             alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
+                            direction={{ base: 'column', md: 'column', lg: 'row' }} 
                           >
                             <ImageTransition
                               unitid="vote"
@@ -433,7 +435,7 @@ export default function ProjectDetail() {
                           border3="linear-gradient(180deg, #DEDBDB 0%, #DEDBDB 100%)"
                           background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
                           selected={false}
-                          width="250px"
+                          width="170px"
                           height="50px"
                           rounded="33px"
                         >
@@ -456,11 +458,11 @@ export default function ProjectDetail() {
                     height={{ lg: '484px' }}
                     paddingLeft={{ lg: '55px' }}
                   >
-                    <Text  alignSelf={'flex-start'}>
+                    <Text  alignSelf={'flex-start'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }} mt={'25px'}>
                       Details
                     </Text>
 
-                    <HStack width={'100%'}>
+                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -479,7 +481,7 @@ export default function ProjectDetail() {
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'}>
+                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -498,7 +500,7 @@ export default function ProjectDetail() {
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'}>
+                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -517,7 +519,7 @@ export default function ProjectDetail() {
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'}>
+                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -536,7 +538,7 @@ export default function ProjectDetail() {
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'}>
+                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
