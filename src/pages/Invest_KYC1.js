@@ -4,10 +4,11 @@ import { useNavigate } from '@reach/router'
 import {chakra, Box, Flex, Text, VStack, Image, Img, HStack
   } from "@chakra-ui/react";
 import React, { useState} from 'react';
-import { IoCheckmark } from 'react-icons/io5';
+import { IoChevronUpOutline, IoChevronDownOutline, IoCheckmark } from 'react-icons/io5';
 
-import { ImageTransition, InputTransition } from "../components/ImageTransition";
-import ESign from '../components/Pdf';
+import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
+import ESign from './EsignEdit';
+import Faq from '../components/FAQ';
 
 export default function NewProject() {
   const [condition, setCondition] = useState(false);
@@ -40,37 +41,23 @@ export default function NewProject() {
             
             <Flex mt='83px' justify='center' align='center' direction='column'
               style={{fontFamily:'PilatExtended'}}>
-                <HStack  mt='150px' mb='50px'>
-                  <Box style={{height: '24px', width: '24px', border: '3px solid #3BE489', borderRadius: '50%', display:'inline-block'}}></Box>
-                    <Text>Step 1</Text>
-                  <Box style={{height: '0x', width: '63px', border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', background: ' rgba(255, 255, 255, 0.3799999952316284)'}}></Box>
-                  <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
-                    <Text>Step 2</Text>
-                  <Box style={{height: '0px', width: '63px', border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', background: ' rgba(255, 255, 255, 0.3799999952316284)'}}></Box>
-                  <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
-                    <Text>Final Step</Text>
-                </HStack>
-              <Text fontSize='22px' fontWeight={'300'}>SAFT Form</Text>
-              <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} mt={'20px'} textAlign={'center'}>Please check and confirm the form and go next step</Text>
+                
+                <Flex mt={'150px'} mb={'50px'}>
+                    <Image alignSelf={'center'} alt={'WeFund'} src={ 'kyc1.svg' } />
+                </Flex> 
+                <Text fontSize='22px' fontWeight={'300'}>Lets Get Started</Text>
+                <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} mt={'20px'} textAlign={'center'} maxW={'465px'} lineHeight={'140%'} fontFamily={'Sk-Modernist-Regular'}>
+                    To start the KYC process you will need to pay a $0.45 UST fee.
+                    You will only need to do this once and it will apply to all launches.
+                    <br/><br/>
+                    Tapping below will initiate the transaction and open Terra Station.
+                    Please accept the transaction to begin.
+                </Text>
             </Flex>
-          {/* --------PDF----------- */}
+          {/* --------This should be where next step be hidden and revealed visible----------- */}
           <Flex mt='83px' justify='center' align='center' direction='column'>
-            <Flex mt='25px' direction="row">
-                {/* <Input type="checkbox"  h='55px' bg='#FFFFFF0D' borderColor="#FFFFFF33" placeholder="Type here" focusBorderColor="purple.800" rounded="md"  onChange={(e)=>{}} /> */}
-                <InputTransition 
-                  unitid='conditioncheck'
-                  selected={false}
-                  width='24px' height='24px' rounded='md'
-                  onClick={()=>{setCondition(!condition)}}
-                >
-                  {condition &&
-                  <IoCheckmark width='24px' height='24px' color='#FE8600'></IoCheckmark>
-                  }
-                </InputTransition>
-
-                <Text ml='10px' fontSize='14px' fontWeight='400'>I agree with all conditions of this Project and WeFund</Text>
-              </Flex>
-              {/* -----------------Sign Invest----------------- */}
+            
+              {/* -----------------Next----------------- */}
             <Flex w='100%' mt='60px'justify='center' mb='170px'>
               <ImageTransition 
                 unitid='investnext'
@@ -85,13 +72,9 @@ export default function NewProject() {
               >
                   <Box variant="solid" color="white" justify='center' align='center'
                   onClick={()=>onNext()}>
-                    Next
+                    Start
                   </Box>
               </ImageTransition>
-            </Flex>
-            <Flex >
-              {/* <Image alignSelf={'flex-start'} alt={'WeFund'} src={ 'saft.svg' } /> */}
-              <ESign/>
             </Flex>
 
             
