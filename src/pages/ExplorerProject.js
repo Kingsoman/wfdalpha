@@ -20,8 +20,7 @@ import {
   MdOutlineAccountBalanceWallet,
 } from 'react-icons/md'
 import { Link } from '@reach/router'
-import React, { useEffect, useState, useMemo } from 'react'
-
+import React, { useEffect, useState, useMemo, useRef } from 'react'
 import { useStore } from '../store'
 import theme from '../theme'
 import {
@@ -31,6 +30,7 @@ import {
   ButtonOrangeBackTransition,
 } from '../components/ImageTransition'
 import Footer from '../components/Footer'
+import Notification from '../components/Notification'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -47,13 +47,15 @@ export default function ExplorerProject() {
   const [totalDeposit, setTotalDeposit] = useState(0)
   const [ustAmount, setUstAmount] = useState(0)
   const [austAmount, setAustAmount] = useState(0)
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab, setActiveTab] = useState()
 
   //-----------connect to wallet ---------------------
   let connectedWallet = ''
   if (typeof document !== 'undefined') {
     connectedWallet = useConnectedWallet()
   }
+  //------------notification setting---------------------------------
+  const notificationRef = useRef();
 
   //----------init api, lcd-------------------------
   const lcd = useMemo(() => {
@@ -75,16 +77,16 @@ export default function ExplorerProject() {
         state.WEFundContractAddress,
         {
           get_project: {
-            project_id: '2',
+            project_id: `$(state.fakeid)`,
           },
         },
       )
       let projectData = []
       projectData[0] = oneprojectData
 
-      if (projectData == '') {
-        showNotification("Can't fetch Project Data", 'error', 6000)
-        return
+      if(projectData == ''){
+        notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
+        return;
       }
 
       let i, j
@@ -107,7 +109,7 @@ export default function ExplorerProject() {
           }
         }
 
-        if (projectData[i].project_id == 2)
+        if (projectData[i].project_id == state.fakeid)
           //fake
           percent = parseInt(
             ((percent / 10 ** 6 + fake) /
@@ -126,9 +128,9 @@ export default function ExplorerProject() {
         type: 'setProjectdata',
         message: projectData,
       })
-      console.log(projectData)
-      totalBacked /= 10 ** 6
-      totalDeposit /= 10 ** 6
+
+      totalBacked /= 10**6;
+      totalDeposit /= 10**6;
 
       //fake
       totalBacked += fake
@@ -911,7 +913,8 @@ export default function ExplorerProject() {
             </Flex>
           </Box>
         </Flex>
-        <Footer />
+        <Footer/>
+        <Notification  ref={notificationRef}/>        
       </div>
     </ChakraProvider>
   )

@@ -16,7 +16,7 @@ import theme from './theme';
 
 import Navbar from './components/Navbar'
 import Index from 'pages/Index'
-import ExplorerProject from 'pages/ExplorerProject'
+import ExplorerProject from 'pages/ExploreComingSoon'
 import CreateProject from 'pages/CreateProject'
 import BackProject from 'pages/BackProject'
 import DetailProject from 'pages/ProjectDetail'
@@ -24,6 +24,7 @@ import Invest_step1 from 'pages/Invest_step1'
 import Invest_step2 from 'pages/Invest_step2'
 import Invest_step3 from 'pages/Invest_step3'
 import Invest_step4 from 'pages/Invest_step4'
+import Dashboard from 'pages/Dashboard'
 import NotFound from 'pages/NotFound'
 
 class App extends Component {
@@ -117,6 +118,7 @@ class App extends Component {
                             <Invest_step2 path='invest_step2' />
                             <Invest_step3 path='invest_step3' />
                             <Invest_step4 path='invest_step4' />
+                            <Dashboard path='dashboard' />
                             <NotFound default />
                         </Router>
                     </ChakraProvider>

@@ -30,7 +30,7 @@ export default {
         },
         {
             path: 'explorer',
-            template: 'src/pages/ExplorerProject',
+            template: 'src/pages/ExploreComingSoon',
         },
         {
             path: 'detail',
@@ -52,6 +52,10 @@ export default {
         {
             path: 'invest_step4',
             template: 'src/pages/Invest_step4',
+        },
+        {
+            path: 'dashboard',
+            template: 'src/pages/Dashboard',
         },
         {
             path: '404',

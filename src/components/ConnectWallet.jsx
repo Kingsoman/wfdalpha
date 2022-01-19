@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
-import axios from 'axios'
+import { ChakraProvider, Image, Flex, Box, Text, VStack, HStack } from '@chakra-ui/react'
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import {
   useWallet,
@@ -10,10 +10,8 @@ import {
 import { Wallet, CaretRight, Power, Check } from 'phosphor-react'
 import numeral from 'numeral'
 import { useStore } from '../store'
+import theme from '../theme'
 
-const DialogButton = {
-  margin: '10px 20px 10px 20px',
-}
 export default function ConnectWallet() {
   let connectedWallet = ''
   const [bank, setBank] = useState()
@@ -48,33 +46,22 @@ export default function ConnectWallet() {
       wallet.disconnect()
       dispatch({ type: 'setWallet', message: {} })
     }
-    // setConnected(!connected)
+    location.reload();
   }
 
   async function contactBalance() {
-    if (connectedWallet && connectedWallet.walletAddress && lcd) {
-      //   setShowConnectOptions(false);
+    if (connectedWallet && connectedWallet.walletAddress && lcd) 
+    {
       dispatch({ type: 'setWallet', message: connectedWallet })
 
       let coins
-
       try {
         const api = new WasmAPI(lcd.apiRequester)
         coins = await lcd.bank.balance(connectedWallet.walletAddress)
       } catch (e) {
         console.log(e)
       }
-
-      //Store coins global state
       dispatch({ type: 'setAllNativeCoins', message: coins })
-      // console.log(coins)
-
-    
-      // let uusd = coins[0]._coins.filter((c) => {
-      //   return c.denom === 'uusd'
-      // })
-      console.log("type");
-      console.log(typeof coins[0]._coins);
 
       let uusd;
       if(typeof coins[0]._coins === 'undefined' ||
@@ -87,7 +74,6 @@ export default function ConnectWallet() {
       setBank(numeral(ust).format('0,0.00'))
       dispatch({ type: 'setUstBalance', message: ust })
 
-      // connectTo("extension")
     } else {
       setBank(null)
       dispatch({ type: 'setWallet', message: {} })
@@ -128,7 +114,7 @@ export default function ConnectWallet() {
     )
   }
 
-  const [scrolled, setScrolled] = React.useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const handleScroll = () => {
     const offset = window.scrollY
     if (offset > 25) {
@@ -143,12 +129,12 @@ export default function ConnectWallet() {
       contactBalance()
     }
 
-    //console.log(connectedWallet)
     window.addEventListener('scroll', handleScroll)
   }, [connectedWallet, lcd])
 
   return (
     <>
+      <VStack display={{ base: 'none', md: 'none', lg: 'block'}}>
       <div className="navbar-nav" style={{ flexDirection: 'row', width: '100%' }}>
         {!connected && (
           <>
@@ -248,6 +234,46 @@ export default function ConnectWallet() {
           </>
         )}
       </div>
+      </VStack>
+      <VStack display={{ base: 'block', md: 'block', lg: 'none'}}>
+        {!connected && (
+          <div className="dropdown-content3">
+            <button
+              onClick={() => connectTo('extension')}
+            >
+              <CaretRight size={16} /> Terra Station (Browser)
+            </button>
+            <button
+              onClick={() => connectTo('mobile')}
+            >
+              <CaretRight size={16} /> Terra Station (QR Scann)
+            </button>
+          </div>
+        )}
+        {connected && (
+          <div className="dropdown-content3">
+            {bank && (
+              <div
+                className="wallet-info d-inline-block text-start px-3"
+                style={{ fontSize: '13px' }}
+              >
+                <span className="d-block">
+                  <strong>YOUR WALLET:</strong>
+                </span>
+                <span className="d-block" style={{ marginBottom: '-5px' }}>
+                  {bank} <span className="text-sm">UST</span>
+                </span>
+              </div>
+            )}
+            <button
+              onClick={() => connectTo('disconnect')}
+            >
+              <Power size={16} style={{ marginTop: '-2px' }} />{' '}
+              <span style={{ fontSize: '13px' }}>Disconnect</span>
+            </button>
+          </div>
+        )}
+      </VStack>
     </>
   )
 }

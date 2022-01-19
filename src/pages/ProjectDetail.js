@@ -14,24 +14,30 @@ import {
   HStack,
   VStack,
   CircularProgress,
-  CircularProgressLabel,
-  Progress,
+  CircularProgressLabel, Table,Thead,Tbody,Tr,Th,Td,TableCaption, 
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
 } from '@chakra-ui/react'
-import React, { useEffect, useState, useMemo } from 'react'
-import { WasmAPI, LCDClient } from '@terra-money/terra.js'
+import React, { useEffect, useState, useMemo, useRef } from 'react'
+import { WasmAPI, LCDClient, MsgExecuteContract } from '@terra-money/terra.js'
 import { MdOutlinePlace } from 'react-icons/md'
 import {
   BsArrowUpRight,
-  BsBookmarksFill,
-  BsPerson,
-  BsCashCoin,
 } from 'react-icons/bs'
-import { Router, Link, useNavigate } from '@reach/router'
+import { useNavigate } from '@reach/router'
 
 import { useStore } from '../store'
 import { ImageTransition } from '../components/ImageTransition'
-import Notification from '../components/Notification'
 import Footer from '../components/Footer'
+import Notification from '../components/Notification'
+import {CheckNetwork, GetOneProject, FetchData, EstimateSend} from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -43,8 +49,9 @@ export default function ProjectDetail() {
   const { state, dispatch } = useStore()
   const [totalBackedMoney, setTotalBackedMoney] = useState(0)
   const [percent, setPercent] = useState(0)
-
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const navigate = useNavigate()
+
   //------------extract project id----------------------------
   let queryString, urlParams, project_id
   if (typeof window != 'undefined') {
@@ -73,41 +80,11 @@ export default function ProjectDetail() {
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //------------notification setting---------------------------------
-  const [notification, setNotification] = useState({
-    type: 'success',
-    message: '',
-    show: false,
-  })
+  const notificationRef = useRef();
 
-  function hideNotification() {
-    setNotification({
-      message: notification.message,
-      type: notification.type,
-      show: false,
-    })
-  }
-
-  function showNotification(message, type, duration) {
-    // console.log('fired notification')
-    setNotification({
-      message: message,
-      type: type,
-      show: true,
-    })
-
-    // Disable after $var seconds
-    setTimeout(() => {
-      setNotification({
-        message: message,
-        type: type,
-        show: false,
-      })
-      // console.log('disabled',notification)
-    }, duration)
-  }
   //------------back button-----------------------------------
   function next() {
-    if (project_id == 2)
+    if (project_id == state.fakeid)
       //fake
       navigate('/invest_step1')
     else navigate('/back?project_id=' + state.oneprojectData.project_id)
@@ -118,46 +95,75 @@ export default function ProjectDetail() {
     if (project_id != null) _project_id = project_id
 
     try {
-      const projectData = await api.contractQuery(state.WEFundContractAddress, {
-        get_project: {
-          project_id: `${_project_id}`,
-        },
-      })
-      if (!projectData) return
+      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+
+      const oneprojectData = GetOneProject(projectData, _project_id);
+      if(oneprojectData == ''){
+        notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
+        return;
+      }
+
+      for(let i=0; i<oneprojectData.milestone_states.length; i++){
+        if(i < oneprojectData.project_milestonestep){
+          oneprojectData.milestone_states[i].milestone_statusmessage = "Released";
+        }
+        else if(i == oneprojectData.project_milestonestep){
+          if(oneprojectData.project_status == 3)//releasing status
+          {
+            oneprojectData.milestone_states[i].milestone_statusmessage = "Voting";
+            oneprojectData.milestone_states[i].milestone_votingavailable = true;
+          }
+          else
+          oneprojectData.milestone_states[i].milestone_statusmessage = "Not yet";
+        }
+        else
+          oneprojectData.milestone_states[i].milestone_statusmessage = "Not yet";
+      }
 
       dispatch({
         type: 'setOneprojectdata',
-        message: projectData,
+        message: oneprojectData,
       })
-
-      let i, j
-      let totalBacked = 0
-      for (j = 0; j < projectData.backer_states.length; j++) {
-        totalBacked += parseInt(projectData.backer_states[j].ust_amount.amount)
-      }
-
+console.log(oneprojectData);
+      let totalBacked = parseInt(oneprojectData.communitybacked_amount) + parseInt(oneprojectData.backerbacked_amount);
       totalBacked /= 10 ** 6
 
-      if (project_id == 2)
-        //fake
+      if (project_id == state.fakeid)//fake
         totalBacked = 120000
 
-      let percent = parseInt(
-        (totalBacked / parseInt(projectData.project_collected)) * 100,
-      )
-
-      setPercent(percent)
-      setTotalBackedMoney(totalBacked)
+      let percent = parseInt(totalBacked/parseInt(oneprojectData.project_collected) * 100 );
+      setPercent(percent);
+      setTotalBackedMoney(totalBacked);
     } catch (e) {
       console.log(e)
     }
+  }
+  function MilestoneVote(project_id, voted){
+    CheckNetwork(connectedWallet, notificationRef, state);
+
+    let MilestoneVoteMsg = {
+      set_milestone_vote: {
+        project_id: project_id,
+        wallet: connectedWallet.walletAddress,
+        voted: voted
+      },
+    }
+
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      MilestoneVoteMsg,
+    )
+    EstimateSend(connectedWallet, lcd, msg, "Milestone vote success", notificationRef);
   }
 
   useEffect(() => {
     fetchContractQuery()
   }, [connectedWallet, lcd])
-
+  
   return (
+
     <ChakraProvider resetCSS theme={theme}>
       <div
         style={{
@@ -193,7 +199,7 @@ export default function ProjectDetail() {
           </div>
         </div>
         {/* ------------Parent Box for the Details------------ */}
-        <Flex width="100%" justify="center" mt="50px" minHeight={'2000px'}>
+        <Flex width="100%" justify="center" mt="50px" minHeight={'3000px'}>
           <Box style={{ fontFamily: 'Sk-Modernist-Regular' }}>
             {/* ------------Details------------ */}
             <Flex
@@ -313,7 +319,7 @@ export default function ProjectDetail() {
                       <VStack alignSelf={'flex-start'}>
                         <Flex>
                           <Text>
-                            Progress : {totalBackedMoney} out of{' '}
+                            Progress : {totalBackedMoney} out of&nbsp;
                             {state.oneprojectData.project_collected} UST
                           </Text>
                         </Flex>
@@ -325,7 +331,7 @@ export default function ProjectDetail() {
                           }}
                         >
                           <CircularProgress
-                            value={40}
+                            value={percent}
                             size="120px"
                             color="#00A3FF;"
                           >
@@ -333,7 +339,24 @@ export default function ProjectDetail() {
                               {percent}%
                             </CircularProgressLabel>
                           </CircularProgress>
-                          {/* The progress - Replace with functional ones*/}
+                          <CircularProgress
+                            value={state.oneprojectData.community_backedPercent}
+                            size="120px"
+                            color="#00A3FF;"
+                          >
+                            <CircularProgressLabel>
+                              {state.oneprojectData.community_backedPercent}%
+                            </CircularProgressLabel>
+                          </CircularProgress>
+                          <CircularProgress
+                            value={state.oneprojectData.backer_backedPercent}
+                            size="120px"
+                            color="#00A3FF;"
+                          >
+                            <CircularProgressLabel>
+                              {state.oneprojectData.backer_backedPercent}%
+                            </CircularProgressLabel>
+                          </CircularProgress>
                         </Flex>
                       </VStack>
                     </Flex>
@@ -350,6 +373,7 @@ export default function ProjectDetail() {
                       <Flex
                         mt={{ base: '20px', md: '20px', lg: '30px' }}
                         ml={{ base: '0px', md: '0px', lg: '0px' }}
+                        alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
                       >
                         <ImageTransition
                           unitid="visit"
@@ -378,7 +402,8 @@ export default function ProjectDetail() {
                       </Flex>
                       <Flex
                         mt={{ base: '20px', md: '20px', lg: '30px' }}
-                        ml={{ base: '0px', md: '-30px', lg: '10px' }}
+                        ml={{ base: '0px', md: '0px', lg: '10px' }}
+                        alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
                       >
                         <ImageTransition
                           unitid="view"
@@ -407,7 +432,8 @@ export default function ProjectDetail() {
                       <Flex
                         mt={{ base: '20px', md: '20px', lg: '30px' }}
                         mb={{ base: '40px', md: '40px', lg: '20px' }}
-                        ml={{ base: '0px', md: '-30px', lg: '10px' }}
+                        ml={{ base: '0px', md: '0px', lg: '10px' }}
+                        alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
                       >
                         <ImageTransition
                           unitid="back"
@@ -629,55 +655,30 @@ export default function ProjectDetail() {
                         marginBottom={'20px'}
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
-                        Commodo labore ut nisi laborum amet eu qui magna ullamco
-                        ut labore. Aliquip consectetur labore consectetur dolor
-                        exercitation est minim quis. Magna non irure qui ex est
-                        laborum nulla excepteur qui. Anim Lorem dolore cupidatat
-                        pariatur ex tempor. Duis ea excepteur proident ex
-                        commodo irure est.
+                        WeFund is a community crowdfunding incubator for blockchain and real-world projects
                       </chakra.p>
                       <chakra.p
                         fontSize={'18px'}
                         marginBottom={'20px'}
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
-                        Nisi commodo qui pariatur enim sint laborum consequat
-                        enim in officia. Officia fugiat incididunt commodo et
-                        mollit aliqua non aute. Enim dolor eiusmod aliqua amet
-                        ipsum in enim eiusmod. Quis exercitation sit velit duis.
-                      </chakra.p>
-                      <chakra.p
-                        fontSize={'18px'}
+                        WeFund Mission is: 
+                        Host high-quality projects that align with WeFund’s investor community.
+                        </chakra.p>
+                        <chakra.p fontSize={'18px'}
                         marginBottom={'20px'}
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
-                        Est Lorem labore consectetur minim sit eu eiusmod mollit
-                        velit. Consectetur voluptate ex amet id eiusmod laborum
-                        irure. Aliquip ad qui id exercitation irure amet commodo
-                        nisi quis. Occaecat minim incididunt eiusmod nostrud
-                        veniam quis culpa. Nisi ipsum et consequat id deserunt
-                        excepteur. Cillum non pariatur culpa ut occaecat laboris
-                        eu. Ullamco ad Lorem et elit laboris eu qui irure nulla
-                        qui culpa et. Cupidatat sunt ipsum proident aute
-                        exercitation do tempor aliqua cupidatat quis non
-                        exercitation. Adipisicing do minim dolore nulla mollit.
-                        Adipisicing incididunt irure ipsum et in esse ipsum elit
-                        tempor.
-                      </chakra.p>
-                      <chakra.p
-                        fontSize={'18px'}
+                        Community-driven decisions on the platform for 100% transparency.
+                        </chakra.p>
+                        <chakra.p fontSize={'18px'}
                         marginBottom={'20px'}
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
-                        Aliquip mollit sunt qui irure. Irure ullamco Lorem
-                        excepteur dolor qui ea ad quis. Enim fugiat cillum enim
-                        ad occaecat sint qui elit labore mollit sunt laborum
-                        fugiat consequat. Voluptate labore sunt duis eu
-                        deserunt. Occaecat do ut ut labore cillum enim dolore ad
-                        enim enim id. Aliquip do veniam ad excepteur ad cillum
-                        qui deserunt nostrud sunt aliqua duis sunt occaecat.
-                        Laborum incididunt commodo ullamco proident quis.
+                        Project funds managed exclusively on Terra’s Anchor protocol using smart contracts and following the Milestone.
                       </chakra.p>
+              
+                  
                       <chakra.p
                         fontSize={'18px'}
                         marginBottom={'20px'}
@@ -687,6 +688,56 @@ export default function ProjectDetail() {
                         {state.oneprojectData.project_description}
                       </chakra.p>
                     </Flex>
+                    {/* ------------Milestone of Project------------ */}
+                    <Flex
+                      mt="40px"
+                      px={'45px'}
+                      py={'45px'}
+                      width={'80%'}
+                      borderRadius="25px"
+                      justify='center' 
+                      align='center' 
+                      flexDirection="column"
+                      background={'rgba(255, 255, 255, 0.05)'}
+                      border={'1.5px solid rgba(255, 255, 255, 0.15)'}
+                      visibility={{base:'hidden',md:'hidden', lg:'visible'}}
+                    >
+                      <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} visibility={{base:'hidden',md:'hidden', lg:'visible'}} >
+                        <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
+                        <Table variant='simple'>
+                          <TableCaption style={{color:'#00A3FF'}}>Milestones that project have. Details might be more on Project own's website. Project Milestone up for voting would be listed for voting. 
+                          Rejected Milestones means project funds would not be released or project suspended. Voted and Approved would result in project rewarded for milestone</TableCaption>
+                          <Thead bgColor={'rgba(255, 255, 255, 0.12)'} borderRadius={'10px 10px 0px 0px'}>
+                            <Tr>
+                              <Th style={{color:'#00A3FF'}}>Milestone Step</Th>
+                              <Th style={{color:'#00A3FF'}}>Title</Th>
+                              <Th style={{color:'#00A3FF'}}>Proposed Start Date</Th>
+                              <Th style={{color:'#00A3FF'}}>Proposed End Date</Th>
+                              <Th style={{color:'#00A3FF'}}>Milestone Fund Amount</Th>
+                              <Th style={{color:'#00A3FF'}}>Milestone Voting</Th>
+                              <Th style={{color:'#00A3FF'}}>Milestone Status</Th>
+                            </Tr>
+                          </Thead>
+                          <Tbody bgColor={' rgba(196, 196, 196, 0.08)'} borderRadius={'10px 10px 0px 0px'}>
+                            {state.oneprojectData != '' && 
+                            state.oneprojectData.milestone_states.map((milestone, index) => (
+                            <Tr key={index}>
+                            <Td >{milestone.milestone_step}</Td>
+                            <Td >{milestone.milestone_name} </Td>
+                            <Td >{milestone.milestone_startdate}</Td>
+                            <Td >{milestone.milestone_enddate}</Td>
+                            <Td >{milestone.milestone_amount}</Td>
+                            <Td >
+                              {milestone.milestone_votingavailable &&
+                              <Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button>}
+                            </Td>
+                            <Td >{milestone.milestone_statusmessage}</Td>
+                            </Tr>
+                            ))}
+                          </Tbody>
+                        </Table>
+                      </Flex>
+                    </Flex>
                     <Flex
                       mt="40px"
                       as={Stack}
@@ -695,7 +746,7 @@ export default function ProjectDetail() {
                       paddingTop={'35px'}
                       height={{ lg: '325px' }}
                     >
-                      {/* ------------Some Words the Project creator would like to say------------ */}
+                      {/* ------------Some Words that details the team------------ */}
                       {/* ------------Descriptions/Texts------------ */}
                       <Text
                         mb={'20px'}
@@ -704,9 +755,9 @@ export default function ProjectDetail() {
                         lineHeight={'36px'}
                         fontFamily="PilatExtended-Heavy"
                       >
-                        Project{' '}
+                        The Project{' '}
                         <span style={{ color: '#00A3FF' }} mb="25px">
-                          Founder Speaks
+                          Team
                         </span>
                       </Text>
                       <Box
@@ -722,7 +773,7 @@ export default function ProjectDetail() {
                           paddingBottom={'35px'}
                         >
                           <Text fontSize={'18px'} fontWeight={'bold'}>
-                            WeFund Mission
+                            WeFund Core Team
                           </Text>
                           <br />
                           <Text color={'rgba(255, 255, 255, 0.54)'}></Text>
@@ -747,11 +798,10 @@ export default function ProjectDetail() {
                               textAlign={'left'}
                               alignSelf={'flex-start'}
                             >
-                              WeFund Team
+                               Andrea Bello Co Founder & CEO & Co-CTO
                             </Text>
-                            <Text textAlign={'left'}>
-                              Andrea Bello Co Founder & CEO & Co-CTO Most
-                              recently behind the development of a smart
+                            <Text textAlign={'left'} fontWeight={'100'}>
+                              Most recently behind the development of a smart
                               contract (Fan$quad) that was deployed Col-4 during
                               a hackathon organized by Terraformlabs and former
                               CTO of a Guild Game, successfully raising a $10
@@ -761,9 +811,16 @@ export default function ProjectDetail() {
                               Bali, Indonesia. Founder of Bello Service, Domotic
                               System for smart-home efficiency, reducing
                               electrical consumption by 30%. R&D engineer at ABB
-                              UPS system, an expert in coding C programming. Ika
-                              Afifah Co Founder & CMO Previous CMO at Gamesta to
-                              successfully raise a $10 million Seed round. Prior
+                              UPS system, an expert in coding C programming. 
+                              </Text>
+                              <Text
+                              fontWeight={'bold'}
+                              textAlign={'left'}
+                              alignSelf={'flex-start'}
+                            >
+                              Ika Afifah Co Founder & CMO Previous CMO at Gamesta
+                            </Text> 
+                            <Text textAlign={'left'} fontWeight={'100'}>Prior
                               to Guild Game, she worked at Tencent as an
                               operation specialist, in a partnership division.
                               Before Tencent, she was senior partnership manager
@@ -771,13 +828,32 @@ export default function ProjectDetail() {
                               executive position at one of the digital marketing
                               agencies under Jet Group and was a manager at
                               Waves who successfully helped founders to raise
-                              $1.2M in pre-seed funding. Jason Galvin Co-CTO
+                              $1.2M in pre-seed funding. 
+                              </Text>
+                              <Text
+                              fontWeight={'bold'}
+                              textAlign={'left'}
+                              alignSelf={'flex-start'}
+                            >
+                              Jason Galvin Co-CTO
+                            </Text>
+                            <Text textAlign={'left'} fontWeight={'100'}>
                               World explorer, entrepreneur, and blockchain
                               technology enthusiast. Came from a career in
                               Silicon Valley building web applications during
                               the dot-com boom. Wanting to do it all over again,
-                              this time helping to build Web 3.0. Austin Taylor
-                              CCO Comes from a background in investment and
+                              this time helping to build Web 3.0. 
+                              </Text>
+                              <Text
+                              fontWeight={'bold'}
+                              textAlign={'left'}
+                              alignSelf={'flex-start'}
+                            >
+                              
+                              Austin Taylor COO
+                            </Text>
+                            <Text textAlign={'left'} fontWeight={'100'}>
+                              Comes from a background in investment and
                               corporate finance. After completing his education,
                               he worked as a Business Analyst for a large tech
                               company in Seattle, Washington USA building AI
@@ -799,7 +875,47 @@ export default function ProjectDetail() {
           </Box>
         </Flex>
         <Footer />
+        <Notification  ref={notificationRef}/>     
       </div>
+      {/*--This is Where to Vote Pop Up is--*/}
+      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+        <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Vote The Project</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Text textAlign={'left'}>
+                Project Project Milestone Description <br/>
+                Aliquip mollit sunt qui irure. Irure ullamco Lorem
+                excepteur dolor qui ea ad quis. Enim fugiat cillum enim
+                ad occaecat sint qui elit labore mollit sunt laborum
+                fugiat consequat. Voluptate labore sunt duis eu
+                deserunt. Occaecat do ut ut labore cillum enim dolore ad
+                enim enim id. Aliquip do veniam ad excepteur ad cillum
+                qui deserunt nostrud sunt aliqua duis sunt occaecat.
+                Laborum incididunt commodo ullamco proident quis.
+              </Text>
+            </ModalBody>
+            <ModalFooter>
+                <Button colorScheme='grey' mr={3} onClick={onClose}>
+                  Close
+                </Button>
+                <Button colorScheme='blue' mr={3} 
+                  onClick={()=>{
+                    onClose(); MilestoneVote(state.oneprojectData.project_id, true);}}
+                >
+                  Vote Yes
+                </Button>
+                <Button colorScheme='red' mr={3}
+                  onClick={()=>{
+                    onClose(); MilestoneVote(state.oneprojectData.project_id, false);}}
+                >
+                  Vote No
+                </Button>
+            </ModalFooter>
+          </ModalContent>
+      </Modal>
     </ChakraProvider>
+    
   )
 }
