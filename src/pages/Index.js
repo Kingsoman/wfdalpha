@@ -1,29 +1,33 @@
-import React from 'react'
-import theme from '../theme'
+import React, { useEffect, useState } from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
+import theme from '../theme'
 
+import Particles from 'react-tsparticles'
 import Hero from '../components/Hero'
 import About from '../components/about'
+import Splash from '../components/Splash'
+import Footer from '../components/Footer'
+import RoadMap from '../components/Roadmap'
 import Industry from '../components/Industry'
 import OurMissions from '../components/OurMissions'
-import RoadMap from '../components/Roadmap'
-import Footer from '../components/Footer'
 import { Container } from '../components/Container'
 import '../styles/transition.scss'
 import '../styles/transition.css'
 
+import AOS from 'aos'
+import 'aos/dist/aos.css' // You can also use <link> for styles
+
 export default () => {
+  const [isSplash, setSplash] = useState(true)
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 })
+    setTimeout(() => setSplash(false), 3000)
+  }, [])
+
   return (
     <ChakraProvider resetCSS theme={theme}>
       <Container>
-<<<<<<< HEAD
-        <Hero />
-        <About />
-        <OurMissions />
-        <Industry />
-        <RoadMap />
-        <Footer />
-=======
         {isSplash ? (
           <Splash />
         ) : (
@@ -36,7 +40,6 @@ export default () => {
             <Footer />
           </>
         )}
->>>>>>> parent of 29b13d2 (Merge branch 'hrd1' of https://github.com/WeFundOfficial/wfdalpha into Ahmed-Dev1)
       </Container>
     </ChakraProvider>
   )
