@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react'
-import axios from 'axios'
+import { ChakraProvider, Image, Flex, Box, Text, VStack, HStack } from '@chakra-ui/react'
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import {
   useWallet,
@@ -10,6 +10,7 @@ import {
 import { Wallet, CaretRight, Power, Check } from 'phosphor-react'
 import numeral from 'numeral'
 import { useStore } from '../store'
+import theme from '../theme'
 
 export default function ConnectWallet() {
   let connectedWallet = ''
@@ -133,6 +134,7 @@ export default function ConnectWallet() {
 
   return (
     <>
+      <VStack display={{ base: 'none', md: 'none', lg: 'block'}}>
       <div className="navbar-nav" style={{ flexDirection: 'row', width: '100%' }}>
         {!connected && (
           <>
@@ -232,6 +234,46 @@ export default function ConnectWallet() {
           </>
         )}
       </div>
+      </VStack>
+      <VStack display={{ base: 'block', md: 'block', lg: 'none'}}>
+        {!connected && (
+          <div className="dropdown-content3">
+            <button
+              onClick={() => connectTo('extension')}
+            >
+              <CaretRight size={16} /> Terra Station (Browser)
+            </button>
+            <button
+              onClick={() => connectTo('mobile')}
+            >
+              <CaretRight size={16} /> Terra Station (QR Scann)
+            </button>
+          </div>
+        )}
+        {connected && (
+          <div className="dropdown-content3">
+            {bank && (
+              <div
+                className="wallet-info d-inline-block text-start px-3"
+                style={{ fontSize: '13px' }}
+              >
+                <span className="d-block">
+                  <strong>YOUR WALLET:</strong>
+                </span>
+                <span className="d-block" style={{ marginBottom: '-5px' }}>
+                  {bank} <span className="text-sm">UST</span>
+                </span>
+              </div>
+            )}
+            <button
+              onClick={() => connectTo('disconnect')}
+            >
+              <Power size={16} style={{ marginTop: '-2px' }} />{' '}
+              <span style={{ fontSize: '13px' }}>Disconnect</span>
+            </button>
+          </div>
+        )}
+      </VStack>
     </>
   )
 }

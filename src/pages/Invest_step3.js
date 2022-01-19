@@ -273,20 +273,6 @@ export default function Invest_step3() {
               </Box>
               <input type='file' id="fileSelector" name='userFile' style={{display:'none'}}
                 onChange={(e)=>onChangeSignature(e)}/>
-              {/* 
-              {signature == '' && 
-                <InputGroup size="sm" width='290px'>
-                  <InputLeftElement width='290px' h='55px' pointerEvents='none' children={<IoCloudUploadOutline color='#00A3FF' width='30px' height='30px'/>} />
-                  <Input type="text" h='55px' bg='#FFFFFF' borderColor="#FFFFFF33" placeholder="Upload here" focusBorderColor="purple.800"  rounded="md"  
-                  onClick={()=>{openUpload()}}  /> 
-                </InputGroup>}
-              {signature != '' && 
-                <InputGroup size="sm" width='290px'>
-                  <InputLeftElement h='55px' pointerEvents='none' children={<IoCheckbox color='00A3FF'  width='30px' height='30px' />} />
-                  <Input type="text" h='55px' bg='#FFFFFF' borderColor="#FFFFFF33" placeholder={signature} focusBorderColor="purple.800"  rounded="md"  
-                  onClick={()=>{openUpload()}} /> 
-                </InputGroup>}
-               */}
             </Box>
           </Flex>
           <Flex w='100%' mt='60px'justify='center' mb='170px'>
