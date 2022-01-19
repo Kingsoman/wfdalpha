@@ -36,7 +36,7 @@ export default function ExplorerProject() {
   const [wallet, setWallet] = useState('');
   //-------------paginator------------------------------
   const [current, setCurrent] = useState(1);
-  const pageSize = 3;
+  const pageSize = 10;
   const [postCommunityData, setPostCommunityData] = useState('');
 
   const Prev = forwardRef((props, ref) => (
@@ -378,7 +378,7 @@ export default function ExplorerProject() {
                     current={current}
                     onChange={(page) => onChangePaginator(page)}        
                     pageSize={pageSize}
-                    total={state.activeProjectData == ''? 0 : state.activeProjectData.length}
+                    total={state.communityData == ''? 0 : state.communityData.length}
                     itemRender={itemRender}
                     paginationProps={{ display: 'flex' }}
                   />

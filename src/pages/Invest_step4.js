@@ -10,7 +10,7 @@ import { useStore } from '../store'
 import { ImageTransition, ButtonTransition } from "../components/ImageTransition";
 import Notification from '../components/Notification'
 
-export default function Invest_step4() {
+export default function InvestStep4() {
   const {state, dispatch} = useStore();
 
   //------------notification setting---------------------------------

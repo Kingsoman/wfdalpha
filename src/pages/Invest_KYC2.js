@@ -8,7 +8,7 @@ import { IoChevronUpOutline, IoChevronDownOutline, IoCheckmark } from 'react-ico
 
 import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
 
-export default function NewProject() {
+export default function InvestKYC2() {
   const [condition, setCondition] = useState(false);
 
   const navigate = useNavigate();

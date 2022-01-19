@@ -1,20 +1,23 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from '../theme';
 import { useNavigate } from '@reach/router'
-import {chakra, Box, Flex, Text, VStack, Image, Img, HStack, Select, 
+import {
+  Box, 
+  Flex, 
+  Text, 
+  Image, 
+  HStack,  
   Input,
+  Icon,
   InputGroup,
-  InputLeftAddon,
-  Textarea,
-  InputLeftElement,
-  InputRightElement
+  InputLeftElement 
   } from "@chakra-ui/react";
 import React, { useState} from 'react';
-import { IoCloudUploadOutline, IoCheckbox, IoChevronUpOutline, IoChevronDownOutline, IoCheckmark } from 'react-icons/io5';
+import { IoCloudUploadOutline} from 'react-icons/io5';
 
-import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
+import { ImageTransition } from "../components/ImageTransition";
 import { BsPhone } from "react-icons/bs";
-export default function NewProject() {
+export default function InvestKYC4() {
   const [condition, setCondition] = useState(false);
   const [isPassport, setIsPassport] = useState(false);
   const [isDriving, setIsDriving] = useState(false);

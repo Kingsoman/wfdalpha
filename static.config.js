@@ -77,7 +77,10 @@ export default {
             path: 'invest_kyc5',
             template: 'src/pages/Invest_KYC5',
         },
-        
+        {
+            path: 'invest_kyc6',
+            template: 'src/pages/Invest_KYC6',
+        },
         {
             path: 'usercenter',
             template: 'src/pages/UserInfoCenter',

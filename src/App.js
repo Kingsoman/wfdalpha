@@ -23,6 +23,13 @@ import Invest_step1 from 'pages/Invest_step1'
 import Invest_step2 from 'pages/Invest_step2'
 import Invest_step3 from 'pages/Invest_step3'
 import Invest_step4 from 'pages/Invest_step4'
+import Invest_KYC1  from 'pages/Invest_KYC1'
+import Invest_KYC2  from 'pages/Invest_KYC2'
+import Invest_KYC3  from 'pages/Invest_KYC3'
+import Invest_KYC4  from 'pages/Invest_KYC4'
+import Invest_KYC5  from 'pages/Invest_KYC5'
+import Invest_KYC6  from 'pages/Invest_KYC6'
+
 import Dashboard from 'pages/Dashboard'
 import NotFound from 'pages/NotFound'
 import { IntercomProvider, useIntercom } from 'react-use-intercom'
@@ -105,6 +112,12 @@ class App extends Component {
                   <Invest_step2 path="invest_step2" />
                   <Invest_step3 path="invest_step3" />
                   <Invest_step4 path="invest_step4" />
+                  <Invest_KYC1 path="invest_kyc1" />
+                  <Invest_KYC2 path="invest_kyc2" />
+                  <Invest_KYC3 path="invest_kyc3" />
+                  <Invest_KYC4 path="invest_kyc4" />
+                  <Invest_KYC5 path="invest_kyc5" />
+                  <Invest_KYC6 path="invest_kyc6" />
                   <Dashboard path="dashboard" />
                   <NotFound default />
                 </Router>

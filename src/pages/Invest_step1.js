@@ -9,7 +9,7 @@ import { IoCheckmark } from 'react-icons/io5';
 import { ImageTransition, InputTransition } from "../components/ImageTransition";
 import ESign from '../components/Pdf';
 
-export default function NewProject() {
+export default function InvestStep1() {
   const [condition, setCondition] = useState(false);
 
   const navigate = useNavigate();
