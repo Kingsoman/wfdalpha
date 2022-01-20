@@ -24,6 +24,7 @@ const initialState = {
     oneprojectData: '',
     communityData: '',
     configData: '',
+    connectedWallet: '',
     timer: '',
     wallet: {},    
     allNativeCoins: [],
@@ -50,11 +51,16 @@ const initialState = {
     pdfFile: '',
     whitepaper: '',
     logo: '',
-    fakeid: 0,
+    fakeid: 1,
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'setConnectedWallet':
+        return {
+            ...state,
+            connectedWallet: action.message,
+        }
     case 'setTimer':
         return {
             ...state,

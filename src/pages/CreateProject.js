@@ -235,6 +235,14 @@ export default function CreateProject() {
         notificationRef.current.showNotification('Please fill milestone title!', 'error', 4000)
         return
       }
+      if (milestoneStartdate[i] == ''){
+        notificationRef.current.showNotification('Please fill milestone Start Date!', 'error', 4000)
+        return
+      }
+      if (milestoneEnddate[i] == ''){
+        notificationRef.current.showNotification('Please fill milestone End Date!', 'error', 4000)
+        return
+      }
       if (parseInt(milestoneAmount[i]) < 6) {
         notificationRef.current.showNotification('Collected money at least 6 UST', 'error', 4000)
         return
@@ -354,6 +362,8 @@ export default function CreateProject() {
     setMilestoneTitle(ar);
   }
   function onCancelMilestone() {
+    if (milestoneTitle.length <= 1)
+      return;
     let ar = [...milestoneTitle];
     ar.pop();
     setMilestoneTitle(ar);

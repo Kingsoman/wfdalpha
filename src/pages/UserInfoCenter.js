@@ -120,7 +120,7 @@ export default function ProjectDetail() {
     if (project_id == 2)
       //fake
       navigate('/invest_step1')
-    else navigate('/back?project_id=' + state.oneprojectData.project_id)
+    else navigate('/back?project_id=' + oneprojectData.project_id)
   }
   //------------fectch project data------------------------------------
   async function fetchContractQuery() {
@@ -384,7 +384,7 @@ export default function ProjectDetail() {
                                   fontSize={'2xl'}
                                   fontFamily="PilatExtended-Heavy"
                                 >
-                                  {`$${state.oneprojectData.project_collected}`}
+                                  {oneprojectData.project_collected}
                                 </StatNumber>
                               </Box>
                             </Flex>
