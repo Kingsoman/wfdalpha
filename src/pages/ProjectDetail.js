@@ -165,9 +165,6 @@ console.log(oneprojectData);
     fetchContractQuery()
   }, [connectedWallet, lcd])
   
-
-  const { isOpen, onOpen, onClose } = useDisclosure()
-
   //--------Gantt chart data for Milestone timeline charting (Roadmap)
 
   const columns = [
