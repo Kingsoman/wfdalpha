@@ -36,6 +36,9 @@ import { useNavigate } from '@reach/router'
 import { useStore } from '../store'
 import { ImageTransition } from '../components/ImageTransition'
 import Footer from '../components/Footer'
+
+import { Chart } from "react-google-charts"
+
 import Notification from '../components/Notification'
 import {CheckNetwork, GetOneProject, FetchData, EstimateSend} from '../components/Util'
 
@@ -162,6 +165,155 @@ console.log(oneprojectData);
     fetchContractQuery()
   }, [connectedWallet, lcd])
   
+
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  //--------Gantt chart data for Milestone timeline charting (Roadmap)
+
+  const columns = [
+    { type: "string", label: "Task ID" },
+    { type: "string", label: "Task Name" },
+    { type: "string", label: "Resource" },
+    { type: "date", label: "Start Date" },
+    { type: "date", label: "End Date" },
+    { type: "number", label: "Duration" },
+    { type: "number", label: "Percent Complete" },
+    { type: "string", label: "Dependencies" },
+  ];
+  
+  const rows = [
+    [
+      "2014Spring",
+      "Spring 2014",
+      "spring",
+      new Date(2014, 2, 22),
+      new Date(2014, 5, 20),
+      null,
+      100,
+      null,
+    ],
+    [
+      "2014Summer",
+      "Summer 2014",
+      "summer",
+      new Date(2014, 5, 21),
+      new Date(2014, 8, 20),
+      null,
+      100,
+      null,
+    ],
+    [
+      "2014Autumn",
+      "Autumn 2014",
+      "autumn",
+      new Date(2014, 8, 21),
+      new Date(2014, 11, 20),
+      null,
+      100,
+      null,
+    ],
+    [
+      "2014Winter",
+      "Winter 2014",
+      "winter",
+      new Date(2014, 11, 21),
+      new Date(2015, 2, 21),
+      null,
+      100,
+      null,
+    ],
+    [
+      "2015Spring",
+      "Spring 2015",
+      "spring",
+      new Date(2015, 2, 22),
+      new Date(2015, 5, 20),
+      null,
+      50,
+      null,
+    ],
+    [
+      "2015Summer",
+      "Summer 2015",
+      "summer",
+      new Date(2015, 5, 21),
+      new Date(2015, 8, 20),
+      null,
+      0,
+      null,
+    ],
+    [
+      "2015Autumn",
+      "Autumn 2015",
+      "autumn",
+      new Date(2015, 8, 21),
+      new Date(2015, 11, 20),
+      null,
+      0,
+      null,
+    ],
+    [
+      "2015Winter",
+      "Winter 2015",
+      "winter",
+      new Date(2015, 11, 21),
+      new Date(2016, 2, 21),
+      null,
+      0,
+      null,
+    ],
+    [
+      "Football",
+      "Football Season",
+      "sports",
+      new Date(2014, 8, 4),
+      new Date(2015, 1, 1),
+      null,
+      100,
+      null,
+    ],
+    [
+      "Baseball",
+      "Baseball Season",
+      "sports",
+      new Date(2015, 2, 31),
+      new Date(2015, 9, 20),
+      null,
+      14,
+      null,
+    ],
+    [
+      "Basketball",
+      "Basketball Season",
+      "sports",
+      new Date(2014, 9, 28),
+      new Date(2015, 5, 20),
+      null,
+      86,
+      null,
+    ],
+    [
+      "Hockey",
+      "Hockey Season",
+      "sports",
+      new Date(2014, 9, 8),
+      new Date(2015, 5, 21),
+      null,
+      89,
+      null,
+    ],
+  ];
+  
+  const data = [columns, ...rows];
+  
+  const options = {
+    height: 400,
+    gantt: {
+      trackHeight: 30,
+    },
+  };
+
+  //--------Visual Code Start
   return (
 
     <ChakraProvider resetCSS theme={theme}>
@@ -184,6 +336,7 @@ console.log(oneprojectData);
               justify="center"
               alignItems={'center'}
               zIndex={'1'}
+              mt={'50px'}
             >
               <VStack>
                 <Flex
@@ -209,7 +362,7 @@ console.log(oneprojectData);
                         Project Name
                       </Text>
                     </Flex>
-                    <Flex>
+                    <Flex widtht={{ base: '70%', md: '70%', lg: '100%' }}>
                     <Text textAlign={'left'} fontWeight={'400'} fontSize={'18px'}>
                                   Project Project Milestone Description <br/>
                                   Aliquip mollit sunt qui irure. Irure ullamco Lorem
@@ -230,11 +383,12 @@ console.log(oneprojectData);
                       }}
                     >
                     {/* The Countdown and Vote*/}
-                      <Flex>
+                      <Flex mt={{ base: '0px', md: '0px', lg: '25px' }}>
                         <Flex
                             mt={{ base: '20px', md: '20px', lg: '00px' }}
-                            mr={{ base: '0px', md: '0px', lg: '25px' }}
+                            mr={{ base: '25px', md: '25px', lg: '25px' }}
                             alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
+                            direction={{ base: 'column', md: 'column', lg: 'row' }} 
                           >
                             <ImageTransition
                               unitid="vote"
@@ -428,7 +582,7 @@ console.log(oneprojectData);
                           border3="linear-gradient(180deg, #DEDBDB 0%, #DEDBDB 100%)"
                           background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
                           selected={false}
-                          width="250px"
+                          width="170px"
                           height="50px"
                           rounded="33px"
                         >
@@ -451,11 +605,11 @@ console.log(oneprojectData);
                     height={{ lg: '484px' }}
                     paddingLeft={{ lg: '55px' }}
                   >
-                    <Text  alignSelf={'flex-start'}>
+                    <Text  alignSelf={'flex-start'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }} mt={'25px'}>
                       Details
                     </Text>
 
-                    <HStack width={'100%'}>
+                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -474,7 +628,7 @@ console.log(oneprojectData);
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'}>
+                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -493,7 +647,7 @@ console.log(oneprojectData);
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'}>
+                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -512,7 +666,7 @@ console.log(oneprojectData);
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'}>
+                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -531,7 +685,7 @@ console.log(oneprojectData);
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'}>
+                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -788,6 +942,14 @@ console.log(oneprojectData);
                       visibility={{base:'hidden',md:'hidden', lg:'visible'}}
                     >
                       <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} visibility={{base:'hidden',md:'hidden', lg:'visible'}} >
+                      <Chart
+      chartType="Gantt"
+      width="100%"
+      height="50%"
+      background='rgba(255, 255, 255, 0.05)'
+      data={data}
+      options={options}
+    />
                         <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
                         <Table variant='simple'>
                           <TableCaption style={{color:'#00A3FF'}}>Milestones that project have. Details might be more on Project own's website. Project Milestone up for voting would be listed for voting. 
