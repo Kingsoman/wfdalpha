@@ -165,8 +165,8 @@ console.log(oneprojectData);
     fetchContractQuery()
   }, [connectedWallet, lcd])
   
-
-  const { isOpen, onOpen, onClose } = useDisclosure()
+    //--Pop Ups for Projects
+    const { isOpen: isVoteBoxOpen, onOpen: onVoteBoxOpen, onClose: onVoteBoxClose  } = useDisclosure()
 
   //--------Gantt chart data for Milestone timeline charting (Roadmap)
 
@@ -973,7 +973,7 @@ console.log(oneprojectData);
                             <Td >20 . 02 . 2022 </Td>
                             <Td >20 . 04 . 2022 </Td>
                             <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
+                            <Td ><Button onClick={onVoteBoxOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
                             <Td >Not Yet Started</Td>
                             <Td ><Text color={'#FE8600'}>See More</Text></Td>
                             </Tr>
@@ -983,7 +983,7 @@ console.log(oneprojectData);
                             <Td >20 . 02 . 2022 </Td>
                             <Td >20 . 04 . 2022 </Td>
                             <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
+                            <Td ><Button onClick={onVoteBoxOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
                             <Td >Not Yet Started</Td>
                             <Td ><Text color={'#FE8600'}>See More</Text></Td>
                             </Tr>
@@ -993,7 +993,7 @@ console.log(oneprojectData);
                             <Td >20 . 02 . 2022 </Td>
                             <Td >20 . 04 . 2022 </Td>
                             <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
+                            <Td ><Button onClick={onVoteBoxOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
                             <Td >Not Yet Started</Td>
                             <Td ><Text color={'#FE8600'}>See More</Text></Td>
                             </Tr>
@@ -1013,26 +1013,26 @@ console.log(oneprojectData);
         <Notification  ref={notificationRef}/>     
       </div>
       {/*--This is Where to Vote Pop Up is--*/}
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal onClose={onVoteBoxClose} isOpen={isVoteBoxOpen} isCentered>
         <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Vote The Project</ModalHeader>
+            <ModalHeader>Vote The Milestone of Project</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Text textAlign={'left'}>
-                Project Project Milestone Description <br/>
-                Aliquip mollit sunt qui irure. Irure ullamco Lorem
-                excepteur dolor qui ea ad quis. Enim fugiat cillum enim
-                ad occaecat sint qui elit labore mollit sunt laborum
-                fugiat consequat. Voluptate labore sunt duis eu
-                deserunt. Occaecat do ut ut labore cillum enim dolore ad
-                enim enim id. Aliquip do veniam ad excepteur ad cillum
-                qui deserunt nostrud sunt aliqua duis sunt occaecat.
-                Laborum incididunt commodo ullamco proident quis.
-              </Text>
+                                  Project Project Milestone Description <br/>
+                                  Aliquip mollit sunt qui irure. Irure ullamco Lorem
+                                  excepteur dolor qui ea ad quis. Enim fugiat cillum enim
+                                  ad occaecat sint qui elit labore mollit sunt laborum
+                                  fugiat consequat. Voluptate labore sunt duis eu
+                                  deserunt. Occaecat do ut ut labore cillum enim dolore ad
+                                  enim enim id. Aliquip do veniam ad excepteur ad cillum
+                                  qui deserunt nostrud sunt aliqua duis sunt occaecat.
+                                  Laborum incididunt commodo ullamco proident quis.
+                </Text>
             </ModalBody>
             <ModalFooter>
-                <Button colorScheme='grey' mr={3} onClick={onClose}>
+                <Button colorScheme='grey' mr={3} onClick={onVoteBoxClose}>
                   Close
                 </Button>
                 <Button colorScheme='blue' mr={3} 
