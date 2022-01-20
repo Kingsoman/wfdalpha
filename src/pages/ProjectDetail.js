@@ -383,9 +383,9 @@ export default function ProjectDetail() {
                       }}
                     >
                     {/* The Countdown and Vote*/}
-                      <Flex>
+                      <Flex mt={{ base: '0px', md: '0px', lg: '25px' }}>
                         <Flex
-                            mt={{ base: '20px', md: '20px', lg: '35px' }}
+                            mt={{ base: '20px', md: '20px', lg: '00px' }}
                             mr={{ base: '25px', md: '25px', lg: '25px' }}
                             alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
                             direction={{ base: 'column', md: 'column', lg: 'row' }} 
