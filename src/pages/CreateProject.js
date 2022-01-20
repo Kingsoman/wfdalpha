@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
-import { Fee, MsgExecuteContract } from '@terra-money/terra.js'
+import { Fee, MsgExecuteContract, WasmAPI, LCDClient} from '@terra-money/terra.js'
 import {
   Box,
   Flex,
@@ -15,8 +15,6 @@ import {
   Img,
 } from '@chakra-ui/react'
 import { IoCloudUploadOutline, IoCheckbox } from 'react-icons/io5'
-import ReCAPTCHA from "react-google-recaptcha";
-
 import {
   ButtonBackTransition,
   ButtonTransition,
@@ -27,6 +25,7 @@ import theme from '../theme'
 import { useStore } from '../store'
 import Notification from '../components/Notification'
 import Footer from '../components/Footer'
+import { EstimateSend, CheckNetwork, FetchData} from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -40,7 +39,6 @@ export default function CreateProject() {
 
   const [logo, setLogo] = useState('')
   const [whitepaper, setWhitepaper] = useState('')
-  const [milestone, setMilestone] = useState([{}])
 
   const [prjCategory, setPrjCategory] = useState('Crypto')
   const [prjName, setPrjName] = useState('')
@@ -56,46 +54,37 @@ export default function CreateProject() {
   const [prjDescriptionLen, setPrjDescriptionLen] = useState(0)
   const [prjTeamdescriptionLen, setPrjTeamDescriptionLen] = useState(0)
 
+  const [milestoneTitle, setMilestoneTitle] = useState([''])
+  const [milestoneType, setMilestoneType] = useState([''])
+  const [milestoneAmount, setMilestoneAmount] = useState([''])
+  const [milestoneDescription, setMilestoneDescription] = useState([''])
+  const [milestoneStartdate, setMilestoneStartdate] = useState([''])
+  const [milestoneEnddate, setMilestoneEnddate] = useState([''])
+
+  const [milestoneTitleLen, setMilestoneTitleLen] = useState([0])
+  const [milestoneDescriptionLen, setMilestoneDescriptionLen] = useState([0])
   //---------------wallet connect-------------------------------------
   let connectedWallet = ''
 
   if (typeof document !== 'undefined') {
     connectedWallet = useConnectedWallet()
   }
-
-  //---------------notification setting---------------------------------
-  const [notification, setNotification] = useState({
-    type: 'success',
-    message: '',
-    show: false,
-  })
-
-  function hideNotification() {
-    setNotification({
-      message: notification.message,
-      type: notification.type,
-      show: false,
+  
+  //----------init api, lcd-------------------------
+  const lcd = useMemo(() => {
+    if (!connectedWallet) {
+      return null
+    }
+    return new LCDClient({
+      URL: connectedWallet.network.lcd,
+      chainID: connectedWallet.network.chainID,
     })
-  }
+  }, [connectedWallet])
 
-  function showNotification(message, type, duration) {
-    // console.log('fired notification')
-    setNotification({
-      message: message,
-      type: type,
-      show: true,
-    })
-    console.log(notification)
-    // Disable after $var seconds
-    setTimeout(() => {
-      setNotification({
-        message: message,
-        type: type,
-        show: false,
-      })
-      // console.log('disabled',notification)
-    }, duration)
-  }
+  const api = new WasmAPI(state.lcd_client.apiRequester)
+
+  //------------notification setting---------------------------------
+  const notificationRef = useRef();
 
   //---------------input functions------------------------------
   function openUpload() {
@@ -118,7 +107,6 @@ export default function CreateProject() {
       })
     }
   }
-
   function openLogoUpload() {
     if (typeof document !== 'undefined') {
       let fileSelector = document.getElementById('fileLogoSelector')
@@ -156,41 +144,110 @@ export default function CreateProject() {
       e.target.value != '' &&
       e.target.value != parseInt(e.target.value).toString()
     ) {
-      showNotification('Please input number only', 'error', 4000)
+      notificationRef.current.showNotification('Please input number only', 'error', 4000)
       return
     }
     setPrjAmount(e.target.value)
   }
-  //---------------create project---------------------------------
-  async function createProject() {
-    //----------verify connection--------------------------------
-    if (connectedWallet == '' || typeof connectedWallet == 'undefined') {
-      showNotification('Please connect wallet first!', 'error', 6000)
+  function onChangeMilestoneTitle(e, index){
+    if (e.target.value.length < 100) {
+      let ar=[...milestoneTitle];
+      ar[index] = e.target.value;
+      setMilestoneTitle(ar);
+    }
+
+    let ar=[...milestoneTitleLen];
+    ar[index] = e.target.value.length;
+    setMilestoneTitleLen(ar);
+  }
+  function onChangeMilestoneType(e, index){
+    let ar=[...milestoneType];
+    ar[index] = e.target.value;
+    setMilestoneType(ar);
+  }
+  function onChangeMilestoneAmount(e, index){
+    if (
+      e.target.value != '' &&
+      e.target.value != parseInt(e.target.value).toString()
+    ) {
+      notificationRef.current.showNotification('Please input number only', 'error', 4000)
       return
     }
 
-    console.log(connectedWallet)
-    if (state.net == 'mainnet' && connectedWallet.network.name == 'testnet') {
-      showNotification('Please switch to mainnet!', 'error', 4000)
-      return
+    let ar=[...milestoneAmount];
+    ar[index] = e.target.value;
+    setMilestoneAmount(ar);
+  }
+  function onChangeMilestoneDescription(e, index){
+    if (e.target.value.length < 5000) {
+      let ar=[...milestoneDescription];
+      ar[index] = e.target.value;
+      setMilestoneDescription(ar); 
     }
-    if (state.net == 'testnet' && connectedWallet.network.name == 'mainnet') {
-      showNotification('Please switch to testnet!', 'error', 4000)
-      return
+
+    let ar=[...milestoneDescriptionLen];
+    ar[index] = e.target.value.length;
+    setMilestoneDescriptionLen(ar);
+  }
+  function onChangeMilestoneStartdate(e, index){
+    let ar=[...milestoneStartdate];
+    ar[index] = e.target.value;
+    setMilestoneStartdate(ar);
+  }
+  function onChangeMilestoneEnddate(e, index){
+    let ar=[...milestoneEnddate];
+    ar[index] = e.target.value;
+    setMilestoneEnddate(ar);
+  }
+  function isNull(val){
+    if(typeof val == 'undefined' || val == '')
+      return true;
+    return false;
+  }
+  function getVal(val){
+    return isNull(val)? '' : val;
+  }
+  //---------------create project---------------------------------
+  async function createProject() {
+    CheckNetwork(connectedWallet, notificationRef, state);
+
+    let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+
+    if (communityData == ''){
+      notificationRef.current.showNotification('There is no any community member!', 'error', 4000);
+      return;
     }
 
     if (prjNameLen == 0) {
-      showNotification('Please fill project name!', 'error', 4000)
+      notificationRef.current.showNotification('Please fill project name!', 'error', 4000)
       return
     }
     console.log(parseInt(prjAmount))
 
-    if (parseInt(prjAmount) < 100) {
-      showNotification('Collected money at least 100 UST', 'error', 4000)
+    if (parseInt(prjAmount) < 6) {
+      notificationRef.current.showNotification('Collected money at least 6 UST', 'error', 4000)
       return
     }
+
+    let total_release = 0;
+    for(let i=0; i<milestoneTitle.length; i++){
+      if (milestoneTitle[i] == '') {
+        notificationRef.current.showNotification('Please fill milestone title!', 'error', 4000)
+        return
+      }
+      if (parseInt(milestoneAmount[i]) < 6) {
+        notificationRef.current.showNotification('Collected money at least 6 UST', 'error', 4000)
+        return
+      }
+      total_release += parseInt(milestoneAmount[i]);
+    }
+    if (total_release != parseInt(prjAmount)){
+      notificationRef.current.showNotification('milestone total amount should equal to collected amount', 'error', 4000)
+      return
+    }
+
     //----------upload whitepaper---------------------------------------
-    showNotification('Please wait', 'success', 10000)
+    notificationRef.current.showNotification('Please wait', 'success', 10000)
 
     let realWhitepaer = ''
     if (whitepaper != '') {
@@ -207,7 +264,7 @@ export default function CreateProject() {
         .then((res) => res.json())
         .then((data) => {
           realWhitepaer = data.data
-          showNotification(
+          notificationRef.current.showNotification(
             data.data + 'Whitepaper upload Success',
             'success',
             1000,
@@ -215,7 +272,7 @@ export default function CreateProject() {
         })
         .catch((e) => {
           console.log('Error:' + e)
-          showNotification('upload whitepaper failed', 'error', 1000)
+          notificationRef.current.showNotification('upload whitepaper failed', 'error', 1000)
         })
     }
     //---------upload logo-------------------------------------------------
@@ -234,17 +291,33 @@ export default function CreateProject() {
         .then((res) => res.json())
         .then((data) => {
           realLogo = data.data
-          showNotification(data.data + 'Logo upload Success', 'success', 1000)
+          notificationRef.current.showNotification(data.data + 'Logo upload Success', 'success', 1000)
         })
         .catch((e) => {
           console.log('Error:' + e)
-          showNotification('upload logo failed', 'error', 1000)
+          notificationRef.current.showNotification('upload logo failed', 'error', 1000)
         })
     }
     //---------------execute contract----------------------------------
-    let wefundContractAddress = state.WEFundContractAddress
 
-    const obj = new Fee(10_000, { uusd: 4500 })
+    let project_milestones=[];
+    for(let i=0; i<milestoneTitle.length; i++){
+      let milestone={
+        milestone_step: `${i}`,
+        milestone_name: milestoneTitle[i],
+        milestone_description: getVal(milestoneDescription[i]),
+        milestone_startdate: getVal(milestoneStartdate[i]),
+        milestone_enddate: getVal(milestoneEnddate[i]),
+        milestone_amount: getVal(milestoneAmount[i]),
+        milestone_status: "0",
+        milestone_votes: []
+      };
+      project_milestones.push(milestone);
+    }
+    
+    const dt = new Date();
+    const [month, day, year] = [dt.getMonth(), dt.getDate(), dt.getFullYear()];
+    const createdate = day+"/"+(month+1)%12+"/"+year;
 
     let AddProjectMsg = {
       add_project: {
@@ -252,7 +325,7 @@ export default function CreateProject() {
         project_category: prjCategory,
         project_chain: prjChain,
         project_collected: prjAmount,
-        project_createddate: '',
+        project_createddate: createdate,
         project_deadline: '',
         project_description: prjDescription,
         project_email: prjEmail,
@@ -262,46 +335,29 @@ export default function CreateProject() {
         project_teamdescription: prjTeamdescription,
         project_website: prjWebsite,
         project_whitepaper: realWhitepaer,
+        project_milestones: project_milestones,
       },
     }
-    // console.log(AddProjectMsg);
+
+    let wefundContractAddress = state.WEFundContractAddress
 
     let msg = new MsgExecuteContract(
       connectedWallet.walletAddress,
       wefundContractAddress,
       AddProjectMsg,
     )
-
-    // console.log(JSON.stringify(msg));
-
-    await connectedWallet
-      .post({
-        msgs: [msg],
-        // fee: obj,
-        gasPrices: obj.gasPrices(),
-        gasAdjustment: 1.7,
-      })
-      .then((e) => {
-        if (e.success) {
-          // console.log("Add Project success");
-          // console.log(e);
-          showNotification('Create Project Success', 'success', 4000)
-        } else {
-          // console.log("project add error");
-          showNotification(e.message, 'error', 4000)
-        }
-      })
-      .catch((e) => {
-        // console.log("error" + e);
-        showNotification(e.message, 'error', 4000)
-      })
+    EstimateSend(connectedWallet, lcd, msg, "Create Project success", notificationRef);
   }
-
-  function newMileStone() {
-    let ar = [...milestone]
-    ar.concat({})
+  function onNewMilestone() {
+    let ar = [...milestoneTitle]
+    ar.push('');
+    setMilestoneTitle(ar);
   }
-
+  function onCancelMilestone() {
+    let ar = [...milestoneTitle];
+    ar.pop();
+    setMilestoneTitle(ar);
+  }
   return (
     <ChakraProvider resetCSS theme={theme}>
       <div
@@ -503,9 +559,10 @@ export default function CreateProject() {
                 width="100%"
                 height="175px"
                 rounded="md"
+                style={{ background: 'transparent', border: '0' }}
               >
                 <Textarea
-                  style={{ border: '0', background: 'transparent' }}
+                  style={{ background: 'transparent', border: '0' }}
                   value={prjDescription}
                   onChange={(e) => {
                     onChangePrjDescription(e)
@@ -700,7 +757,6 @@ export default function CreateProject() {
               >
                 <Textarea
                   style={{ background: 'transparent', border: '0' }}
-                  h="165px"
                   value={prjTeamdescription}
                   onChange={(e) => {
                     onChangePrjTeamDescription(e)
@@ -708,6 +764,7 @@ export default function CreateProject() {
                   placeholder="Type here"
                   size="sm"
                   rounded="md"
+                  h='175px'
                 />
               </InputTransition>
             </Box>
@@ -965,39 +1022,46 @@ export default function CreateProject() {
               </Box>
             </Flex>
 
-            {milestone.map(() => {
+            <Flex
+              mt="100px"
+              mb="20px"
+              justify="center"
+              style={{ fontFamily: 'PilatExtended-Bold' }}
+            >
+              <Text fontSize={{ base: '25px', md: '25px' }}>
+                Create&nbsp;
+              </Text>
+              <Text
+                fontSize={{ base: '25px', md: '25px' }}
+                color="#4790f5"
+              >
+                Milestones
+              </Text>
+              <Text fontSize={{ base: '25px', md: '25px' }}>
+                &nbsp;for the Project
+              </Text>
+            </Flex>
+            {milestoneTitle.map((item, index) => {
               return (
-                <>
+                <Flex direction='column' key={index}>
                   {/* -----------------Create New Milestone----------------- */}
-                  <Flex
-                    mt="100px"
-                    mb="20px"
-                    justify="center"
-                    style={{ fontFamily: 'PilatExtended-Bold' }}
+                  <Text
+                    fontSize={{ base: '25px', md: '25px' }}
+                    color="#4790f5"
+                    mb = '30px'
                   >
-                    <Text fontSize={{ base: '25px', md: '25px' }}>
-                      Create&nbsp;
-                    </Text>
-                    <Text
-                      fontSize={{ base: '25px', md: '25px' }}
-                      color="#4790f5"
-                    >
-                      Milestones
-                    </Text>
-                    <Text fontSize={{ base: '25px', md: '25px' }}>
-                      &nbsp;for the Project
-                    </Text>
-                  </Flex>
+                    Milestone - {index+1}
+                  </Text>
                   <Box mt="40px">
                     <Flex justify="space-between">
                       <Text mb="20px">Milestone Title</Text>
                       <Text fontSize="15px" opacity="0.5">
-                        {prjNameLen}/100 words
+                        {milestoneTitleLen[index]}/100 words
                       </Text>
                     </Flex>
                     <InputTransition
                       unitid="projectname"
-                      selected={prjName == '' ? false : true}
+                      selected={isNull(milestoneTitle[index]) ? false : true}
                       width="100%"
                       height="55px"
                       rounded="md"
@@ -1012,9 +1076,9 @@ export default function CreateProject() {
                           type="text"
                           h="55px"
                           rounded="md"
-                          value={prjName}
+                          value={milestoneTitle[index]}
                           placeholder="Type here"
-                          onChange={(e) => onChangePrjName(e)}
+                          onChange={(e) => onChangeMilestoneTitle(e, index)}
                         />
                       </InputGroup>
                     </InputTransition>
@@ -1025,10 +1089,11 @@ export default function CreateProject() {
                         <Text mb="20px">Milestone Type</Text>
                       </Flex>
                       <InputTransition
-                        unitid="projectemail"
+                        unitid={`milestonetype${index}`}
                         width="100%"
                         height="55px"
                         rounded="md"
+                        selected={isNull(milestoneType[index]) ? false : true}
                       >
                         <InputGroup
                           size="sm"
@@ -1048,8 +1113,8 @@ export default function CreateProject() {
                             placeholder="Type here"
                             focusBorderColor="purple.800"
                             rounded="md"
-                            value={prjEmail}
-                            onChange={(e) => setPrjEmail(e.target.value)}
+                            value={milestoneType[index]}
+                            onChange={(e) => onChangeMilestoneType(e, index)}
                           />
                         </InputGroup>
                       </InputTransition>
@@ -1059,8 +1124,8 @@ export default function CreateProject() {
                         <Text mb="20px">Amount Required</Text>
                       </Flex>
                       <InputTransition
-                        unitid="projectamount"
-                        selected={prjEmail == '' ? false : true}
+                        unitid={`milestoneamount${index}`}
+                        selected={isNull(milestoneAmount[index]) ? false : true}
                         width="100%"
                         height="55px"
                         rounded="md"
@@ -1076,9 +1141,9 @@ export default function CreateProject() {
                             placeholder="Type here"
                             focusBorderColor="purple.800"
                             rounded="md"
-                            value={prjAmount}
+                            value={milestoneAmount[index]}
                             onChange={(e) => {
-                              onChangePrjAmount(e)
+                              onChangeMilestoneAmount(e, index)
                             }}
                           />
                           <InputRightElement
@@ -1101,10 +1166,6 @@ export default function CreateProject() {
                             size="sm"
                             rounded="md"
                             fontSize="16px"
-                            value=""
-                            onChange={(e) => {
-                              setPrjChain(e.target.value)
-                            }}
                           >
                             <option
                               selected
@@ -1121,12 +1182,12 @@ export default function CreateProject() {
                     <Flex justify="space-between">
                       <Text mb="20px">Milestone Description</Text>
                       <Text fontSize="15px" opacity="0.5">
-                        {prjTeamdescriptionLen}/5000 words
+                        {milestoneDescriptionLen[index]}/5000 words
                       </Text>
                     </Flex>
                     <InputTransition
-                      unitid="prjTeamdescription"
-                      selected={prjTeamdescription == '' ? false : true}
+                      unitid={`milestonedescription${index}`}
+                      selected={isNull(milestoneDescription[index]) ? false : true}
                       width="100%"
                       height="175px"
                       rounded="md"
@@ -1134,12 +1195,12 @@ export default function CreateProject() {
                     >
                       <Textarea
                         style={{ background: 'transparent', border: '0' }}
-                        h="165px"
-                        value={prjTeamdescription}
-                        onChange={(e) => onChangePrjTeamDescription(e)}
+                        value={milestoneDescription[index]}
+                        onChange={(e) => onChangeMilestoneDescription(e, index)}
                         placeholder="Type here"
                         size="sm"
                         rounded="md"
+                        h='175px'
                       />
                     </InputTransition>
                   </Box>
@@ -1149,10 +1210,11 @@ export default function CreateProject() {
                         <Text mb="20px">Milestone Duration</Text>
                       </Flex>
                       <InputTransition
-                        unitid="projectemail"
+                        unitid={`milestonestartdate${index}`}
                         width="100%"
                         height="55px"
                         rounded="md"
+                        selected={isNull(milestoneStartdate[index]) ? false : true}
                       >
                         <InputGroup
                           size="sm"
@@ -1172,18 +1234,19 @@ export default function CreateProject() {
                             placeholder="Start Date ( dd - mm - yyyy )"
                             focusBorderColor="purple.800"
                             rounded="md"
-                            value={prjEmail}
-                            onChange={(e) => setPrjEmail(e.target.value)}
+                            value={milestoneStartdate[index]}
+                            onChange={(e) => onChangeMilestoneStartdate(e, index)}
                           />
                         </InputGroup>
                       </InputTransition>
                     </Box>
                     <Box w="48%" pt={'45px'}>
                       <InputTransition
-                        unitid="projectemail"
+                        unitid={`milestoneenddate${index}`}
                         width="100%"
                         height="55px"
                         rounded="md"
+                        selected={isNull(milestoneEnddate[index]) ? false : true}
                       >
                         <InputGroup
                           size="sm"
@@ -1203,18 +1266,24 @@ export default function CreateProject() {
                             placeholder="Start Date ( dd - mm - yyyy )"
                             focusBorderColor="purple.800"
                             rounded="md"
-                            value={prjEmail}
-                            onChange={(e) => setPrjEmail(e.target.value)}
+                            value={milestoneEnddate[index]}
+                            onChange={(e) => onChangeMilestoneEnddate(e, index)}
                           />
                         </InputGroup>
                       </InputTransition>
                     </Box>
                   </Flex>
-                  <Flex w="310px" mt="50px" justify="center">
+                  <Flex 
+                    w="100%" 
+                    mt="50px"
+                    pb="50px" 
+                    justify="space-between"
+                    borderBottom={'1px solid rgba(255, 255, 255, 0.3)'}
+                  >
                     <ButtonBackTransition
-                      unitid="Save"
+                      unitid={`milestonecancel${index}`}
                       selected={false}
-                      width="150px"
+                      width="250px"
                       height="45px"
                       rounded="33px"
                     >
@@ -1223,29 +1292,14 @@ export default function CreateProject() {
                         color="white"
                         justify="center"
                         align="center"
+                        onClick = {()=> onCancelMilestone()}
                       >
-                        Save
-                      </Box>
-                    </ButtonBackTransition>
-                    <ButtonBackTransition
-                      unitid="Cancel"
-                      selected={false}
-                      width="150px"
-                      height="45px"
-                      rounded="33px"
-                    >
-                      <Box
-                        variant="solid"
-                        color="white"
-                        justify="center"
-                        align="center"
-                      >
-                        Cancel
+                        Cancel Milestone - {index+1}
                       </Box>
                     </ButtonBackTransition>
                   </Flex>
                   {/* -----------------submit----------------- */}
-                </>
+                </Flex>
               )
             })}
             <Flex
@@ -1255,7 +1309,6 @@ export default function CreateProject() {
               pb="30px"
               mb="50px"
               justify="center"
-              borderTop={'1px solid rgba(255, 255, 255, 0.3)'}
               borderBottom={'1px solid rgba(255, 255, 255, 0.3)'}
             >
               <ButtonBackTransition
@@ -1270,20 +1323,12 @@ export default function CreateProject() {
                   color="white"
                   justify="center"
                   align="center"
-                  onClick={newMileStone}
+                  onClick={onNewMilestone}
                 >
                   Add New Milestone
                 </Box>
               </ButtonBackTransition>
             </Flex>
-            <Flex w="100%" mt="30px" justify="center" mb="30px">
-          <Box>
-            {/*-----Bot Verification before submit----- */}
-            <ReCAPTCHA
-            sitekey="6LdNrhkeAAAAACIAeAea2JU1lLHXHANiikg2G5iT"
-          />
-            </Box>
-          </Flex>
             <Flex w="100%" mt="30px" justify="center" mb="30px">
               <ButtonTransition
                 unitid="submit"
@@ -1306,10 +1351,7 @@ export default function CreateProject() {
           </div>
         </Flex>
         <Footer />
-        <Notification
-          notification={notification}
-          close={() => hideNotification()}
-        />
+        <Notification  ref={notificationRef}/>
       </div>
     </ChakraProvider>
   )

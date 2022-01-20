@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Flex, Text, Box } from '@chakra-ui/react'
+import { Image, Flex, Text } from '@chakra-ui/react'
 
 export default function OurMissions() {
   return (
@@ -15,6 +15,7 @@ export default function OurMissions() {
           justify="center"
           textAlign="center"
           alignItems="center"
+          data-aos="fade-down"
           flexDirection="column"
           fontFamily="PilatExtended-Regular"
         >
@@ -34,7 +35,7 @@ export default function OurMissions() {
 
         <Flex id="missionList">
           {PROJECT_ITEMS.map((projectItem, index) => (
-            <Flex key={index} className="missionCard">
+            <Flex key={index} className="missionCard" data-aos="zoom-in-up">
               <Image src={projectItem.imgsrc} className="missionImage" />
               <Text className="missionTitle">{projectItem.title}</Text>
               <Text className="missionDesc">{projectItem.description}</Text>

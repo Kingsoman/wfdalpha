@@ -13,12 +13,10 @@ import React, { useState} from 'react';
 import { IoCloudUploadOutline, IoCheckbox, IoChevronUpOutline, IoChevronDownOutline, IoCheckmark } from 'react-icons/io5';
 
 import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
-import ESign from './EsignEdit';
-import Faq from '../components/FAQ';
 import { BsPhone } from "react-icons/bs";
 
 import { CheckIcon } from "@chakra-ui/icons";
-export default function NewProject() {
+export default function InvestKYC5() {
   const [condition, setCondition] = useState(false);
   const [isPassport, setIsPassport] = useState(false);
   const [isDriving, setIsDriving] = useState(false);

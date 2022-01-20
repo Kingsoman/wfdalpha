@@ -16,34 +16,13 @@ a {
     color: $primary;
 }
 
-//Coingecko widget styling
-
-.cg-container {
-    background-color: #281b59 !important;
-    color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    .cg-widget-container {
-        background-color: #281b59 !important;
-        color: #fff;
-    }
-}
-
 //to local todo
 @import './fonts';
 
-@import './countdown';
-@import './allowancemodal';
 @import './buttons';
-@import './cards';
-@import './tables';
-@import './usermodal';
-@import './ticketmodal';
-@import './proposalmodal';
-@import './proposals';
+
 @import './notifications';
-@import './how';
-@import './socialshare';
+
 @import './app.scss';
-@import './main-nav';
+
 @import './transition.css'

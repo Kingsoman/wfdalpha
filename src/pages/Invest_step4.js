@@ -10,43 +10,12 @@ import { useStore } from '../store'
 import { ImageTransition, ButtonTransition } from "../components/ImageTransition";
 import Notification from '../components/Notification'
 
-export default function Invest_step4() {
+export default function InvestStep4() {
   const {state, dispatch} = useStore();
 
-  //---------------notification setting---------------------------------
-  const [notification, setNotification] = useState({
-    type: 'success',
-    message: '',
-    show: false,
-  })
+  //------------notification setting---------------------------------
+  const notificationRef = useRef();
 
-  function hideNotification() {
-    setNotification({
-        message: notification.message,
-        type: notification.type,
-        show: false,
-    })
-  }
-
-  function showNotification(message, type, duration) {
-    // console.log('fired notification')
-    setNotification({
-        message: message,
-        type: type,
-        show: true,
-    })
-    // console.log(notification)
-    // Disable after $var seconds
-    setTimeout(() => {
-        setNotification({
-            message: message,
-            type: type,
-            show: false,
-        })
-        // console.log('disabled',notification)
-    }, duration)
-  }
-  
   function download_pdf(){
     showNotification("Downloading", "success", 10000);
 
@@ -122,7 +91,7 @@ export default function Invest_step4() {
               }
             /></HStack>
             <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} maxWidth={'500px'} justifyContent={'center'} textAlign={'center'}  maxW={'390px'}>
-              You have invested in WeFund. For more update, please get in touch with us. We will confirm your investment status via email. </Text>
+              You have invested in WeFund. <Text color={'#FE8600'}>Please be sure to check the transaction has been confirmed in your wallet. If there are any issues, please contact info@wefund.app</Text>  </Text>
             
           </Flex>
           {/* --------Table confirmation dekstop---------- */}
@@ -181,6 +150,7 @@ export default function Invest_step4() {
                   </a>
               </Td>
             </Tr>
+            
           </Table>
 
           </Flex> 
@@ -206,10 +176,7 @@ export default function Invest_step4() {
           
         </Box>
         </Flex>
-        <Notification
-            notification={notification}
-            close={() => hideNotification()}
-        />
+        <Notification ref={notificationRef}/>
       </div>
     </ChakraProvider>
   )

@@ -1,20 +1,19 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
+
 import { Flex, Text, Image, Select } from '@chakra-ui/react'
 import { ButtonBackTransition } from '../components/ImageTransition'
 
-
-
 export default function Aboutone() {
-        const [selectedLang,setSelectedlang] = useState('/Litepaper_Wefund.pdf'); //default value
-        function handleSelectChange(event) {
-            setSelectedlang(event.target.value);
-        }
-      
+  const [selectedLang, setSelectedlang] = useState('/Litepaper_Wefund.pdf') //default value
+  function handleSelectChange(event) {
+    setSelectedlang(event.target.value)
+  }
+
   return (
     <Flex id="aboutSection">
       <Flex id="aboutFirstSection">
-        <Flex id="aboutFirstSection1">
-          <Flex direction="row">
+        <Flex id="aboutFirstSection1" data-aos="fade-right">
+          <Flex direction="row" data-aos="fade-down">
             <Text id="aboutUsPageLable">ABOUT WEFUND</Text>
           </Flex>
           <Flex direction="row" mt="20px">
@@ -41,9 +40,6 @@ export default function Aboutone() {
               protocol using smart contracts for investor security.
             </Text>
 
-            <Flex id="rocket" position="relative">
-              <Image h="200px" src="/rocket.svg" />
-            </Flex>
             <Text id="aboutUsPageHeadingDesc" mt="30px">
               Select Litepaper Languange
             </Text>
@@ -153,7 +149,7 @@ export default function Aboutone() {
             </a>
           </Flex>
         </Flex>
-        <Flex id="aboutFirstSection2">
+        <Flex id="aboutFirstSection2" data-aos="fade-left">
           <Flex alignItems="center" justifyContent="center">
             <Flex bg="#291554" className="aboutUsBox LeftRadiusAboutUs">
               <Image className="aboutUsSectionImages" src="/gift.svg" />

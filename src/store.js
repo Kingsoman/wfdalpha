@@ -14,26 +14,30 @@ import {
 const StoreContext = createContext()
 
 const initialState = {
-    // net: 'testnet',
-    net: 'mainnet',
+    net: 'testnet',
+    // net: 'mainnet',
 
-    // WEFundContractAddress: "terra1hsvqrzda46k80ca28h282dnhmr0k8eff3m9krz", //testnet
-    WEFundContractAddress: "terra1qcm9957c2gyghkaqgsk0h5mw6xf6ym4xdu7kmu",
+    WEFundContractAddress: "terra17e7t7m9wxm4twr90cfgwrvtx7p40vnr2ywrdra", //testnet
+    // WEFundContractAddress: "terra1qcm9957c2gyghkaqgsk0h5mw6xf6ym4xdu7kmu",
     projectData: '',
+    activeProjectData: '',
     oneprojectData: '',
+    communityData: '',
+    configData: '',
+    timer: '',
     wallet: {},    
     allNativeCoins: [],
     config: {},
     ustBalance: 0,
     contractBalance: {},
-    // lcd_client: new LCDClient({ //testnet
-    //     URL: 'https://bombay-lcd.terra.dev/',
-    //     chainID: 'bombay-12',
-    // }),
-    lcd_client: new LCDClient({
-        URL: 'https://lcd.terra.dev',
-        chainID: 'columbus-4',
+    lcd_client: new LCDClient({ //testnet
+        URL: 'https://bombay-lcd.terra.dev/',
+        chainID: 'bombay-12',
     }),
+    // lcd_client: new LCDClient({
+    //     URL: 'https://lcd.terra.dev',
+    //     chainID: 'columbus-4',
+    // }),
     investAmount: '',
     investWfdamount: '',
     investName: '',
@@ -46,10 +50,31 @@ const initialState = {
     pdfFile: '',
     whitepaper: '',
     logo: '',
+    fakeid: 0,
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'setTimer':
+        return {
+            ...state,
+            timer: action.message,
+        }
+    case 'setConfigData':
+        return {
+            ...state,
+            configData: action.message,
+        }
+    case 'setCommunityData':
+        return {
+            ...state,
+            communityData: action.message,
+        }
+    case 'setActiveProjectData':
+        return {
+            ...state,
+            activeProjectData: action.message,
+        }
     case 'setLogo':
         return {
             ...state,
@@ -65,7 +90,7 @@ const reducer = (state, action) => {
             ...state,
             investDate: action.message,
         }
-    case 'setInvestWfdamount':
+    case 'setInvestWfdAmount':
         return {
             ...state,
             investWfdamount: action.message,

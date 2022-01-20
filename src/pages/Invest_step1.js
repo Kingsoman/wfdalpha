@@ -4,13 +4,12 @@ import { useNavigate } from '@reach/router'
 import {chakra, Box, Flex, Text, VStack, Image, Img, HStack
   } from "@chakra-ui/react";
 import React, { useState} from 'react';
-import { IoChevronUpOutline, IoChevronDownOutline, IoCheckmark } from 'react-icons/io5';
+import { IoCheckmark } from 'react-icons/io5';
 
-import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
-import ESign from './EsignEdit';
-import Faq from '../components/FAQ';
+import { ImageTransition, InputTransition } from "../components/ImageTransition";
+import ESign from '../components/Pdf';
 
-export default function NewProject() {
+export default function InvestStep1() {
   const [condition, setCondition] = useState(false);
 
   const navigate = useNavigate();

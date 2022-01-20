@@ -1,3 +1,3 @@
-# React-Static - LoTerra Interface
+# React-Static - WeFund Platform
 
-To use this template, run `Yarn start`.
+To use this template, run `yarn start`.

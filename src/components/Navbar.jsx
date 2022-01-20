@@ -1,7 +1,7 @@
 import React from 'react'
 import ConnectWallet from './ConnectWallet'
 import { Link } from '@reach/router'
-import { ChakraProvider, Image, Flex, Box, Text } from '@chakra-ui/react'
+import { ChakraProvider, Image, Flex, Box, Text, VStack, HStack } from '@chakra-ui/react'
 
 import theme from '../theme'
 import { ButtonBackTransition } from '../components/ImageTransition'
@@ -12,24 +12,29 @@ export default function Navbar() {
   return (
     <ChakraProvider resetCSS theme={theme}>
       <Container>
+      <VStack display={{ base: 'none', md: 'none', lg: 'block'}}>
         <Flex 
-          id="mainContainer"
-          direction={{base:'column', md:'column', lg:'row'}}
-          justify={{base:'center', md:'center', lg:'space-between'}}
-          h={{base:'150px', md:'150px', lg:'80px'}}
+          direction='row'
+          justify='space-between'
+          h='80px'
+          zIndex='99'
+          w='100%'
+          position='relative'
+          backdropFilter='blur(54px)'
+          borderBottom='2px solid rgba(255, 255, 255, 0.103)'
         >
           <Flex 
-            w={{base:'100%', md:'100%', lg:'40%'}}
-            h={{base:'50%', md:'50%', lg:'100%'}}
+            w='40%'
+            h='100%'
             align='center'
-            justify={{base:'center', md:'center', lg:'space-between'}}
+            justify='space-between'
           >
             <Flex ml='20px'>
               <Link className="navbar-brand" to="/">
                 <Image
-                  alt={'Wefund'}
-                  src={'/WeFund%20Logos%20only.png'}
-                  width={'56px'}
+                  alt='Wefund'
+                  src='/WeFund%20Logos%20only.png'
+                  h='40px'
                 />
               </Link>
             </Flex>
@@ -44,11 +49,11 @@ export default function Navbar() {
             mr='20px'
             align='center'
             justify='center'
-            w={{base:'100%', md:'100%', lg:'40%'}}
-            h={{base:'50%', md:'50%', lg:'100%'}}
+            w='40%'
+            h='100%'
           >
             <ButtonBackTransition
-              unitid="Create Your Project"
+              unitid="CreateYourProject"
               selected={false}
               width="197px"
               height="40px"
@@ -71,6 +76,61 @@ export default function Navbar() {
             </Flex>
           </Flex>
         </Flex>
+      </VStack>
+      <VStack display={{ base: 'block', md: 'block', lg: 'none'}}>
+        <Flex 
+          direction='row'
+          justify='space-between'
+          h='80px'
+          zIndex='99'
+          w='100%'
+          position='relative'
+          backdropFilter='blur(54px)'
+          borderBottom='2px solid rgba(255, 255, 255, 0.103)'
+        >
+          <Flex ml='30px' align='center'>
+            <Link className="navbar-brand" to="/">
+              <Image
+                alt='Wefund'
+                src='/WeFund%20Logos%20only.png'
+                h='40px'
+              />
+            </Link>
+          </Flex>
+          <HStack>
+            <Flex mr='30px' className="dropdown">
+              <Flex className="dropbtn">
+                <Image
+                  alt='menu1'
+                  src='/menuButton1.svg'
+                  h='30px'
+                />
+              </Flex>
+              <div className="dropdown-content">
+                {NAV_ITEMS.map((navItem, index) => (
+                  <Link
+                    to={navItem.href}
+                  >
+                    {navItem.label}
+                  </Link>
+                ))}
+              </div>
+            </Flex>
+            <Flex pr='30px' className="dropdown2">
+              <Flex className="dropbtn">
+                <Image
+                  alt='menu2'
+                  src='/menuButton2.svg'
+                  h='30px'
+                />
+              </Flex>
+              <div className="dropdown-content2">
+                <ConnectWallet/>
+              </div>
+            </Flex>
+          </HStack>
+        </Flex>
+      </VStack>
       </Container>
     </ChakraProvider>
   )
@@ -83,77 +143,20 @@ const DesktopNav = () => {
           key={index}
           className="btn-group"
           cursor='pointer'
-          ml = {{base:'50px', md:'50px', lg:'0px'}}
           align = 'center'
         >
-          {!navItem.childitem && (
-            <Link
-              to={navItem.href}
-              className="btn btn-danger"
+          <Link
+            to={navItem.href}
+            className="btn btn-danger"
+          >
+            <Text 
+              color='rgba(255, 255, 255, 0.84)'
+              fontSize='15px'
+              lineHeight='18px'
             >
-              <Text 
-                color='rgba(255, 255, 255, 0.84)'
-                fontSize='15px'
-                lineHeight='18px'
-              >
-              {navItem.label}
-              </Text>
-            </Link>
-          )}
-          {navItem.children && (
-            <>
-              <div
-                className={
-                  'btn btn-danger ' +
-                  (navItem.children ? 'dropdown-toggle' : '')
-                }
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                style={{
-                  color: 'rgba(255, 255, 255, 0.84)',
-                  height: '20px',
-                  top: '25px',
-                  fontSize: '15px',
-                  lineHeight: '18px',
-                }}
-              >
-                {navItem.label}
-              </div>
-              <ul
-                className="dropdown-menu"
-                style={{
-                  width: '380px',
-                  padding: '10px',
-                  backgroundColor: 'black',
-                }}
-              >
-                {navItem.children.map((childitem, index) => (
-                  <li key={index}>
-                    <div style={{ margin: '20px' }}>
-                      <Link to={childitem.href} className="navitem">
-                        <p
-                          style={{
-                            marginBottom: '5px',
-                            fontSie: 'large',
-                          }}
-                        >
-                          {childitem.label}
-                        </p>
-                        <p
-                          style={{
-                            marginTop: '0px',
-                            fontSize: 'small',
-                          }}
-                        >
-                          {childitem.subLabel}
-                        </p>
-                      </Link>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
+            {navItem.label}
+            </Text>
+          </Link>
         </Flex>
       ))}
     </>
@@ -161,38 +164,6 @@ const DesktopNav = () => {
 }
 
 const NAV_ITEMS = [
-  // {
-  //   label: 'Projects',
-  //   children: [
-  //     {
-  //       label: 'Explore Project',
-  //       subLabel: 'Explore Project that you might be passionate about!',
-  //       href: '/explorer',
-  //     },
-  //     {
-  //       label: 'See Our Guidelines on Creating A Project',
-  //       subLabel: 'Wnat to fund your project? Or open up investment opportunities for your project? See here',
-  //       href: '/create',
-  //     },
-  //   ],
-  //   href: '',
-  // },
-  // {
-  //   label: 'Career',
-  //   children: [
-  //     {
-  //       label: 'Job Board',
-  //       subLabel: 'Join our team',
-  //       href: '#',
-  //     },
-  //     {
-  //       label: 'Freelance Projects',
-  //       subLabel: 'An exclusive list for contract work, 1-4 weeks',
-  //       href: '#',
-  //     },
-  //   ],
-  //   href: '',
-  // },
   {
     label: 'Home',
     href: '/',
@@ -205,4 +176,8 @@ const NAV_ITEMS = [
     label: 'Invest in WeFund',
     href: 'invest_step1',
   },
+  {
+    label: 'Dashboard',
+    href: 'dashboard',
+  }
 ]

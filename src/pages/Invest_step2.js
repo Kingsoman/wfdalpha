@@ -8,16 +8,19 @@ import { navigate } from '@reach/router'
 
 import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
 import { useStore } from '../store'
+import Notification from '../components/Notification'
 
-export default function NewProject() {
+export default function InvestStep2() {
   const [backAmount, setBackAmount] = useState('');
   const [wfdAmount, setWfdamount] = useState('');
 
   const {state, dispatch} = useStore();
+  //------------notification setting---------------------------------
+  const notificationRef = useRef();
 
   function onChangeBackamount(e){
     if(e.target.value != '' && e.target.value != parseInt(e.target.value).toString()){
-      showNotification("Please input number only", "error", 4000);
+      notificationRef.current.showNotification("Please input number only", "error", 4000);
       return;
     }
     setWfdamount(parseInt(parseInt(e.target.value)/0.06));
@@ -30,7 +33,7 @@ export default function NewProject() {
       message: backAmount,
     })
     dispatch({
-      type: 'setInvestWfdamount',
+      type: 'setInvestWfdAmount',
       message: wfdAmount,
     })
     navigate('/invest_step3');
@@ -156,9 +159,9 @@ export default function NewProject() {
               </Box>
             </ImageTransition>
           </Flex>
-          
         </Box>
         </Flex>
+        <Notification ref={notificationRef}/>
       </div>
     </ChakraProvider>
   )

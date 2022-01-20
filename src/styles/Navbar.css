@@ -1,209 +1,98 @@
-/* Header */
-
-p {
-  margin: 0;
+/* Dropdown Button */
+.dropbtn {
+  color: white;
 }
 
-.clip-contents {
-  overflow: hidden;
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
 }
 
-.flex-row {
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  z-index: 1;
+  right: 0;
+  top: 30px;
+
+  background: linear-gradient(328.75deg, #493c85 -5.49%, #0f0038 104.44%);
+  border-radius: 10px;
+  box-shadow: 0px 28px 48px #0f0038;
+  color: #fff;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: #fff;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background: #0f0038;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown2 {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content2 {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0;
+  top: 30px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content2 a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content2 a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown2:hover .dropdown-content2 {display: block;}
+
+.dropdown-content3 {
+  position: absolute;
+  min-width: 230px;
+  z-index: 1;
+  right: 0;
+  top: 0px;
+
+  background: linear-gradient(328.75deg, #493c85 -5.49%, #0f0038 104.44%);
+  border-radius: 10px;
+  box-shadow: 0px 28px 48px #0f0038;
+  color: #fff;
+}
+
+/* Links inside the dropdown */
+.dropdown-content3 button {
+  color: #fff;
+  padding: 12px 16px;
+  text-decoration: none;
   display: flex;
-  flex-direction: row;
-}
-
-.flex-row-vcenter {
-  display: flex;
-  flex-direction: row;
+  width: 100%;
   align-items: center;
 }
-
-.flex-hend {
-  justify-content: flex-end;
-}
-
-.flex-hcenter {
-  justify-content: center;
-}
-
-.header {
-  padding: 19px 100px 19px 98px;
-  box-sizing: border-box;
-  background: linear-gradient(
-    90deg,
-    rgba(54, 8, 71, 1) 100%,
-    rgba(24, 7, 91, 1) 4.34%
-  );
-  width: 1440px;
-  height: 80px;
-}
-
-.group-649 {
-  margin-right: 283px;
-  box-sizing: border-box;
-}
-
-.bitmap {
-  width: 56px;
-  height: 30px;
-  margin-right: 60px;
-}
-
-.txt-448 {
-  font-size: 15px;
-  font-family: Sk-Modernist, sans-serif;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.84);
-  text-align: right;
-  width: 55px;
-  height: 20px;
-  word-wrap: break-word;
-  margin-right: 10px;
-}
-
-.arrow-down-2 {
-  width: 10px;
-  height: 5px;
-  margin-right: 30px;
-}
-
-.txt-017 {
-  font-size: 15px;
-  font-family: Sk-Modernist, sans-serif;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.84);
-  text-align: right;
-  width: 48px;
-  height: 20px;
-  word-wrap: break-word;
-  margin-right: 10px;
-}
-
-.arrow-down-3 {
-  width: 10px;
-  height: 5px;
-  margin-right: 30px;
-}
-
-.txt-1011 {
-  font-size: 15px;
-  font-family: Sk-Modernist, sans-serif;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.84);
-  width: 56px;
-  height: 20px;
-  word-wrap: break-word;
-  margin-right: 30px;
-}
-
-.txt-996 {
-  font-size: 15px;
-  font-family: Sk-Modernist, sans-serif;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.84);
-  width: 31px;
-  height: 20px;
-  word-wrap: break-word;
-  margin-right: 30px;
-}
-
-.txt-447 {
-  font-size: 15px;
-  font-family: Sk-Modernist, sans-serif;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.84);
-  height: 20px;
-  word-wrap: break-word;
-}
-
-.create-your-project {
-  padding: 8.5px 32.5px 10.5px 31.5px;
-  margin-right: 20px;
-  box-sizing: border-box;
-  border-radius: 33px;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 193, 255, 1) 0%,
-    rgba(0, 193, 255, 0) 100%
-  );
-  border: 1.5px solid rgba(0, 163, 255, 1);
-  width: 15.9%;
-  height: 100%;
-}
-
-.txt-684 {
-  font-size: 15px;
-  font-family: Sk-Modernist, sans-serif;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 1);
-  text-align: center;
-  width: 130px;
-  height: 18px;
-  word-wrap: break-word;
-}
-
-.connect-wallet {
-  padding: 8.5px 26.5px 8.5px 25.5px;
-  box-sizing: border-box;
-  border-radius: 30px;
-  background: linear-gradient(
-    180deg,
-    rgba(254, 134, 0, 1) 0%,
-    rgba(254, 134, 0, 0) 100%
-  );
-  border: 1.5px solid rgba(254, 134, 0, 1);
-  width: 14%;
-  height: 100%;
-}
-
-.txt-516 {
-  font-size: 15px;
-  font-family: Sk-Modernist, sans-serif;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 1);
-  text-align: center;
-  width: 119px;
-  height: 20px;
-  word-wrap: break-word;
-}
-
-/* new stylings */
-#mobileNavContainer {
-  display: none;
-}
-#mainContainer {
-  z-index: 99;
-  width: 100%;
-  display: flex;
-  position: relative;
-  backdrop-filter: blur(54px);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.103);
-  background: linear-gradient(90deg, #3608478a 0%, #18075b 104.34%);
-}
-
-@media only screen and (max-width: 500px) {
-  #mainContainer {
-    display: none;
-  }
-  #mobileNavContainer {
-    display: flex;
-    padding: 10px 5px;
-    align-items: center;
-    flex-direction: column;
-    backdrop-filter: blur(54px);
-    justify-content: space-around;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.103);
-    background: linear-gradient(90deg, #3608478a 0%, #18075b 104.34%);
-  }
-  #mobileNavContainerInner {
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-around;
-  }
-  #dropdownMenuButton1 {
-    font-size: 12px !important;
-    height: 30px !important;
-    padding-top: 2px !important;
-  }
-}
+/* Change color of dropdown links on hover */
+.dropdown-content3 button:hover {background-color: #0f0038;}
