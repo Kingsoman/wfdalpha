@@ -166,10 +166,8 @@ export default function ProjectDetail() {
   useEffect(() => {
     fetchContractQuery()
   }, [connectedWallet, lcd])
-  //--Pop Ups for Projects
-  const { isOpen: isVoteBoxOpen, onOpen: onVoteBoxOpen, onClose: onVoteBoxClose  } = useDisclosure()
-  //--Pop ups for Referral thing
-  const { isOpen: isRefBoxOpen, onOpen: onRefBoxOpen, onClose: onRefBoxClose } = useDisclosure()
+  
+  const { isOpen, onOpen, onClose } = useDisclosure()
   return (
 
     <ChakraProvider resetCSS theme={theme}>
@@ -294,48 +292,7 @@ export default function ProjectDetail() {
                         Wallet ecosystem of user wallet
                       </chakra.h1>
                     </Flex>
-                    
                     {/* The Buttons*/}
-                    <Flex
-                      alignSelf={{
-                        base: 'center',
-                        md: 'center',
-                        lg: 'flex-start',
-                      }}
-                      spacing={5}
-                      direction={{ base: 'column', md: 'column', lg: 'row' }}
-                    >
-                      <Flex
-                        mt={{ base: '20px', md: '20px', lg: '30px' }}
-                        mb={{ base: '40px', md: '40px', lg: '20px' }}
-                        ml={{ base: '0px', md: '0px', lg: '10px' }}
-                        alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
-                      >
-                        <ImageTransition
-                          unitid="ref"
-                          border1="linear-gradient(180deg, #DEDBDB 0%, #DEDBDB 100%)"
-                          background1="linear-gradient(180deg, #DEDBDB 0%, #DEDBD/B  100%)"
-                          border2="linear-gradient(180deg, #DEDBDB 0%, #DEDBDB 100%)"
-                          background2="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
-                          border3="linear-gradient(180deg, #DEDBDB 0%, #DEDBDB 100%)"
-                          background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
-                          selected={false}
-                          width="170px"
-                          height="50px"
-                          rounded="33px"
-                        >
-                          <Box
-                            variant="solid"
-                            color="white"
-                            justify="center"
-                            align="center"
-                            onClick={onRefBoxOpen}
-                          >
-                            Referral
-                          </Box>
-                        </ImageTransition>
-                      </Flex>
-                    </Flex>
                   </VStack>
                 </Flex>
                 <Flex>
@@ -603,7 +560,7 @@ export default function ProjectDetail() {
                                   $32,000.50 <span style={{color:'#00A3FF'}}>Funding Pool</span>
                                 </chakra.h1>
                               </Flex>
-                              <HStack style={{paddingLeft:'10%', width:'330px', spacing:10}}>
+                              <HStack style={{paddingLeft:'15%', width:'330px', spacing:10}}>
                                 <Flex >
                                   <ImageTransition 
                                     unitid='visit'
@@ -708,7 +665,7 @@ export default function ProjectDetail() {
                                   $32,000.50 <span style={{color:'#00A3FF'}}>Funding Pool</span>
                                 </chakra.h1>
                               </Flex>
-                              <HStack style={{paddingLeft:'10%', width:'330px', spacing:10}}>
+                              <HStack style={{paddingLeft:'15%', width:'330px', spacing:10}}>
                                 <Flex >
                                   <ImageTransition 
                                     unitid='visit'
@@ -813,7 +770,7 @@ export default function ProjectDetail() {
                                   $32,000.50 <span style={{color:'#00A3FF'}}>Funding Pool</span>
                                 </chakra.h1>
                               </Flex>
-                              <HStack style={{paddingLeft:'10%', width:'330px', spacing:10}}>
+                              <HStack style={{paddingLeft:'15%', width:'330px', spacing:10}}>
                                 <Flex >
                                   <ImageTransition 
                                     unitid='visit'
@@ -1152,10 +1109,10 @@ export default function ProjectDetail() {
                     </Flex>
                     {/* ------------Milestone of Project------------ */}
                     <Flex
-                      mt="100px"
+                      mt="40px"
                       px={'45px'}
                       py={'45px'}
-                      width={'90%'}
+                      width={'80%'}
                       borderRadius="25px"
                       justify='center' 
                       align='center' 
@@ -1164,15 +1121,15 @@ export default function ProjectDetail() {
                       border={'1.5px solid rgba(255, 255, 255, 0.15)'}
                       visibility={{base:'hidden',md:'hidden', lg:'visible'}}
                     >
-                      <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'1200px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} visibility={{base:'hidden',md:'hidden', lg:'visible'}} >
-                        <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List on Project Backed by You</Text>
+                      <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} visibility={{base:'hidden',md:'hidden', lg:'visible'}} >
+                        <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
                         <Table variant='simple'>
                           <TableCaption style={{color:'#00A3FF'}}>Milestones that project have. Details might be more on Project own's website. Project Milestone up for voting would be listed for voting. 
                           Rejected Milestones means project funds would not be released or project suspended. Voted and Approved would result in project rewarded for milestone</TableCaption>
                           <Thead bgColor={'rgba(255, 255, 255, 0.12)'} borderRadius={'10px 10px 0px 0px'}>
                             <Tr>
-                              <Th style={{color:'#00A3FF'}}>Project Name </Th>
-                              <Th style={{color:'#00A3FF'}}>Milestone Name </Th>
+                              <Th style={{color:'#00A3FF'}}>Milestone No</Th>
+                              <Th style={{color:'#00A3FF'}}>Name </Th>
                               <Th style={{color:'#00A3FF'}}>Proposed Start Date</Th>
                               <Th style={{color:'#00A3FF'}}>Proposed End Date</Th>
                               <Th style={{color:'#00A3FF'}}>Milestone Fund Amount</Th>
@@ -1183,32 +1140,32 @@ export default function ProjectDetail() {
                           </Thead>
                           <Tbody bgColor={' rgba(196, 196, 196, 0.08)'} borderRadius={'10px 10px 0px 0px'}> 
                             <Tr>
-                            <Td >Project A </Td>
+                            <Td >1</Td>
                             <Td >Prototype Making </Td>
                             <Td >20 . 02 . 2022 </Td>
                             <Td >20 . 04 . 2022 </Td>
                             <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onVoteBoxOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
+                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
                             <Td >Not Yet Started</Td>
                             <Td ><Text color={'#FE8600'}>See More</Text></Td>
                             </Tr>
                             <Tr>
-                            <Td >Project B </Td>
+                            <Td >2</Td>
                             <Td >Prototype Making </Td>
                             <Td >20 . 02 . 2022 </Td>
                             <Td >20 . 04 . 2022 </Td>
                             <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onVoteBoxOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
+                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
                             <Td >Not Yet Started</Td>
                             <Td ><Text color={'#FE8600'}>See More</Text></Td>
                             </Tr>
                             <Tr>
-                            <Td >Project C </Td>
+                            <Td >3</Td>
                             <Td >Prototype Making </Td>
                             <Td >20 . 02 . 2022 </Td>
                             <Td >20 . 04 . 2022 </Td>
                             <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onVoteBoxOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
+                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
                             <Td >Not Yet Started</Td>
                             <Td ><Text color={'#FE8600'}>See More</Text></Td>
                             </Tr>
@@ -1227,7 +1184,7 @@ export default function ProjectDetail() {
         <Footer />
       </div>
       {/*--This is Where to Vote Pop Up is--*/}
-      <Modal onClose={onVoteBoxClose} isOpen={isVoteBoxOpen} isCentered>
+      <Modal onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
           <ModalContent>
             <ModalHeader>Vote The Project</ModalHeader>
@@ -1246,7 +1203,7 @@ export default function ProjectDetail() {
                 </Text>
             </ModalBody>
             <ModalFooter>
-                <Button colorScheme='grey' mr={3} onClick={onVoteBoxClose}>
+                <Button colorScheme='grey' mr={3} onClick={onClose}>
                   Close
                 </Button>
                 <Button colorScheme='blue' mr={3} >
@@ -1254,23 +1211,6 @@ export default function ProjectDetail() {
                 </Button>
                 <Button colorScheme='red' mr={3} >
                   Vote No
-                </Button>
-            </ModalFooter>
-          </ModalContent>
-      </Modal>
-      {/*--This is Where to Referral Pop Up is--*/}
-      <Modal onClose={onRefBoxClose} isOpen={isRefBoxOpen} isCentered>
-        <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Refer a Backer</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-                <Text>Earn WFD and other Bonuses for Referring a Backer. Your Link is</Text>
-                <Text color={'blue.400'}>Link</Text>
-            </ModalBody>
-            <ModalFooter>
-                <Button colorScheme='grey' mr={3} onClick={onRefBoxClose}>
-                  Close
                 </Button>
             </ModalFooter>
           </ModalContent>
