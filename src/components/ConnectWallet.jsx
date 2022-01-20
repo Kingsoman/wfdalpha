@@ -46,7 +46,7 @@ export default function ConnectWallet() {
       wallet.disconnect()
       dispatch({ type: 'setWallet', message: {} })
     }
-    location.reload();
+    // location.reload();
   }
 
   async function contactBalance() {

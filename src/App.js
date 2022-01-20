@@ -23,7 +23,6 @@ import Invest_step1 from 'pages/Invest_step1'
 import Invest_step2 from 'pages/Invest_step2'
 import Invest_step3 from 'pages/Invest_step3'
 import Invest_step4 from 'pages/Invest_step4'
-
 import Invest_KYC1  from 'pages/Invest_KYC1'
 import Invest_KYC2  from 'pages/Invest_KYC2'
 import Invest_KYC3  from 'pages/Invest_KYC3'
@@ -32,7 +31,6 @@ import Invest_KYC5  from 'pages/Invest_KYC5'
 import Invest_KYC6  from 'pages/Invest_KYC6'
 
 import Dashboard from 'pages/Dashboard'
-
 import NotFound from 'pages/NotFound'
 import { IntercomProvider, useIntercom } from 'react-use-intercom'
 

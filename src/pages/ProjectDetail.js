@@ -36,9 +36,6 @@ import { useNavigate } from '@reach/router'
 import { useStore } from '../store'
 import { ImageTransition } from '../components/ImageTransition'
 import Footer from '../components/Footer'
-
-import { Chart } from "react-google-charts"
-
 import Notification from '../components/Notification'
 import {CheckNetwork, GetOneProject, FetchData, EstimateSend} from '../components/Util'
 
@@ -333,7 +330,6 @@ console.log(oneprojectData);
               justify="center"
               alignItems={'center'}
               zIndex={'1'}
-              mt={'50px'}
             >
               <VStack>
                 <Flex
@@ -359,7 +355,7 @@ console.log(oneprojectData);
                         Project Name
                       </Text>
                     </Flex>
-                    <Flex widtht={{ base: '70%', md: '70%', lg: '100%' }}>
+                    <Flex>
                     <Text textAlign={'left'} fontWeight={'400'} fontSize={'18px'}>
                                   Project Project Milestone Description <br/>
                                   Aliquip mollit sunt qui irure. Irure ullamco Lorem
@@ -380,12 +376,11 @@ console.log(oneprojectData);
                       }}
                     >
                     {/* The Countdown and Vote*/}
-                      <Flex mt={{ base: '0px', md: '0px', lg: '25px' }}>
+                      <Flex>
                         <Flex
                             mt={{ base: '20px', md: '20px', lg: '00px' }}
-                            mr={{ base: '25px', md: '25px', lg: '25px' }}
+                            mr={{ base: '0px', md: '0px', lg: '25px' }}
                             alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
-                            direction={{ base: 'column', md: 'column', lg: 'row' }} 
                           >
                             <ImageTransition
                               unitid="vote"
@@ -579,7 +574,7 @@ console.log(oneprojectData);
                           border3="linear-gradient(180deg, #DEDBDB 0%, #DEDBDB 100%)"
                           background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
                           selected={false}
-                          width="170px"
+                          width="250px"
                           height="50px"
                           rounded="33px"
                         >
@@ -602,11 +597,11 @@ console.log(oneprojectData);
                     height={{ lg: '484px' }}
                     paddingLeft={{ lg: '55px' }}
                   >
-                    <Text  alignSelf={'flex-start'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }} mt={'25px'}>
+                    <Text  alignSelf={'flex-start'}>
                       Details
                     </Text>
 
-                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
+                    <HStack width={'100%'}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -625,7 +620,7 @@ console.log(oneprojectData);
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
+                    <HStack width={'100%'}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -644,7 +639,7 @@ console.log(oneprojectData);
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
+                    <HStack width={'100%'}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -663,7 +658,7 @@ console.log(oneprojectData);
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
+                    <HStack width={'100%'}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -682,7 +677,7 @@ console.log(oneprojectData);
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
+                    <HStack width={'100%'}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -939,14 +934,6 @@ console.log(oneprojectData);
                       visibility={{base:'hidden',md:'hidden', lg:'visible'}}
                     >
                       <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} visibility={{base:'hidden',md:'hidden', lg:'visible'}} >
-                      <Chart
-      chartType="Gantt"
-      width="100%"
-      height="50%"
-      background='rgba(255, 255, 255, 0.05)'
-      data={data}
-      options={options}
-    />
                         <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
                         <Table variant='simple'>
                           <TableCaption style={{color:'#00A3FF'}}>Milestones that project have. Details might be more on Project own's website. Project Milestone up for voting would be listed for voting. 
@@ -960,40 +947,24 @@ console.log(oneprojectData);
                               <Th style={{color:'#00A3FF'}}>Milestone Fund Amount</Th>
                               <Th style={{color:'#00A3FF'}}>Milestone Voting</Th>
                               <Th style={{color:'#00A3FF'}}>Milestone Status</Th>
-                              <Th style={{color:'#00A3FF'}}>Milestone External Detail</Th>
                             </Tr>
                           </Thead>
                           <Tbody bgColor={' rgba(196, 196, 196, 0.08)'} borderRadius={'10px 10px 0px 0px'}> 
-                            <Tr>
-                            <Td >1</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
+                            {state.oneprojectData != '' && 
+                            state.oneprojectData.milestone_states.map((milestone, index) => (
+                            <Tr key={index}>
+                            <Td >{milestone.milestone_step}</Td>
+                            <Td >{milestone.milestone_name} </Td>
+                            <Td >{milestone.milestone_startdate}</Td>
+                            <Td >{milestone.milestone_enddate}</Td>
+                            <Td >{milestone.milestone_amount}</Td>
+                            <Td >
+                              {milestone.milestone_votingavailable &&
+                              <Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button>}
+                            </Td>
+                            <Td >{milestone.milestone_statusmessage}</Td>
                             </Tr>
-                            <Tr>
-                            <Td >2</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
-                            </Tr>
-                            <Tr>
-                            <Td >3</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
-                            </Tr>
+                            ))}
                           </Tbody>
                         </Table>
 
