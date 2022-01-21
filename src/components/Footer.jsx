@@ -88,7 +88,7 @@ const PagesLinks = () => (
 
 export default function Newfooter() {
   return (
-    <Flex id="footerBottomStyle">
+    <Flex id="footerBottomStyle" color={"white"}>
       <Flex id="footerBottomInnerStyleBox">
         <Flex id="FooterTextWork">
           <Text mr="5px">Wanna know more about</Text>
