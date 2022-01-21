@@ -25,9 +25,9 @@ import {
   useDisclosure,
   Button,
 } from '@chakra-ui/react'
-import React, { useEffect, useState, useMemo, useRef } from 'react'
+import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react'
 import { WasmAPI, LCDClient, MsgExecuteContract } from '@terra-money/terra.js'
-import { MdOutlinePlace } from 'react-icons/md'
+import { Chart } from "react-google-charts"
 import {
   BsArrowUpRight,
 } from 'react-icons/bs'
@@ -47,8 +47,9 @@ if (typeof document !== 'undefined') {
 
 export default function ProjectDetail() {
   const { state, dispatch } = useStore()
+  const [oneprojectData, setOneprojectData] = useState('');
   const [totalBackedMoney, setTotalBackedMoney] = useState(0)
-  const [percent, setPercent] = useState(0)
+  const [totalBackedPercent, setTotalBackedPercent] = useState(0)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const navigate = useNavigate()
 
@@ -81,13 +82,40 @@ export default function ProjectDetail() {
 
   //------------notification setting---------------------------------
   const notificationRef = useRef();
+  
+  //------------deadline timer-------------------------------
+  const postRef = useRef(oneprojectData);
+  postRef.current = oneprojectData;
 
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
+
+  const myTimer = () => {
+    if(postRef.current != '')
+    {
+      postRef.current.leftTime = 
+        parseInt((parseInt(postRef.current.community_vote_deadline) - Date.now())/1000/60); //for minutes
+    }
+    setOneprojectData(postRef.current);
+    forceUpdate();
+  };
+
+  useEffect(
+    () => {
+        if(oneprojectData.project_status == 1){ //CommuntyApproval
+          myTimer();
+          const id = setInterval(myTimer, 1000*60);
+          return () => clearInterval(id);
+        }
+    },
+    []
+  );
   //------------back button-----------------------------------
   function next() {
     if (project_id == state.fakeid)
       //fake
       navigate('/invest_step1')
-    else navigate('/back?project_id=' + state.oneprojectData.project_id)
+    else navigate('/back?project_id=' + oneprojectData.project_id)
   }
   //------------fectch project data------------------------------------
   async function fetchContractQuery() {
@@ -120,24 +148,24 @@ export default function ProjectDetail() {
           oneprojectData.milestone_states[i].milestone_statusmessage = "Not yet";
       }
 
-      dispatch({
-        type: 'setOneprojectdata',
-        message: oneprojectData,
-      })
-console.log(oneprojectData);
+      setOneprojectData(oneprojectData);
+
       let totalBacked = parseInt(oneprojectData.communitybacked_amount) + parseInt(oneprojectData.backerbacked_amount);
       totalBacked /= 10 ** 6
 
-      if (project_id == state.fakeid)//fake
-        totalBacked = 120000
-
       let percent = parseInt(totalBacked/parseInt(oneprojectData.project_collected) * 100 );
-      setPercent(percent);
+      setTotalBackedPercent(percent);
       setTotalBackedMoney(totalBacked);
     } catch (e) {
       console.log(e)
     }
   }
+
+  useEffect(() => {
+    fetchContractQuery()
+  }, [connectedWallet, lcd])
+//------------------------------------------------------------------------
+
   function MilestoneVote(project_id, voted){
     CheckNetwork(connectedWallet, notificationRef, state);
 
@@ -157,11 +185,155 @@ console.log(oneprojectData);
     )
     EstimateSend(connectedWallet, lcd, msg, "Milestone vote success", notificationRef);
   }
+    //--Pop Ups for Projects
+    const { isOpen: isVoteBoxOpen, onOpen: onVoteBoxOpen, onClose: onVoteBoxClose  } = useDisclosure()
 
-  useEffect(() => {
-    fetchContractQuery()
-  }, [connectedWallet, lcd])
+  //--------Gantt chart data for Milestone timeline charting (Roadmap)
+
+  const columns = [
+    { type: "string", label: "Task ID" },
+    { type: "string", label: "Task Name" },
+    { type: "string", label: "Resource" },
+    { type: "date", label: "Start Date" },
+    { type: "date", label: "End Date" },
+    { type: "number", label: "Duration" },
+    { type: "number", label: "Percent Complete" },
+    { type: "string", label: "Dependencies" },
+  ];
   
+  const rows = [
+    [
+      "2014Spring",
+      "Spring 2014",
+      "spring",
+      new Date(2014, 2, 22),
+      new Date(2014, 5, 20),
+      null,
+      100,
+      null,
+    ],
+    [
+      "2014Summer",
+      "Summer 2014",
+      "summer",
+      new Date(2014, 5, 21),
+      new Date(2014, 8, 20),
+      null,
+      100,
+      null,
+    ],
+    [
+      "2014Autumn",
+      "Autumn 2014",
+      "autumn",
+      new Date(2014, 8, 21),
+      new Date(2014, 11, 20),
+      null,
+      100,
+      null,
+    ],
+    [
+      "2014Winter",
+      "Winter 2014",
+      "winter",
+      new Date(2014, 11, 21),
+      new Date(2015, 2, 21),
+      null,
+      100,
+      null,
+    ],
+    [
+      "2015Spring",
+      "Spring 2015",
+      "spring",
+      new Date(2015, 2, 22),
+      new Date(2015, 5, 20),
+      null,
+      50,
+      null,
+    ],
+    [
+      "2015Summer",
+      "Summer 2015",
+      "summer",
+      new Date(2015, 5, 21),
+      new Date(2015, 8, 20),
+      null,
+      0,
+      null,
+    ],
+    [
+      "2015Autumn",
+      "Autumn 2015",
+      "autumn",
+      new Date(2015, 8, 21),
+      new Date(2015, 11, 20),
+      null,
+      0,
+      null,
+    ],
+    [
+      "2015Winter",
+      "Winter 2015",
+      "winter",
+      new Date(2015, 11, 21),
+      new Date(2016, 2, 21),
+      null,
+      0,
+      null,
+    ],
+    [
+      "Football",
+      "Football Season",
+      "sports",
+      new Date(2014, 8, 4),
+      new Date(2015, 1, 1),
+      null,
+      100,
+      null,
+    ],
+    [
+      "Baseball",
+      "Baseball Season",
+      "sports",
+      new Date(2015, 2, 31),
+      new Date(2015, 9, 20),
+      null,
+      14,
+      null,
+    ],
+    [
+      "Basketball",
+      "Basketball Season",
+      "sports",
+      new Date(2014, 9, 28),
+      new Date(2015, 5, 20),
+      null,
+      86,
+      null,
+    ],
+    [
+      "Hockey",
+      "Hockey Season",
+      "sports",
+      new Date(2014, 9, 8),
+      new Date(2015, 5, 21),
+      null,
+      89,
+      null,
+    ],
+  ];
+  
+  const data = [columns, ...rows];
+  
+  const options = {
+    height: 400,
+    gantt: {
+      trackHeight: 30,
+    },
+  };
+
+  //--------Visual Code Start
   return (
 
     <ChakraProvider resetCSS theme={theme}>
@@ -205,22 +377,13 @@ console.log(oneprojectData);
                       }}
                     >
                       <Text fontSize="40px" fontWeight={'900'}>
-                        {state.oneprojectData.project_name}
-                        Project Name
+                        {oneprojectData.project_name}
                       </Text>
                     </Flex>
                     <Flex>
-                    <Text textAlign={'left'} fontWeight={'400'} fontSize={'18px'}>
-                                  Project Project Milestone Description <br/>
-                                  Aliquip mollit sunt qui irure. Irure ullamco Lorem
-                                  excepteur dolor qui ea ad quis. Enim fugiat cillum enim
-                                  ad occaecat sint qui elit labore mollit sunt laborum
-                                  fugiat consequat. Voluptate labore sunt duis eu
-                                  deserunt. Occaecat do ut ut labore cillum enim dolore ad
-                                  enim enim id. Aliquip do veniam ad excepteur ad cillum
-                                  qui deserunt nostrud sunt aliqua duis sunt occaecat.
-                                  Laborum incididunt commodo ullamco proident quis.
-                </Text>
+                      <Text textAlign={'left'} fontWeight={'400'} fontSize={'18px'}>
+                        {oneprojectData.project_description}
+                      </Text>
                     </Flex>
                     <Flex
                       alignSelf={{
@@ -277,67 +440,13 @@ console.log(oneprojectData);
                                 textAlign={'center'}
                                 color={'#FE8600'}
                                 >
-                                $Day
+                                {oneprojectData.leftTime}
                               </Text>
                               <Text
                                 fontFamily={'Sk-Modernist-Regular'}
                                 fontSize={'15px'}
                                 color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
+                                Minutes
                               </Text>
                             </Box>
                           </HStack>
@@ -377,7 +486,13 @@ console.log(oneprojectData);
                             color="white"
                             justify="center"
                             align="center"
-                            onClick={() => {}}
+                            onClick={() => {
+                              window.open(
+                                oneprojectData.project_website,
+                                '_blank',
+                                'noopener,noreferrer',
+                              )
+                            }}
                           >
                             Visit Website{' '}
                             <Icon as={BsArrowUpRight} h={4} w={4} mr={3} />
@@ -402,6 +517,7 @@ console.log(oneprojectData);
                           height="50px"
                           rounded="33px"
                         >
+                          <a href={ state.request + '/download?filename=' + oneprojectData.project_whitepaper}>
                           <Box
                             variant="solid"
                             color="white"
@@ -411,6 +527,7 @@ console.log(oneprojectData);
                           >
                             See Whitepaper
                           </Box>
+                          </a>
                         </ImageTransition>
                       </Flex>
                       <Flex
@@ -439,7 +556,7 @@ console.log(oneprojectData);
                             align="center"
                             onClick={() => next()}
                           >
-                            Back {state.oneprojectData.project_name}
+                            Back {oneprojectData.project_name}
                           </Box>
                         </ImageTransition>
                       </Flex>
@@ -562,7 +679,7 @@ console.log(oneprojectData);
                         <Flex>
                           <Text>
                             Progress : {totalBackedMoney} out of{' '}
-                            {state.oneprojectData.project_collected} UST
+                            {oneprojectData.project_collected} UST
                           </Text>
                         </Flex>
                         <Flex
@@ -573,12 +690,12 @@ console.log(oneprojectData);
                           }}
                         >
                           <CircularProgress
-                            value={40}
+                            value={totalBackedPercent}
                             size="120px"
                             color="#00A3FF;"
                           >
                             <CircularProgressLabel>
-                              {percent}%
+                              {totalBackedPercent}%
                             </CircularProgressLabel>
                           </CircularProgress>
                           {/* The progress - Replace with functional ones*/}
@@ -643,7 +760,7 @@ console.log(oneprojectData);
                         color={'rgba(255, 255, 255, 0.5)'}
                         w={{ base: '400px', lg: '1000px' }}
                       >
-                        {state.oneprojectData.project_description}
+                        {oneprojectData.project_description}
                       </chakra.p>
                     </Flex>
                     <Flex
@@ -785,9 +902,18 @@ console.log(oneprojectData);
                       flexDirection="column"
                       background={'rgba(255, 255, 255, 0.05)'}
                       border={'1.5px solid rgba(255, 255, 255, 0.15)'}
-                      visibility={{base:'hidden',md:'hidden', lg:'visible'}}
+                      display={{base:'none',md:'none', lg:'block'}}
                     >
-                      <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} visibility={{base:'hidden',md:'hidden', lg:'visible'}} >
+                      <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} 
+                      display={{base:'none',md:'none', lg:'block'}} >
+                        <Chart
+                          chartType="Gantt"
+                          width="100%"
+                          height="50%"
+                          background='rgba(255, 255, 255, 0.05)'
+                          data={data}
+                          options={options}
+                        />
                         <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
                         <Table variant='simple'>
                           <TableCaption style={{color:'#00A3FF'}}>Milestones that project have. Details might be more on Project own's website. Project Milestone up for voting would be listed for voting. 
@@ -801,40 +927,24 @@ console.log(oneprojectData);
                               <Th style={{color:'#00A3FF'}}>Milestone Fund Amount</Th>
                               <Th style={{color:'#00A3FF'}}>Milestone Voting</Th>
                               <Th style={{color:'#00A3FF'}}>Milestone Status</Th>
-                              <Th style={{color:'#00A3FF'}}>Milestone External Detail</Th>
                             </Tr>
                           </Thead>
                           <Tbody bgColor={' rgba(196, 196, 196, 0.08)'} borderRadius={'10px 10px 0px 0px'}> 
-                            <Tr>
-                            <Td >1</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
+                            {oneprojectData != '' && 
+                            oneprojectData.milestone_states.map((milestone, index) => (
+                            <Tr key={index}>
+                            <Td >{milestone.milestone_step}</Td>
+                            <Td >{milestone.milestone_name} </Td>
+                            <Td >{milestone.milestone_startdate}</Td>
+                            <Td >{milestone.milestone_enddate}</Td>
+                            <Td >{milestone.milestone_amount}</Td>
+                            <Td >
+                              {milestone.milestone_votingavailable &&
+                              <Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button>}
+                            </Td>
+                            <Td >{milestone.milestone_statusmessage}</Td>
                             </Tr>
-                            <Tr>
-                            <Td >2</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
-                            </Tr>
-                            <Tr>
-                            <Td >3</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
-                            </Tr>
+                            ))}
                           </Tbody>
                         </Table>
 
@@ -851,10 +961,10 @@ console.log(oneprojectData);
         <Notification  ref={notificationRef}/>     
       </div>
       {/*--This is Where to Vote Pop Up is--*/}
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal onClose={onVoteBoxClose} isOpen={isVoteBoxOpen} isCentered>
         <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Vote The Project</ModalHeader>
+            <ModalHeader>Vote The Milestone of Project</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Text textAlign={'left'}>
@@ -870,18 +980,18 @@ console.log(oneprojectData);
               </Text>
             </ModalBody>
             <ModalFooter>
-                <Button colorScheme='grey' mr={3} onClick={onClose}>
+                <Button colorScheme='grey' mr={3} onClick={onVoteBoxClose}>
                   Close
                 </Button>
                 <Button colorScheme='blue' mr={3} 
                   onClick={()=>{
-                    onClose(); MilestoneVote(state.oneprojectData.project_id, true);}}
+                    onClose(); MilestoneVote(oneprojectData.project_id, true);}}
                 >
                   Vote Yes
                 </Button>
                 <Button colorScheme='red' mr={3}
                   onClick={()=>{
-                    onClose(); MilestoneVote(state.oneprojectData.project_id, false);}}
+                    onClose(); MilestoneVote(oneprojectData.project_id, false);}}
                 >
                   Vote No
                 </Button>

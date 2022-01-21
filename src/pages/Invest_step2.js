@@ -10,7 +10,7 @@ import { ImageTransition, InputTransition, InputTransitiongrey } from "../compon
 import { useStore } from '../store'
 import Notification from '../components/Notification'
 
-export default function NewProject() {
+export default function InvestStep2() {
   const [backAmount, setBackAmount] = useState('');
   const [wfdAmount, setWfdamount] = useState('');
 

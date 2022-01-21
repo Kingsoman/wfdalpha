@@ -21,6 +21,7 @@ export default function BackProject() {
   const [condition, setCondition] = useState(false);
   const [backAmount, setBackAmount] = useState('');
   const [wfdAmount, setWfdamount] = useState('');
+  const [oneprojectData, setOneprojectData] = useState('');
 
 //----------extract project id------------------------------------------
   let project_id;
@@ -66,6 +67,30 @@ export default function BackProject() {
     else
       setWfdamount('');
   }
+//-----------------------------------------------------------
+  async function fetchContractQuery() {
+    let _project_id = 1
+    if (project_id != null) _project_id = project_id
+
+    try {
+      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+
+      const oneprojectData = GetOneProject(projectData, _project_id);
+      if(oneprojectData == ''){
+        notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
+        return;
+      }
+
+      setOneprojectData(oneprojectData);
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    fetchContractQuery()
+  }, [connectedWallet, lcd])
+  
 //---------------------back project-----------------------------
   async function backProject()
   {
@@ -152,7 +177,7 @@ export default function BackProject() {
             <Text fontSize='22px' fontWeight={'300'}>
               Back the Project</Text>
             <Text fontSize='28px' color='#4790f5' fontWeight={'bold'}>
-              {state.oneprojectData.project_name}
+              {oneprojectData.project_name}
             </Text>
           </Flex>
           {/* --------amount to back----------- */}
@@ -185,7 +210,6 @@ export default function BackProject() {
           </InputTransition>
 
           <Flex mt='25px' direction="row">
-            {/* <Input type="checkbox"  h='55px' bg='#FFFFFF0D' borderColor="#FFFFFF33" placeholder="Type here" focusBorderColor="purple.800" rounded="md"  onChange={(e)=>{}} /> */}
             <InputTransition 
               unitid='conditioncheck'
               selected={false}

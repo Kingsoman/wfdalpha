@@ -5,11 +5,10 @@ import { Icon, Box, Flex, Text, Image, HStack } from '@chakra-ui/react'
 import React, { useState } from 'react'
 
 import { ImageTransition } from '../components/ImageTransition'
-
 import { BsPhone } from 'react-icons/bs'
 
 import { CheckIcon } from '@chakra-ui/icons'
-export default function NewProject() {
+export default function InvestKYC5() {
   const [condition, setCondition] = useState(false)
   const [isPassport, setIsPassport] = useState(false)
   const [isDriving, setIsDriving] = useState(false)

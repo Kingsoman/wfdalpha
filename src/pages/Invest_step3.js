@@ -20,7 +20,7 @@ if (typeof document !== 'undefined') {
         require('@terra-money/wallet-provider').useConnectedWallet
 }
 
-export default function Invest_step3() {
+export default function InvestStep3() {
   const [signature, setSignature] = useState('');
   const [InsTitle, setInsTitle] = useState('');
   const [InsName, setInsName] = useState('');

@@ -5,10 +5,10 @@ import { Box, Flex, Text, Image } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { IoCheckmark } from 'react-icons/io5'
 
-import { ImageTransition, InputTransition } from '../components/ImageTransition'
+import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
 
-export default function NewProject() {
-  const [condition, setCondition] = useState(false)
+export default function InvestKYC2() {
+  const [condition, setCondition] = useState(false);
 
   const navigate = useNavigate()
 

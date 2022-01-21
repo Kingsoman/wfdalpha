@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 
 import { ImageTransition } from '../components/ImageTransition'
 
-export default function NewProject() {
+export default function InvestKYC1() {
   const [condition, setCondition] = useState(false)
 
   const navigate = useNavigate()

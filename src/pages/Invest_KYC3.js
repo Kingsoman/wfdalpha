@@ -6,7 +6,7 @@ import {chakra, Box, Flex, Text, VStack, Image, Img, HStack, Select
 import React, { useState} from 'react';
 import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
 
-export default function NewProject() {
+export default function InvestKYC3() {
   const [condition, setCondition] = useState(false);
   const [isPassport, setIsPassport] = useState(false);
   const [isDriving, setIsDriving] = useState(false);

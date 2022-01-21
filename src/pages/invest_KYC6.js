@@ -15,7 +15,7 @@ import { IoCloudUploadOutline, IoCheckbox, IoChevronUpOutline, IoChevronDownOutl
 import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
 import { CheckIcon } from "@chakra-ui/icons";
 
-export default function NewProject() {
+export default function InvestKYC6() {
   const [condition, setCondition] = useState(false);
   const [isPassport, setIsPassport] = useState(false);
   const [isDriving, setIsDriving] = useState(false);

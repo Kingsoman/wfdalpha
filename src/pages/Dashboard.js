@@ -36,7 +36,7 @@ export default function ExplorerProject() {
   const [wallet, setWallet] = useState('');
   //-------------paginator------------------------------
   const [current, setCurrent] = useState(1);
-  const pageSize = 3;
+  const pageSize = 10;
   const [postCommunityData, setPostCommunityData] = useState('');
 
   const Prev = forwardRef((props, ref) => (
@@ -92,7 +92,7 @@ export default function ExplorerProject() {
   async function fetchContractQuery() {
     try {
       let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
-
+console.log(communityData);
       //-----------------initialize--------------------------
       setCurrent(1);
       setPostCommunityData(communityData.slice(0, pageSize));
@@ -298,6 +298,7 @@ export default function ExplorerProject() {
                       md: 'block',
                       lg: 'none',
                     }}
+                    align='center'
                   >
                     {/* ------------------project snippet detail---------- */}
                     <Flex
@@ -305,21 +306,62 @@ export default function ExplorerProject() {
                       boxSizing="border-box"
                       shadow="lg"
                       rounded="lg"
-                      alignSelf={'center'}
+                      align={'center'}
                       direction={'column'}
                     >
                       {postCommunityData != '' &&
-                        postCommunityData.map((member, index) => (
+                      postCommunityData.map((member, index) => (
                           <Flex
                             width={'300px'}
-                            alignSelf={'center'}
                             direction={'column'}
-                            mb="20px"
+                            mt="20px"
                             key={index}
+                            align='center'
                           >
-
+                            <Text fontSize='13px' mb='10px'>{member}</Text>
+                            <ButtonTransition
+                              unitid={'Removemember' + index}
+                              selected={false}
+                              width="120px"
+                              height="30px"
+                              rounded="30px"
+                              onClick={() => removeCommunityMember({member})}
+                            >
+                              Remove
+                            </ButtonTransition>
                           </Flex>
-                        ))}
+                      ))}
+                      <InputTransition
+                        unitid="wallet"
+                        selected={wallet == '' ? false : true}
+                        width="100%"
+                        height="30px"
+                        rounded="md"
+                        mt='20px'
+                      >
+                        <Input
+                          style={{ border: '0', background: 'transparent' }}
+                          type="text"
+                          h="30px"
+                          rounded="md"
+                          value={wallet}
+                          placeholder="Type here"
+                          fontSize='13px'
+                          onChange={(e)=>setWallet(e.target.value)}
+                        />
+                      </InputTransition>
+                      <Box w='120px' mt='20px'>
+                        <ButtonTransition
+                          unitid='addmember'
+                          selected={false}
+                          width="120px"
+                          height="30px"
+                          rounded="30px"
+                          onClick={() => addCommunityMember()}
+                        >
+                          Add
+                        </ButtonTransition>
+                      </Box>
                     </Flex>
                   </VStack>
                 </Flex>
@@ -336,7 +378,7 @@ export default function ExplorerProject() {
                     current={current}
                     onChange={(page) => onChangePaginator(page)}        
                     pageSize={pageSize}
-                    total={state.activeProjectData == ''? 0 : state.activeProjectData.length}
+                    total={state.communityData == ''? 0 : state.communityData.length}
                     itemRender={itemRender}
                     paginationProps={{ display: 'flex' }}
                   />
