@@ -148,12 +148,8 @@ export default function ProjectDetail() {
           oneprojectData.milestone_states[i].milestone_statusmessage = "Not yet";
       }
 
-      // dispatch({
-      //   type: 'setOneprojectdata',
-      //   message: oneprojectData,
-      // })
       setOneprojectData(oneprojectData);
-console.log(oneprojectData);
+
       let totalBacked = parseInt(oneprojectData.communitybacked_amount) + parseInt(oneprojectData.backerbacked_amount);
       totalBacked /= 10 ** 6
 
@@ -189,6 +185,8 @@ console.log(oneprojectData);
     )
     EstimateSend(connectedWallet, lcd, msg, "Milestone vote success", notificationRef);
   }
+    //--Pop Ups for Projects
+    const { isOpen: isVoteBoxOpen, onOpen: onVoteBoxOpen, onClose: onVoteBoxClose  } = useDisclosure()
 
   //--------Gantt chart data for Milestone timeline charting (Roadmap)
 
@@ -384,15 +382,7 @@ console.log(oneprojectData);
                     </Flex>
                     <Flex>
                       <Text textAlign={'left'} fontWeight={'400'} fontSize={'18px'}>
-                        Project Project Milestone Description <br/>
-                        Aliquip mollit sunt qui irure. Irure ullamco Lorem
-                        excepteur dolor qui ea ad quis. Enim fugiat cillum enim
-                        ad occaecat sint qui elit labore mollit sunt laborum
-                        fugiat consequat. Voluptate labore sunt duis eu
-                        deserunt. Occaecat do ut ut labore cillum enim dolore ad
-                        enim enim id. Aliquip do veniam ad excepteur ad cillum
-                        qui deserunt nostrud sunt aliqua duis sunt occaecat.
-                        Laborum incididunt commodo ullamco proident quis.
+                        {oneprojectData.project_description}
                       </Text>
                     </Flex>
                     <Flex
@@ -450,67 +440,13 @@ console.log(oneprojectData);
                                 textAlign={'center'}
                                 color={'#FE8600'}
                                 >
-                                $Day
+                                {oneprojectData.leftTime}
                               </Text>
                               <Text
                                 fontFamily={'Sk-Modernist-Regular'}
                                 fontSize={'15px'}
                                 color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
+                                Minutes
                               </Text>
                             </Box>
                           </HStack>
@@ -550,7 +486,13 @@ console.log(oneprojectData);
                             color="white"
                             justify="center"
                             align="center"
-                            onClick={() => {}}
+                            onClick={() => {
+                              window.open(
+                                oneprojectData.project_website,
+                                '_blank',
+                                'noopener,noreferrer',
+                              )
+                            }}
                           >
                             Visit Website{' '}
                             <Icon as={BsArrowUpRight} h={4} w={4} mr={3} />
@@ -575,6 +517,7 @@ console.log(oneprojectData);
                           height="50px"
                           rounded="33px"
                         >
+                          <a href={ state.request + '/download?filename=' + oneprojectData.project_whitepaper}>
                           <Box
                             variant="solid"
                             color="white"
@@ -584,6 +527,7 @@ console.log(oneprojectData);
                           >
                             See Whitepaper
                           </Box>
+                          </a>
                         </ImageTransition>
                       </Flex>
                       <Flex
@@ -746,7 +690,7 @@ console.log(oneprojectData);
                           }}
                         >
                           <CircularProgress
-                            value={40}
+                            value={totalBackedPercent}
                             size="120px"
                             color="#00A3FF;"
                           >
@@ -1017,10 +961,10 @@ console.log(oneprojectData);
         <Notification  ref={notificationRef}/>     
       </div>
       {/*--This is Where to Vote Pop Up is--*/}
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
+      <Modal onClose={onVoteBoxClose} isOpen={isVoteBoxOpen} isCentered>
         <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Vote The Project</ModalHeader>
+            <ModalHeader>Vote The Milestone of Project</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Text textAlign={'left'}>
@@ -1036,7 +980,7 @@ console.log(oneprojectData);
               </Text>
             </ModalBody>
             <ModalFooter>
-                <Button colorScheme='grey' mr={3} onClick={onClose}>
+                <Button colorScheme='grey' mr={3} onClick={onVoteBoxClose}>
                   Close
                 </Button>
                 <Button colorScheme='blue' mr={3} 
