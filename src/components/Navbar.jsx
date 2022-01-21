@@ -7,7 +7,7 @@ import theme from '../theme'
 import { ButtonBackTransition } from '../components/ImageTransition'
 import { Container } from '../components/Container'
 import '../styles/Navbar.css'
-
+import UserSideSnippet from './UserInfoDrawer'
 export default function Navbar() {
   return (
     <ChakraProvider resetCSS theme={theme}>
@@ -98,7 +98,7 @@ export default function Navbar() {
             </Link>
           </Flex>
           <HStack>
-            <Flex mr='30px' className="dropdown">
+            <Flex mr='30px' className="dropdown2">
               <Flex className="dropbtn">
                 <Image
                   alt='menu1'
@@ -106,17 +106,11 @@ export default function Navbar() {
                   h='30px'
                 />
               </Flex>
-              <div className="dropdown-content">
-                {NAV_ITEMS.map((navItem, index) => (
-                  <Link
-                    to={navItem.href}
-                  >
-                    {navItem.label}
-                  </Link>
-                ))}
+              <div className="dropdown-content2">
+                <ConnectWallet/>
               </div>
             </Flex>
-            <Flex pr='30px' className="dropdown2">
+            <Flex pr='30px' className="dropdown">
               <Flex className="dropbtn">
                 <Image
                   alt='menu2'
@@ -124,8 +118,16 @@ export default function Navbar() {
                   h='30px'
                 />
               </Flex>
-              <div className="dropdown-content2">
-                <ConnectWallet/>
+              <UserSideSnippet/>
+              <div className="dropdown-content">
+                {NAV_ITEMS.map((navItem, index) => (
+                  <Link
+                    to={navItem.href}
+                    key={index}
+                  >
+                    {navItem.label}
+                  </Link>
+                ))}                
               </div>
             </Flex>
           </HStack>
