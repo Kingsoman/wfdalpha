@@ -34,8 +34,9 @@ export default function Industry() {
             const odd = index % 2 == 0
             return (
               <div
-                class="containerIndustry"
+                className="containerIndustry"
                 data-aos={odd ? 'fade-right' : 'fade-left'}
+                key={index}
               >
                 <div
                   class="containerIndustry__image"
@@ -122,6 +123,7 @@ export default function Industry() {
               <Flex
                 className={odd ? 'PROJECT_ITEMS_ROW1' : 'PROJECT_ITEMS_ROW2'}
                 data-aos={odd ? 'fade-right' : 'fade-left'}
+                key={index}
               >
                 <Flex className="projectItemContentCol">
                   <Box>

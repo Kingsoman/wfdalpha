@@ -27,7 +27,7 @@ import {
 } from '@chakra-ui/react'
 import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react'
 import { WasmAPI, LCDClient, MsgExecuteContract } from '@terra-money/terra.js'
-import { Chart } from "react-google-charts"
+// import { Chart } from "react-google-charts"
 import {
   BsArrowUpRight,
 } from 'react-icons/bs'
@@ -906,14 +906,14 @@ export default function ProjectDetail() {
                     >
                       <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} 
                       display={{base:'none',md:'none', lg:'block'}} >
-                        <Chart
+                        {/* <Chart
                           chartType="Gantt"
                           width="100%"
                           height="50%"
                           background='rgba(255, 255, 255, 0.05)'
                           data={data}
                           options={options}
-                        />
+                        /> */}
                         <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
                         <Table variant='simple'>
                           <TableCaption style={{color:'#00A3FF'}}>Milestones that project have. Details might be more on Project own's website. Project Milestone up for voting would be listed for voting. 

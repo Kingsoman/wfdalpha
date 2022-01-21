@@ -427,7 +427,7 @@ export default function ProjectDetail() {
                                   fontSize={'2xl'}
                                   fontFamily="PilatExtended-Heavy"
                                 >
-                                  {oneprojectData.project_collected}
+                                  {/* {oneprojectData.project_collected} */}
                                 </StatNumber>
                               </Box>
                             </Flex>
