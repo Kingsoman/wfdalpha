@@ -92,7 +92,7 @@ export default function ExplorerProject() {
   async function fetchContractQuery() {
     try {
       let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
-
+console.log(communityData);
       //-----------------initialize--------------------------
       setCurrent(1);
       setPostCommunityData(communityData.slice(0, pageSize));

@@ -59,6 +59,27 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
   })
   return false;
 }
+export function GetProjectStatusString(mode){
+  let projectstatus = 0;
+  switch(mode){
+    case 0:
+      projectstatus = 'WeFundApproval';
+      break;
+    case 1:
+      projectstatus = 'CommuntyApproval';
+      break;
+    case 2:
+      projectstatus = 'MileStoneFundraising';
+      break;
+    case 3:
+      projectstatus = 'MileStoneDelivery';
+      break;
+    case 4:
+      projectstatus = 'ProjectComplete';
+      break;
+  }
+  return projectstatus;
+}
 export function GetProjectStatus(mode){
   let projectstatus = 0;
   switch(mode){
@@ -156,12 +177,12 @@ export async function FetchData(api, notificationRef, state, dispatch)
 
     if(communityData == ''){
       notificationRef.current.showNotification("Can't fetch Community Data", 'error', 6000);
-      return;
+    }else{
+      dispatch({
+        type: 'setCommunityData',
+        message: communityData,
+      })
     }
-    dispatch({
-      type: 'setCommunityData',
-      message: communityData,
-    })
   }
   //-----------------fetch config-----------------------
   configData = state.configData;
@@ -175,12 +196,12 @@ export async function FetchData(api, notificationRef, state, dispatch)
 
     if(configData == ''){
       notificationRef.current.showNotification("Can't fetch Config Data", 'error', 6000);
-      return;
+    }else{
+      dispatch({
+        type: 'setConfigData',
+        message: configData,
+      })
     }
-    dispatch({
-      type: 'setConfigData',
-      message: configData,
-    })
   }
   //---------------fetch project Data---------------------
   projectData = state.projectData;
@@ -195,24 +216,23 @@ export async function FetchData(api, notificationRef, state, dispatch)
     
     if(projectData == ''){
       notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
-      return;
+    }else{
+      //----------fake--------------------------
+      let fakeone = GetOneProject(projectData, state.fakeid);
+      fakeone.project_collected = 60000;
+      fakeone.communitybacked_amount = 19200*10**6;
+      projectData[GetProjectIndex(projectData, state.fakeid)] = fakeone;
+      //------------------------------------
+
+      projectData = AddExtraInfo(state, projectData, communityData);
+
+      dispatch({
+        type: 'setProjectdata',
+        message: projectData,
+      })  
     }
-
-    //----------fake--------------------------
-    let fakeone = GetOneProject(projectData, state.fakeid);
-    fakeone.project_collected = 60000;
-    fakeone.communitybacked_amount = 19200;
-    projectData[GetProjectIndex(projectData, state.fakeid)] = fakeone;
-    //------------------------------------
-
-    projectData = AddExtraInfo(state, projectData, communityData);
-
-    dispatch({
-      type: 'setProjectdata',
-      message: projectData,
-    })  
   }
-console.log(projectData);
+
   return {projectData, communityData, configData};
 }
 export function GetOneProject(projectData, project_id){

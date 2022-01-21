@@ -251,6 +251,56 @@ export default function ExplorerProject() {
     fetchContractQuery();
   }, [activeTab])
 
+  const CircularProgresses = ({projectItem, sz}) => {
+    return(
+      <>
+      {GetActiveTab() == 'CommuntyApproval' &&
+        <CircularProgress
+          value={projectItem.communityVotedPercent}
+          size={sz}
+          color="blue.600"
+        >
+          <CircularProgressLabel>
+            {projectItem.communityVotedPercent}%
+          </CircularProgressLabel>
+        </CircularProgress>
+        }
+        {GetActiveTab() == 'MileStoneFundraising' &&
+        <>
+          <CircularProgress
+            value={projectItem.community_backedPercent}
+            size={sz}
+            color="blue.600"
+          >
+            <CircularProgressLabel>
+              {projectItem.community_backedPercent}%
+            </CircularProgressLabel>
+          </CircularProgress>
+          <CircularProgress
+            value={projectItem.backer_backedPercent}
+            size={sz}
+            color="blue.600"
+          >
+            <CircularProgressLabel>
+              {projectItem.backer_backedPercent}%
+            </CircularProgressLabel>
+          </CircularProgress>
+        </>
+        }
+        {GetActiveTab() == 'MileStoneDelivery' &&
+        <CircularProgress
+          value={projectItem.releasedPercent}
+          size={sz}
+          color="blue.600"
+        >
+          <CircularProgressLabel>
+            {projectItem.releasedPercent}%
+          </CircularProgressLabel>
+        </CircularProgress>
+        }
+      </>
+    )
+  }
   return (
     <ChakraProvider resetCSS theme={theme}>
       <div
@@ -645,50 +695,7 @@ export default function ExplorerProject() {
                                     )}
                                   </chakra.p>
                                 </Box>
-                                {GetActiveTab() == 'CommuntyApproval' &&
-                                <CircularProgress
-                                  value={projectItem.communityVotedPercent}
-                                  size="150px"
-                                  color="blue.600"
-                                >
-                                  <CircularProgressLabel>
-                                    {projectItem.communityVotedPercent}%
-                                  </CircularProgressLabel>
-                                </CircularProgress>
-                                }
-                                {GetActiveTab() == 'MileStoneFundraising' &&
-                                <>
-                                  <CircularProgress
-                                    value={projectItem.community_backedPercent}
-                                    size="150px"
-                                    color="blue.600"
-                                  >
-                                    <CircularProgressLabel>
-                                      {projectItem.community_backedPercent}%
-                                    </CircularProgressLabel>
-                                  </CircularProgress>
-                                  <CircularProgress
-                                    value={projectItem.backer_backedPercent}
-                                    size="150px"
-                                    color="blue.600"
-                                  >
-                                    <CircularProgressLabel>
-                                      {projectItem.backer_backedPercent}%
-                                    </CircularProgressLabel>
-                                  </CircularProgress>
-                                </>
-                                }
-                                {GetActiveTab() == 'MileStoneDelivery' &&
-                                <CircularProgress
-                                  value={projectItem.releasedPercent}
-                                  size="150px"
-                                  color="blue.600"
-                                >
-                                  <CircularProgressLabel>
-                                    {projectItem.releasedPercent}%
-                                  </CircularProgressLabel>
-                                </CircularProgress>
-                                }
+                                <CircularProgresses projectItem={projectItem} sz="150px"/>
                               </HStack>
                               {GetActiveTab() === 'CommuntyApproval' &&
                                 <HStack>
@@ -1023,15 +1030,7 @@ export default function ExplorerProject() {
                               alignSelf={'center'}
                               marginTop={'20px !important'}
                             >
-                              <CircularProgress
-                                value={projectItem.percent}
-                                size="120px"
-                                color="blue.600"
-                              >
-                                <CircularProgressLabel>
-                                  {projectItem.percent}%
-                                </CircularProgressLabel>
-                              </CircularProgress>
+                              <CircularProgresses projectItem={projectItem} sz="130px"/>
                             </Flex>
                             {/* ------------------project buttons---------- */}
                             <Flex
