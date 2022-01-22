@@ -72,6 +72,7 @@ export default function Navbar() {
               <Flex w="197px" ml="20px">
                 <ConnectWallet />
               </Flex>
+              <UserSideSnippet/>
             </Flex>
           </Flex>
         </VStack>
