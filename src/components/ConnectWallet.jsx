@@ -153,7 +153,7 @@ export default function ConnectWallet() {
   }
 
   async function confirmReferral(){
-    let referralLink = 'https://www.wefund.app/?referral=' + encrypt3DES(connectedWallet.walletAddress, "wefundkeyreferral");
+    let referralLink = 'http://www.wefund.app/?referral=' + encrypt3DES(connectedWallet.walletAddress, "wefundkeyreferral");
     dispatch({ type: 'setReferralLink', message: referralLink })
 
     let queryString, urlParams, referral_code
@@ -162,42 +162,39 @@ export default function ConnectWallet() {
       urlParams = new URLSearchParams(queryString)
       referral_code = urlParams.get('referral');
 
+      let base = '';
       if(referral_code != null){
         referral_code = referral_code.split(' ').join('+');
         try{
-          const code = decrypt3DES(referral_code, "wefundkeyreferral");
-
-          var formData = new FormData();
-          formData.append("base", code);
-          formData.append("referred", connectedWallet.walletAddress);
-
-          const requestOptions = {
-            method: 'POST',
-            body: formData,
-          };
-
-          // notificationRef.current.showNotification("check referring", 'success', 100000)
-console.log('check referrig');
-          await fetch(state.request + '/checkreferral', requestOptions)
-          .then((res) => res.json())
-          .then((data) => {
-            // hideNotification();
-            dispatch({
-              type: 'setReferralCount',
-              message: data.data,
-            })
-            console.log(data);
-          })
-          .catch((e) =>{
-            console.log("Error:"+e);
-          })
+          base = decrypt3DES(referral_code, "wefundkeyreferral");
         }
         catch(e){
-          // notificationRef.current.showNotification("Invalid referring", 'error', 100000)
           console.log(e);
-          return;
         }
       }
+      
+      var formData = new FormData();
+      formData.append("base", base);
+      formData.append("referred", connectedWallet.walletAddress);
+
+      const requestOptions = {
+        method: 'POST',
+        body: formData,
+      };
+
+console.log('check referrig');
+      await fetch(state.request + '/checkreferral', requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: 'setReferralCount',
+          message: data.data,
+        })
+console.log(data);
+      })
+      .catch((e) =>{
+        console.log("Error:"+e);
+      })      
     }
   }
 

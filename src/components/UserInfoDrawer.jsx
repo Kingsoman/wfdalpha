@@ -31,6 +31,7 @@ export default function UserSideSnippet() {
   const { isOpen:isUserDrawerOpen, onOpen:onUserDrawerOpen, onClose:onUserDrawerClose } = useDisclosure()
   const { state, dispatch } = useStore()
   const [ rewards, setRewards ] = useState(0);
+  const [projectCount, setProjectCount] = useState(0);
   const [ contributes, setContributes ] = useState(0);
 
   //-----------connect to wallet ---------------------
@@ -73,7 +74,7 @@ console.log(projectData)
           }
         }
       }
-      setRewards(projectCount*50);
+      setProjectCount(projectCount);
       setContributes(totalbacked/10**6);
     } catch (e) {
       console.log(e)
@@ -101,16 +102,20 @@ console.log(projectData)
           <DrawerBody>
             <Box>
                 <Text>
-                    Wallet Number : {state.connectedWallet && state.connectedWallet.walletAddress}
+                    Wallet address : {state.connectedWallet && state.connectedWallet.walletAddress}
                 </Text>
-                <Text>
-                    Project Backed : {rewards}
+                <Text mt='20px'>
+                    Project Backed : {projectCount}
                 </Text>
-                <Text>
+                <Text mt='20px'>
                     Amount Contributed : {contributes}
                 </Text>
             </Box>
-            <Box>
+            <Box mt='20px'>
+              <Text>You have earned&nbsp;</Text>
+              <Text color={'blue.400'}>{state.referralCount * 50}WFD</Text>
+            </Box>
+            <Box mt='20px'>
               <Text>Earn WFD and other Bonuses for Referring a Backer. Your Link is</Text>
               <Text color={'blue.400'}>{state.referralLink}</Text>
             </Box>
