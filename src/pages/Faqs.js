@@ -1,545 +1,381 @@
-import { ChakraProvider } from "@chakra-ui/react";
-import {Fee, MsgExecuteContract } from '@terra-money/terra.js'
-import { Box, Flex, Text, Input, InputGroup,  InputLeftAddon,  Textarea, Select, 
-    InputLeftElement, InputRightElement, Img  } from "@chakra-ui/react";
-import React, { useEffect, useState,  useCallback, useContext, useRef, } from 'react';
-import { IoCloudUploadOutline, IoCheckbox } from 'react-icons/io5';
-import { ButtonTransition, ImageTransition, InputTransition } 
-                                from "../components/ImageTransition";
-import theme from '../theme';
-import { useStore } from '../store'
-import Notification from '../components/Notification'
+import React, { useState, useEffect } from 'react'
+
+import theme from '../theme'
 import Footer from '../components/Footer'
+import { Flex, Text, Image, ChakraProvider, Link, Box } from '@chakra-ui/react'
 
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-    useConnectedWallet =
-        require('@terra-money/wallet-provider').useConnectedWallet
-}
+import AOS from 'aos'
+import 'aos/dist/aos.css' // You can also use <link> for styles
 
-export default function Faqs() 
-{
-  const { state, dispatch } = useStore();
-  const [isUST, setIsUST] = useState(true);
+export default function Faqs() {
+  const [openIndex, setOpenIndex] = useState(null)
 
-  const [whitepaper, setWhitepaper] = useState('');
-  const [logo, setLogo] = useState('');
-
-  const [prjCategory, setPrjCategory] = useState('');
-  const [prjName, setPrjName] = useState('');
-  const [prjDescription, setPrjDescription] = useState('');
-  const [prjWebsite, setPrjWebsite] = useState('');
-  const [prjTeamdescription, setPrjTeamDescription] = useState('');
-  const [prjEmail, setPrjEmail] = useState('');
-  const [prjAmount, setPrjAmount] = useState('');
-  const [prjSubcategory, setPrjSubcategory]= useState('');
-  const [prjChain, setPrjChain] = useState('');
-
-
-  const [prjNameLen, setPrjNameLen] = useState(0);
-  const [prjDescriptionLen, setPrjDescriptionLen] = useState(0);
-  const [prjTeamdescriptionLen, setPrjTeamDescriptionLen] = useState(0);
-
-  //---------------wallet connect-------------------------------------
-  let connectedWallet = ''
-  if (typeof document !== 'undefined') {
-      connectedWallet = useConnectedWallet()
-  }
-
-  //---------------notification setting---------------------------------
-  const [notification, setNotification] = useState({
-    type: 'success',
-    message: '',
-    show: false,
-  })
-
-  function hideNotification() {
-    setNotification({
-        message: notification.message,
-        type: notification.type,
-        show: false,
-    })
-  }
-
-  function showNotification(message, type, duration) {
-    // console.log('fired notification')
-    setNotification({
-        message: message,
-        type: type,
-        show: true,
-    })
-    console.log(notification)
-    // Disable after $var seconds
-    setTimeout(() => {
-        setNotification({
-            message: message,
-            type: type,
-            show: false,
-        })
-        // console.log('disabled',notification)
-    }, duration)
-  }
-
-  //---------------input functions------------------------------
-  function openUpload(){
-    if(typeof document !== 'undefined') {
-      let fileSelector = document.getElementById('fileSelector')
-      fileSelector.click();
-    }
-  }
-  function changeWhitepaper(e){
-    if(typeof document !== 'undefined') {
-      let fileSelector = document.getElementById('fileSelector')
-      var fileName = fileSelector.value;
-      setWhitepaper(fileName.substr(fileName.lastIndexOf('\\')+1, fileName.length-1));
-
-      dispatch({
-        type: 'setWhitepaper',
-        message: e.target.files[0],
-      })
-    }    
-  }
-  
-  function openLogoUpload(){
-    if(typeof document !== 'undefined') {
-      let fileSelector = document.getElementById('fileLogoSelector')
-      fileSelector.click();
-    }
-  }
-  function changeLogo(e){
-    if(typeof document !== 'undefined') {
-      let fileSelector = document.getElementById('fileLogoSelector')
-      var fileName = fileSelector.value;
-      setLogo(fileName.substr(fileName.lastIndexOf('\\')+1, fileName.length-1));
-
-      dispatch({
-        type: 'setLogo',
-        message: e.target.files[0],
-      })
-    }
-  }
-  //---------------validate function-------------------------------
-  function onChangePrjName(e){
-    setPrjNameLen(e.target.value.length);
-    if(e.target.value.length < 100)
-      setPrjName(e.target.value);
-  }
-  function onChangePrjDescription(e){
-    setPrjDescriptionLen(e.target.value.length);
-    if(e.target.value.length < 1000)
-      setPrjDescription(e.target.value);
-  }
-  function onChangePrjTeamDescription(e){
-    setPrjTeamDescriptionLen(e.target.value.length);
-    if(e.target.value.length < 1000)
-      setPrjTeamDescription(e.target.value);
-  }
-  //---------------create project---------------------------------
-  async function createProject()
-  {
-    //----------verify connection--------------------------------
-    if(connectedWallet == '' || typeof connectedWallet == 'undefined'){
-      showNotification("Please connect wallet first!", 'error', 6000);
-      return;
-    }
-
-    //----------upload whitepaper---------------------------------------
-    let realWhitepaer = '';
-    if(whitepaper != ''){
-      var formData = new FormData();
-      formData.append("projectName", prjName);
-      formData.append("file", state.whitepaper);
-  console.log(state.whitepaper);
-      const requestOptions = {
-        method: 'POST',
-        body: formData,
-      };
-
-      await fetch(state.request + '/uploadWhitepaper', requestOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        realWhitepaer = data.data;
-        showNotification(data.data + 'Whitepaper upload Success' , 'success', 1000);
-      })
-      .catch((e) =>{
-        console.log("Error:"+e);
-        showNotification('upload whitepaper failed' , 'error', 1000);
-      })
-    }
-    //---------upload logo-------------------------------------------------
-    let realLogo = '';
-    if(logo != ''){
-      var formData = new FormData();
-      formData.append("projectName", prjName);
-      formData.append("file", state.logo);
-  console.log(state.logo);
-      const requestOptions = {
-        method: 'POST',
-        body: formData,
-      };
-
-      await fetch(state.request + '/uploadLogo', requestOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        realLogo = data.data;
-        showNotification(data.data + 'Logo upload Success' , 'success', 1000);
-      })
-      .catch((e) =>{
-        console.log("Error:"+e);
-        showNotification('upload logo failed' , 'error', 1000);
-      })
-    }
-    //---------------execute contract----------------------------------
-    let wefundContractAddress = state.WEFundContractAddress;
-
-    const obj = new Fee(10_000, { uusd: 4500})
-
-    let AddProjectMsg = {
-        add_project: {
-          creator_wallet: connectedWallet.walletAddress,
-          project_category: prjCategory, 
-          project_chain: prjChain,
-          project_collected: prjAmount,
-          project_createddate: '',
-          project_deadline: '',
-          project_description: prjDescription,
-          project_email: prjEmail,
-          project_icon: realLogo,
-          project_name: prjName,
-          project_subcategory: prjSubcategory,
-          project_teamdescription: prjTeamdescription,
-          project_website: prjWebsite,
-          project_whitepaper: realWhitepaer, 
-        },
-    }
-// console.log(AddProjectMsg);
-
-    let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
-      wefundContractAddress,
-      AddProjectMsg
-    )
-
-    // console.log(JSON.stringify(msg));
-
-    await connectedWallet
-      .post({
-          msgs: [msg],
-          // fee: obj,
-          gasPrices: obj.gasPrices(),
-          gasAdjustment: 1.7,
-      })
-      .then((e) => {
-          if (e.success) {
-              // console.log("Add Project success");
-              // console.log(e);
-              showNotification('Create Project Success', 'success', 4000)
-          } else {
-              // console.log("project add error");
-              showNotification(e.message, 'error', 4000)
-          }
-      })
-      .catch((e) => {
-          // console.log("error" + e);
-          showNotification(e.message, 'error', 4000)
-      })
-  }
+  useEffect(() => {
+    AOS.init({ duration: 1000 })
+    setTimeout(() => setSplash(false), 3000)
+  }, [])
 
   return (
     <ChakraProvider resetCSS theme={theme}>
-      <div style={{background:"linear-gradient(90deg, #1F0021 0%, #120054 104.34%)", 
-      width:'100%', color:'white', fontSize:'18px', fontFamily:'Sk-Modernist-Regular', fontWeight:'500' }}>
-        <div style={{backgroundImage:"url('/createproject_banner_emphasis.svg')", 
-        boxShadow:"0px 5px 50px 0px #000000A6", width:'100%', zIndex:'10'}}>
-        <div style={{backgroundImage:"url('/createproject_banner.svg')", width:'100%', width:'100%', zIndex:'11',backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover',zIndex:'11'}}>
-          <Flex pt='95px' justify="center">
-            <Text fontSize='16px' fontWeight='400' color={'rgba(255, 255, 255, 0.54)'}>Home &gt;&nbsp;</Text>
-            <Text fontSize='16px'>Create Your Project</Text>
-          </Flex>
-          <Flex mt='11px' pb='150px' justify='center'
-            style={{fontFamily:'PilatExtended-Bold'}}>
-            <Text fontSize='40px'>Create a&nbsp;</Text>
-            <Text fontSize='40px' color='#4790f5'>New Project</Text>
-          </Flex>
-        </div>
-        </div>
-        <Flex width='100%' justify='center' px='175px' zIndex={'1'}>
-        <div style={{width:'900px', background: 'rgba(255, 255, 255, 0.05)', border: '1.5px solid rgba(255, 255, 255, 0.15)',borderTopColor: 'transparent', fontFamily:'Sk-Modernist-Regular', paddingLeft:'50px', paddingRight:'50px', zIndex:'1'}} >
-          {/* --------Select UST or WFD------------------ */}
-          <Text fontSize='18px' pt='50px'>Select Back on</Text>
-
-          <Flex direction="row" mt='40px'>
-            {/* ------------UST---------------------- */}
-            <ImageTransition 
-              unitid='coinust'
-              border1='linear-gradient(180deg, #00A3FF 0%, rgba(0, 71, 255, 0) 100%)' 
-              background1='linear-gradient(180deg, #2B226B 0%, #1B0131 100%)'
-              border2='linear-gradient(180deg, rgba(255, 255, 255, 0.54) 0%, rgba(255, 255, 255, 0) 100%)' 
-              background2='linear-gradient(180deg, #31173A 0%, #421D50 0.01%, #21052C 100%)'
-              border3="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-              background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
-              selected={isUST}
-              width='120px' height='160px' rounded='10px'
-              onClick={()=>{setIsUST(true)}}
+      <Flex
+        pb={'50px'}
+        color={'white'}
+        alignItems="center"
+        data-aos="fade-down"
+        flexDirection={'column'}
+      >
+        <Box
+          w={'100%'}
+          color={'white'}
+          fontSize={'18px'}
+          fontWeight={'500'}
+          overflow={'hidden'}
+          borderRadius={'15px'}
+          fontFamily={'Sk-Modernist-Regular'}
+          height={{ base: '150px', lg: '200px' }}
+        >
+          <Box
+            w={'100%'}
+            zIndex={'10'}
+            height={{ base: '150px', lg: '200px' }}
+            backgroundImage={'url(/createproject_banner_emphasis.svg)'}
+          >
+            <Flex
+              w={'100%'}
+              zIndex={'11'}
+              justify={'center'}
+              alignItems={'center'}
+              flexDirection={'column'}
+              backgroundSize={'cover'}
+              backgroundPosition={'center'}
+              backgroundRepeat={'no-repeat'}
+              height={{ base: '150px', lg: '200px' }}
+              backgroundImage={'url(/createproject_banner.svg)'}
             >
-              <Img mt='23px' boxSize='50px' objectFit='cover' src='/UST.svg' alt='UST Avatar'/>
-              <Text mt='13px'>UST</Text>
-              <Img mt='15px' mb='20px' boxSize='20px' objectFit='cover' src={isUST?'/group_dot.svg':'/group_undot.svg'} alt='UST Avatar'/>
-            </ImageTransition>
-
-            {/* --------------------------WFD------------------------- */}
-            <ImageTransition 
-              unitid='coinwfd'
-              border1='linear-gradient(180deg, #00A3FF 0%, rgba(0, 71, 255, 0) 100%)' 
-              background1='linear-gradient(180deg, #2B226B 0%, #1B0131 100%)'
-              border2='linear-gradient(180deg, rgba(255, 255, 255, 0.54) 0%, rgba(255, 255, 255, 0) 100%)' 
-              background2='linear-gradient(180deg, #31173A 0%, #421D50 0.01%, #21052C 100%)'
-              border3="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-              background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
-              selected={!isUST}
-              width='120px' height='160px' rounded='10px' ml='20px'
-              onClick={()=>{setIsUST(false)}}
-            >
-              <Img mt='23px' height='35px' objectFit='cover' src='/WeFund Logos only.png' alt='UST Avatar'/>
-              <Text mt='13px'>WFD</Text>
-              <Img mt='25px' mt="15px" boxSize='20px' objectFit='cover' src={isUST?'/group_undot.svg':'/group_dot.svg'} alt='UST Avatar'/>  
-            </ImageTransition>
-          </Flex>
-          {/* --------project name-------------- */}
-          <Box mt='40px'>
-            <Flex justify="space-between">
-              <Text mb='20px'>Project Name</Text>
-              <Text fontSize='15px'  opacity='0.5'>{prjNameLen}/100 words</Text>
-            </Flex>
-            <InputTransition 
-              unitid='projectname'
-              selected={prjName==''?false:true}
-              width='100%' height='55px' rounded='md'
-            >
-              <InputGroup style={{background: 'rgba(255, 255, 255, 0.05)', }} size="sm" border='0px'>
-                <Input style={{border:'0', background:'transparent' }} type="text" h='55px'  rounded="md"  value={prjName} placeholder='Type here' 
-                onChange={(e)=>onChangePrjName(e)} />
-              </InputGroup>
-            </InputTransition>
-          </Box>
-          {/* ------------project description--------------- */}
-          <Box mt='40px'>
-            <Flex justify="space-between">
-              <Text mb='20px'>Project Description</Text>
-              <Text fontSize='15px' opacity='0.5'>{prjDescriptionLen}/1000 words</Text>
-            </Flex>
-            <InputTransition 
-              unitid='projectdescription'
-              selected={prjDescription==''?false:true}
-              width='100%' height='175px' rounded='md'
-            >
-              <Textarea style={{background: 'rgba(255, 255, 255, 0.05)', }} value={prjDescription} 
-              onChange={(e)=>{onChangePrjDescription(e)}} rounded="md"
-                placeholder='Type here' size='sm' h='175px' />
-            </InputTransition>
-          </Box>
-          {/* ---------------project website------------------- */}
-          <Flex direction='row' mt='40px' justify='space-between'>
-            <Box w='100%'>
-              <Flex justify="space-between">
-                <Text mb='20px'>Project Website</Text>
+              <Flex justify="center">
+                <Text
+                  fontSize="16px"
+                  fontWeight="400"
+                  data-aos="fade-down"
+                  color={'rgba(255, 255, 255, 0.54)'}
+                >
+                  Home &gt;&nbsp;
+                </Text>
+                <Text fontWeight="400" fontSize="16px" data-aos="fade-down">
+                  FAQ
+                </Text>
               </Flex>
-              <InputTransition 
-                unitid='projectwebsite'
-                selected={prjWebsite==''?false:true}
-                width='100%' height='55px' rounded='md'
-              >              
-                <InputGroup size="sm" style={{background: 'rgba(255, 255, 255, 0.05)', }}>
-                  <InputLeftAddon h='55px' style={{background: 'rgba(255, 255, 255, 0.05)', }} children="http://" color='white' rounded="md" />
-                  <Input type="text" h='55px'style={{background: 'rgba(255, 255, 255, 0.05)', }} placeholder="Type here" rounded="md"  
-                  value={prjWebsite} onChange={(e)=>{setPrjWebsite(e.target.value)}} />
-                </InputGroup>
-              </InputTransition>
-            </Box>
-            {/* ---------------upload---------------------------------- */}
-            <Box ml='24px' w='100%'>
-              <Flex justify="space-between">
-                <Text mb='20px'>Project Whitepaper</Text>
-              </Flex>
-              {whitepaper == '' && 
-                <InputGroup size="sm">
-                  <InputLeftElement h='55px' pointerEvents='none' children={<IoCloudUploadOutline color='#00A3FF' width='30px' height='30px'/>} />
-                  <Input type="text" h='55px' bg='#FFFFFF' borderColor="#FFFFFF33" placeholder="Upload here" focusBorderColor="purple.800"  rounded="md"  
-                  onClick={(e)=>{openUpload()}}  /> 
-                </InputGroup>}
-              {whitepaper != '' && 
-                <InputGroup size="sm">
-                  <InputLeftElement h='55px' pointerEvents='none' children={<IoCheckbox color='00A3FF'  width='30px' height='30px' />} />
-                  <Input type="text" h='55px' bg='#FFFFFF' borderColor="#FFFFFF33" placeholder={whitepaper} focusBorderColor="purple.800"  rounded="md"  
-                  onClick={(e)=>{openUpload()}} /> 
-                </InputGroup>}
-              <input type='file' id="fileSelector" name='userFile' style={{display:'none'}}
-                onChange={(e)=>changeWhitepaper(e)}/>
-            </Box>
-          </Flex>
-          {/* -------------------Project Icon------------------- */}
-          <Box mt='40px' w='50%'>
-            <Flex justify="space-between">
-              <Text mb='20px'>Project Logo</Text>
-            </Flex>
-            {logo == '' && 
-              <InputGroup size="sm">
-                <InputLeftElement h='55px' pointerEvents='none' children={<IoCloudUploadOutline color='#00A3FF' width='30px' height='30px'/>} />
-                <Input type="text" h='55px' bg='#FFFFFF' borderColor="#FFFFFF33" placeholder="Upload here" focusBorderColor="purple.800"  rounded="md"  
-                onClick={(e)=>{openLogoUpload()}}  /> 
-              </InputGroup>}
-            {logo != '' && 
-              <InputGroup size="sm">
-                <InputLeftElement h='55px' pointerEvents='none' children={<IoCheckbox color='00A3FF'  width='30px' height='30px' />} />
-                <Input type="text" h='55px' bg='#FFFFFF' borderColor="#FFFFFF33" placeholder={logo} focusBorderColor="purple.800"  rounded="md"  
-                onClick={(e)=>{openLogoUpload()}} /> 
-              </InputGroup>}
-            <input type='file' id="fileLogoSelector" name='userFile' style={{display:'none'}}
-              onChange={(e)=>changeLogo(e)}/>
-          </Box>
-          {/* --------------project Team description------- */}
-          <Box mt='40px'>
-            <Flex justify="space-between">
-              <Text mb='20px'>Project Team Description</Text>
-              <Text  fontSize='15px' opacity='0.5'>{prjTeamdescriptionLen}/1000 words</Text>
-            </Flex>
-            <InputTransition 
-              unitid='prjTeamdescription'
-              selected={prjTeamdescription==''?false:true}
-              width='100%' height='175px' rounded='md'
-              style={{background: 'transparent',border:'0'}}
-            >
-              <Textarea style={{background: 'transparent',border:'0'}} h='165px' value={prjTeamdescription} onChange={(e)=>{onChangePrjTeamDescription(e)}}
-                placeholder='Type here' size='sm'  rounded="md"
-              />
-            </InputTransition>
-          </Box>
-          {/* ------------------project category---------- */}
-          <Box mt='40px' w='50%'>
-            <Flex justify="space-between">
-              <Text mb='20px'>Project Category</Text>
-            </Flex>
-
-            <InputTransition 
-              unitid='projectcategory'
-              selected={prjCategory==''?false:true}
-              width='100%' height='55px' rounded='md'
-            >       
-              <Select id="sub_category" style={{background: 'rgba(255, 255, 255, 0.05)', }} h='55px' name="sub_category" autoComplete="sub_category" focusBorderColor="purple.800" shadow="sm" size="sm" w="full" rounded="md"
-                onChange={(e)=>{setPrjCategory(e.target.value)}} 
+              <Flex
+                mt="11px"
+                justify="center"
+                data-aos="fade-down"
+                fontFamily={'PilatExtended-Bold'}
+                fontSize={{ lg: '40px', base: '30px' }}
               >
-                <option selected style={{backgroundColor:'#1B0645'}}>Crypto</option>
-                <option style={{backgroundColor:'#1B0645'}}>Google</option>
-                <option style={{backgroundColor:'#1B0645'}}>Ecosystem</option>
-              </Select>
-            </InputTransition>
-          </Box>
-          {/* -------------------project sub category--------------- */}
-          <Box mt='40px' w='50%'>
-            <Flex justify="space-between">
-              <Text mb='20px'>Project Sub Category</Text>
-            </Flex>
-            <InputTransition 
-              unitid='projectsubcategory'
-              selected={prjSubcategory==''?false:true}
-              width='100%' height='55px' rounded='md'
-            >       
-              <Select id="sub_category" style={{background: 'rgba(255, 255, 255, 0.05)', }} h='55px' name="sub_category" autoComplete="sub_category" focusBorderColor="purple.800" shadow="sm" size="sm" w="full" rounded="md"
-                value='' onChange={(e)=>{setPrjSubcategory(e.target.value)}} 
-              >
-                <option selected style={{backgroundColor:'#1B0645'}}>Lending</option>
-                <option style={{backgroundColor:'#1B0645'}}>Charity</option>
-                <option style={{backgroundColor:'#1B0645'}}>Social</option>
-                <option style={{backgroundColor:'#1B0645'}}>IDO</option>
-                <option style={{backgroundColor:'#1B0645'}}>Finance</option>
-                <option style={{backgroundColor:'#1B0645'}}>NFT</option>
-                <option style={{backgroundColor:'#1B0645'}}>Game</option>
-              </Select>
-            </InputTransition>
-          </Box>
-          {/* ------------------------blockchain category----------------- */}
-          <Box mt='40px' w='50%'>
-            <Flex justify="space-between">
-              <Text mb='20px'>Blockchain category</Text>
-            </Flex>
-            <InputTransition 
-              unitid='projectchain'
-              selected={prjChain==''?false:true}
-              width='100%' height='55px' rounded='md' background= 'rgba(255, 255, 255, 0.05)'
-            >       
-              <Select id="sub_category" style={{background: 'rgba(255, 255, 255, 0.05)', }} h='55px' name="sub_category" autoComplete="sub_category" focusBorderColor="purple.800" shadow="sm" size="sm" w="full" rounded="md"
-                value='' onChange={(e)=>{setPrjChain(e.target.value)}} 
-              >
-                <option selected style={{backgroundColor:'#1B0645'}}>Terra</option>
-                <option style={{backgroundColor:'#1B0645'}}>Solana</option>
-                <option style={{backgroundColor:'#1B0645'}}>Ethereum</option>
-                <option style={{backgroundColor:'#1B0645'}}>Polygon</option>
-                <option style={{backgroundColor:'#1B0645'}}>Avalanche</option>
-              </Select>
-            </InputTransition>
-          </Box>
-          {/* -------------------------email------------------------ */}
-          <Flex direction='row' mt='40px' justify="space-between">
-            <Box w='100%'>
-              <Flex justify="space-between">
-                <Text mb='20px'>Email</Text>
+                FAQ
               </Flex>
-              <InputTransition 
-                unitid='projectemail'
-                selected={prjEmail==''?false:true}
-                width='100%' height='55px' rounded='md'
-              >      
-                <InputGroup size="sm" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
-                  <InputLeftElement style={{background: 'transparent', }} pointerEvents='none' color='gray.300' fontSize='1.2em' children=' ' />
-                  <Input style={{ }} type="email" h='55px'placeholder="example@email.com" focusBorderColor="purple.800" rounded="md"  value={prjEmail} onChange={(e)=>{setPrjEmail(e.target.value)}} />
-                </InputGroup>
-              </InputTransition>
-            </Box>
-            <Box ml='24px' w='100%'>
-              <Flex justify="space-between">
-                <Text mb='20px'>Amount Required</Text>
-              </Flex>
-              <InputTransition 
-                unitid='projectamount'
-                selected={prjEmail==''?false:true}
-                width='100%' height='55px' rounded='md'
-              >      
-                <InputGroup size="sm" style={{background: 'rgba(255, 255, 255, 0.05' }}>
-                  <Input style={{border:'0', background:'transparent' }} type="text"  h='55px' placeholder="Type here" focusBorderColor="purple.800" rounded="md"  value={prjAmount} onChange={(e)=>{setPrjAmount(e.target.value)}} />
-                  <InputRightElement style={{border:'0', background:'transparent'}} w='125px'  h='55px' pointerEvents='none' align='center' color="blue.200"
-                  /> 
-                  <Select id="peg" style={{border:'0', background:'transparent' }} h='55px' w='140px' name="peg" autoComplete="peg" focusBorderColor="purple.800" shadow="sm" size="sm" rounded="md" fontSize='16px' value='' onChange={(e)=>{setPrjChain(e.target.value)}} 
-                  >
-                    <option selected style={{backgroundColor:'#1B0645'}}>($)UST</option>
-                    <option style={{backgroundColor:'#1B0645'}}>($)UST</option>
-                    <option style={{backgroundColor:'#1B0645'}}>($)UST</option>
-                  </Select>
-                </InputGroup>
-              </InputTransition>
-            </Box>
-          </Flex>
-          {/* -----------------submit----------------- */}
-          <Flex w='100%' mt='60px'justify='center' mb='170px'>
-            <ButtonTransition unitid="submit"
-              selected={false}
-              width='350px' height='50px' rounded='33px'
+            </Flex>
+          </Box>
+        </Box>
+
+        <Text
+          mt={'30px'}
+          textAlign={'center'}
+          fontWeight={'light'}
+          data-aos="fade-down"
+          fontFamily={'PilatExtended-Regular'}
+          fontSize={{ lg: '20px', base: '16px' }}
+        >
+          FAQ
+        </Text>
+        <Text
+          textAlign={'center'}
+          data-aos="fade-down"
+          fontFamily={'PilatExtended-Bold'}
+          fontSize={{ lg: '25px', base: '16px' }}
+        >
+          Frequently Ask Questions
+        </Text>
+        <Text
+          mt={'10px'}
+          data-aos="fade-down"
+          textAlign={'center'}
+          mx={{ lg: '10%', base: '2.5%' }}
+          fontFamily={'Sk-Modernist-Regular'}
+          fontSize={{ lg: '18px', base: '15px' }}
+        >
+          WFD Tokens will be used to operate WeFund Platforms. Projects for
+          example converts 1% of their funding into WFD tokens. WFD Tokens also
+          used as governance tokens for voting and govern the project
+          trajectory.
+        </Text>
+        <Flex
+          flexDirection={'column'}
+          w={{ lg: '80%', base: '95%' }}
+          mt={{ lg: '50px', base: '30px' }}
+          mb={{ lg: '100px', base: '50px' }}
+          fontSize={{ lg: '18px', base: '15px' }}
+          fontFamily={'Sk-Modernist-Regular'}
+        >
+          {faqData.map((e, index) => (
+            <Flex
+              bg={'#250E42'}
+              width={'100%'}
+              cursor={'pointer'}
+              data-aos="zoom-in-up"
+              borderRadius={'15px'}
+              flexDirection={'column'}
+              border={'1px solid #513E69'}
+              mt={{ lg: '20px', base: '10px' }}
+              onClick={() => {
+                if (openIndex == index) setOpenIndex(null)
+                else setOpenIndex(index)
+              }}
             >
-              <Box variant="solid" color="white" justify='center' align='center'
-                  onClick = {()=>createProject()} >
-                Submit
-              </Box>
-            </ButtonTransition>
+              <Flex
+                alignItems={'center'}
+                p={{ lg: '20px', base: '10px' }}
+                justifyContent={'space-between'}
+              >
+                <Text>{e.ques}</Text>
+
+                {openIndex == index ? (
+                  <Image src="/ArrowDown2.svg" transform={'rotate(180deg)'} />
+                ) : (
+                  <Image src="/ArrowDown2.svg" />
+                )}
+              </Flex>
+              {openIndex == index && (
+                <Flex
+                  flexDirection={'column'}
+                  borderTop={'1px solid #513E69'}
+                  p={{ lg: '20px', base: '10px' }}
+                >
+                  {e.ans.map((i) => (
+                    <>
+                      <Text>{i}</Text>
+                      <br />
+                    </>
+                  ))}
+                </Flex>
+              )}
+            </Flex>
+          ))}
+
+          <Flex
+            bg={'#250E42'}
+            width={'100%'}
+            cursor={'pointer'}
+            data-aos="zoom-in-up"
+            borderRadius={'15px'}
+            flexDirection={'column'}
+            border={'1px solid #513E69'}
+            mt={{ lg: '20px', base: '10px' }}
+            onClick={() => {
+              if (openIndex == 11) setOpenIndex(null)
+              else setOpenIndex(11)
+            }}
+          >
+            <Flex
+              alignItems={'center'}
+              justifyContent={'space-between'}
+              p={{ lg: '20px', base: '10px' }}
+            >
+              <Text>
+                Where can we find out more about WeFund on social media?
+              </Text>
+
+              {openIndex == 11 ? (
+                <Image src="/ArrowDown2.svg" transform={'rotate(180deg)'} />
+              ) : (
+                <Image src="/ArrowDown2.svg" />
+              )}
+            </Flex>
+            {openIndex == 11 && (
+              <Flex
+                flexDirection={'column'}
+                borderTop={'1px solid #513E69'}
+                p={{ lg: '20px', base: '10px' }}
+              >
+                <Link href="https://twitter.com/WeFund_Official">Twitter</Link>
+                <Link href="https://t.me/wefundofficial">WeFund Official</Link>
+                <Link href="https://t.me/talkwithwefund">
+                  WeFund Discussion
+                </Link>
+                <Link href="mailto:info@wefund.app">Email</Link>
+                <Link href="https://medium.com/@wefundofficial">Medium</Link>
+                <Link href="https://medium.com/@wefundofficial">Medium</Link>
+              </Flex>
+            )}
           </Flex>
-        </div>
+
+          <Flex
+            bg={'#250E42'}
+            width={'100%'}
+            cursor={'pointer'}
+            data-aos="zoom-in-up"
+            borderRadius={'15px'}
+            flexDirection={'column'}
+            border={'1px solid #513E69'}
+            mt={{ lg: '20px', base: '10px' }}
+            onClick={() => {
+              if (openIndex == 12) setOpenIndex(null)
+              else setOpenIndex(12)
+            }}
+          >
+            <Flex
+              alignItems={'center'}
+              p={{ lg: '20px', base: '10px' }}
+              justifyContent={'space-between'}
+            >
+              <Text>
+                Currently from where I can buy it? Is it possible that I can get
+                it only by holding it?
+              </Text>
+
+              {openIndex == 12 ? (
+                <Image src="/ArrowDown2.svg" transform={'rotate(180deg)'} />
+              ) : (
+                <Image src="/ArrowDown2.svg" />
+              )}
+            </Flex>
+            {openIndex == 12 && (
+              <Flex
+                flexDirection={'column'}
+                borderTop={'1px solid #513E69'}
+                p={{ lg: '20px', base: '10px' }}
+              >
+                <Text>
+                  If you participate in the ongoing Seed round, you will benefit
+                  from profit sharing in addition to token allocation. (Link
+                  below){' '}
+                  <Link href="https://www.pdffiller.com/en/link_to_fill/864925851.htm">
+                    https://www.pdffiller.com/en/link_to_fill/864925851.htm
+                  </Link>
+                </Text>
+                <br />
+                <Text>
+                  For seed & presale tokens, tokens distributed will be vested
+                  over 10 months after the offering. For team tokens, 17% of the
+                  entire token distributed will be vested over 17 months after
+                  the 10-month vesting period is completed. Team token vesting
+                  will begin once the investor vesting has been completed.
+                  Profit-sharing is only for Seed investors
+                </Text>
+              </Flex>
+            )}
+          </Flex>
         </Flex>
-        <Flex>
-        <Footer/>
-        <Notification
-            notification={notification}
-            close={() => hideNotification()}
-        />
-        </Flex>
-      </div>
+
+        <Text
+          fontSize={'20px'}
+          fontWeight={'light'}
+          textAlign={'center'}
+          data-aos="zoom-in-up"
+          mt={{ lg: '20px', base: '0' }}
+          fontFamily={'PilatExtended-Regular'}
+        >
+          Supporting your project
+        </Text>
+        <Text
+          textAlign={'center'}
+          data-aos="zoom-in-up"
+          fontFamily={'PilatExtended-Bold'}
+          fontSize={{ lg: '25px', base: '20px' }}
+        >
+          Committed to top quality and results
+        </Text>
+        <Text
+          my={'15px'}
+          justify="center"
+          fontSize={'16px'}
+          textAlign={'center'}
+          fontWeight={'light'}
+          data-aos="zoom-in-up"
+          mx={{ lg: '10%', base: '2.5%' }}
+          fontFamily={'Sk-Modernist-Regular'}
+        >
+          Proin ullamcorper pretium orci. Donec necscele risque leo. Nam massa
+          dolor imperdiet neccon sequata congue idsem. Maecenas malesuada
+          faucibus finibus.
+        </Text>
+        <Image src="userGuide.svg" data-aos="zoom-in-up" />
+      </Flex>
+      <Footer />
     </ChakraProvider>
   )
 }
+
+const faqData = [
+  {
+    ques: 'What is WeFund and the story behind the idea?',
+    ans: [
+      "WeFund is a cross-chain crowdfunding platform to create a space for backers and creators to raise the necessary resources for the realization of the project via the means of backers. At the moment only using Terra and operating as a crowdfunding platform, however, it will expand to include multiple chains and provide a full incubation service to increase the chance of success of the projects on our platform. The founder's vision was to create a community that everyone could participate. There was a hackathon that the founders participated as Fan$quad, however, there was a decision made to rebrand the name to include more industries to reach a larger audience and community.",
+    ],
+  },
+  {
+    ques: 'Why are the team and their experience with crypto projects?',
+    ans: [
+      'Ika (Co-Founder & CMO) helped raise $10 million dollars for Gamesta, crypto & NFT trading platform startup, as the CMO and is now focused 100% on WeFund.',
+
+      "Andreas (Co-Founder, CEO, & Co-CTO), similar to Ika, played a big role in the initial development of Gamesta's $10 million raise. He is highly skilled & versatile in back-end development.",
+      'Jason (Co-CTO) is a 90s dot com boom veteran and has been losing money in Crypto since 2017 from his day trading (just joking). He works closely with Andreas & our development team to bring our project to life.',
+      "Austin (CCO). This is officially my first crypto project, however, I have been closely following various crypto projects. One of my favorites is Stellar Development Foundation's Stellar Lumen. I have been completing their quest series which teaches how to use Stellar's ecosystem, APIs, & SDK. My background is with a silicon-valley VC fund and following trends of startup technology companies got me interested in actively participating in this space.",
+      'WeFund’s development team has a strong background in Rust and Solidity.',
+    ],
+  },
+  {
+    ques: 'What makes WeFund unique?',
+    ans: [
+      'We are building WeFund to be a full 360-degree service for project support and guidance after funding has been completed. It will be crowdfunding & incubation. We will be able to Implement various industries and projects Crypto & Real-World projects - a bridge between blockchain & real-world projects. In our roadmap, we plan to make this a cross-chain platform and provide in-house funding for projects from the revenue we generate.',
+    ],
+  },
+  {
+    ques: 'What are the benefits for project proposers & backer sides?',
+    ans: [
+      'Proposers: Can reach a big community and generate awareness for their projects. Full service from the WeFund team and our experts to help with the fundraising and scale the project.',
+
+      'Backers: Money returned if fundraising goals are not met. Yield from Anchor protocol. Can easily find new and exciting projects. No minimum or maximum amounts for very early-stage projects. Everyone is able to be an investor.',
+    ],
+  },
+  {
+    ques: 'What are the $WFD token use cases, distribution, and how to buy/get it?',
+    ans: [
+      'If you use $WFD on the platform there is a 0% transaction fee. If the project proposer uses$ WFD to fund the project there will be prioritized placement on the platform. Those projects will get more exposure and staking rewards. Increased value from its deflationary token system. Can be used as an ad payment on our platform if project proposers want more exposure.',
+    ],
+  },
+  {
+    ques: 'How do you approach your marketing to increase WeFund users in the future?',
+    ans: [
+      'Our approach is to build and maintain community relationships through social media and strategic partnerships such as Kommunitas. Kommunitas, like WeFund, is a multichain platform ensuring resources can come from multiple ecosystems. Kommunitas will complement the offering of WeFund by providing access to easier IDO and incubation for projects that have completed a funding round, looking to take the next step towards launching their project while using the resources they have more effectively.',
+    ],
+  },
+  {
+    ques: 'WWhat is the WeFund roadmap?',
+    ans: [
+      'At the moment we are raising a Seed round for initial development and to ensure the talent we have will deliver a strong platform & operation. 3% of our revenue for Seed investors will be equally distributed by the amount each investor invested. This month we will have our platform launch and start our pre-sale. Our pre-sale is 10% of our token allocation. Then we will have an offering in May.',
+    ],
+  },
+  {
+    ques: 'What is WeFund’s revenue model?',
+    ans: [
+      '1% transaction fee (if not using $WFD)',
+      'Revenue from users paying us for prioritized placement on our platform (ads)',
+      'Anchor Protocol - 50% of yield generated from this protocol (coming from money deposited to back a project) will go to WeFund & 50% to the backer',
+    ],
+  },
+  {
+    ques: "As crypto users we don't want to lose our assets to some scam projects that run away and disappear with our money so why should we invest in your project as a long-term investment?",
+    ans: [
+      'We will have the platform running before the offering, unlike other projects that raise money before any product/platform is launched with the exception of our Seed round, which is the amount we need to have a strong talent for our initial development & launch',
+      'We have a deflationary token system that is designed to increase token value over time.',
+      'We do AMA in person with our real identities. Our goal is to be fully transparent with our operations.',
+    ],
+  },
+  {
+    ques: 'Is your project only open to a certain audience (elite investors, Professional players), or is it open to medium and small fund investors, traditional players?',
+    ans: [
+      'No, we are open to any investor. Being community-driven is a big part of our philosophy and we want to ensure that everyone has the ability to take part regardless of being an independent, large, or small investor.',
+    ],
+  },
+]

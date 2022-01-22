@@ -15,6 +15,7 @@ import theme from './theme'
 
 import Navbar from './components/Navbar'
 import Index from 'pages/Index'
+import Faqs from 'pages/Faqs'
 import ExplorerProject from 'pages/ExploreComingSoon'
 import CreateProject from 'pages/CreateProject'
 import BackProject from 'pages/BackProject'
@@ -104,6 +105,7 @@ class App extends Component {
                 <Navbar />
                 <Router>
                   <Index path="/" />
+                  <Faqs path="faqs" />
                   <CreateProject path="create" />
                   <BackProject path="back" />
                   <ExplorerProject path="explorer" />
