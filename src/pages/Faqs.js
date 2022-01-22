@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import theme from '../theme'
 import Footer from '../components/Footer'
-import { Flex, Text, Image, ChakraProvider, Link } from '@chakra-ui/react'
+import { Flex, Text, Image, ChakraProvider, Link, Box } from '@chakra-ui/react'
 
 import AOS from 'aos'
 import 'aos/dist/aos.css' // You can also use <link> for styles
@@ -24,34 +24,35 @@ export default function Faqs() {
         data-aos="fade-down"
         flexDirection={'column'}
       >
-        <div
-          style={{
-            width: '100%',
-            color: 'white',
-            fontSize: '18px',
-            fontWeight: '500',
-            fontFamily: 'Sk-Modernist-Regular',
-          }}
+        <Box
+          w={'100%'}
+          color={'white'}
+          fontSize={'18px'}
+          fontWeight={'500'}
+          overflow={'hidden'}
+          borderRadius={'15px'}
+          fontFamily={'Sk-Modernist-Regular'}
+          height={{ base: '150px', lg: '200px' }}
         >
-          <div
-            style={{
-              zIndex: '10',
-              height: '100%',
-              backgroundImage: "url('/createproject_banner_emphasis.svg')",
-            }}
+          <Box
+            w={'100%'}
+            zIndex={'10'}
+            height={{ base: '150px', lg: '200px' }}
+            backgroundImage={'url(/createproject_banner_emphasis.svg)'}
           >
-            <div
-              style={{
-                backgroundImage: "url('/createproject_banner.svg')",
-                width: '100%',
-                zIndex: '11',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
-                zIndex: '11',
-              }}
+            <Flex
+              w={'100%'}
+              zIndex={'11'}
+              justify={'center'}
+              alignItems={'center'}
+              flexDirection={'column'}
+              backgroundSize={'cover'}
+              backgroundPosition={'center'}
+              backgroundRepeat={'no-repeat'}
+              height={{ base: '150px', lg: '200px' }}
+              backgroundImage={'url(/createproject_banner.svg)'}
             >
-              <Flex pt="95px" justify="center">
+              <Flex justify="center">
                 <Text
                   fontSize="16px"
                   fontWeight="400"
@@ -66,41 +67,42 @@ export default function Faqs() {
               </Flex>
               <Flex
                 mt="11px"
-                pb="150px"
                 justify="center"
-                fontSize={'40px'}
                 data-aos="fade-down"
                 fontFamily={'PilatExtended-Bold'}
+                fontSize={{ lg: '40px', base: '30px' }}
               >
                 FAQ
               </Flex>
-            </div>
-          </div>
-        </div>
+            </Flex>
+          </Box>
+        </Box>
 
         <Text
           mt={'30px'}
-          fontSize={'20px'}
+          textAlign={'center'}
           fontWeight={'light'}
           data-aos="fade-down"
           fontFamily={'PilatExtended-Regular'}
+          fontSize={{ lg: '20px', base: '16px' }}
         >
           FAQ
         </Text>
         <Text
-          fontSize={'25px'}
+          textAlign={'center'}
           data-aos="fade-down"
           fontFamily={'PilatExtended-Bold'}
+          fontSize={{ lg: '25px', base: '16px' }}
         >
           Frequently Ask Questions
         </Text>
         <Text
-          mx={'10%'}
           mt={'10px'}
-          fontSize={'16px'}
           data-aos="fade-down"
           textAlign={'center'}
+          mx={{ lg: '10%', base: '2.5%' }}
           fontFamily={'Sk-Modernist-Regular'}
+          fontSize={{ lg: '18px', base: '15px' }}
         >
           WFD Tokens will be used to operate WeFund Platforms. Projects for
           example converts 1% of their funding into WFD tokens. WFD Tokens also
@@ -108,15 +110,15 @@ export default function Faqs() {
           trajectory.
         </Text>
         <Flex
-          w={'80%'}
-          mt={'50px'}
-          mb={'100px'}
           flexDirection={'column'}
+          w={{ lg: '80%', base: '95%' }}
+          mt={{ lg: '50px', base: '30px' }}
+          mb={{ lg: '100px', base: '50px' }}
+          fontSize={{ lg: '18px', base: '15px' }}
           fontFamily={'Sk-Modernist-Regular'}
         >
           {faqData.map((e, index) => (
             <Flex
-              mt={'20px'}
               bg={'#250E42'}
               width={'100%'}
               cursor={'pointer'}
@@ -124,14 +126,15 @@ export default function Faqs() {
               borderRadius={'15px'}
               flexDirection={'column'}
               border={'1px solid #513E69'}
+              mt={{ lg: '20px', base: '10px' }}
               onClick={() => {
                 if (openIndex == index) setOpenIndex(null)
                 else setOpenIndex(index)
               }}
             >
               <Flex
-                p={'20px'}
                 alignItems={'center'}
+                p={{ lg: '20px', base: '10px' }}
                 justifyContent={'space-between'}
               >
                 <Text>{e.ques}</Text>
@@ -144,9 +147,9 @@ export default function Faqs() {
               </Flex>
               {openIndex == index && (
                 <Flex
-                  p={'20px'}
-                  borderTop={'1px solid #513E69'}
                   flexDirection={'column'}
+                  borderTop={'1px solid #513E69'}
+                  p={{ lg: '20px', base: '10px' }}
                 >
                   {e.ans.map((i) => (
                     <>
@@ -160,7 +163,6 @@ export default function Faqs() {
           ))}
 
           <Flex
-            mt={'20px'}
             bg={'#250E42'}
             width={'100%'}
             cursor={'pointer'}
@@ -168,15 +170,16 @@ export default function Faqs() {
             borderRadius={'15px'}
             flexDirection={'column'}
             border={'1px solid #513E69'}
+            mt={{ lg: '20px', base: '10px' }}
             onClick={() => {
               if (openIndex == 11) setOpenIndex(null)
               else setOpenIndex(11)
             }}
           >
             <Flex
-              p={'20px'}
               alignItems={'center'}
               justifyContent={'space-between'}
+              p={{ lg: '20px', base: '10px' }}
             >
               <Text>
                 Where can we find out more about WeFund on social media?
@@ -190,9 +193,9 @@ export default function Faqs() {
             </Flex>
             {openIndex == 11 && (
               <Flex
-                p={'20px'}
-                borderTop={'1px solid #513E69'}
                 flexDirection={'column'}
+                borderTop={'1px solid #513E69'}
+                p={{ lg: '20px', base: '10px' }}
               >
                 <Link href="https://twitter.com/WeFund_Official">Twitter</Link>
                 <Link href="https://t.me/wefundofficial">WeFund Official</Link>
@@ -207,7 +210,6 @@ export default function Faqs() {
           </Flex>
 
           <Flex
-            mt={'20px'}
             bg={'#250E42'}
             width={'100%'}
             cursor={'pointer'}
@@ -215,14 +217,15 @@ export default function Faqs() {
             borderRadius={'15px'}
             flexDirection={'column'}
             border={'1px solid #513E69'}
+            mt={{ lg: '20px', base: '10px' }}
             onClick={() => {
               if (openIndex == 12) setOpenIndex(null)
               else setOpenIndex(12)
             }}
           >
             <Flex
-              p={'20px'}
               alignItems={'center'}
+              p={{ lg: '20px', base: '10px' }}
               justifyContent={'space-between'}
             >
               <Text>
@@ -238,9 +241,9 @@ export default function Faqs() {
             </Flex>
             {openIndex == 12 && (
               <Flex
-                p={'20px'}
-                borderTop={'1px solid #513E69'}
                 flexDirection={'column'}
+                borderTop={'1px solid #513E69'}
+                p={{ lg: '20px', base: '10px' }}
               >
                 <Text>
                   If you participate in the ongoing Seed round, you will benefit
@@ -265,29 +268,31 @@ export default function Faqs() {
         </Flex>
 
         <Text
-          mt={'20px'}
           fontSize={'20px'}
-          data-aos="zoom-in-up"
           fontWeight={'light'}
+          textAlign={'center'}
+          data-aos="zoom-in-up"
+          mt={{ lg: '20px', base: '0' }}
           fontFamily={'PilatExtended-Regular'}
         >
           Supporting your project
         </Text>
         <Text
-          fontSize={'25px'}
-          fontFamily={'PilatExtended-Bold'}
+          textAlign={'center'}
           data-aos="zoom-in-up"
+          fontFamily={'PilatExtended-Bold'}
+          fontSize={{ lg: '25px', base: '20px' }}
         >
           Committed to top quality and results
         </Text>
         <Text
-          mx={'25%'}
           my={'15px'}
           justify="center"
           fontSize={'16px'}
           textAlign={'center'}
-          data-aos="zoom-in-up"
           fontWeight={'light'}
+          data-aos="zoom-in-up"
+          mx={{ lg: '10%', base: '2.5%' }}
           fontFamily={'Sk-Modernist-Regular'}
         >
           Proin ullamcorper pretium orci. Donec necscele risque leo. Nam massa

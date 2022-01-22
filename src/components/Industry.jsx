@@ -147,8 +147,8 @@ export default function Industry() {
                         projectItem.state === 'Ongoing' ? '#2BC54D' : '#FE8600'
                       }
                       className="projectState"
-                      fontSize="18px"
-                      mt="10px"
+                      fontSize={{lg: "18px", base: "14px"}}
+                      mt={{lg: "10px", base: "0px"}}
                     >
                       {projectItem.state}
                     </Text>

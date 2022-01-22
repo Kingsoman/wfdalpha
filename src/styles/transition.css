@@ -38,8 +38,8 @@ body {
   position: relative;
   align-items: center;
   justify-content: center;
-  border-top: 4px solid #f42f54;
-  border-bottom: 4px solid #f42f54;
+  border-top: 4px solid #ac51c6;
+  border-bottom: 4px solid #ac51c6;
   animation: spin 1.5s linear infinite;
 }
 .loader2 {
@@ -50,8 +50,8 @@ body {
   border-radius: 50%;
   position: relative;
   align-items: center;
-  border-left: 4px solid #f42f54;
-  border-right: 4px solid #f42f54;
+  border-left: 4px solid #ac51c6;
+  border-right: 4px solid #ac51c6;
   animation: spin2 0.5s linear infinite;
 }
 #SplashLoaderLogo {
@@ -1256,27 +1256,27 @@ body {
     border-radius: 10px !important;
     object-fit: cover !important;
   } */
-  /* .projectTitle {
-    font-weight: 700;
-    line-height: 15px;
-    font-size: 13px;
-    margin-bottom: -5px;
-  }
-  .projectDesc {
-    margin-top: -5px;
-    font-size: 11px !important;
-    line-height: 13px;
-    font-weight: 400;
-    margin-bottom: 15px;
-  }
+  /* 
   .projectState {
     font-size: 9px !important;
     line-height: 10px;
     font-weight: 400;
+  }*/
+  .projectTitle {
+    font-weight: 700;
+    line-height: 16px;
+    font-size: 15px;
   }
   .projectLabel {
     font-size: 11px;
-  } */
+  }
+  .projectDesc {
+    font-size: 14px !important;
+    line-height: 15px;
+    font-weight: 400;
+    margin-top: -5px;
+    margin-bottom: 5px;
+  }
   #roadMapLineId {
     height: 70em;
   }
@@ -1372,20 +1372,20 @@ body {
   .PROJECT_ITEMS_ROW1,
   .PROJECT_ITEMS_ROW2 {
     width: 100%;
-    height: 450px;
+    height: 370px;
     position: relative;
-    margin-bottom: 5em;
+    margin-bottom: 2em;
     align-items: center;
     flex-direction: column;
     justify-content: flex-start;
   }
   .projectItemContentCol {
-    width: 100%;
     z-index: 3;
-    padding: 10px;
-    text-align: left;
+    width: 100%;
+    height: 370px;
     display: flex;
-    height: 450px;
+    text-align: left;
+    padding: 10px 5px;
     position: relative;
     align-items: center;
     flex-direction: column;
@@ -1396,12 +1396,41 @@ body {
     left: 0;
     z-index: 1;
     width: 100%;
+    height: 370px;
     display: flex;
     overflow: hidden;
-    border-radius: 15px;
-    justify-content: center;
-    height: 450px;
+    position: absolute;
+    border-radius: 5px;
     align-items: center;
+    justify-content: center;
+  }
+  .loader {
+    border: 4px solid rgba(151, 175, 213, 0.3);
+    width: 200px;
+    height: 200px;
+    display: flex;
+    border-radius: 50%;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    border-top: 4px solid #ac51c6;
+    border-bottom: 4px solid #ac51c6;
+    animation: spin 1.5s linear infinite;
+  }
+  .loader2 {
+    border: 4px solid rgba(151, 175, 213, 0.3);
+    width: 150px;
+    height: 150px;
+    display: flex;
+    border-radius: 50%;
+    position: relative;
+    align-items: center;
+    border-left: 4px solid #ac51c6;
+    border-right: 4px solid #ac51c6;
+    animation: spin2 0.5s linear infinite;
+  }
+  #SplashLoaderLogo {
+    width: 70px;
     position: absolute;
   }
 }
