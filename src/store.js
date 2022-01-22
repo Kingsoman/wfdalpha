@@ -20,6 +20,7 @@ const initialState = {
     // WEFundContractAddress: "terra17e7t7m9wxm4twr90cfgwrvtx7p40vnr2ywrdra", //testnet v2.1
     WEFundContractAddress: "terra1ca88767e6ganwq2zehtcpv7ef6z32ell26ts3r", //testnet v2.2
     // WEFundContractAddress: "terra1qcm9957c2gyghkaqgsk0h5mw6xf6ym4xdu7kmu",
+    referralCount: 0,
     projectData: '',
     activeProjectData: '',
     oneprojectData: '',
@@ -27,6 +28,7 @@ const initialState = {
     configData: '',
     connectedWallet: '',
     timer: '',
+    referralLink: '',
     wallet: {},    
     allNativeCoins: [],
     config: {},
@@ -48,7 +50,7 @@ const initialState = {
     investDate: '',
     investSignature: '',
     request: 'https://wefund-nodejs-gwb6v.ondigitalocean.app',
-    // request: 'http://508d-87-116-164-143.ngrok.io',
+    // request: 'http://ffcf-87-116-164-143.ngrok.io',
     pdfFile: '',
     whitepaper: '',
     logo: '',
@@ -57,6 +59,16 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case setReferralCount:
+        return {
+            ...state,
+            referralCount: action.message,
+        }
+    case 'setReferralLink':
+        return {
+            ...state,
+            referralLink: action.message,
+        }
     case 'setConnectedWallet':
         return {
             ...state,

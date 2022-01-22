@@ -39,7 +39,7 @@ export default function Industry() {
                 key={index}
               >
                 <div
-                  class="containerIndustry__image"
+                  className="containerIndustry__image"
                   style={{ backgroundImage: `url(${projectItem.imgsrc})` }}
                 >
                   <Text

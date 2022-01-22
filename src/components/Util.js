@@ -62,19 +62,19 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
 export function GetProjectStatusString(mode){
   let projectstatus = 0;
   switch(mode){
-    case 0:
+    case '0':
       projectstatus = 'WeFundApproval';
       break;
-    case 1:
+    case '1':
       projectstatus = 'CommuntyApproval';
       break;
-    case 2:
+    case '2':
       projectstatus = 'MileStoneFundraising';
       break;
-    case 3:
+    case '3':
       projectstatus = 'MileStoneDelivery';
       break;
-    case 4:
+    case '4':
       projectstatus = 'ProjectComplete';
       break;
   }
@@ -203,6 +203,7 @@ export async function FetchData(api, notificationRef, state, dispatch)
       })
     }
   }
+
   //---------------fetch project Data---------------------
   projectData = state.projectData;
   if(state.projectData == ''){

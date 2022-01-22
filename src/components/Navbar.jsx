@@ -126,7 +126,12 @@ export default function Navbar() {
                   >
                     {navItem.label}
                   </Link>
-                ))}                
+                ))}
+                <Link
+                  to='/create'
+                >
+                    Create Project
+                </Link>
               </div>
             </Flex>
           </HStack>

@@ -153,11 +153,6 @@ export default function ExplorerProject() {
       return null
     }
 
-    dispatch({
-      type: 'setConnectedWallet',
-      message: connectedWallet,
-    })
-
     return new LCDClient({
       URL: connectedWallet.network.lcd,
       chainID: connectedWallet.network.chainID,

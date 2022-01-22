@@ -10,8 +10,6 @@ import {
 import { Wallet, CaretRight, Power, Check } from 'phosphor-react'
 import numeral from 'numeral'
 import { useStore } from '../store'
-import theme from '../theme'
-// import {encrypt3DES, decrypt3DES} from './Util'
 
 export default function ConnectWallet() {
   let connectedWallet = ''
@@ -31,6 +29,11 @@ export default function ConnectWallet() {
       return null
     }
     setConnected(true)
+
+    dispatch({
+      type: 'setConnectedWallet',
+      message: connectedWallet,
+    })
 
     return new LCDClient({
       URL: connectedWallet.network.lcd,
@@ -124,13 +127,13 @@ export default function ConnectWallet() {
       setScrolled(false)
     }
   }
+
+  //------------notification setting---------------------------------
+  const notificationRef = useRef();
+
+  //--------------for referral-----------------------------
   const crypto = require('crypto');
-  /**
-   * Encrypt 3DES using Node.js's crypto module * 
-   * @param data A utf8 string
-   * @param key Key would be hashed by md5 and shorten to maximum of 192 bits,
-   * @returns {*} A base64 string
-   */
+
    function encrypt3DES(data, key) {
     const md5Key = crypto.createHash('md5').update(key).digest("hex").substr(0, 24);
     const cipher = crypto.createCipheriv('des-ede3', md5Key, '');
@@ -140,12 +143,6 @@ export default function ConnectWallet() {
     return encrypted;
   }
   
-  /**
-   * Decrypt 3DES using Node.js's crypto module 
-   * @param data a base64 string
-   * @param key Key would be hashed by md5 and shorten to max 192 bits,
-   * @returns {*} a utf8 string
-   */
   function decrypt3DES(data, key) {
     const md5Key = crypto.createHash('md5').update(key).digest("hex").substr(0, 24);
     const decipher = crypto.createDecipheriv('des-ede3', md5Key, '');
@@ -155,26 +152,56 @@ export default function ConnectWallet() {
     return encrypted;
   }
 
-  function confirmReferral(){
+  async function confirmReferral(){
+    let referralLink = encrypt3DES(connectedWallet.walletAddress, "wefundkeyreferral");
+    dispatch({ type: 'setReferralLink', message: referralLink })
+
     let queryString, urlParams, referral_code
     if (typeof window != 'undefined') {
       queryString = window.location.search
       urlParams = new URLSearchParams(queryString)
-      referral_code = urlParams.get('referral')
+      referral_code = urlParams.get('referral');
 
+      referral_code =  encrypt3DES('terra1emwyg68n0wtglz8ex2n2728fnfzca9xkdc4aka', "wefundkeyreferral");
       if(referral_code != null){
         referral_code = referral_code.split(' ').join('+');
         try{
           const code = decrypt3DES(referral_code, "wefundkeyreferral");
+
+          var formData = new FormData();
+          formData.append("base", code);
+          formData.append("referred", connectedWallet.walletAddress);
+
+          const requestOptions = {
+            method: 'POST',
+            body: formData,
+          };
+
+          // notificationRef.current.showNotification("check referring", 'success', 100000)
+console.log('check referrig');
+          await fetch(state.request + '/checkreferral', requestOptions)
+          .then((res) => res.json())
+          .then((data) => {
+            // hideNotification();
+            dispatch({
+              type: 'setReferralCount',
+              message: data.data,
+            })
+            console.log(data);
+          })
+          .catch((e) =>{
+            console.log("Error:"+e);
+          })
         }
         catch(e){
+          // notificationRef.current.showNotification("Invalid referring", 'error', 100000)
           console.log(e);
           return;
         }
       }
     }
   }
-  
+
   useEffect(() => {
     if (connectedWallet) {
       contactBalance()

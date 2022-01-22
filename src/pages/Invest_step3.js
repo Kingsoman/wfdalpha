@@ -16,8 +16,8 @@ import { EstimateSend, CheckNetwork, FetchData} from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
-    useConnectedWallet =
-        require('@terra-money/wallet-provider').useConnectedWallet
+  useConnectedWallet =
+      require('@terra-money/wallet-provider').useConnectedWallet
 }
 
 export default function InvestStep3() {
