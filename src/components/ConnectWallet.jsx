@@ -153,7 +153,7 @@ export default function ConnectWallet() {
   }
 
   async function confirmReferral(){
-    let referralLink = encrypt3DES(connectedWallet.walletAddress, "wefundkeyreferral");
+    let referralLink = 'https://www.wefund.app/?referral=' + encrypt3DES(connectedWallet.walletAddress, "wefundkeyreferral");
     dispatch({ type: 'setReferralLink', message: referralLink })
 
     let queryString, urlParams, referral_code
@@ -162,7 +162,6 @@ export default function ConnectWallet() {
       urlParams = new URLSearchParams(queryString)
       referral_code = urlParams.get('referral');
 
-      referral_code =  encrypt3DES('terra1emwyg68n0wtglz8ex2n2728fnfzca9xkdc4aka', "wefundkeyreferral");
       if(referral_code != null){
         referral_code = referral_code.split(' ').join('+');
         try{

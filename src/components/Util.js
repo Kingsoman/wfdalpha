@@ -176,6 +176,7 @@ export async function FetchData(api, notificationRef, state, dispatch)
     )
 
     if(communityData == ''){
+      if(notificationRef)
       notificationRef.current.showNotification("Can't fetch Community Data", 'error', 6000);
     }else{
       dispatch({
@@ -195,6 +196,7 @@ export async function FetchData(api, notificationRef, state, dispatch)
     )
 
     if(configData == ''){
+      if(notificationRef)
       notificationRef.current.showNotification("Can't fetch Config Data", 'error', 6000);
     }else{
       dispatch({
@@ -216,6 +218,7 @@ export async function FetchData(api, notificationRef, state, dispatch)
     )
     
     if(projectData == ''){
+      if(notificationRef)
       notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
     }else{
       //----------fake--------------------------

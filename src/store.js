@@ -59,7 +59,7 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case setReferralCount:
+    case 'setReferralCount':
         return {
             ...state,
             referralCount: action.message,

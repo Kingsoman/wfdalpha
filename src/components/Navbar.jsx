@@ -7,6 +7,7 @@ import theme from '../theme'
 import { ButtonBackTransition } from '../components/ImageTransition'
 import { Container } from '../components/Container'
 import '../styles/Navbar.css'
+import UserSideSnippet from './UserInfoDrawer'
 
 export default function Navbar() {
   return (
@@ -74,6 +75,7 @@ export default function Navbar() {
             <Flex w='197px' ml='20px'>
               <ConnectWallet />
             </Flex>
+            <UserSideSnippet/>
           </Flex>
         </Flex>
       </VStack>
@@ -118,6 +120,7 @@ export default function Navbar() {
                   h='30px'
                 />
               </Flex>
+              <UserSideSnippet/>
               <div className="dropdown-content">
                 {NAV_ITEMS.map((navItem, index) => (
                   <Link
