@@ -33,20 +33,18 @@ export default function Navbar() {
             borderBottom="2px solid rgba(255, 255, 255, 0.103)"
           >
             <Flex w="50%" h="100%" align="center" justify="space-between">
-              <Flex ml="20px">
+              <Flex ml="90px">
                 <Link className="navbar-brand" to="/">
                   <Image
                     alt="Wefund"
                     src="/WeFund%20Logos%20only.png"
-                    h="40px"
+                    h="30px"
                   />
                 </Link>
+                <Flex ml='10px'
+                  border="1px solid rgba(255,255,255, 0.2)"
+                />
               </Flex>
-              <Flex
-                width="30px"
-                transform="rotate(90deg)"
-                border="1px solid rgba(255,255,255, 0.2)"
-              />
               <DesktopNav />
             </Flex>
             <Flex mr="20px" align="center" justify="center" w="40%" h="100%">
@@ -92,7 +90,7 @@ export default function Navbar() {
                 <Image
                   alt='Wefund'
                   src='/WeFund%20Logos%20only.png'
-                  h='40px'
+                  h='30px'
                 />
               </Link>
             </Flex>
@@ -102,7 +100,7 @@ export default function Navbar() {
                   <Image
                     alt='menu1'
                     src='/menuButton1.svg'
-                    h='30px'
+                    h='28px'
                   />
                 </Flex>
                 <div className="dropdown-content2">
@@ -114,7 +112,7 @@ export default function Navbar() {
                   <Image
                     alt='menu2'
                     src='/menuButton2.svg'
-                    h='30px'
+                    h='28px'
                   />
                 </Flex>
                 <UserSideSnippet/>
@@ -149,7 +147,7 @@ const DesktopNav = () => {
           <Link to={navItem.href} className="btn btn-danger">
             <Text
               color="rgba(255, 255, 255, 0.84)"
-              fontSize="15px"
+              fontSize="16px"
               lineHeight="18px"
             >
               {navItem.label}
@@ -174,9 +172,21 @@ const NAV_ITEMS = [
     label: 'Invest in WeFund',
     href: 'invest_step1',
   },
+  // {
+  //   label: 'Dashboard',
+  //   href: 'dashboard',
+  // },
   {
-    label: 'Dashboard',
-    href: 'dashboard',
+    label: 'Career',
+    href: '#',
+  },
+  {
+    label: 'Contact',
+    href: '#',
+  },
+  {
+    label: 'Blog',
+    href: '#',
   },
   {
     label: 'Faq',

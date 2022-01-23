@@ -167,12 +167,13 @@ export default function ConnectWallet() {
         referral_code = referral_code.split(' ').join('+');
         try{
           base = decrypt3DES(referral_code, "wefundkeyreferral");
+
         }
         catch(e){
           console.log(e);
         }
       }
-      
+console.log(base);
       var formData = new FormData();
       formData.append("base", base);
       formData.append("referred", connectedWallet.walletAddress);
