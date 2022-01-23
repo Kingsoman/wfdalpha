@@ -140,9 +140,9 @@ export default function Faqs() {
                 <Text>{e.ques}</Text>
 
                 {openIndex == index ? (
-                  <Image src="/ArrowDown2.svg" transform={'rotate(180deg)'} />
+                  <Image src="/media/ArrowDown2.svg" transform={'rotate(180deg)'} />
                 ) : (
-                  <Image src="/ArrowDown2.svg" />
+                  <Image src="/media/ArrowDown2.svg" />
                 )}
               </Flex>
               {openIndex == index && (
@@ -186,9 +186,9 @@ export default function Faqs() {
               </Text>
 
               {openIndex == 11 ? (
-                <Image src="/ArrowDown2.svg" transform={'rotate(180deg)'} />
+                <Image src="/media/ArrowDown2.svg" transform={'rotate(180deg)'} />
               ) : (
-                <Image src="/ArrowDown2.svg" />
+                <Image src="/media/ArrowDown2.svg" />
               )}
             </Flex>
             {openIndex == 11 && (
@@ -234,9 +234,9 @@ export default function Faqs() {
               </Text>
 
               {openIndex == 12 ? (
-                <Image src="/ArrowDown2.svg" transform={'rotate(180deg)'} />
+                <Image src="/media/ArrowDown2.svg" transform={'rotate(180deg)'} />
               ) : (
-                <Image src="/ArrowDown2.svg" />
+                <Image src="/media/ArrowDown2.svg" />
               )}
             </Flex>
             {openIndex == 12 && (
@@ -299,7 +299,7 @@ export default function Faqs() {
           dolor imperdiet neccon sequata congue idsem. Maecenas malesuada
           faucibus finibus.
         </Text>
-        <Image src="userGuide.svg" data-aos="zoom-in-up" />
+        <Image src="/media/userGuide.svg" data-aos="zoom-in-up" />
       </Flex>
       <Footer />
     </ChakraProvider>

@@ -43,7 +43,7 @@ class App extends Component {
           fallback={
             <div className="vh-100 d-flex">
               <div className="align-self-center w-100 text-center">
-                <img src="logo.png" className="img-fluid mb-4" />
+                <img src="/media/logo.png" className="img-fluid mb-4" />
                 <p
                   style={{
                     color: '#f038f0',

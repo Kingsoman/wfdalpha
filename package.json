@@ -9,8 +9,9 @@
         "analyze": "react-static build --analyze",
         "serve": "serve dist -p 3000",
         "lint": "prettier --write .",
-        "upload": "rsync -azP --delete dist/ deploy@wefund.app:~/wefund.app",
-        "deploy": "yarn build && yarn upload"
+        "sync-web-server": "rsync -azP --delete --exclude 'media/' dist/ deploy@wefund.app:~/wefund.app",
+        "sync-cdn": "s3cmd sync public/media/* --delete-removed --acl-public s3://wfdmedia/",
+        "deploy": "yarn build && yarn sync-cdn && yarn sync-web-server"
     },
     "dependencies": {
         "@chakra-ui/icons": "^1.1.1",

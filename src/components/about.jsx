@@ -4,7 +4,7 @@ import { Flex, Text, Image, Select } from '@chakra-ui/react'
 import { ButtonBackTransition } from '../components/ImageTransition'
 
 export default function Aboutone() {
-  const [selectedLang, setSelectedlang] = useState('/Litepaper_Wefund.pdf') //default value
+  const [selectedLang, setSelectedlang] = useState('/media/Litepaper_Wefund.pdf') //default value
   function handleSelectChange(event) {
     setSelectedlang(event.target.value)
   }
@@ -18,7 +18,7 @@ export default function Aboutone() {
           </Flex>
           <Flex direction="row" mt="20px">
             <Flex align="center" mr="15px">
-              <Image alt="WeFund" src="/onegoal.svg" id="aboutUsPageNumber1" />
+              <Image alt="WeFund" src="/media/onegoal.svg" id="aboutUsPageNumber1" />
             </Flex>
             <Flex>
               <Text id="aboutUsPageHeadingHead">
@@ -47,10 +47,10 @@ export default function Aboutone() {
                     border="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
                     background="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
                     color="white" mt="10px">
-              <option value='/Litepaper_Wefund.pdf' style={{ backgroundColor: '#1B0645' }}>English</option>
-              <option value='/Litepaper_Wefund_ID.pdf' style={{ backgroundColor: '#1B0645' }}>Indonesian</option>
-              <option value='/Litepaper_Wefund_ITA.pdf' style={{ backgroundColor: '#1B0645' }}>Italian</option>
-              <option value='/Litepaper_Wefund_KOR.pdf' style={{ backgroundColor: '#1B0645' }}>Korea</option>
+              <option value='/media/Litepaper_Wefund.pdf' style={{ backgroundColor: '#1B0645' }}>English</option>
+              <option value='/media/Litepaper_Wefund_ID.pdf' style={{ backgroundColor: '#1B0645' }}>Indonesian</option>
+              <option value='/media/Litepaper_Wefund_ITA.pdf' style={{ backgroundColor: '#1B0645' }}>Italian</option>
+              <option value='/media/Litepaper_Wefund_KOR.pdf' style={{ backgroundColor: '#1B0645' }}>Korea</option>
             </Select>
             <a href={selectedLang}>
               <Flex w="100%" mt="30px" id="displayNoneInMobile">
@@ -69,7 +69,7 @@ export default function Aboutone() {
                     justify="space-between"
                   >
                     <Text color="white">Download Litepaper </Text>
-                    <Image src="Download.svg" />
+                    <Image src="/media/Download.svg" />
                   </Flex>
                 </ButtonBackTransition>
               </Flex>
@@ -93,7 +93,7 @@ export default function Aboutone() {
                     <Text color="white" fontSize="12px">
                       Download Litepaper{' '}
                     </Text>
-                    <Image src="Download.svg" height="12px" />
+                    <Image src="/media/Download.svg" height="12px" />
                   </Flex>
                 </ButtonBackTransition>
               </Flex>
@@ -101,7 +101,7 @@ export default function Aboutone() {
             <Text id="aboutUsPageHeadingDesc" mt="30px">
               OR
             </Text>
-            <a href='/Whitepaper%202.0%20New%20Update.pdf'>
+            <a href='/media/Whitepaper-2.0-New-Update.pdf'>
               <Flex w="100%" mt="30px" id="displayNoneInMobile">
                 <ButtonBackTransition
                   width="100%"
@@ -118,12 +118,12 @@ export default function Aboutone() {
                     justify="space-between"
                   >
                     <Text color="white">Download Whitepaper (ENG Only) </Text>
-                    <Image src="Download.svg" />
+                    <Image src="/media/Download.svg" />
                   </Flex>
                 </ButtonBackTransition>
               </Flex>
             </a>
-            <a href='/Whitepaper%202.0%20New%20Update.pdf'>
+            <a href='/media/Whitepaper-2.0-New-Update.pdf'>
               <Flex w="100%" mt="30px" id="displayNoneInDesktop">
                 <ButtonBackTransition
                   width="100%"
@@ -142,7 +142,7 @@ export default function Aboutone() {
                     <Text color="white" fontSize="12px">
                       Download Whitepaper (ENG Only){' '}
                     </Text>
-                    <Image src="Download.svg" height="12px" />
+                    <Image src="/media/Download.svg" height="12px" />
                   </Flex>
                 </ButtonBackTransition>
               </Flex>
@@ -152,13 +152,13 @@ export default function Aboutone() {
         <Flex id="aboutFirstSection2" data-aos="fade-left">
           <Flex alignItems="center" justifyContent="center">
             <Flex bg="#291554" className="aboutUsBox LeftRadiusAboutUs">
-              <Image className="aboutUsSectionImages" src="/gift.svg" />
+              <Image className="aboutUsSectionImages" src="/media/gift.svg" />
               <Text className="aboutUsSectionBoxesTexts">
                 Yield Benefit For Backers
               </Text>
             </Flex>
             <Flex bg="#200E55" className="aboutUsBox RightRadiusAboutUs">
-              <Image className="aboutUsSectionImages" src="/blockchain.svg" />
+              <Image className="aboutUsSectionImages" src="/media/blockchain.svg" />
               <Text className="aboutUsSectionBoxesTexts">
                 Bridge Real-World and Blockchain
               </Text>
@@ -167,13 +167,13 @@ export default function Aboutone() {
 
           <Flex alignItems="center" justifyContent="center">
             <Flex className="aboutUsBox" bg="#200E55">
-              <Image className="aboutUsSectionImages" src="/incubatore.svg" />
+              <Image className="aboutUsSectionImages" src="/media/incubatore.svg" />
               <Text className="aboutUsSectionBoxesTexts">
                 Cross-Chain Incubator
               </Text>
             </Flex>
             <Flex className="aboutUsBox" bg="#291554">
-              <Image className="aboutUsSectionImages" src="/nftmirror.svg" />
+              <Image className="aboutUsSectionImages" src="/media/nftmirror.svg" />
               <Text className="aboutUsSectionBoxesTexts">
                 Deflationary Token Value
               </Text>
@@ -182,13 +182,13 @@ export default function Aboutone() {
 
           <Flex alignItems="center" justifyContent="center">
             <Flex className="aboutUsBox LeftBottomRadiusAboutUs" bg="#291554">
-              <Image alt="Crypto Industry" src="/voting.svg" />
+              <Image alt="Crypto Industry" src="/media/voting.svg" />
               <Text className="aboutUsSectionBoxesTexts">
                 Community Voting Power
               </Text>
             </Flex>
             <Flex className="aboutUsBox RightBottomRadiusAboutUs" bg="#200E55">
-              <Image alt="Crypto Industry" src="/lowriskinvestment.svg" />
+              <Image alt="Crypto Industry" src="/media/lowriskinvestment.svg" />
               <Text className="aboutUsSectionBoxesTexts">
                 Money release with Milestone system after Investor Voting
                 approval

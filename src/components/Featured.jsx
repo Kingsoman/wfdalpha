@@ -107,19 +107,19 @@ export default function Projectfeature() {
                     {featuredItem.description}
                   </Box>
                   <Flex mt="20px" direction="row">
-                    <Image alt="Crypto Industry" src="/ProjectIcon.svg" />
+                    <Image alt="Crypto Industry" src="/media/ProjectIcon.svg" />
                     <Box ml="3px" fontWeight="700" fontSize="16px">
                       {featuredItem.project}
                     </Box>
                   </Flex>
                   <Flex mt="20px" direction="row">
-                    <Image alt="Crypto Industry" src="/CategoryIcon.svg" />
+                    <Image alt="Crypto Industry" src="/media/CategoryIcon.svg" />
                     <Box ml="3px" fontWeight="700" fontSize="16px">
                       {featuredItem.category}
                     </Box>
                   </Flex>
                   <Flex mt="20px" direction="row">
-                    <Image alt="Crypto Industry" src="/ExtraIcon.svg" />
+                    <Image alt="Crypto Industry" src="/media/ExtraIcon.svg" />
                     <Box ml="3px" fontWeight="700" fontSize="16px">
                       {featuredItem.extra}
                     </Box>
@@ -141,7 +141,7 @@ const FEATURED_ITEMS = [
     project: 'Charity Project',
     category: 'Cardino',
     extra: '-\\',
-    imgsrc: '/lynx.jpeg',
+    imgsrc: '/media/lynx.jpeg',
   },
   {
     title: 'Sheep',
@@ -149,7 +149,7 @@ const FEATURED_ITEMS = [
     project: 'Charity Project',
     category: 'Dalas',
     extra: '-\\',
-    imgsrc: '/sheep.png',
+    imgsrc: '/media/sheep.png',
   },
   {
     title: 'Simba',
@@ -157,7 +157,7 @@ const FEATURED_ITEMS = [
     project: 'Charity Project',
     category: 'Cardino',
     extra: '-\\',
-    imgsrc: '/simba icon-mini.png',
+    imgsrc: '/media/simba-icon-mini.png',
   },
   {
     title: 'Crypto of duty',
@@ -165,6 +165,6 @@ const FEATURED_ITEMS = [
     project: 'Game Project',
     category: 'Cardino',
     extra: '-\\',
-    imgsrc: '/6053394334130220469_121.jpg',
+    imgsrc: '/media/6053394334130220469_121.jpg',
   },
 ]

@@ -6,7 +6,7 @@ import { ButtonTransition } from '../components/ImageTransition'
 export default function Email() {
   return (
     <Flex id="comunityBackgroundHeight">
-      <Image src="/EmailBg.png" className="EmailBg" />
+      <Image src="/media/EmailBg.png" className="EmailBg" />
       <Flex id="emailInnerBox">
         <Flex flexDirection="column" textAlign="center">
           <Text className="emailInnerBoxTitle">GET IN WEFUND</Text>
@@ -25,7 +25,7 @@ export default function Email() {
           >
             <Flex direction="row">
               Invest in WeFund
-              <Image ml="10px" alt="startfunding" src="/investface.svg" />
+              <Image ml="10px" alt="startfunding" src="/media/investface.svg" />
             </Flex>
           </ButtonTransition>
         </Flex>

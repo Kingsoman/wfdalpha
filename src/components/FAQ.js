@@ -33,7 +33,7 @@ export default function NewProject() {
       </Flex>
 
       {/* -----------------------space line-------------------------------- */}
-      <Img mt='102px' height='1px' objectFit='cover' src='/line.svg' alt='UST Avatar'/>
+      <Img mt='102px' height='1px' objectFit='cover' src='/media/line.svg' alt='UST Avatar'/>
 
       {/* ---------------------------blog------------------------------ */}
 
@@ -54,7 +54,7 @@ export default function NewProject() {
               </Flex>
               {blog1 && 
               <>
-                <Img mt='17px' mx='35px' height='1px' objectFit='cover' src='/line.svg' alt='UST Avatar'/>
+                <Img mt='17px' mx='35px' height='1px' objectFit='cover' src='/media/line.svg' alt='UST Avatar'/>
                 <Text fontSize='15px' mt='17px' mb='22px' px='25px' fontWeight='400' w='100%' h='auto'>
                   WFD Tokens will be used to operate WeFund Platforms. Projects convert 1% of their funding into WFD tokens. WFD Tokens are also used as governance tokens for voting and governance of projects.
                 </Text>
@@ -76,7 +76,7 @@ export default function NewProject() {
               </Flex>
               {blog2 && 
               <>
-                <Img mt='17px' mx='35px' height='1px' objectFit='cover' src='/line.svg' alt='UST Avatar'/>
+                <Img mt='17px' mx='35px' height='1px' objectFit='cover' src='/media/line.svg' alt='UST Avatar'/>
                 <Text fontSize='15px' mt='17px' mb='22px' px='25px' fontWeight='400' w='100%' h='auto'>
                   WFD Tokens will be used to operate WeFund Platforms. Projects for example converts 1% of their funding into WFD tokens. WFD Tokens also used as governance tokens for voting and govern the project trajectory.
                 </Text>
@@ -98,7 +98,7 @@ export default function NewProject() {
               </Flex>
               {blog3 && 
               <>
-                <Img mt='17px' mx='35px' height='1px' objectFit='cover' src='/line.svg' alt='UST Avatar'/>
+                <Img mt='17px' mx='35px' height='1px' objectFit='cover' src='/media/line.svg' alt='UST Avatar'/>
                 <Text fontSize='15px' mt='17px' mb='22px' px='25px' fontWeight='400' w='100%' h='auto'>
                   WFD Tokens will be used to operate WeFund Platforms. Projects for example converts 1% of their funding into WFD tokens. WFD Tokens also used as governance tokens for voting and govern the project trajectory.
                 </Text>
@@ -120,7 +120,7 @@ export default function NewProject() {
               </Flex>
               {blog4 && 
               <>
-                <Img mt='17px' mx='35px' height='1px' objectFit='cover' src='/line.svg' alt='UST Avatar'/>
+                <Img mt='17px' mx='35px' height='1px' objectFit='cover' src='/media/line.svg' alt='UST Avatar'/>
                 <Text fontSize='15px' mt='17px' mb='22px' px='25px' fontWeight='400' w='100%' h='auto'>
                   WFD Tokens will be used to operate WeFund Platforms. Projects for example converts 1% of their funding into WFD tokens. WFD Tokens also used as governance tokens for voting and govern the project trajectory.
                 </Text>
@@ -142,7 +142,7 @@ export default function NewProject() {
               </Flex>
               {blog5 && 
               <>
-                <Img mt='17px' mx='35px' height='1px' objectFit='cover' src='/line.svg' alt='UST Avatar'/>
+                <Img mt='17px' mx='35px' height='1px' objectFit='cover' src='/media/line.svg' alt='UST Avatar'/>
                 <Text fontSize='15px' mt='17px' mb='22px' px='25px' fontWeight='400' w='100%' h='auto'>
                   WFD Tokens will be used to operate WeFund Platforms. Projects for example converts 1% of their funding into WFD tokens. WFD Tokens are also used as governance tokens for voting and governane of projects.
                 </Text>

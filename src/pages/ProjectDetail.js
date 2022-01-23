@@ -945,7 +945,7 @@ function WefundApprove(project_id){
                           <Image
                             height="35px"
                             objectFit="cover"
-                            src="/WeFund Logos only.png"
+                            src="/media/WeFund-Logos-only.png"
                             alt="UST Avatar"
                           />
                           <VStack textAlign={'left'}>

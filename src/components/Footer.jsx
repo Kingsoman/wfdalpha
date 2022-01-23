@@ -139,7 +139,7 @@ export default function Newfooter() {
             <Image
               width={'50px'}
               objectFit={'contain'}
-              src="WeFund%20Logos%20only.png"
+              src="/media/WeFund-Logos-only.png"
             />
             <Text fontFamily="Sk-Modernist-Regular" ml={'5px'}>
               We

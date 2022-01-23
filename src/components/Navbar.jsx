@@ -37,7 +37,7 @@ export default function Navbar() {
                 <Link className="navbar-brand" to="/">
                   <Image
                     alt="Wefund"
-                    src="/WeFund%20Logos%20only.png"
+                    src="/media/WeFund-Logos-only.png"
                     h="40px"
                   />
                 </Link>
@@ -91,7 +91,7 @@ export default function Navbar() {
               <Link className="navbar-brand" to="/">
                 <Image
                   alt='Wefund'
-                  src='/WeFund%20Logos%20only.png'
+                  src='/media/WeFund-Logos-only.png'
                   h='40px'
                 />
               </Link>
@@ -101,7 +101,7 @@ export default function Navbar() {
                 <Flex className="dropbtn">
                   <Image
                     alt='menu1'
-                    src='/menuButton1.svg'
+                    src='/media/menuButton1.svg'
                     h='30px'
                   />
                 </Flex>
@@ -113,7 +113,7 @@ export default function Navbar() {
                 <Flex className="dropbtn">
                   <Image
                     alt='menu2'
-                    src='/menuButton2.svg'
+                    src='/media/menuButton2.svg'
                     h='30px'
                   />
                 </Flex>
