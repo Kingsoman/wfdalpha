@@ -9,6 +9,8 @@ import {
     DrawerCloseButton,
     useDisclosure,
     Button,
+    IconButton,
+    Icon,
     Box,
     Text
   } from '@chakra-ui/react'
@@ -17,10 +19,11 @@ import {
     LCDClient, 
     MsgExecuteContract 
   } from '@terra-money/terra.js'
-
 import { useStore } from '../store'
 import { FetchData } from './Util'
-
+import {
+  RiMapPinUserLine
+} from 'react-icons/ri'
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
   useConnectedWallet =
@@ -86,9 +89,17 @@ console.log(projectData)
 
   return (
     <>
-      <Button colorScheme='purple' onClick={onUserDrawerOpen}>
-        Open
-      </Button>
+      <IconButton 
+        size='lg' 
+        background= 'linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%)'
+        border= '3px solid'
+        borderColor = 'linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%)'
+        borderRadius= '30px'
+        aria-label='user' 
+        icon={<UserIcon/>} 
+        fontSize='24x' 
+        marginLeft={'20px'}
+        onClick={onUserDrawerOpen} />
       <Drawer
         isOpen={isUserDrawerOpen}
         placement='right'
@@ -131,4 +142,7 @@ console.log(projectData)
       </Drawer>
     </>
   )
+}
+function UserIcon() {
+  return <Icon as={RiMapPinUserLine} size={'lg'}/>
 }
