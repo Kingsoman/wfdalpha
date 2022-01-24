@@ -17,7 +17,7 @@ const initialState = {
     // net: 'testnet',
     net: 'mainnet',
 
-    // WEFundContractAddress: "terra17e7t7m9wxm4twr90cfgwrvtx7p40vnr2ywrdra", //testnet v2.1
+    // WEFundContractAddress: "terra1qe7p8nh3yrhkzp0u6f3ug25pavwky5uendhxcz", //testnet v2.1
     // WEFundContractAddress: "terra1ca88767e6ganwq2zehtcpv7ef6z32ell26ts3r", //testnet v2.2
     // WEFundContractAddress: "terra1qcm9957c2gyghkaqgsk0h5mw6xf6ym4xdu7kmu", //mainnet v2.1
     WEFundContractAddress: "terra1rpqlf5y7e5ssg742v5vj0eza5yzjkxk02yapky", //mainnet v2.2

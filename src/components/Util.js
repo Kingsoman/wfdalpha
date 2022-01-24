@@ -162,12 +162,14 @@ export function GetProjectIndex(projectData, project_id){
   return index;
 }
 
-export async function FetchData(api, notificationRef, state, dispatch)
+export async function FetchData(api, notificationRef, state, dispatch, force = false)
 {
+console.log("force")
+console.log(force);
   let projectData, communityData, configData;
   //-----------------fetch community members-----------------
   communityData = state.communityData;
-  if(state.communityData == ''){
+  if(state.communityData == '' || force == true){
     communityData = await api.contractQuery(
       state.WEFundContractAddress,
       {
@@ -183,11 +185,12 @@ export async function FetchData(api, notificationRef, state, dispatch)
         type: 'setCommunityData',
         message: communityData,
       })
+
     }
   }
   //-----------------fetch config-----------------------
   configData = state.configData;
-  if(state.configData == ''){
+  if(state.configData == '' || force == true){
     configData = await api.contractQuery(
       state.WEFundContractAddress,
       {
@@ -208,7 +211,7 @@ export async function FetchData(api, notificationRef, state, dispatch)
 
   //---------------fetch project Data---------------------
   projectData = state.projectData;
-  if(state.projectData == ''){
+  if(state.projectData == '' || force == true){
     projectData = await api.contractQuery(
       state.WEFundContractAddress,
       {
@@ -229,7 +232,8 @@ export async function FetchData(api, notificationRef, state, dispatch)
       //------------------------------------
 
       projectData = AddExtraInfo(state, projectData, communityData);
-
+console.log( "dispatch projectData");
+console.log(projectData);
       dispatch({
         type: 'setProjectdata',
         message: projectData,
@@ -278,4 +282,7 @@ export function isBackerWallet(state, project_id){
   return false;
 }
 
+export function Sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 

@@ -173,7 +173,7 @@ export default function ConnectWallet() {
           console.log(e);
         }
       }
-console.log(base);
+
       var formData = new FormData();
       formData.append("base", base);
       formData.append("referred", connectedWallet.walletAddress);
@@ -183,7 +183,6 @@ console.log(base);
         body: formData,
       };
 
-console.log('check referrig');
       await fetch(state.request + '/checkreferral', requestOptions)
       .then((res) => res.json())
       .then((data) => {
@@ -191,7 +190,6 @@ console.log('check referrig');
           type: 'setReferralCount',
           message: data.data,
         })
-console.log(data);
       })
       .catch((e) =>{
         console.log("Error:"+e);
