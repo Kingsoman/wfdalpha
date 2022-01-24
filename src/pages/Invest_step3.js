@@ -1,9 +1,9 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from '../theme';
 import { CheckIcon } from "@chakra-ui/icons";
-import {Fee, MsgExecuteContract, MsgSend } from '@terra-money/terra.js'
+import {Fee, MsgExecuteContract, MsgSend, LCDClient, WasmAPI } from '@terra-money/terra.js'
 import { Box, Flex, Text, Input, InputGroup,  InputLeftElement, HStack, } from "@chakra-ui/react";
-import React, { useEffect, useState,  useCallback, useContext, useRef, } from 'react';
+import React, { useEffect, useState,  useCallback, useContext, useRef, useMemo } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { navigate } from '@reach/router'
 import ReCAPTCHA from "react-google-recaptcha";
@@ -39,6 +39,17 @@ export default function InvestStep3() {
   //------------notification setting---------------------------------
   const notificationRef = useRef();
 
+  //----------init api, lcd-------------------------
+  const lcd = useMemo(() => {
+    if (!connectedWallet) {
+      return null
+    }
+    return new LCDClient({
+      URL: connectedWallet.network.lcd,
+      chainID: connectedWallet.network.chainID,
+    })
+  }, [connectedWallet])
+
   //----------------upload signature----------------------------
   function openUpload(){
     if(typeof document !== 'undefined') {
@@ -68,21 +79,7 @@ export default function InvestStep3() {
   //---------------on next------------------------------------
 
   async function onNext(){
-    //----------verify connection--------------------------------
-    if(connectedWallet == '' || typeof connectedWallet == 'undefined'){
-      notificationRef.current.showNotification("Please connect wallet first!", 'error', 6000);
-      return;
-    }
-
-    console.log(connectedWallet);
-    if(state.net == 'mainnet' && connectedWallet.network.name == 'testnet'){
-      notificationRef.current.showNotification("Please switch to mainnet!", "error", 4000);
-      return;
-    }
-    if(state.net == 'testnet' && connectedWallet.network.name == 'mainnet'){
-      notificationRef.current.showNotification("Please switch to testnet!", "error", 4000);
-      return;
-    }
+    CheckNetwork(connectedWallet, notificationRef, state);
     
     if(parseInt(state.investAmount) <= 0 )
     {
@@ -131,7 +128,7 @@ export default function InvestStep3() {
     await fetch(state.request + '/pdfmake', requestOptions)
     .then((res) => res.json())
     .then((data) => {
-      hideNotification();
+      notificationRef.current.hideNotification();
       dispatch({
         type: 'setPdffile',
         message: data.data,
