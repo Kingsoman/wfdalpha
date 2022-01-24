@@ -176,18 +176,18 @@ const NAV_ITEMS = [
   //   label: 'Dashboard',
   //   href: 'dashboard',
   // },
-  {
-    label: 'Career',
-    href: '#',
-  },
-  {
-    label: 'Contact',
-    href: '#',
-  },
-  {
-    label: 'Blog',
-    href: '#',
-  },
+//  {
+//    label: 'Career',
+//    href: '#',
+//  },
+//  {
+//    label: 'Contact',
+//    href: '#',
+//  },
+//  {
+//    label: 'Blog',
+//    href: '#',
+//  },
   {
     label: 'Faq',
     href: 'faqs',

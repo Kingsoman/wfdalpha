@@ -78,11 +78,7 @@ const PagesLinks = () => (
     fontSize={'16px'}
     className="FlexViewMobile"
   >
-    <Link mr={'20px'}>About</Link>
-    <Link mr={'20px'}>Contact</Link>
-    <Link mr={'20px'}>Partnerships</Link>
-    <Link mr={'20px'}>White Papers</Link>
-    <Link>Terms of Service</Link>
+    
   </Flex>
 )
 
