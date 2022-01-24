@@ -244,7 +244,7 @@ export default function BackProject() {
             </ButtonTransition>
           </Flex>
           {/* -----------------------space line-------------------------------- */}
-          <Img mt='102px' height='1px' objectFit='cover' src='/line.svg' alt='UST Avatar'/>
+          <Img mt='102px' height='1px' objectFit='cover' src='/media/line.svg' alt='UST Avatar'/>
 
           {/* ---------------------------blog------------------------------ */}
 

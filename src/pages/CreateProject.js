@@ -473,7 +473,7 @@ export default function CreateProject() {
                   mt="23px"
                   boxSize="50px"
                   objectFit="cover"
-                  src="/UST.svg"
+                  src="/media/UST.svg"
                   alt="UST Avatar"
                 />
                 <Text mt="13px">UST</Text>
@@ -509,7 +509,7 @@ export default function CreateProject() {
                   mt="23px"
                   height="35px"
                   objectFit="cover"
-                  src="/WeFund Logos only.png"
+                  src="/media/WeFund-Logos-only.png"
                   alt="UST Avatar"
                 />
                 <Text mt="13px">WFD</Text>

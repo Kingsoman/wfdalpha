@@ -10,7 +10,7 @@ export default function Splash() {
           <div className="loader">
             <div className="loader2"></div>
           </div>
-          <Image src="WeFund%20Logos%20only.png" id="SplashLoaderLogo" />
+          <Image src="/media/WeFund-Logos-only.png" id="SplashLoaderLogo" />
         </div>
       </ScrollAnimation>
     </Flex>

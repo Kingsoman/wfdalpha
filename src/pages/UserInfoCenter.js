@@ -382,7 +382,7 @@ export default function ProjectDetail() {
                             >
                               <Box pl={{ base: 2, md: 4 }}>
                                 <HStack>
-                                  <Image src="/3_User.svg" />
+                                  <Image src="/media/3_User.svg" />
                                   <StatLabel fontWeight={'medium'} isTruncated>
                                     Voted Project
                                   </StatLabel>
@@ -418,7 +418,7 @@ export default function ProjectDetail() {
                             >
                               <Box pl={{ base: 2, md: 4 }}>
                                 <HStack>
-                                  <Image src="/Wallet.svg" />
+                                  <Image src="/media/Wallet.svg" />
                                   <StatLabel fontWeight={'medium'} isTruncated>
                                     Amount Contributed
                                   </StatLabel>
@@ -454,7 +454,7 @@ export default function ProjectDetail() {
                             >
                               <Box pl={{ base: 2, md: 4 }}>
                                 <HStack>
-                                  <Image src="/Graph.svg" />
+                                  <Image src="/media/Graph.svg" />
                                   <StatLabel fontWeight={'medium'} isTruncated>
                                     Number of Vesting Project
                                   </StatLabel>
@@ -490,7 +490,7 @@ export default function ProjectDetail() {
                             >
                               <Box pl={{ base: 2, md: 4 }}>
                                 <HStack>
-                                  <Image src="/Work.svg" />
+                                  <Image src="/media/Work.svg" />
                                   <StatLabel fontWeight={'medium'} isTruncated>
                                     Project backed with Milestone open
                                   </StatLabel>
@@ -548,7 +548,7 @@ export default function ProjectDetail() {
                         <Flex my={"6px"} mx={"6px"} width="200px" height="249px" bg="#FFFFFF"
                               boxShadow={"0px 2px 10px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.25)"}
                               borderRadius={"2xl"} px="20px" py="10px">
-                          <Image src="sheep.svg" alt="avatar"/>
+                          <Image src="/media/sheep.svg" alt="avatar"/>
                         </Flex>
                         <Box py={4} px={2} direction={{base:'column',md:'column',lg:'row'}}>
                           <Flex>
@@ -653,7 +653,7 @@ export default function ProjectDetail() {
                         <Flex my={"6px"} mx={"6px"} width="200px" height="249px" bg="#FFFFFF"
                               boxShadow={"0px 2px 10px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.25)"}
                               borderRadius={"2xl"} px="20px" py="10px">
-                          <Image src="sheep.svg" alt="avatar"/>
+                          <Image src="/media/sheep.svg" alt="avatar"/>
                         </Flex>
                         <Box py={4} px={2} direction={{base:'column',md:'column',lg:'row'}}>
                           <Flex>
@@ -758,7 +758,7 @@ export default function ProjectDetail() {
                         <Flex my={"6px"} mx={"6px"} width="200px" height="249px" bg="#FFFFFF"
                               boxShadow={"0px 2px 10px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.25)"}
                               borderRadius={"2xl"} px="20px" py="10px">
-                          <Image src="sheep.svg" alt="avatar"/>
+                          <Image src="/media/sheep.svg" alt="avatar"/>
                         </Flex>
                         <Box py={4} px={2} direction={{base:'column',md:'column',lg:'row'}}>
                           <Flex>
@@ -882,7 +882,7 @@ export default function ProjectDetail() {
                             <Flex my={"6px"} mx={"6px"} width="240px" height="249px" bg="#FFFFFF"
                                   boxShadow={"0px 2px 10px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.25)"}
                                   borderRadius={"2xl"} px="5px" py="15px">
-                              <Image src="sheep.svg" alt="avatar"/>
+                              <Image src="/media/sheep.svg" alt="avatar"/>
                             </Flex>
                           {/* ------------------project Detail---------- */}
                                 <Flex py={4} px={2} direction={{base:'column',md:'column',lg:'row'}}>
@@ -973,7 +973,7 @@ export default function ProjectDetail() {
                             <Flex my={"6px"} mx={"6px"} width="240px" height="249px" bg="#FFFFFF"
                                   boxShadow={"0px 2px 10px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.25)"}
                                   borderRadius={"2xl"} px="5px" py="15px">
-                              <Image src="sheep.svg" alt="avatar"/>
+                              <Image src="/media/sheep.svg" alt="avatar"/>
                             </Flex>
                           {/* ------------------project Detail---------- */}
                                 <Flex py={4} px={2} direction={{base:'column',md:'column',lg:'row'}}>
@@ -1064,7 +1064,7 @@ export default function ProjectDetail() {
                             <Flex my={"6px"} mx={"6px"} width="240px" height="249px" bg="#FFFFFF"
                                   boxShadow={"0px 2px 10px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.25)"}
                                   borderRadius={"2xl"} px="5px" py="15px">
-                              <Image src="sheep.svg" alt="avatar"/>
+                              <Image src="/media/sheep.svg" alt="avatar"/>
                             </Flex>
                           {/* ------------------project Detail---------- */}
                                 <Flex py={4} px={2} direction={{base:'column',md:'column',lg:'row'}}>
