@@ -188,8 +188,8 @@ const NAV_ITEMS = [
 //    label: 'Blog',
 //    href: '#',
 //  },
-  {
-    label: 'FAQ',
-    href: 'faq',
-  },
+ // {
+//    label: 'FAQ',
+//    href: 'faq',
+//  },
 ]
