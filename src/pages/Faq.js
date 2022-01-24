@@ -77,24 +77,14 @@ export default function Faqs() {
             </Flex>
           </Box>
         </Box>
-
         <Text
-          mt={'30px'}
-          textAlign={'center'}
-          fontWeight={'light'}
-          data-aos="fade-down"
-          fontFamily={'PilatExtended-Regular'}
-          fontSize={{ lg: '20px', base: '16px' }}
-        >
-          FAQ
-        </Text>
-        <Text
+          mt="33px"
           textAlign={'center'}
           data-aos="fade-down"
           fontFamily={'PilatExtended-Bold'}
           fontSize={{ lg: '25px', base: '16px' }}
         >
-          Frequently Ask Questions
+          Frequently Asked Questions
         </Text>
         <Text
           mt={'10px'}
@@ -104,9 +94,9 @@ export default function Faqs() {
           fontFamily={'Sk-Modernist-Regular'}
           fontSize={{ lg: '18px', base: '15px' }}
         >
-          WFD Tokens will be used to operate WeFund Platforms. Projects for
-          example converts 1% of their funding into WFD tokens. WFD Tokens also
-          used as governance tokens for voting and govern the project
+          WFD Tokens are used to operate WeFund Platforms. Projects 
+          convert 1% of their funding into WFD tokens. WFD Tokens are also
+          used as governance tokens for voting and governing project
           trajectory.
         </Text>
         <Flex
@@ -199,11 +189,8 @@ export default function Faqs() {
               >
                 <Link href="https://twitter.com/WeFund_Official">Twitter</Link>
                 <Link href="https://t.me/wefundofficial">WeFund Official</Link>
-                <Link href="https://t.me/talkwithwefund">
-                  WeFund Discussion
-                </Link>
+                <Link href="https://t.me/talkwithwefund">WeFund Discussion</Link>
                 <Link href="mailto:info@wefund.app">Email</Link>
-                <Link href="https://medium.com/@wefundofficial">Medium</Link>
                 <Link href="https://medium.com/@wefundofficial">Medium</Link>
               </Flex>
             )}
@@ -255,12 +242,12 @@ export default function Faqs() {
                 </Text>
                 <br />
                 <Text>
-                  For seed & presale tokens, tokens distributed will be vested
+                  For seed &amp; presale tokens, tokens distributed will be vested
                   over 10 months after the offering. For team tokens, 17% of the
                   entire token distributed will be vested over 17 months after
                   the 10-month vesting period is completed. Team token vesting
                   will begin once the investor vesting has been completed.
-                  Profit-sharing is only for Seed investors
+                  Profit-sharing is only for seed investors.
                 </Text>
               </Flex>
             )}
@@ -314,14 +301,13 @@ const faqData = [
     ],
   },
   {
-    ques: 'Why are the team and their experience with crypto projects?',
+    ques: 'Who are the team and their experience with crypto projects?',
     ans: [
       'Ika (Co-Founder & CMO) helped raise $10 million dollars for Gamesta, crypto & NFT trading platform startup, as the CMO and is now focused 100% on WeFund.',
-
-      "Andreas (Co-Founder, CEO, & Co-CTO), similar to Ika, played a big role in the initial development of Gamesta's $10 million raise. He is highly skilled & versatile in back-end development.",
-      'Jason (Co-CTO) is a 90s dot com boom veteran and has been losing money in Crypto since 2017 from his day trading (just joking). He works closely with Andreas & our development team to bring our project to life.',
+      "Andrea (Co-Founder, CEO, & Co-CTO), similar to Ika, played a big role in the initial development of Gamesta's $10 million raise. He is highly skilled & versatile in back-end development.",
+      'Jason (Co-CTO) is a 90s dot com boom veteran and has been losing money in Crypto since 2017 from his day trading (just joking). He works closely with Andrea & our development team to bring our project to life.',
       "Austin (CCO). This is officially my first crypto project, however, I have been closely following various crypto projects. One of my favorites is Stellar Development Foundation's Stellar Lumen. I have been completing their quest series which teaches how to use Stellar's ecosystem, APIs, & SDK. My background is with a silicon-valley VC fund and following trends of startup technology companies got me interested in actively participating in this space.",
-      'WeFund’s development team has a strong background in Rust and Solidity.',
+      'WeFund\'s development team has a strong background in Rust and Solidity.',
     ],
   },
   {
@@ -331,17 +317,16 @@ const faqData = [
     ],
   },
   {
-    ques: 'What are the benefits for project proposers & backer sides?',
+    ques: 'What are the benefits for project proposers & project backers?',
     ans: [
       'Proposers: Can reach a big community and generate awareness for their projects. Full service from the WeFund team and our experts to help with the fundraising and scale the project.',
-
       'Backers: Money returned if fundraising goals are not met. Yield from Anchor protocol. Can easily find new and exciting projects. No minimum or maximum amounts for very early-stage projects. Everyone is able to be an investor.',
     ],
   },
   {
     ques: 'What are the $WFD token use cases, distribution, and how to buy/get it?',
     ans: [
-      'If you use $WFD on the platform there is a 0% transaction fee. If the project proposer uses$ WFD to fund the project there will be prioritized placement on the platform. Those projects will get more exposure and staking rewards. Increased value from its deflationary token system. Can be used as an ad payment on our platform if project proposers want more exposure.',
+      'If you use $WFD on the platform there is a 0% transaction fee. If the project proposer uses $WFD to fund the project there will be prioritized placement on the platform. Those projects will get more exposure and staking rewards. Increased value from its deflationary token system. Can be used as an ad payment on our platform if project proposers want more exposure.',
     ],
   },
   {
@@ -353,11 +338,11 @@ const faqData = [
   {
     ques: 'WWhat is the WeFund roadmap?',
     ans: [
-      'At the moment we are raising a Seed round for initial development and to ensure the talent we have will deliver a strong platform & operation. 3% of our revenue for Seed investors will be equally distributed by the amount each investor invested. This month we will have our platform launch and start our pre-sale. Our pre-sale is 10% of our token allocation. Then we will have an offering in May.',
+      'At the moment we are raising a seed round for initial development and to ensure the talent we have will deliver a strong platform & operation. 3% of our revenue for Seed investors will be equally distributed by the amount each investor invested. This month we will have our platform launch and start our pre-sale. Our pre-sale is 10% of our token allocation. Then we will have an offering in May.',
     ],
   },
   {
-    ques: 'What is WeFund’s revenue model?',
+    ques: 'What is WeFund\'s revenue model?',
     ans: [
       '1% transaction fee (if not using $WFD)',
       'Revenue from users paying us for prioritized placement on our platform (ads)',
@@ -373,7 +358,7 @@ const faqData = [
     ],
   },
   {
-    ques: 'Is your project only open to a certain audience (elite investors, Professional players), or is it open to medium and small fund investors, traditional players?',
+    ques: 'Is your project only open to a certain audience (elite investors, professional players), or is it open to medium and small fund investors, traditional players?',
     ans: [
       'No, we are open to any investor. Being community-driven is a big part of our philosophy and we want to ensure that everyone has the ability to take part regardless of being an independent, large, or small investor.',
     ],

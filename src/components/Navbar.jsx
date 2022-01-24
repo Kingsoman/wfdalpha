@@ -189,7 +189,7 @@ const NAV_ITEMS = [
 //    href: '#',
 //  },
   {
-    label: 'Faq',
-    href: 'faqs',
+    label: 'FAQ',
+    href: 'faq',
   },
 ]

@@ -870,7 +870,7 @@ function WefundApprove(project_id){
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
                         WeFund Mission is: 
-                        Host high-quality projects that align with WeFund’s investor community.
+                        Host high-quality projects that align with WeFund's investor community.
                         </chakra.p>
                         <chakra.p fontSize={'18px'}
                         marginBottom={'20px'}
@@ -882,7 +882,7 @@ function WefundApprove(project_id){
                         marginBottom={'20px'}
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
-                        Project funds managed exclusively on Terra’s Anchor protocol using smart contracts and following the Milestone.
+                        Project funds managed exclusively on Terra's Anchor protocol using smart contracts and following project milestones.
                       </chakra.p>
               
                   

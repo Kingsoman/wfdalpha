@@ -242,7 +242,7 @@ const PROJECT_ITEMS = [
     title: 'Sports Projects',
     state: 'Coming soon',
     description:
-      "A recent example in the world of sports, the owner of the Barcelona Football Club was forced to sell the best player in the world, Lionel Messi, as his salary was not sustainable. FC Barcelona has 227.3 million fans globally and the fans are willing to spend a lot of money on their team and its memorabilia. A fundraising campaign on WeFund could repurpose the souvignier spending of its fans and instead generate the funds needed to fulfill the salary requirements of Lionel Messi. In this case, a small donation from a small percentage of the club's fanbase could have fulfilled the funding requirements. A fundraising campaign on WeFund could repurpose the souvenir spending of a team’s fanbase and generate funds needed to fulfill the budget requirements of a team with more transparency.",
+      "A recent example in the world of sports, the owner of the Barcelona Football Club was forced to sell the best player in the world, Lionel Messi, as his salary was not sustainable. FC Barcelona has 227.3 million fans globally and the fans are willing to spend a lot of money on their team and its memorabilia. A fundraising campaign on WeFund could repurpose the souvignier spending of its fans and instead generate the funds needed to fulfill the salary requirements of Lionel Messi. In this case, a small donation from a small percentage of the club's fanbase could have fulfilled the funding requirements. A fundraising campaign on WeFund could repurpose the souvenir spending of a team's fanbase and generate funds needed to fulfill the budget requirements of a team with more transparency.",
     imgsrc: '/media/SportsProject.png',
   },
   {
