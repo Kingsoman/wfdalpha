@@ -109,7 +109,8 @@ body {
   flex-direction: space-between;
   background: linear-gradient(90deg, #360847, #18075b);
 }
-#footerBottomInnerStyleBox {
+#footerBottomInnerStyleBox,
+#footerBottomInnerStyleBox2 {
   width: 100%;
   padding: 2em 15%;
   align-items: center;
@@ -282,16 +283,16 @@ body {
   top: 35%;
 }
 #roadmapBox5 {
-  top: 41%;
+  top: 44%;
 }
 #roadmapBox6 {
-  top: 51%;
+  top: 56%;
 }
 #roadmapBox7 {
-  top: 60%;
+  top: 64%;
 }
 #roadmapBox8 {
-  top: 73%;
+  top: 71%;
 }
 #roadmapBox9 {
   top: 80%;
@@ -687,7 +688,8 @@ body {
 }
 
 @media only screen and (max-width: 1300px) {
-  #footerBottomInnerStyleBox {
+  #footerBottomInnerStyleBox,
+  #footerBottomInnerStyleBox2 {
     padding: 2em 5%;
   }
 }
@@ -704,7 +706,8 @@ body {
     flex-direction: column;
     justify-content: center;
   }
-  #footerBottomInnerStyleBox {
+  #footerBottomInnerStyleBox,
+  #footerBottomInnerStyleBox2 {
     width: 100%;
     padding: 2em;
     height: 10em;
@@ -978,10 +981,18 @@ body {
   }
   #footerBottomInnerStyleBox {
     width: 100%;
-    padding: 2em;
     height: auto;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: space-between;
+    font-family: 'PilatExtended-Bold';
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  }
+  #footerBottomInnerStyleBox2 {
+    width: 100%;
+    height: 8em;
+    align-items: flex-start;
+    flex-direction: column-reverse;
     justify-content: space-between;
     font-family: 'PilatExtended-Bold';
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
@@ -994,7 +1005,6 @@ body {
   #FooterTextWork {
     font-size: 16px;
     font-weight: 500;
-    /* flex-direction: column; */
     align-items: flex-start;
     font-family: 'PilatExtended-Regular';
   }
@@ -1346,6 +1356,8 @@ body {
     top: 92%;
   }
   .FlexViewMobile {
+    height: 10em;
+    margin-top: 1em;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
@@ -1358,14 +1370,15 @@ body {
     font-family: 'PilatExtended-Regular';
   }
   #FooterTextWork2 {
-    font-size: 13px;
+    font-size: 11px;
   }
   .footerButton {
     margin-top: 15px;
   }
   .SUbscriptInputFooter {
-    height: 6em;
-    margin-top: 1em;
+    width: 100%;
+    height: 5.8em;
+    margin-top: 1.5em;
     flex-direction: column;
     justify-content: space-between;
   }
@@ -1432,5 +1445,8 @@ body {
   #SplashLoaderLogo {
     width: 70px;
     position: absolute;
+  }
+  .footerIcon {
+    font-size: 14px;
   }
 }
