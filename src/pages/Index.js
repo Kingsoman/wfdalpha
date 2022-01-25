@@ -10,6 +10,7 @@ import Footer from '../components/Footer'
 import RoadMap from '../components/Roadmap'
 import Industry from '../components/Industry'
 import OurMissions from '../components/OurMissions'
+import Partners from '../components/partners'
 import { Container } from '../components/Container'
 import '../styles/transition.scss'
 import '../styles/transition.css'
@@ -112,6 +113,7 @@ export default () => {
             <OurMissions />
             <Industry />
             <RoadMap />
+            <Partners />
             <Footer />
           </>
         )}

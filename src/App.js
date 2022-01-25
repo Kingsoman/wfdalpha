@@ -38,7 +38,7 @@ import { IntercomProvider, useIntercom } from 'react-use-intercom'
 class App extends Component {
   render() {
     return (
-      <IntercomProvider appId="n17lzygf" onHide={false} autoBoot>
+      <IntercomProvider appId="pi5l7uoa" onHide={false} autoBoot>
         <Suspense
           fallback={
             <div className="vh-100 d-flex">
