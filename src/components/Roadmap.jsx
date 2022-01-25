@@ -30,7 +30,7 @@ export default function Roadmaps() {
         <Image src="/media/RoadmapLine.svg" data-aos="zoom-in-up" />
         <Flex id="roadmapBox1">
           <Flex className="RoadmapContent2"></Flex>
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapHeading">January 2022</Text>
             <Image src="/media/beautifulDash.svg" />
@@ -45,7 +45,7 @@ export default function Roadmaps() {
         </Flex>
         <Flex id="roadmapBox2">
           <Flex className="RoadmapContent2"></Flex>
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <Text className="RoadmapDesc">
@@ -55,7 +55,7 @@ export default function Roadmaps() {
         </Flex>
         <Flex id="roadmapBox3">
           <Flex className="RoadmapContent2"></Flex>
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Projects Incubates</Text>
             <Text className="RoadmapDesc">
@@ -66,7 +66,7 @@ export default function Roadmaps() {
         </Flex>
         <Flex id="roadmapBox4">
           <Flex className="RoadmapContent2"></Flex>
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Documentation</Text>
             <Text className="RoadmapDesc">
@@ -84,7 +84,7 @@ export default function Roadmaps() {
               up staking mechanism
             </Text>
           </Flex>
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent"></Flex>
         </Flex>
         <Flex id="roadmapBox6">
@@ -104,7 +104,7 @@ export default function Roadmaps() {
               Real World Projects (Details coming soon)
             </Text>
           </Flex>
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent"></Flex>
         </Flex>
         <Flex id="roadmapBox8">
@@ -119,7 +119,7 @@ export default function Roadmaps() {
         </Flex>
         <Flex id="roadmapBox9">
           <Flex className="RoadmapContent2"></Flex>
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapHeading">March 2022</Text>
             <Image src="/media/beautifulDash.svg" />
@@ -129,7 +129,7 @@ export default function Roadmaps() {
         </Flex>
         <Flex id="roadmapBox10">
           <Flex className="RoadmapContent2"></Flex>
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent">
             <Text className="RoadmapTitle">Project Incubate</Text>
             <Text className="RoadmapDesc" data-aos="fade-right">
