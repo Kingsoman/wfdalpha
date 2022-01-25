@@ -156,8 +156,8 @@ export default function BackProject() {
     <ChakraProvider resetCSS theme={theme}>
       <div style={{background:"linear-gradient(90deg, #1F0021 0%, #120054 104.34%)", 
       width:'100%', color:'white', fontSize:'18px', fontFamily:'Sk-Modernist', fontWeight:'700' }}>
-        <div style={{backgroundImage:"url('/createproject_banner_emphasis.svg')", width:'100%', zIndex:'10'}}>
-        <div style={{backgroundImage:"url('/createproject_banner.svg')", position:'absolute', top:'80px', 
+        <div style={{backgroundImage:"url('/media/createproject_banner_emphasis.svg')", width:'100%', zIndex:'10'}}>
+        <div style={{backgroundImage:"url('/media/createproject_banner.svg')", position:'absolute', top:'80px', 
         width:'100%', zIndex:'11',backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
           <Flex pt='95px' justify="center">
             <Text fontSize='16px' fontWeight='normal' color={'rgba(255, 255, 255, 0.54)'}>Home &gt;&nbsp;</Text>

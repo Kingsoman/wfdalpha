@@ -318,7 +318,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   justify-content: space-between;
-  background-image: url('/saft2.svg');
+  background-image: url('/media/saft2.svg');
 }
 .emailInnerBoxTitle {
   font-size: 25px;
