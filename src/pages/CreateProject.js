@@ -389,7 +389,7 @@ export default function CreateProject() {
       >
         <div
           style={{
-            backgroundImage: "url('/createproject_banner_emphasis.svg')",
+            backgroundImage: "url('/media/createproject_banner_emphasis.svg')",
             boxShadow: '0px 5px 50px 0px #000000A6',
             width: '100%',
             zIndex: '10',
@@ -397,7 +397,7 @@ export default function CreateProject() {
         >
           <div
             style={{
-              backgroundImage: "url('/createproject_banner.svg')",
+              backgroundImage: "url('/media/createproject_banner.svg')",
               width: '100%',
               zIndex: '11',
               backgroundPosition: 'center',

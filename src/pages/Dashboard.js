@@ -160,7 +160,7 @@ console.log(communityData);
         >
           <div
             style={{
-              backgroundImage: "url('/createproject_banner.svg')",
+              backgroundImage: "url('/media/createproject_banner.svg')",
               width: '100%',
               zIndex: '11',
               backgroundPosition: 'center',
