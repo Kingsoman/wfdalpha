@@ -105,7 +105,7 @@ export default function InvestKYC5() {
                     height: '24px',
                     width: '24px',
                     border: '3px solid #3BE489',
-                    backgroundColor: ' #3BE489',
+                    backgroundColor: '#3BE489',
                     borderRadius: '50%',
                     display: 'inline-block',
                   }}

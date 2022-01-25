@@ -43,7 +43,7 @@ export default function InvestStep2() {
       <div style={{background:"linear-gradient(90deg, #1F0021 0%, #120054 104.34%)", 
       width:'100%', color:'white', fontSize:'18px', fontFamily:'Sk-Modernist-Regular', fontWeight:'500' }}>
         <div style={{backgroundImage:"url('/createproject_banner_emphasis.svg')", width:'100%', zIndex:'10'}}>
-        <div  style={{backgroundImage:"url('/createproject_banner.svg')", position:'absolute', top:'80px',  width:'100%', width:'100%', zIndex:'11',backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover',zIndex:'11'}}>
+        <div  style={{backgroundImage:"url('/createproject_banner.svg')", position:'absolute', top:'80px', width:'100%', zIndex:'11', backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover', zIndex:'11'}}>
           <Flex pt='95px' justify="center">
             <Text fontSize='16px' fontWeight='normal' color={'rgba(255, 255, 255, 0.54)'}>Home &gt;&nbsp;</Text>
             <Text fontSize='16px' color={'rgba(255, 255, 255, 0.84)'}>Invest in WeFund</Text>
@@ -61,7 +61,7 @@ export default function InvestStep2() {
           <Flex mt='83px' justify='center' align='center' direction='column'
             style={{fontFamily:'PilatExtended-Regular'}}>
               <HStack  mt='150px' mb='50px' px='15px'>
-                <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', backgroundColor: ' #3BE489', borderRadius: '50%', display:'inline-block'}}>
+                <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', backgroundColor: '#3BE489', borderRadius: '50%', display:'inline-block'}}>
                 <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
                 </Box>
                 <Text>Step 1</Text>
