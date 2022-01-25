@@ -15,6 +15,7 @@ import theme from './theme'
 
 import Navbar from './components/Navbar'
 import Index from 'pages/Index'
+import Faq from 'pages/Faq'
 import ExplorerProject from 'pages/ExploreComingSoon'
 import CreateProject from 'pages/CreateProject'
 import BackProject from 'pages/BackProject'
@@ -23,7 +24,6 @@ import Invest_step1 from 'pages/Invest_step1'
 import Invest_step2 from 'pages/Invest_step2'
 import Invest_step3 from 'pages/Invest_step3'
 import Invest_step4 from 'pages/Invest_step4'
-
 import Invest_KYC1  from 'pages/Invest_KYC1'
 import Invest_KYC2  from 'pages/Invest_KYC2'
 import Invest_KYC3  from 'pages/Invest_KYC3'
@@ -32,19 +32,18 @@ import Invest_KYC5  from 'pages/Invest_KYC5'
 import Invest_KYC6  from 'pages/Invest_KYC6'
 
 import Dashboard from 'pages/Dashboard'
-
 import NotFound from 'pages/NotFound'
 import { IntercomProvider, useIntercom } from 'react-use-intercom'
 
 class App extends Component {
   render() {
     return (
-      <IntercomProvider appId="n17lzygf" onHide={false} autoBoot>
+      <IntercomProvider appId="pi5l7uoa" onHide={false} autoBoot>
         <Suspense
           fallback={
             <div className="vh-100 d-flex">
               <div className="align-self-center w-100 text-center">
-                <img src="logo.png" className="img-fluid mb-4" />
+                <img src="/media/logo.png" className="img-fluid mb-4" />
                 <p
                   style={{
                     color: '#f038f0',
@@ -106,6 +105,7 @@ class App extends Component {
                 <Navbar />
                 <Router>
                   <Index path="/" />
+                  <Faq path="faq" />
                   <CreateProject path="create" />
                   <BackProject path="back" />
                   <ExplorerProject path="explorer" />

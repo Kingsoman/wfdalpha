@@ -10,12 +10,14 @@ import Footer from '../components/Footer'
 import RoadMap from '../components/Roadmap'
 import Industry from '../components/Industry'
 import OurMissions from '../components/OurMissions'
+import Partners from '../components/partners'
 import { Container } from '../components/Container'
 import '../styles/transition.scss'
 import '../styles/transition.css'
 
 import AOS from 'aos'
 import 'aos/dist/aos.css' // You can also use <link> for styles
+import partners from '../components/partners'
 
 export default () => {
   const [isSplash, setSplash] = useState(true)
@@ -33,10 +35,86 @@ export default () => {
         ) : (
           <>
             <Hero />
+            <Particles
+              style={{ position: 'relative', zIndex: -5 }}
+              options={{
+                fpsLimit: 60,
+                interactivity: {
+                  events: {
+                    onClick: {
+                      enable: false,
+                      mode: 'push',
+                    },
+                    onHover: {
+                      enable: false,
+                      mode: 'repulse',
+                    },
+                    resize: false,
+                  },
+                  modes: {
+                    bubble: {
+                      distance: 400,
+                      duration: 5,
+                      opacity: 0.6,
+                      size: 40,
+                    },
+                    push: {
+                      quantity: 4,
+                    },
+                    repulse: {
+                      distance: 200,
+                      duration: 0.4,
+                    },
+                  },
+                },
+                particles: {
+                  color: {
+                    value: '#422E5F',
+                  },
+                  links: {
+                    color: '#422E5F',
+                    distance: 150,
+                    enable: true,
+                    opacity: 0.5,
+                    width: 1,
+                  },
+                  collisions: {
+                    enable: true,
+                  },
+                  move: {
+                    direction: 'none',
+                    enable: true,
+                    outMode: 'bounce',
+                    random: true,
+                    speed: 3,
+                    straight: false,
+                  },
+                  number: {
+                    density: {
+                      enable: true,
+                      area: 800,
+                    },
+                    value: 80,
+                  },
+                  opacity: {
+                    value: 0.5,
+                  },
+                  shape: {
+                    type: 'circle',
+                  },
+                  size: {
+                    random: true,
+                    value: 5,
+                  },
+                },
+                detectRetina: false,
+              }}
+            />
             <About />
             <OurMissions />
             <Industry />
             <RoadMap />
+            <Partners />
             <Footer />
           </>
         )}
