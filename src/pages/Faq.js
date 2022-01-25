@@ -94,10 +94,9 @@ export default function Faqs() {
           fontFamily={'Sk-Modernist-Regular'}
           fontSize={{ lg: '18px', base: '15px' }}
         >
-          WFD Tokens are used to operate WeFund Platforms. Projects 
-          convert 1% of their funding into WFD tokens. WFD Tokens are also
-          used as governance tokens for voting and governing project
-          trajectory.
+          WFD Tokens are used to operate WeFund Platforms. Projects convert 1%
+          of their funding into WFD tokens. WFD Tokens are also used as
+          governance tokens for voting and governing project trajectory.
         </Text>
         <Flex
           flexDirection={'column'}
@@ -131,7 +130,10 @@ export default function Faqs() {
                 <Text>{e.ques}</Text>
 
                 {openIndex == index ? (
-                  <Image src="/media/ArrowDown2.svg" transform={'rotate(180deg)'} />
+                  <Image
+                    src="/media/ArrowDown2.svg"
+                    transform={'rotate(180deg)'}
+                  />
                 ) : (
                   <Image src="/media/ArrowDown2.svg" />
                 )}
@@ -155,6 +157,7 @@ export default function Faqs() {
                     src={e.img}
                     width={'20%'}
                     objectFit={'contain'}
+                    borderBottomRightRadius={'15px'}
                     display={{ lg: 'flex', base: 'none' }}
                   />
                 </Flex>
@@ -186,7 +189,10 @@ export default function Faqs() {
               </Text>
 
               {openIndex == 11 ? (
-                <Image src="/media/ArrowDown2.svg" transform={'rotate(180deg)'} />
+                <Image
+                  src="/media/ArrowDown2.svg"
+                  transform={'rotate(180deg)'}
+                />
               ) : (
                 <Image src="/media/ArrowDown2.svg" />
               )}
@@ -216,6 +222,7 @@ export default function Faqs() {
                   width={'20%'}
                   src={'/Faqs/Q8.svg'}
                   objectFit={'contain'}
+                  borderBottomRightRadius={'15px'}
                   display={{ lg: 'flex', base: 'none' }}
                 />
               </Flex>
@@ -247,7 +254,10 @@ export default function Faqs() {
               </Text>
 
               {openIndex == 12 ? (
-                <Image src="/media/ArrowDown2.svg" transform={'rotate(180deg)'} />
+                <Image
+                  src="/media/ArrowDown2.svg"
+                  transform={'rotate(180deg)'}
+                />
               ) : (
                 <Image src="/media/ArrowDown2.svg" />
               )}
@@ -282,6 +292,7 @@ export default function Faqs() {
                   width={'20%'}
                   src={'/Faqs/Q12.svg'}
                   objectFit={'contain'}
+                  borderBottomRightRadius={'15px'}
                   display={{ lg: 'flex', base: 'none' }}
                 />
               </Flex>
@@ -350,7 +361,7 @@ const faqData = [
       "Andrea (Co-Founder, CEO, & Co-CTO), similar to Ika, played a big role in the initial development of Gamesta's $10 million raise. He is highly skilled & versatile in back-end development.",
       'Jason (Co-CTO) is a 90s dot com boom veteran and has been losing money in Crypto since 2017 from his day trading (just joking). He works closely with Andrea & our development team to bring our project to life.',
       "Austin (CCO). This is officially my first crypto project, however, I have been closely following various crypto projects. One of my favorites is Stellar Development Foundation's Stellar Lumen. I have been completing their quest series which teaches how to use Stellar's ecosystem, APIs, & SDK. My background is with a silicon-valley VC fund and following trends of startup technology companies got me interested in actively participating in this space.",
-      'WeFund\'s development team has a strong background in Rust and Solidity.',
+      "WeFund's development team has a strong background in Rust and Solidity.",
     ],
   },
   {

@@ -41,9 +41,7 @@ export default function Navbar() {
                     h="30px"
                   />
                 </Link>
-                <Flex ml='10px'
-                  border="1px solid rgba(255,255,255, 0.2)"
-                />
+                <Flex ml="10px" border="1px solid rgba(255,255,255, 0.2)" />
               </Flex>
               <DesktopNav />
             </Flex>
@@ -70,66 +68,51 @@ export default function Navbar() {
               <Flex w="197px" ml="20px">
                 <ConnectWallet />
               </Flex>
-              <UserSideSnippet/>
+              <UserSideSnippet />
             </Flex>
           </Flex>
         </VStack>
-        <VStack display={{ base: 'block', md: 'block', lg: 'none'}}>
-          <Flex 
-            direction='row'
-            justify='space-between'
-            h='80px'
-            zIndex='99'
-            w='100%'
-            position='relative'
-            backdropFilter='blur(54px)'
-            borderBottom='2px solid rgba(255, 255, 255, 0.103)'
+        <VStack display={{ base: 'block', md: 'block', lg: 'none' }}>
+          <Flex
+            direction="row"
+            justify="space-between"
+            h="80px"
+            zIndex="99"
+            w="100%"
+            position="relative"
+            backdropFilter="blur(54px)"
+            borderBottom="2px solid rgba(255, 255, 255, 0.103)"
           >
-            <Flex ml='30px' align='center'>
+            <Flex ml="30px" align="center">
               <Link className="navbar-brand" to="/">
                 <Image
-                  alt='Wefund'
-                  src='/media/WeFund-Logos-only.png'
-                  h='30px'
+                  alt="Wefund"
+                  src="/media/WeFund-Logos-only.png"
+                  h="30px"
                 />
               </Link>
             </Flex>
             <HStack>
-              <Flex mr='30px' className="dropdown2">
+              <Flex mr="30px" className="dropdown2">
                 <Flex className="dropbtn">
-                  <Image
-                    alt='menu1'
-                    src='/media/menuButton1.svg'
-                    h='28px'
-                  />
+                  <Image alt="menu1" src="/media/menuButton1.svg" h="28px" />
                 </Flex>
                 <div className="dropdown-content2">
-                  <ConnectWallet/>
+                  <ConnectWallet />
                 </div>
               </Flex>
-              <Flex pr='30px' className="dropdown">
+              <Flex pr="30px" className="dropdown">
                 <Flex className="dropbtn">
-                  <Image
-                    alt='menu2'
-                    src='/media/menuButton2.svg'
-                    h='28px'
-                  />
+                  <Image alt="menu2" src="/media/menuButton2.svg" h="28px" />
                 </Flex>
-                <UserSideSnippet/>
+                <UserSideSnippet />
                 <div className="dropdown-content">
                   {NAV_ITEMS.map((navItem, index) => (
-                    <Link
-                      to={navItem.href}
-                      key={index}
-                    >
+                    <Link to={navItem.href} key={index}>
                       {navItem.label}
                     </Link>
                   ))}
-                  <Link
-                    to='/create'
-                  >
-                      Create Project
-                  </Link>
+                  <Link to="/create">Create Project</Link>
                 </div>
               </Flex>
             </HStack>
@@ -176,20 +159,20 @@ const NAV_ITEMS = [
   //   label: 'Dashboard',
   //   href: 'dashboard',
   // },
-//  {
-//    label: 'Career',
-//    href: '#',
-//  },
-//  {
-//    label: 'Contact',
-//    href: '#',
-//  },
-//  {
-//    label: 'Blog',
-//    href: '#',
-//  },
- // {
-//    label: 'FAQ',
-//    href: 'faq',
-//  },
+  //  {
+  //    label: 'Career',
+  //    href: '#',
+  //  },
+  //  {
+  //    label: 'Contact',
+  //    href: '#',
+  //  },
+  //  {
+  //    label: 'Blog',
+  //    href: '#',
+  //  },
+  {
+    label: 'FAQ',
+    href: 'faq',
+  },
 ]
