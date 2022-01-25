@@ -85,7 +85,7 @@ export default () => {
                     enable: true,
                     outMode: 'bounce',
                     random: true,
-                    speed: 3,
+                    speed: 1,
                     straight: false,
                   },
                   number: {
