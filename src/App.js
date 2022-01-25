@@ -15,7 +15,7 @@ import theme from './theme'
 
 import Navbar from './components/Navbar'
 import Index from 'pages/Index'
-import Faqs from 'pages/Faqs'
+import Faq from 'pages/Faq'
 import ExplorerProject from 'pages/ExploreComingSoon'
 import CreateProject from 'pages/CreateProject'
 import BackProject from 'pages/BackProject'
@@ -43,7 +43,7 @@ class App extends Component {
           fallback={
             <div className="vh-100 d-flex">
               <div className="align-self-center w-100 text-center">
-                <img src="logo.png" className="img-fluid mb-4" />
+                <img src="/media/logo.png" className="img-fluid mb-4" />
                 <p
                   style={{
                     color: '#f038f0',
@@ -105,7 +105,7 @@ class App extends Component {
                 <Navbar />
                 <Router>
                   <Index path="/" />
-                  <Faqs path="faqs" />
+                  <Faq path="faq" />
                   <CreateProject path="create" />
                   <BackProject path="back" />
                   <ExplorerProject path="explorer" />

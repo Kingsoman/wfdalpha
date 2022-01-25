@@ -41,7 +41,7 @@ import {
   isWefundWallet,
   isCommunityWallet,
   isBackerWallet, 
-  GetOneProject
+  Sleep,
   }  from '../components/Util'
 
 
@@ -92,11 +92,13 @@ export default function ExplorerProject() {
     if(postRef.current != '')
     {
       for(let i=0; i<postRef.current.length; i++)
+      {
         postRef.current[i].leftTime = 
           parseInt((parseInt(postRef.current[i].community_vote_deadline) - Date.now())/1000/60); //for minutes
+      }
+      setPostProjectData(postRef.current);
+      forceUpdate();
     }
-    setPostProjectData(postRef.current);
-    forceUpdate();
   };
 
   useEffect(
@@ -153,11 +155,6 @@ export default function ExplorerProject() {
       return null
     }
 
-    dispatch({
-      type: 'setConnectedWallet',
-      message: connectedWallet,
-    })
-
     return new LCDClient({
       URL: connectedWallet.network.lcd,
       chainID: connectedWallet.network.chainID,
@@ -167,9 +164,9 @@ export default function ExplorerProject() {
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
-  async function fetchContractQuery() {
+  async function fetchContractQuery(force = false) {
     try {
-      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch, force);
       //-----------------initialize--------------------------
       let activeProjectData = projectData.filter(project => parseInt(project.project_status) == GetProjectStatus(activeTab));
       
@@ -185,14 +182,15 @@ export default function ExplorerProject() {
     }
   }
   //------------Wefund Approve-----------------
-  function WefundApprove(project_id){
+console.log("redraw");
+  async function WefundApprove(project_id){
     CheckNetwork(connectedWallet, notificationRef, state);
 
     let deadline = Date.now() + 1000*60*60*24*15; //for 15days
     let WefundApproveMsg = {
       wefund_approve: {
         project_id: project_id,
-        deadline: deadline,
+        deadline: `${deadline}`,
       },
     }
   
@@ -202,10 +200,12 @@ export default function ExplorerProject() {
       wefundContractAddress,
       WefundApproveMsg,
     )
-    EstimateSend(connectedWallet, lcd, msg, "WeFund Approve success", notificationRef);
+    await EstimateSend(connectedWallet, lcd, msg, "WeFund Approve success", notificationRef);
+    await Sleep(2000);
+    fetchContractQuery(true);
   }
   //-----------Community Vote----------------
-  function CommunityVote(project_id, voted, leftTime){
+  async function CommunityVote(project_id, voted, leftTime){
     CheckNetwork(connectedWallet, notificationRef, state);
     if(leftTime <= 0){
       notificationRef.current.showNotification("Time is expired", "error", 4000);
@@ -225,9 +225,11 @@ export default function ExplorerProject() {
       wefundContractAddress,
       CommunityVoteMsg,
     )
-    EstimateSend(connectedWallet, lcd, msg, "Community vote success", notificationRef);
+    await EstimateSend(connectedWallet, lcd, msg, "Community vote success", notificationRef);
+    await Sleep(2000);
+    fetchContractQuery(true);
   }
-  function MilestoneVote(project_id, voted){
+  async function MilestoneVote(project_id, voted){
     CheckNetwork(connectedWallet, notificationRef, state);
 
     let MilestoneVoteMsg = {
@@ -245,6 +247,8 @@ export default function ExplorerProject() {
       MilestoneVoteMsg,
     )
     EstimateSend(connectedWallet, lcd, msg, "Milestone vote success", notificationRef);
+    await Sleep(2000);
+    fetchContractQuery(true);
   }
   //---------initialize fetching---------------------
   useEffect(() => {
@@ -489,6 +493,7 @@ export default function ExplorerProject() {
                     display={{ base: 'none', md: 'none', lg: 'block' }}
                     maxW={{ base: '0px', md: '0px', lg: '2560px' }}
                     maxH={{ base: '0px', md: '0px', lg: '9999px' }}
+                    width='100%'
                   >
                     {/* ------------------project list---------- */}
                     <Flex
@@ -866,6 +871,7 @@ export default function ExplorerProject() {
                             direction={'column'}
                             mb="20px"
                             key={index}
+                            align='center'
                           >
                             {/* ------------------project image---------- */}
                             <Flex
@@ -947,6 +953,28 @@ export default function ExplorerProject() {
                                 </chakra.p>
                               </Flex>
                             </Flex>
+                            {GetActiveTab() === 'CommuntyApproval' &&
+                              <HStack>
+                                <chakra.p
+                                    py={2}
+                                    w="600px"
+                                    color={'gray.400'}
+                                  >
+                                    Community Voting will be finished in {projectItem.leftTime} minutes
+                                  </chakra.p>
+                              </HStack>
+                            }
+                            {GetActiveTab() === 'MileStoneDelivery' &&
+                              <HStack>
+                                <chakra.p
+                                    py={2}
+                                    w="600px"
+                                    color={'gray.400'}
+                                  >
+                                    Project Milestone step - {parseInt(projectItem.project_milestonestep) + 1}
+                                  </chakra.p>
+                              </HStack>
+                            }
                             {GetActiveTab() === 'WeFundApproval' && isWefundWallet(state) && (
                               <Flex justify={'center'}>
                                 <ButtonTransition

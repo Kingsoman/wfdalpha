@@ -83,13 +83,7 @@ const PagesLinks = () => (
     fontSize={{ lg: '16px', base: '14px' }}
     fontFamily="Sk-Modernist-Regular"
     className="FlexViewMobile"
-  >
-    <Link mr={'20px'}>About</Link>
-    <Link mr={'20px'}>Contact</Link>
-    <Link mr={'20px'}>Partnerships</Link>
-    <Link mr={'20px'}>White Papers</Link>
-    <Link>Terms of Service</Link>
-  </Flex>
+  ></Flex>
 )
 
 export default function Newfooter() {
@@ -145,7 +139,7 @@ export default function Newfooter() {
             <Image
               width={{ lg: '50px', base: '35px' }}
               objectFit={'contain'}
-              src="WeFund%20Logos%20only.png"
+              src="/media/WeFund-Logos-only.png"
             />
             <Text fontFamily="Sk-Modernist-Regular" ml={'5px'}>
               We

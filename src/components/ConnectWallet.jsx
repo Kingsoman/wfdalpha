@@ -10,7 +10,6 @@ import {
 import { Wallet, CaretRight, Power, Check } from 'phosphor-react'
 import numeral from 'numeral'
 import { useStore } from '../store'
-import theme from '../theme'
 
 export default function ConnectWallet() {
   let connectedWallet = ''
@@ -30,6 +29,11 @@ export default function ConnectWallet() {
       return null
     }
     setConnected(true)
+
+    dispatch({
+      type: 'setConnectedWallet',
+      message: connectedWallet,
+    })
 
     return new LCDClient({
       URL: connectedWallet.network.lcd,
@@ -124,9 +128,79 @@ export default function ConnectWallet() {
     }
   }
 
+  //------------notification setting---------------------------------
+  const notificationRef = useRef();
+
+  //--------------for referral-----------------------------
+  const crypto = require('crypto');
+
+   function encrypt3DES(data, key) {
+    const md5Key = crypto.createHash('md5').update(key).digest("hex").substr(0, 24);
+    const cipher = crypto.createCipheriv('des-ede3', md5Key, '');
+  
+    let encrypted = cipher.update(data, 'utf8', 'base64');
+    encrypted += cipher.final('base64');
+    return encrypted;
+  }
+  
+  function decrypt3DES(data, key) {
+    const md5Key = crypto.createHash('md5').update(key).digest("hex").substr(0, 24);
+    const decipher = crypto.createDecipheriv('des-ede3', md5Key, '');
+  
+    let encrypted = decipher.update(data, 'base64', 'utf8');
+    encrypted += decipher.final('utf8');
+    return encrypted;
+  }
+
+  async function confirmReferral(){
+    let referralLink = 'http://www.wefund.app/?referral=' + encrypt3DES(connectedWallet.walletAddress, "wefundkeyreferral");
+    dispatch({ type: 'setReferralLink', message: referralLink })
+
+    let queryString, urlParams, referral_code
+    if (typeof window != 'undefined') {
+      queryString = window.location.search
+      urlParams = new URLSearchParams(queryString)
+      referral_code = urlParams.get('referral');
+
+      let base = '';
+      if(referral_code != null){
+        referral_code = referral_code.split(' ').join('+');
+        try{
+          base = decrypt3DES(referral_code, "wefundkeyreferral");
+
+        }
+        catch(e){
+          console.log(e);
+        }
+      }
+
+      var formData = new FormData();
+      formData.append("base", base);
+      formData.append("referred", connectedWallet.walletAddress);
+
+      const requestOptions = {
+        method: 'POST',
+        body: formData,
+      };
+
+      await fetch(state.request + '/checkreferral', requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({
+          type: 'setReferralCount',
+          message: data.data,
+        })
+      })
+      .catch((e) =>{
+        console.log("Error:"+e);
+      })      
+    }
+  }
+
   useEffect(() => {
     if (connectedWallet) {
       contactBalance()
+      confirmReferral()
     }
 
     window.addEventListener('scroll', handleScroll)

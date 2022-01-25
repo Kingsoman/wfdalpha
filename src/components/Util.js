@@ -62,19 +62,19 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
 export function GetProjectStatusString(mode){
   let projectstatus = 0;
   switch(mode){
-    case 0:
+    case '0':
       projectstatus = 'WeFundApproval';
       break;
-    case 1:
+    case '1':
       projectstatus = 'CommuntyApproval';
       break;
-    case 2:
+    case '2':
       projectstatus = 'MileStoneFundraising';
       break;
-    case 3:
+    case '3':
       projectstatus = 'MileStoneDelivery';
       break;
-    case 4:
+    case '4':
       projectstatus = 'ProjectComplete';
       break;
   }
@@ -162,12 +162,14 @@ export function GetProjectIndex(projectData, project_id){
   return index;
 }
 
-export async function FetchData(api, notificationRef, state, dispatch)
+export async function FetchData(api, notificationRef, state, dispatch, force = false)
 {
+console.log("force")
+console.log(force);
   let projectData, communityData, configData;
   //-----------------fetch community members-----------------
   communityData = state.communityData;
-  if(state.communityData == ''){
+  if(state.communityData == '' || force == true){
     communityData = await api.contractQuery(
       state.WEFundContractAddress,
       {
@@ -176,17 +178,19 @@ export async function FetchData(api, notificationRef, state, dispatch)
     )
 
     if(communityData == ''){
+      if(notificationRef)
       notificationRef.current.showNotification("Can't fetch Community Data", 'error', 6000);
     }else{
       dispatch({
         type: 'setCommunityData',
         message: communityData,
       })
+
     }
   }
   //-----------------fetch config-----------------------
   configData = state.configData;
-  if(state.configData == ''){
+  if(state.configData == '' || force == true){
     configData = await api.contractQuery(
       state.WEFundContractAddress,
       {
@@ -195,6 +199,7 @@ export async function FetchData(api, notificationRef, state, dispatch)
     )
 
     if(configData == ''){
+      if(notificationRef)
       notificationRef.current.showNotification("Can't fetch Config Data", 'error', 6000);
     }else{
       dispatch({
@@ -203,9 +208,10 @@ export async function FetchData(api, notificationRef, state, dispatch)
       })
     }
   }
+
   //---------------fetch project Data---------------------
   projectData = state.projectData;
-  if(state.projectData == ''){
+  if(state.projectData == '' || force == true){
     projectData = await api.contractQuery(
       state.WEFundContractAddress,
       {
@@ -215,6 +221,7 @@ export async function FetchData(api, notificationRef, state, dispatch)
     )
     
     if(projectData == ''){
+      if(notificationRef)
       notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
     }else{
       //----------fake--------------------------
@@ -225,7 +232,8 @@ export async function FetchData(api, notificationRef, state, dispatch)
       //------------------------------------
 
       projectData = AddExtraInfo(state, projectData, communityData);
-
+console.log( "dispatch projectData");
+console.log(projectData);
       dispatch({
         type: 'setProjectdata',
         message: projectData,
@@ -273,3 +281,8 @@ export function isBackerWallet(state, project_id){
 
   return false;
 }
+
+export function Sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+

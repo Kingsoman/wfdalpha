@@ -5,7 +5,7 @@ import { ButtonTransition } from './ImageTransition'
 export default function Comunity() {
   return (
     <Flex id="comunityBackgroundHeight">
-      <Image src="/EmailBg.png" className="EmailBg" />
+      <Image src="/media/EmailBg.png" className="EmailBg" />
       <Flex id="emailInnerBox">
         <Flex flexDirection="column" textAlign="center">
           <Flex className="emailInnerBoxTitle">

@@ -116,7 +116,7 @@ export default function BackProject() {
       notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
       return;
     }
-    const isCommunityMember = isCommunityWallet(connectedWallet, communityData);
+    const isCommunityMember = isCommunityWallet(state, _project_id);
     const targetAmount = parseInt(oneprojectData.project_collected)*(10**6)/2;
 
     let leftAmount = 0;
@@ -244,7 +244,7 @@ export default function BackProject() {
             </ButtonTransition>
           </Flex>
           {/* -----------------------space line-------------------------------- */}
-          <Img mt='102px' height='1px' objectFit='cover' src='/line.svg' alt='UST Avatar'/>
+          <Img mt='102px' height='1px' objectFit='cover' src='/media/line.svg' alt='UST Avatar'/>
 
           {/* ---------------------------blog------------------------------ */}
 

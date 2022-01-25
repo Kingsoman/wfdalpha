@@ -27,13 +27,13 @@ export default function Roadmaps() {
 
       {/* {/ Road Map For Desktop /} */}
       <Flex id="RoadMapDesktop">
-        <Image src="/RoadmapLine.svg" data-aos="zoom-in-up" />
+        <Image src="/media/RoadmapLine.svg" data-aos="zoom-in-up" />
         <Flex id="roadmapBox1">
           <Flex className="RoadmapContent2"></Flex>
           <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapHeading">January 2022</Text>
-            <Image src="/beautifulDash.svg" />
+            <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V2</Text>
             <Text className="RoadmapDesc">
               -Community registration system -Community Project Approval by
@@ -77,7 +77,7 @@ export default function Roadmaps() {
         <Flex id="roadmapBox5">
           <Flex className="RoadmapContent2" data-aos="fade-left">
             <Text className="RoadmapHeading">February 2022</Text>
-            <Image src="/beautifulDash.svg" />
+            <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V3</Text>
             <Text className="RoadmapDesc">
               Set up Community allocation, Set up WeFund holder allocation, Set
@@ -94,7 +94,7 @@ export default function Roadmaps() {
               -PreSale Phase until end of February -Pre marketing for IWO
             </Text>
           </Flex>
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent"></Flex>
         </Flex>
         <Flex id="roadmapBox7">
@@ -114,7 +114,7 @@ export default function Roadmaps() {
               Release WhitePaper 3.0, Update Litepaper
             </Text>
           </Flex>
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent"></Flex>
         </Flex>
         <Flex id="roadmapBox9">
@@ -122,7 +122,7 @@ export default function Roadmaps() {
           <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapHeading">March 2022</Text>
-            <Image src="/beautifulDash.svg" />
+            <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <Text className="RoadmapDesc">- IWO</Text>
           </Flex>
@@ -144,12 +144,12 @@ export default function Roadmaps() {
 
       {/* {/ Road Map For Mobile /} */}
       <Flex id="RoadMapMobile">
-        <Image src="/RoadmapLine.svg" id="roadMapLineId" />
+        <Image src="/media/RoadmapLine.svg" id="roadMapLineId" />
         <Flex id="roadmapBox1">
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapHeading">January 2022</Text>
-            <Image src="/beautifulDash.svg" />
+            <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V2</Text>
             <Text className="RoadmapDesc">
               -Community registration system -Community Project Approval by
@@ -160,7 +160,7 @@ export default function Roadmaps() {
           </Flex>
         </Flex>
         <Flex id="roadmapBox2">
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <Text className="RoadmapDesc">
@@ -169,7 +169,7 @@ export default function Roadmaps() {
           </Flex>
         </Flex>
         <Flex id="roadmapBox3">
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Projects Incubates</Text>
             <Text className="RoadmapDesc">
@@ -179,7 +179,7 @@ export default function Roadmaps() {
           </Flex>
         </Flex>
         <Flex id="roadmapBox4">
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Documentation</Text>
             <Text className="RoadmapDesc">
@@ -188,10 +188,10 @@ export default function Roadmaps() {
           </Flex>
         </Flex>
         <Flex id="roadmapBox5">
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapHeading">February 2022</Text>
-            <Image src="/beautifulDash.svg" />
+            <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V3</Text>
             <Text className="RoadmapDesc">
               Set up Community allocation, Set up WeFund holder allocation, Set
@@ -200,7 +200,7 @@ export default function Roadmaps() {
           </Flex>
         </Flex>
         <Flex id="roadmapBox6">
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <Text className="RoadmapDesc">
@@ -209,7 +209,7 @@ export default function Roadmaps() {
           </Flex>
         </Flex>
         <Flex id="roadmapBox7">
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Projects Incubates</Text>
             <Text className="RoadmapDesc">
@@ -221,7 +221,7 @@ export default function Roadmaps() {
           </Flex>
         </Flex>
         <Flex id="roadmapBox8">
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Documentation</Text>
             <Text className="RoadmapDesc">
@@ -230,16 +230,16 @@ export default function Roadmaps() {
           </Flex>
         </Flex>
         <Flex id="roadmapBox9">
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapHeading">March 2022</Text>
-            <Image src="/beautifulDash.svg" />
+            <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <Text className="RoadmapDesc">- IWO</Text>
           </Flex>
         </Flex>
         <Flex id="roadmapBox10">
-          <Image src="/circle.svg" id="circleD" data-aos="zoom-in-up" />
+          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Project Incubate</Text>
             <Text className="RoadmapDesc">

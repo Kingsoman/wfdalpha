@@ -27,17 +27,28 @@ import {
 } from '@chakra-ui/react'
 import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react'
 import { WasmAPI, LCDClient, MsgExecuteContract } from '@terra-money/terra.js'
-import { Chart } from "react-google-charts"
+// import { Chart } from "react-google-charts"
 import {
   BsArrowUpRight,
 } from 'react-icons/bs'
 import { useNavigate } from '@reach/router'
 
 import { useStore } from '../store'
-import { ImageTransition } from '../components/ImageTransition'
+import {ImageTransition, ButtonTransition} from '../components/ImageTransition'
 import Footer from '../components/Footer'
 import Notification from '../components/Notification'
-import {CheckNetwork, GetOneProject, FetchData, EstimateSend} from '../components/Util'
+
+import {
+  GetProjectStatus, 
+  EstimateSend, 
+  CheckNetwork, 
+  FetchData, 
+  isWefundWallet,
+  isCommunityWallet,
+  isBackerWallet, 
+  GetOneProject,
+  GetProjectStatusString
+  }  from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -102,7 +113,7 @@ export default function ProjectDetail() {
 
   useEffect(
     () => {
-        if(oneprojectData.project_status == 1){ //CommuntyApproval
+        if(oneprojectData.project_status == '1'){ //CommuntyApproval
           myTimer();
           const id = setInterval(myTimer, 1000*60);
           return () => clearInterval(id);
@@ -136,7 +147,7 @@ export default function ProjectDetail() {
           oneprojectData.milestone_states[i].milestone_statusmessage = "Released";
         }
         else if(i == oneprojectData.project_milestonestep){
-          if(oneprojectData.project_status == 3)//releasing status
+          if(oneprojectData.project_status == '3')//releasing status
           {
             oneprojectData.milestone_states[i].milestone_statusmessage = "Voting";
             oneprojectData.milestone_states[i].milestone_votingavailable = true;
@@ -164,8 +175,50 @@ export default function ProjectDetail() {
   useEffect(() => {
     fetchContractQuery()
   }, [connectedWallet, lcd])
-//------------------------------------------------------------------------
 
+//------------Wefund Approve-----------------
+function WefundApprove(project_id){
+  CheckNetwork(connectedWallet, notificationRef, state);
+
+  let deadline = Date.now() + 1000*60*60*24*15; //for 15days
+  let WefundApproveMsg = {
+    wefund_approve: {
+      project_id: project_id,
+      deadline: deadline,
+    },
+  }
+
+  let wefundContractAddress = state.WEFundContractAddress
+  let msg = new MsgExecuteContract(
+    connectedWallet.walletAddress,
+    wefundContractAddress,
+    WefundApproveMsg,
+  )
+  EstimateSend(connectedWallet, lcd, msg, "WeFund Approve success", notificationRef);
+}
+  //-----------Community Vote----------------
+  function CommunityVote(project_id, voted, leftTime){
+    CheckNetwork(connectedWallet, notificationRef, state);
+    if(leftTime <= 0){
+      notificationRef.current.showNotification("Time is expired", "error", 4000);
+      return;
+    }
+    let CommunityVoteMsg = {
+      set_community_vote: {
+        project_id: project_id,
+        wallet: connectedWallet.walletAddress,
+        voted: voted
+      },
+    }
+
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      CommunityVoteMsg,
+    )
+    EstimateSend(connectedWallet, lcd, msg, "Community vote success", notificationRef);
+  }
   function MilestoneVote(project_id, voted){
     CheckNetwork(connectedWallet, notificationRef, state);
 
@@ -393,35 +446,35 @@ export default function ProjectDetail() {
                       }}
                     >
                     {/* The Countdown and Vote*/}
-                      <Flex>
+                      {/* <Flex>
                         <Flex
-                            mt={{ base: '20px', md: '20px', lg: '00px' }}
-                            mr={{ base: '0px', md: '0px', lg: '25px' }}
-                            alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
+                          mt={{ base: '20px', md: '20px', lg: '00px' }}
+                          mr={{ base: '0px', md: '0px', lg: '25px' }}
+                          alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
+                        >
+                          <ImageTransition
+                            unitid="vote"
+                            border1="linear-gradient(180deg, #21EC77 0%, #2ECC711A 100%)"
+                            background1="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
+                            border2="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
+                            background2="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
+                            border3="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
+                            background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
+                            selected={false}
+                            width="90px"
+                            height="90px"
+                            rounded="15px"
                           >
-                            <ImageTransition
-                              unitid="vote"
-                              border1="linear-gradient(180deg, #21EC77 0%, #2ECC711A 100%)"
-                              background1="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
-                              border2="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
-                              background2="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
-                              border3="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
-                              background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
-                              selected={false}
-                              width="90px"
-                              height="90px"
-                              rounded="15px"
+                            <Box
+                              variant="solid"
+                              color="white"
+                              justify="center"
+                              align="center"
+                              onClick={() => {}}
                             >
-                              <Box
-                                variant="solid"
-                                color="white"
-                                justify="center"
-                                align="center"
-                                onClick={() => {}}
-                              >
-                                Vote{' '}
-                              </Box>
-                            </ImageTransition>
+                              Vote{' '}
+                            </Box>
+                          </ImageTransition>
                         </Flex>
                         <Flex 
                           direction={{ base: 'column', md: 'column', lg: 'column' }} 
@@ -451,7 +504,86 @@ export default function ProjectDetail() {
                             </Box>
                           </HStack>
                         </Flex>
-                      </Flex>
+                      </Flex> */}
+                      {oneprojectData.project_status === '0' && isWefundWallet(state) && (
+                        <Flex justify={'center'}>
+                          <ButtonTransition
+                            unitid='Approve'
+                            selected={false}
+                            width="160px"
+                            height="50px"
+                            rounded="33px"
+                            onClick={() => WefundApprove(oneprojectData.project_id)}
+                          >
+                            Approve Project
+                          </ButtonTransition>
+                        </Flex>
+                      )}
+                      {oneprojectData.project_status === '1' && 
+                      isCommunityWallet(state, oneprojectData.project_id) && (
+                        <Flex justify={'center'}>
+                          <ButtonTransition
+                            unitid='visit'
+                            width="160px"
+                            height="50px"
+                            selected={false}
+                            rounded="33px"
+                            onClick={() => CommunityVote(oneprojectData.project_id, true, oneprojectData.leftTime)}
+                          >
+                            Vote Yes
+                          </ButtonTransition>
+
+                          <ButtonTransition
+                            unitid='view'
+                            selected={false}
+                            width="160px"
+                            height="50px"
+                            rounded="33px"
+                            onClick={() => CommunityVote(oneprojectData.project_id, false, oneprojectData.leftTime)}
+                          >
+                            Vote No
+                          </ButtonTransition>
+                        </Flex>
+                      )}
+                      {oneprojectData.project_status === '2' && (
+                        <ButtonTransition
+                          unitid='visit'
+                          width="160px"
+                          height="50px"
+                          selected={false}
+                          rounded="33px"
+                          mb="10px"
+                          onClick={()=>{navigate('/back?project_id=' + oneprojectData.project_id)}}
+                        >
+                          Back Project
+                        </ButtonTransition>
+                      )}
+                      {oneprojectData.project_status === '3' && 
+                      isBackerWallet(state, oneprojectData.project_id) && (
+                        <Flex justify={'center'}>
+                          <ButtonTransition
+                            unitid='milestonevoteyes'
+                            width="160px"
+                            height="50px"
+                            selected={false}
+                            rounded="33px"
+                            onClick={() => MilestoneVote(oneprojectData.project_id, true)}
+                          >
+                            Vote Yes
+                          </ButtonTransition>
+
+                          <ButtonTransition
+                            unitid='milestonevoteno'
+                            selected={false}
+                            width="160px"
+                            height="50px"
+                            rounded="33px"
+                            onClick={() => MilestoneVote(oneprojectData.project_id, false)}
+                          >
+                            Vote No
+                          </ButtonTransition>
+                        </Flex>
+                      )}
                     </Flex>
                     {/* The Buttons*/}
                     <Flex
@@ -587,7 +719,7 @@ export default function ProjectDetail() {
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          Voting
+                          {GetProjectStatusString(oneprojectData.project_status)}
                         </Text>
                       </Flex>
                     </HStack>
@@ -606,7 +738,7 @@ export default function ProjectDetail() {
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          Voting
+                          {oneprojectData.project_chain}
                         </Text>
                       </Flex>
                     </HStack>
@@ -625,7 +757,7 @@ export default function ProjectDetail() {
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          Voting
+                          {oneprojectData.backer_states && oneprojectData.backer_states.length}
                         </Text>
                       </Flex>
                     </HStack>
@@ -644,7 +776,7 @@ export default function ProjectDetail() {
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          Voting
+                          {oneprojectData.project_collected}
                         </Text>
                       </Flex>
                     </HStack>
@@ -663,7 +795,7 @@ export default function ProjectDetail() {
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          Voting
+                          {oneprojectData.project_category}
                         </Text>
                       </Flex>
                     </HStack>
@@ -738,7 +870,7 @@ export default function ProjectDetail() {
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
                         WeFund Mission is: 
-                        Host high-quality projects that align with WeFund’s investor community.
+                        Host high-quality projects that align with WeFund's investor community.
                         </chakra.p>
                         <chakra.p fontSize={'18px'}
                         marginBottom={'20px'}
@@ -750,7 +882,7 @@ export default function ProjectDetail() {
                         marginBottom={'20px'}
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
-                        Project funds managed exclusively on Terra’s Anchor protocol using smart contracts and following the Milestone.
+                        Project funds managed exclusively on Terra's Anchor protocol using smart contracts and following project milestones.
                       </chakra.p>
               
                   
@@ -813,7 +945,7 @@ export default function ProjectDetail() {
                           <Image
                             height="35px"
                             objectFit="cover"
-                            src="/WeFund Logos only.png"
+                            src="/media/WeFund-Logos-only.png"
                             alt="UST Avatar"
                           />
                           <VStack textAlign={'left'}>
@@ -906,14 +1038,14 @@ export default function ProjectDetail() {
                     >
                       <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} 
                       display={{base:'none',md:'none', lg:'block'}} >
-                        <Chart
+                        {/* <Chart
                           chartType="Gantt"
                           width="100%"
                           height="50%"
                           background='rgba(255, 255, 255, 0.05)'
                           data={data}
                           options={options}
-                        />
+                        /> */}
                         <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
                         <Table variant='simple'>
                           <TableCaption style={{color:'#00A3FF'}}>Milestones that project have. Details might be more on Project own's website. Project Milestone up for voting would be listed for voting. 

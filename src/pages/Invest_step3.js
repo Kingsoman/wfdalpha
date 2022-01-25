@@ -2,17 +2,16 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from '../theme';
 import { CheckIcon } from "@chakra-ui/icons";
 import {Fee, MsgExecuteContract, MsgSend } from '@terra-money/terra.js'
-import { Box, Flex, Text, Input, InputGroup,  InputLeftElement, HStack, } from "@chakra-ui/react";
+import {chakra, Box, Flex, Text, Input, InputGroup,  Stack, Image, InputLeftElement, Button, HStack, VStack, Img
+  } from "@chakra-ui/react";
 import React, { useEffect, useState,  useCallback, useContext, useRef, } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { navigate } from '@reach/router'
-import ReCAPTCHA from "react-google-recaptcha";
 
 import { useStore } from '../store'
 import { ImageTransition, ButtonTransition, InputTransition } from "../components/ImageTransition";
 import Notification from '../components/Notification'
 import Faq from '../components/FAQ'
-import { EstimateSend, CheckNetwork, FetchData} from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -20,7 +19,7 @@ if (typeof document !== 'undefined') {
         require('@terra-money/wallet-provider').useConnectedWallet
 }
 
-export default function InvestStep3() {
+export default function Invest_step3() {
   const [signature, setSignature] = useState('');
   const [InsTitle, setInsTitle] = useState('');
   const [InsName, setInsName] = useState('');
@@ -36,9 +35,39 @@ export default function InvestStep3() {
     connectedWallet = useConnectedWallet()
   }
 
-  //------------notification setting---------------------------------
-  const notificationRef = useRef();
+  //---------------notification setting---------------------------------
+  const [notification, setNotification] = useState({
+    type: 'success',
+    message: '',
+    show: false,
+  })
 
+  function hideNotification() {
+    setNotification({
+        message: notification.message,
+        type: notification.type,
+        show: false,
+    })
+  }
+
+  function showNotification(message, type, duration) {
+    // console.log('fired notification')
+    setNotification({
+        message: message,
+        type: type,
+        show: true,
+    })
+    console.log(notification)
+    // Disable after $var seconds
+    setTimeout(() => {
+        setNotification({
+            message: message,
+            type: type,
+            show: false,
+        })
+        // console.log('disabled',notification)
+    }, duration)
+  }
   //----------------upload signature----------------------------
   function openUpload(){
     if(typeof document !== 'undefined') {
@@ -70,23 +99,23 @@ export default function InvestStep3() {
   async function onNext(){
     //----------verify connection--------------------------------
     if(connectedWallet == '' || typeof connectedWallet == 'undefined'){
-      notificationRef.current.showNotification("Please connect wallet first!", 'error', 6000);
+      showNotification("Please connect wallet first!", 'error', 6000);
       return;
     }
 
     console.log(connectedWallet);
     if(state.net == 'mainnet' && connectedWallet.network.name == 'testnet'){
-      notificationRef.current.showNotification("Please switch to mainnet!", "error", 4000);
+      showNotification("Please switch to mainnet!", "error", 4000);
       return;
     }
     if(state.net == 'testnet' && connectedWallet.network.name == 'mainnet'){
-      notificationRef.current.showNotification("Please switch to testnet!", "error", 4000);
+      showNotification("Please switch to testnet!", "error", 4000);
       return;
     }
     
     if(parseInt(state.investAmount) <= 0 )
     {
-      notificationRef.current.showNotification("Please input UST amount", "error", 40000);
+      showNotification("Please input UST amount", "error", 40000);
       return;
     }
 
@@ -126,7 +155,7 @@ export default function InvestStep3() {
       body: formData,
     };
 
-    notificationRef.current.showNotification("Uploading", 'success', 100000)
+    showNotification("Uploading", 'success', 100000)
 
     await fetch(state.request + '/pdfmake', requestOptions)
     .then((res) => res.json())
@@ -143,19 +172,32 @@ export default function InvestStep3() {
     })
 
     let amount = parseInt(state.investAmount) * 10**6;
-    if(parseInt(state.investAmount) > state.ustBalance){
-      amount = (state.ustBalance-1) * 10**6;
-      notificationRef.current.showNotification("Your maxmize invest amount is " + amount, 'success', 100000)
-    }
-    const msg = new MsgSend(
+
+    const obj = new Fee(10_000, { uusd: 4500})
+    const send = new MsgSend(
       connectedWallet.walletAddress,
       'terra1zjwrdt4rm69d84m9s9hqsrfuchnaazhxf2ywpc',
       { uusd: amount }
     );
 
-    let res = await EstimateSend(connectedWallet, lcd, msg, "Invest success", notificationRef);
-    if(res)
-      navigate('/invest_step4');
+    await connectedWallet
+      .post({
+          msgs: [send],
+          // fee: obj,
+          gasPrices: obj.gasPrices(),
+          gasAdjustment: 1.7,
+      })
+      .then((e) => {
+          if (e.success) {
+              showNotification('Back Success', 'success', 4000)
+              navigate('/invest_step4');
+          } else {
+              showNotification(e.message, 'error', 4000)
+          }
+      })
+      .catch((e) => {
+          showNotification(e.message, 'error', 4000)
+      })
   }
 
   return (
@@ -274,14 +316,20 @@ export default function InvestStep3() {
               </Box>
               <input type='file' id="fileSelector" name='userFile' style={{display:'none'}}
                 onChange={(e)=>onChangeSignature(e)}/>
-            </Box>
-          </Flex>
-          <Flex>
-          <Box>
-            {/*-----Bot Verification before submit----- */}
-            <ReCAPTCHA
-            sitekey="6LdNrhkeAAAAACIAeAea2JU1lLHXHANiikg2G5iT"
-          />
+              {/* 
+              {signature == '' && 
+                <InputGroup size="sm" width='290px'>
+                  <InputLeftElement width='290px' h='55px' pointerEvents='none' children={<IoCloudUploadOutline color='#00A3FF' width='30px' height='30px'/>} />
+                  <Input type="text" h='55px' bg='#FFFFFF' borderColor="#FFFFFF33" placeholder="Upload here" focusBorderColor="purple.800"  rounded="md"  
+                  onClick={()=>{openUpload()}}  /> 
+                </InputGroup>}
+              {signature != '' && 
+                <InputGroup size="sm" width='290px'>
+                  <InputLeftElement h='55px' pointerEvents='none' children={<IoCheckbox color='00A3FF'  width='30px' height='30px' />} />
+                  <Input type="text" h='55px' bg='#FFFFFF' borderColor="#FFFFFF33" placeholder={signature} focusBorderColor="purple.800"  rounded="md"  
+                  onClick={()=>{openUpload()}} /> 
+                </InputGroup>}
+               */}
             </Box>
           </Flex>
           <Flex w='100%' mt='60px'justify='center' mb='170px'>
@@ -306,7 +354,10 @@ export default function InvestStep3() {
           <Faq/>
         </Box>
         </Flex>
-        <Notification ref={notificationRef}/>
+        <Notification
+            notification={notification}
+            close={() => hideNotification()}
+        />
       </div>
     </ChakraProvider>
   )
