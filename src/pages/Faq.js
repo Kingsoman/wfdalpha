@@ -38,7 +38,7 @@ export default function Faqs() {
             w={'100%'}
             zIndex={'10'}
             height={{ base: '150px', lg: '200px' }}
-            backgroundImage={'url(/createproject_banner_emphasis.svg)'}
+            backgroundImage={'url(/media/createproject_banner_emphasis.svg)'}
           >
             <Flex
               w={'100%'}
@@ -50,7 +50,7 @@ export default function Faqs() {
               backgroundPosition={'center'}
               backgroundRepeat={'no-repeat'}
               height={{ base: '150px', lg: '200px' }}
-              backgroundImage={'url(/createproject_banner.svg)'}
+              backgroundImage={'url(/media/createproject_banner.svg)'}
             >
               <Flex justify="center">
                 <Text
@@ -117,6 +117,7 @@ export default function Faqs() {
               flexDirection={'column'}
               border={'1px solid #513E69'}
               mt={{ lg: '20px', base: '10px' }}
+              key={index}
               onClick={() => {
                 if (openIndex == index) setOpenIndex(null)
                 else setOpenIndex(index)

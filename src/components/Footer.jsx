@@ -93,9 +93,9 @@ const PagesLinks = () => (
     <Link href="invest_step1" mr={'20px'}>
       Invest In WeFund
     </Link>
-    <Link href="faq" mr={'20px'}>
-      Faqs
-    </Link>
+    {/* <Link href="faq" mr={'20px'}>
+      FAQ
+    </Link> */}
   </Flex>
 )
 
