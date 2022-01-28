@@ -442,7 +442,7 @@ console.log("redraw");
             textAlign={'center'}
             py={'30px'}
           >
-            <Text>MileStone Fundraising</Text>
+            <Text>Milestone Fundraising</Text>
           </Box>
           <Box
             border={'1px solid rgba(255, 255, 255, 0.05)'}
@@ -456,7 +456,7 @@ console.log("redraw");
             textAlign={'center'}
             py={'30px'}
           >
-            <Text>MileStone Delivery</Text>
+            <Text>Milestone Delivery</Text>
           </Box>
           <Box
             border={'1px solid rgba(255, 255, 255, 0.05)'}
