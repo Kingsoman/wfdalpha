@@ -514,7 +514,7 @@ console.log("redraw");
                           fontSize={{ base: '15px', md: '15px', lg: '22px' }}
                           width={'100px'}
                         >
-                          {state.projectData.length} Projects
+                          {state.projectData.length} Project{state.projectData.length === 1 ? '' : 's'}
                         </Text>
                       </Flex>
                     </Flex>
@@ -849,7 +849,7 @@ console.log("redraw");
                         <Text
                           fontSize={{ base: '15px', md: '15px', lg: '22px' }}
                         >
-                          {state.projectData.length} Projects
+                          {state.projectData.length} Project{state.projectData.length === 1 ? '' : 's'}
                         </Text>
                       </Flex>
                     </Flex>
