@@ -59,6 +59,27 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
   })
   return false;
 }
+export function GetProjectStatusString(mode){
+  let projectstatus = 0;
+  switch(mode){
+    case '0':
+      projectstatus = 'WeFundApproval';
+      break;
+    case '1':
+      projectstatus = 'CommuntyApproval';
+      break;
+    case '2':
+      projectstatus = 'MileStoneFundraising';
+      break;
+    case '3':
+      projectstatus = 'MileStoneDelivery';
+      break;
+    case '4':
+      projectstatus = 'ProjectComplete';
+      break;
+  }
+  return projectstatus;
+}
 export function GetProjectStatus(mode){
   let projectstatus = 0;
   switch(mode){
@@ -80,7 +101,7 @@ export function GetProjectStatus(mode){
   }
   return projectstatus;
 }
-export function AddExtraInfo(projectData, communityData){
+export function AddExtraInfo(state, projectData, communityData){
   if(typeof projectData === 'undefined' || projectData == '')
     return '';
 
@@ -92,6 +113,7 @@ export function AddExtraInfo(projectData, communityData){
     );
     
     let community_backedAmount = parseInt(projectData[i].communitybacked_amount);
+
     projectData[i].community_backedPercent = parseInt(
       (community_backedAmount / 10 ** 6 / parseInt(projectData[i].project_collected)) *
         100,
@@ -134,12 +156,20 @@ export function CheckNetwork(connectedWallet, notificationRef, state)
   }
 }
 
-export async function FetchData(api, notificationRef, state, dispatch)
+export function GetProjectIndex(projectData, project_id){
+  const isProject = (element) => element.project_id == project_id;
+  const index = projectData.findIndex(isProject);
+  return index;
+}
+
+export async function FetchData(api, notificationRef, state, dispatch, force = false)
 {
+console.log("force")
+console.log(force);
   let projectData, communityData, configData;
   //-----------------fetch community members-----------------
   communityData = state.communityData;
-  if(state.communityData == ''){
+  if(state.communityData == '' || force == true){
     communityData = await api.contractQuery(
       state.WEFundContractAddress,
       {
@@ -148,17 +178,19 @@ export async function FetchData(api, notificationRef, state, dispatch)
     )
 
     if(communityData == ''){
+      if(notificationRef)
       notificationRef.current.showNotification("Can't fetch Community Data", 'error', 6000);
-      return;
+    }else{
+      dispatch({
+        type: 'setCommunityData',
+        message: communityData,
+      })
+
     }
-    dispatch({
-      type: 'setCommunityData',
-      message: communityData,
-    })
   }
   //-----------------fetch config-----------------------
   configData = state.configData;
-  if(state.configData == ''){
+  if(state.configData == '' || force == true){
     configData = await api.contractQuery(
       state.WEFundContractAddress,
       {
@@ -167,17 +199,19 @@ export async function FetchData(api, notificationRef, state, dispatch)
     )
 
     if(configData == ''){
+      if(notificationRef)
       notificationRef.current.showNotification("Can't fetch Config Data", 'error', 6000);
-      return;
+    }else{
+      dispatch({
+        type: 'setConfigData',
+        message: configData,
+      })
     }
-    dispatch({
-      type: 'setConfigData',
-      message: configData,
-    })
   }
+
   //---------------fetch project Data---------------------
   projectData = state.projectData;
-  if(state.projectData == ''){
+  if(state.projectData == '' || force == true){
     projectData = await api.contractQuery(
       state.WEFundContractAddress,
       {
@@ -187,16 +221,26 @@ export async function FetchData(api, notificationRef, state, dispatch)
     )
     
     if(projectData == ''){
+      if(notificationRef)
       notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
-      return;
-    }
+    }else{
+      //----------fake--------------------------
+      let fakeone = GetOneProject(projectData, state.fakeid);
+      fakeone.project_collected = 60000;
+      fakeone.communitybacked_amount = 19200*10**6;
+      projectData[GetProjectIndex(projectData, state.fakeid)] = fakeone;
+      //------------------------------------
 
-    projectData = AddExtraInfo(projectData, communityData);
-    dispatch({
-      type: 'setProjectdata',
-      message: projectData,
-    })  
+      projectData = AddExtraInfo(state, projectData, communityData);
+console.log( "dispatch projectData");
+console.log(projectData);
+      dispatch({
+        type: 'setProjectdata',
+        message: projectData,
+      })  
+    }
   }
+
   return {projectData, communityData, configData};
 }
 export function GetOneProject(projectData, project_id){
@@ -206,27 +250,51 @@ export function GetOneProject(projectData, project_id){
     return '';
   return projectData[index];
 }
-export function isWefundWallet(connectedWallet, configData){
-  if(connectedWallet.walletAddress == configData.wefund)
+export function isWefundWallet(state){
+  if(state.connectedWallet.walletAddress == state.configData.wefund)
     return true;
   return false;
 }
-export function isCommunityWallet(connectedWallet, communityData){
-  for(let i=0; i<communityData.length; i++){
-    if(connectedWallet.walletAddress == communityData[i])
+export function isCommunityWallet(state, project_id){
+  let one = GetOneProject(state.projectData, project_id)
+  if(one == '')
+    return false;
+
+  for(let j=0; j<one.community_votes.length; j++){
+    if(state.connectedWallet.walletAddress == one.community_votes[j].wallet){
       return true;
-  }
-  return false;
-}
-export function isBackerWallet(connectedWallet, projectData, project_id){
-  for(let i=0; i<projectData.length; i++){
-    if(projectData[i].project_id == project_id){
-      for(let j=0; j<projectData[i].backer_states.length; j++){
-        if(connectedWallet.walletAddress == projectData[i].backer_states[i].backer_wallet){
-          return true;
-        }
-      }
     }
   }
+
   return false;
+}
+export function isBackerWallet(state, project_id){
+  let one = GetOneProject(state.projectData, project_id)
+  if(one == '')
+    return false;
+
+  for(let j=0; j<one.backer_states.length; j++){
+    if(state.connectedWallet.walletAddress == one.backer_states[j].backer_wallet){
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export function Sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function ToText(node) {
+  let tag = document.createElement("div");
+  tag.innerHTML = node;
+  node = tag.innerText;
+  return node;
+}
+
+export function ShortenText(text, startingPoint, maxLength) {
+  return text.length > maxLength
+    ? text.slice(startingPoint, maxLength)
+    : text;
 }

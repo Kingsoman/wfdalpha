@@ -17,7 +17,6 @@ import '../styles/transition.css'
 
 import AOS from 'aos'
 import 'aos/dist/aos.css' // You can also use <link> for styles
-import partners from '../components/partners'
 
 export default () => {
   const [isSplash, setSplash] = useState(true)
@@ -86,7 +85,7 @@ export default () => {
                     enable: true,
                     outMode: 'bounce',
                     random: true,
-                    speed: 3,
+                    speed: 1,
                     straight: false,
                   },
                   number: {

@@ -30,7 +30,7 @@ import Invest_KYC3  from 'pages/Invest_KYC3'
 import Invest_KYC4  from 'pages/Invest_KYC4'
 import Invest_KYC5  from 'pages/Invest_KYC5'
 import Invest_KYC6  from 'pages/Invest_KYC6'
-
+import Blog from 'pages/Blog'
 import Dashboard from 'pages/Dashboard'
 import NotFound from 'pages/NotFound'
 import { IntercomProvider, useIntercom } from 'react-use-intercom'
@@ -120,6 +120,7 @@ class App extends Component {
                   <Invest_KYC4 path="invest_kyc4" />
                   <Invest_KYC5 path="invest_kyc5" />
                   <Invest_KYC6 path="invest_kyc6" />
+                  <Blog path="blog" />
                   <Dashboard path="dashboard" />
                   <NotFound default />
                 </Router>
