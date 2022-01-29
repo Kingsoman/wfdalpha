@@ -67,13 +67,13 @@ export default function BlogCard(props) {
     <Box p={6}>
       <Box>
         <Link
-          to = {props.link}
+          href = {props.link}
           display="block"
           color={"white"}
           fontWeight="bold"
           fontSize="2xl"
           mt={2}
-          _hover={{ color: "gray.600", textDecor: "underline" }}
+          _hover={{ color: "blue.600", textDecor: "underline" }}
           minH = {'150px'}
           
         >
@@ -112,11 +112,11 @@ export default function BlogCard(props) {
           </chakra.span>
           <a href={props.link}>
           <Flex
-            ml={{ base: '0px', md: '0px', lg: '50px' }}
+            ml={{ base: '0px', md: '0px', lg: '45px' }}
             alignSelf={{ base: 'center', md: 'center', lg: 'flex-end'}}
           >
             <ImageTransition
-              unitid="visit"
+              unitid={ShortenText(props.title, 0, 10)}
               border1="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
               background1="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
               border2="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
@@ -124,7 +124,7 @@ export default function BlogCard(props) {
               border3="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
               background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
               selected={false}
-              width="130px"
+              width="145px"
               height="45px"
               rounded="33px"
             >

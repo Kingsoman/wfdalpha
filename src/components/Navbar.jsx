@@ -167,10 +167,10 @@ const NAV_ITEMS = [
   //    label: 'Contact',
   //    href: '#',
   //  },
-  //  {
-  //    label: 'Blog',
-  //    href: '#',
-  //  },
+    {
+      label: 'Blog',
+      href: 'blog',
+    },
   // {
   //   label: 'FAQ',
   //   href: 'faq',

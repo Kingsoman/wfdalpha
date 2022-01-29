@@ -91,7 +91,7 @@ class Bloglist extends React.Component {
                         Blog Stories
                     </Text>
                     <Text fontSize={{base:'25px',md:'25px',lg:'40px'}}>   
-                        &nbsp;of Wefund
+                        &nbsp;of WeFund
                     </Text>
                 </Flex>
                 </div>

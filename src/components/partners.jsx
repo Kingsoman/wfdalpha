@@ -28,50 +28,50 @@ export default function Partners() {
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/partners/Kommunitas.png" 
+            <Image src="/media/Kommunitas.png" 
             />
           </a>
           <a href='https://www.youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/partners/pandai.png" />
+            <Image src="/media/pandai.png" />
           </a>
           <a href='https://linktr.ee/DanceroNFT'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/partners/dancero.jpg" />
+            <Image src="/media/dancero.jpg" />
           </a>
           <a href='https://baksomania.com/'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/partners/Baksomania.png" />
+            <Image src="/media/Baksomania.png" />
           </a>
           <a href='https://moggiesverse.com/'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/partners/Moggie.jpg" />
+            <Image src="/media/Moggie.jpg" />
           </a>
           <a href='https://www.pinecone.community/#/home'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/partners/pinecone.png" />
+            <Image src="/media/pinecone.png" />
           </a>
           <a href='https://terraspaces.org/'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/partners/terraspace.jpg" />
+            <Image src="/media/terraspace.jpg" />
           </a>
           <a href='https://www.lunapad.co/'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/partners/lunapad.png" />
+            <Image src="/media/lunapad.png" />
           </a>
         </SimpleGrid>
       </Box>
