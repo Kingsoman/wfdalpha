@@ -92,7 +92,7 @@ export default function ExplorerProject() {
   async function fetchContractQuery() {
     try {
       let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
-
+console.log(communityData);
       //-----------------initialize--------------------------
       setCurrent(1);
       setPostCommunityData(communityData.slice(0, pageSize));
@@ -160,7 +160,7 @@ export default function ExplorerProject() {
         >
           <div
             style={{
-              backgroundImage: "url('/createproject_banner.svg')",
+              backgroundImage: "url('/media/createproject_banner.svg')",
               width: '100%',
               zIndex: '11',
               backgroundPosition: 'center',

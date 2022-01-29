@@ -18,16 +18,18 @@ const SocialMediaLinks = () => (
     <IconButton
       as="a"
       aria-label="Medium"
-      className="footerButton"
       borderRadius={'100px'}
+      className="footerButton"
+      width={{ lg: '25px', base: '16px' }}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       href="https://medium.com/@wefundofficial"
-      icon={<FaMedium fontSize="20px" className="footerIcon" />}
+      icon={<FaMedium className="footerIcon" />}
     />
     <IconButton
       as="a"
       aria-label="Youtube"
       className="footerButton"
+      width={{ lg: '25px', base: '16px' }}
       borderRadius={'100px'}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       icon={<FaYoutube className="footerIcon" />}
@@ -37,6 +39,7 @@ const SocialMediaLinks = () => (
       as="a"
       aria-label="Telegram"
       className="footerButton"
+      width={{ lg: '25px', base: '16px' }}
       borderRadius={'100px'}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       href="https://t.me/wefundofficial"
@@ -46,12 +49,14 @@ const SocialMediaLinks = () => (
       as="a"
       aria-label="Twitter"
       className="footerButton"
+      width={{ lg: '25px', base: '16px' }}
       borderRadius={'100px'}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       icon={<FaTwitter className="footerIcon" />}
       href="https://twitter.com/WeFund_Official"
     />
     <IconButton
+      width={{ lg: '25px', base: '16px' }}
       as="a"
       aria-label="SiGmail"
       className="footerButton"
@@ -64,6 +69,7 @@ const SocialMediaLinks = () => (
       as="a"
       aria-label="Website"
       className="footerButton"
+      width={{ lg: '25px', base: '16px' }}
       href="https://wefund.app"
       borderRadius={'100px'}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
@@ -74,27 +80,33 @@ const SocialMediaLinks = () => (
 
 const PagesLinks = () => (
   <Flex
+    fontSize={{ lg: '16px', base: '14px' }}
     fontFamily="Sk-Modernist-Regular"
-    fontSize={'16px'}
     className="FlexViewMobile"
   >
-    <Link mr={'20px'}>About</Link>
-    <Link mr={'20px'}>Contact</Link>
-    <Link mr={'20px'}>Partnerships</Link>
-    <Link mr={'20px'}>White Papers</Link>
-    <Link>Terms of Service</Link>
+    <Link href="/" mr={'20px'}>
+      Home
+    </Link>
+    <Link href="explorer" mr={'20px'}>
+      Projects
+    </Link>
+    <Link href="invest_step1" mr={'20px'}>
+      Invest In WeFund
+    </Link>
+    {/* <Link href="faq" mr={'20px'}>
+      FAQ
+    </Link> */}
   </Flex>
 )
 
 export default function Newfooter() {
   return (
-    <Flex id="footerBottomStyle">
+    <Flex id="footerBottomStyle" color={'white'}>
       <Flex id="footerBottomInnerStyleBox">
         <Flex id="FooterTextWork">
           <Text mr="5px">Wanna know more about</Text>
           <Flex>
             <Text
-              mr="5px"
               color="#00A3FF"
               fontWeight={'bold'}
               fontFamily={'PilatExtended-Bold'}
@@ -106,40 +118,41 @@ export default function Newfooter() {
         </Flex>
         <Flex className="SUbscriptInputFooter">
           <Input
-            h="45px"
-            w="250px"
             type="text"
+            color="#503E6D"
             rounded="100px"
-            fontSize="16px"
-            color="rgba(255, 255, 255, 0.15)"
+            background={'transparent'}
+            mr={{ lg: '10px', base: '0px' }}
+            h={{ lg: '45px', base: '40px' }}
             fontFamily="Sk-Modernist-Regular"
             placeholder="Enter email Address"
-            style={{
-              marginRight: '10px',
-              background: 'transparent',
-              border: '2px solid rgba(255, 255, 255, 0.15)',
-            }}
+            w={{ lg: '250px', base: '100%' }}
+            fontSize={{ lg: '16px', base: '12px' }}
+            style={{ border: '2px solid #503E6D' }}
           />
           <ButtonBackTransition
-            width="150px"
-            height="45px"
             rounded="100px"
             selected={false}
             unitid="SubscribeButton"
+            height={{ lg: '45px', base: '40px' }}
+            width={{ lg: '150px', base: '100%' }}
           >
-            <Text fontFamily="Sk-Modernist-Regular" fontSize="16px">
+            <Text
+              fontFamily="Sk-Modernist-Regular"
+              fontSize={{ lg: '16px', base: '12px' }}
+            >
               Subscribe
             </Text>
           </ButtonBackTransition>
         </Flex>
       </Flex>
       <Flex id="footerBottomInnerStyleBox">
-        <Flex fontSize="25px">
+        <Flex fontSize={{ lg: '25px', base: '18px' }}>
           <Flex>
             <Image
-              width={'50px'}
+              width={{ lg: '50px', base: '35px' }}
+              src="media/WeFund-Logos-only.png"
               objectFit={'contain'}
-              src="WeFund%20Logos%20only.png"
             />
             <Text fontFamily="Sk-Modernist-Regular" ml={'5px'}>
               We
@@ -151,7 +164,7 @@ export default function Newfooter() {
         </Flex>
         <PagesLinks />
       </Flex>
-      <Flex id="footerBottomInnerStyleBox">
+      <Flex id="footerBottomInnerStyleBox2">
         <Flex id="FooterTextWork2">
           <Text>&copy; {new Date().getFullYear()}</Text>
           <Text ml="5px" mr="5px" color="#00A3FF">

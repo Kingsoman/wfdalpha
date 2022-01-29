@@ -10,8 +10,9 @@ import {
   chakra,
   CircularProgress,
   CircularProgressLabel,
+  Button,
 } from '@chakra-ui/react'
-import { WasmAPI, LCDClient } from '@terra-money/terra.js'
+import { WasmAPI, LCDClient, MsgExecuteContract } from '@terra-money/terra.js'
 import { BsArrowUpRight } from 'react-icons/bs'
 import Pagination from '@choc-ui/paginator'
 import {
@@ -19,8 +20,9 @@ import {
   MdOutlineCategory,
   MdOutlineAccountBalanceWallet,
 } from 'react-icons/md'
-import { Link } from '@reach/router'
-import React, { useEffect, useState, useMemo, useRef } from 'react'
+import { Link, useNavigate } from '@reach/router'
+import React, { useEffect, useState, useMemo, useRef, forwardRef, useCallback } from 'react'
+
 import { useStore } from '../store'
 import theme from '../theme'
 import {
@@ -31,6 +33,18 @@ import {
 } from '../components/ImageTransition'
 import Footer from '../components/Footer'
 import Notification from '../components/Notification'
+import {
+  GetProjectStatus, 
+  EstimateSend, 
+  CheckNetwork, 
+  FetchData, 
+  isWefundWallet,
+  isCommunityWallet,
+  isBackerWallet,
+  GetOneProject, 
+  Sleep,
+  }  from '../components/Util'
+
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -39,16 +53,95 @@ if (typeof document !== 'undefined') {
 }
 
 export default function ExplorerProject() {
-  const [prjCategory, setPrjCategory] = useState('')
-  const [prjName, setPrjName] = useState('')
   const { state, dispatch } = useStore()
+  const [postProjectData, setPostProjectData] = useState('');
 
-  const [totalBackedMoney, setTotalBackedMoney] = useState(0)
-  const [totalDeposit, setTotalDeposit] = useState(0)
-  const [ustAmount, setUstAmount] = useState(0)
-  const [austAmount, setAustAmount] = useState(0)
-  const [activeTab, setActiveTab] = useState()
+  const navigate = useNavigate()
 
+  let activeTab;
+  //------------extract active mode----------------------------
+  if (typeof window != 'undefined') {
+    let queryString, urlParams;
+    queryString = window.location.search;
+    urlParams = new URLSearchParams(queryString);
+    activeTab = urlParams.get('activetab');
+    if (GetProjectStatus(activeTab) == 0)
+      activeTab = 'WeFundApproval';
+  }
+  function GetActiveTab(){
+    return activeTab;
+  }
+  //-----------Change mode---------------------
+  function onChangeActivetab(mode){
+    if(state.timer != ''){
+      clearInterval(state.timer);
+      dispatch({
+        type: 'setTimer',
+        message: '',
+      })      
+    }
+    navigate('/explorer?activetab=' + mode);
+  }
+  //------------deadline timer-------------------------------
+  const postRef = useRef(postProjectData);
+  postRef.current = postProjectData;
+
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
+ 
+  const myTimer = () => {
+    if(postRef.current != '')
+    {
+      for(let i=0; i<postRef.current.length; i++)
+      {
+        postRef.current[i].leftTime = 
+          parseInt((parseInt(postRef.current[i].community_vote_deadline) - Date.now())/1000/60); //for minutes
+      }
+      setPostProjectData(postRef.current);
+      forceUpdate();
+    }
+  };
+
+  useEffect(
+    () => {
+        if(activeTab == 'CommuntyApproval'){
+          myTimer();
+          const id = setInterval(myTimer, 1000*60);
+          return () => clearInterval(id);
+        }
+    },
+    [postProjectData]
+  );
+  //-------------paginator-----------------------------------
+  const [current, setCurrent] = useState(1);
+  const pageSize = 3;
+
+  const Prev = forwardRef((props, ref) => (
+    <Button ref={ref} {...props}>
+      Prev
+    </Button>
+  ));
+  const Next = forwardRef((props, ref) => (
+    <Button ref={ref} {...props}>
+      Next
+    </Button>
+  ));
+  const itemRender = (_, type) => {
+    if (type === "prev") {
+      return Prev;
+    }
+    if (type === "next") {
+      return Next;
+    }
+  };
+  function onChangePaginator(page){
+    if(state.activeProjectData == ''){
+      setPostProjectData('');
+      return;
+    }
+    const offset = (page - 1) * pageSize;      
+    setPostProjectData(state.activeProjectData.slice(offset, offset+pageSize));
+  }
   //-----------connect to wallet ---------------------
   let connectedWallet = ''
   if (typeof document !== 'undefined') {
@@ -62,6 +155,7 @@ export default function ExplorerProject() {
     if (!connectedWallet) {
       return null
     }
+
     return new LCDClient({
       URL: connectedWallet.network.lcd,
       chainID: connectedWallet.network.chainID,
@@ -71,92 +165,154 @@ export default function ExplorerProject() {
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
-  async function fetchContractQuery() {
+  async function fetchContractQuery(force = false) {
     try {
-      const oneprojectData = await api.contractQuery(
-        state.WEFundContractAddress,
-        {
-          get_project: {
-            project_id: `$(state.fakeid)`,
-          },
-        },
-      )
-      let projectData = []
-      projectData[0] = oneprojectData
+      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch, force);
+      //----------------fake------------------------------
+      const oneprojectData = GetOneProject(projectData, state.fakeid);
 
-      if(projectData == ''){
-        notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
-        return;
-      }
+      let fake_projectData = []
+      fake_projectData[0] = oneprojectData
+      //-----------------initialize--------------------------
 
-      let i, j
-      let totalBacked = 0
-      let totalDeposit = 0
-      let fake = 120000 //fake
-
-      for (i = 0; i < projectData.length; i++) {
-        let percent = 0
-        for (j = 0; j < projectData[i].backer_states.length; j++) {
-          totalBacked += parseInt(
-            projectData[i].backer_states[j].ust_amount.amount,
-          )
-          percent += parseInt(projectData[i].backer_states[j].ust_amount.amount)
-
-          if (projectData[i].project_done == 0) {
-            totalDeposit += parseInt(
-              projectData[i].backer_states[j].ust_amount.amount,
-            )
-          }
-        }
-
-        if (projectData[i].project_id == state.fakeid)
-          //fake
-          percent = parseInt(
-            ((percent / 10 ** 6 + fake) /
-              parseInt(projectData[i].project_collected)) *
-              100,
-          )
-        else
-          percent = parseInt(
-            (percent / 10 ** 6 / parseInt(projectData[i].project_collected)) *
-              100,
-          )
-        projectData[i].percent = percent
-      }
-
+      let activeProjectData = 
+      fake_projectData.filter(project => parseInt(project.project_status) == GetProjectStatus(activeTab));
+      
       dispatch({
-        type: 'setProjectdata',
-        message: projectData,
+        type: 'setActiveProjectData',
+        message: activeProjectData,
       })
 
-      totalBacked /= 10**6;
-      totalDeposit /= 10**6;
-
-      //fake
-      totalBacked += fake
-      totalDeposit += fake
-
-      setTotalBackedMoney(totalBacked)
-      setTotalDeposit(totalDeposit)
-
-      const balanceData = await api.contractQuery(state.WEFundContractAddress, {
-        get_balance: {
-          wallet: state.WEFundContractAddress,
-        },
-      })
-      if (!balanceData) return
-
-      setUstAmount(balanceData.amount[0].amount / 1000000)
-      setAustAmount(balanceData.amount[1].amount / 1000000)
+      setPostProjectData(activeProjectData.slice(0, pageSize));
+      setCurrent(1);
     } catch (e) {
       console.log(e)
     }
   }
+  //------------Wefund Approve-----------------
+console.log("redraw");
+  async function WefundApprove(project_id){
+    CheckNetwork(connectedWallet, notificationRef, state);
 
+    let deadline = Date.now() + 1000*60*60*24*15; //for 15days
+    let WefundApproveMsg = {
+      wefund_approve: {
+        project_id: project_id,
+        deadline: `${deadline}`,
+      },
+    }
+  
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      WefundApproveMsg,
+    )
+    await EstimateSend(connectedWallet, lcd, msg, "WeFund Approve success", notificationRef);
+    await Sleep(2000);
+    fetchContractQuery(true);
+  }
+  //-----------Community Vote----------------
+  async function CommunityVote(project_id, voted, leftTime){
+    CheckNetwork(connectedWallet, notificationRef, state);
+    if(leftTime <= 0){
+      notificationRef.current.showNotification("Time is expired", "error", 4000);
+      return;
+    }
+    let CommunityVoteMsg = {
+      set_community_vote: {
+        project_id: project_id,
+        wallet: connectedWallet.walletAddress,
+        voted: voted
+      },
+    }
+
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      CommunityVoteMsg,
+    )
+    await EstimateSend(connectedWallet, lcd, msg, "Community vote success", notificationRef);
+    await Sleep(2000);
+    fetchContractQuery(true);
+  }
+  async function MilestoneVote(project_id, voted){
+    CheckNetwork(connectedWallet, notificationRef, state);
+
+    let MilestoneVoteMsg = {
+      set_milestone_vote: {
+        project_id: project_id,
+        wallet: connectedWallet.walletAddress,
+        voted: voted
+      },
+    }
+
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      MilestoneVoteMsg,
+    )
+    EstimateSend(connectedWallet, lcd, msg, "Milestone vote success", notificationRef);
+    await Sleep(2000);
+    fetchContractQuery(true);
+  }
+  //---------initialize fetching---------------------
   useEffect(() => {
-    fetchContractQuery()
-  }, [connectedWallet, lcd])
+    fetchContractQuery();
+  }, [activeTab])
 
+  const CircularProgresses = ({projectItem, sz}) => {
+    return(
+      <>
+      {GetActiveTab() == 'CommuntyApproval' &&
+        <CircularProgress
+          value={projectItem.communityVotedPercent}
+          size={sz}
+          color="blue.600"
+        >
+          <CircularProgressLabel>
+            {projectItem.communityVotedPercent}%
+          </CircularProgressLabel>
+        </CircularProgress>
+        }
+        {GetActiveTab() == 'MileStoneFundraising' &&
+        <>
+          <CircularProgress
+            value={projectItem.community_backedPercent}
+            size={sz}
+            color="blue.600"
+          >
+            <CircularProgressLabel>
+              {projectItem.community_backedPercent}%
+            </CircularProgressLabel>
+          </CircularProgress>
+          <CircularProgress
+            value={projectItem.backer_backedPercent}
+            size={sz}
+            color="blue.600"
+          >
+            <CircularProgressLabel>
+              {projectItem.backer_backedPercent}%
+            </CircularProgressLabel>
+          </CircularProgress>
+        </>
+        }
+        {GetActiveTab() == 'MileStoneDelivery' &&
+        <CircularProgress
+          value={projectItem.releasedPercent}
+          size={sz}
+          color="blue.600"
+        >
+          <CircularProgressLabel>
+            {projectItem.releasedPercent}%
+          </CircularProgressLabel>
+        </CircularProgress>
+        }
+      </>
+    )
+  }
   return (
     <ChakraProvider resetCSS theme={theme}>
       <div
@@ -178,7 +334,7 @@ export default function ExplorerProject() {
         >
           <div
             style={{
-              backgroundImage: "url('/createproject_banner.svg')",
+              backgroundImage: "url('/media/createproject_banner.svg')",
               width: '100%',
               zIndex: '11',
               backgroundPosition: 'center',
@@ -221,22 +377,22 @@ export default function ExplorerProject() {
             </Flex>
             <Flex pt="14px" justify="center">
               <Text fontSize="18px" color={'rgba(255, 255, 255, 0.84)'}>
-                {activeTab === 'WeFundApproval' &&
+                {GetActiveTab() === 'WeFundApproval' &&
                   'Project Status: Under WeFund Approval'}
-                {activeTab === 'CommuntyApproval' &&
+                {GetActiveTab() === 'CommuntyApproval' &&
                   'Project Status: Under CommunitApproval'}
-                {activeTab === 'MileStoneFundraising' &&
+                {GetActiveTab() === 'MileStoneFundraising' &&
                   'Project Status: Milestone Fundrasing'}
-                {activeTab === 'MileStoneDelivery' &&
+                {GetActiveTab() === 'MileStoneDelivery' &&
                   'Project Status: Milestone Delivery'}
-                {activeTab === 'ProjectComplete' &&
+                {GetActiveTab() === 'ProjectComplete' &&
                   'Project Status: Project Completed'}
               </Text>
             </Flex>
           </div>
         </div>
 
-        {/* Tabs */}
+        {/*---------------- Tabs-------------------- */}
 
         <Flex
           mt="50px"
@@ -248,14 +404,14 @@ export default function ExplorerProject() {
         >
           <Box
             bg={
-              activeTab == 'WeFundApproval'
+              GetActiveTab() == 'WeFundApproval'
                 ? '#13002B'
                 : 'rgba(255, 255, 255, 0.05)'
             }
             border={'1px solid rgba(255, 255, 255, 0.05)'}
-            onClick={() => setActiveTab('WeFundApproval')}
+            onClick={() => onChangeActivetab('WeFundApproval')}
             width={{ lg: '20%' }}
-            textAlign={'center'}
+              textAlign={'center'}
             py={'30px'}
           >
             <Text>WeFund Approval</Text>
@@ -263,11 +419,11 @@ export default function ExplorerProject() {
           <Box
             border={'1px solid rgba(255, 255, 255, 0.05)'}
             bg={
-              activeTab == 'CommuntyApproval'
+              GetActiveTab() == 'CommuntyApproval'
                 ? '#13002B'
                 : 'rgba(255, 255, 255, 0.05)'
             }
-            onClick={() => setActiveTab('CommuntyApproval')}
+            onClick={() => onChangeActivetab('CommuntyApproval')}
             width={{ lg: '20%' }}
             textAlign={'center'}
             py={'30px'}
@@ -276,40 +432,40 @@ export default function ExplorerProject() {
           </Box>
           <Box
             bg={
-              activeTab == 'MileStoneFundraising'
+              GetActiveTab() == 'MileStoneFundraising'
                 ? '#13002B'
                 : 'rgba(255, 255, 255, 0.05)'
             }
-            onClick={() => setActiveTab('MileStoneFundraising')}
+            onClick={() => onChangeActivetab('MileStoneFundraising')}
             border={'1px solid rgba(255, 255, 255, 0.05)'}
             width={{ lg: '20%' }}
             textAlign={'center'}
             py={'30px'}
           >
-            <Text>MileStone Fundraising</Text>
+            <Text>Milestone Fundraising</Text>
           </Box>
           <Box
             border={'1px solid rgba(255, 255, 255, 0.05)'}
             bg={
-              activeTab == 'MileStoneDelivery'
+              GetActiveTab() == 'MileStoneDelivery'
                 ? '#13002B'
                 : 'rgba(255, 255, 255, 0.05)'
             }
-            onClick={() => setActiveTab('MileStoneDelivery')}
+            onClick={() => onChangeActivetab('MileStoneDelivery')}
             width={{ lg: '20%' }}
             textAlign={'center'}
             py={'30px'}
           >
-            <Text>MileStone Delivery</Text>
+            <Text>Milestone Delivery</Text>
           </Box>
           <Box
             border={'1px solid rgba(255, 255, 255, 0.05)'}
             bg={
-              activeTab == 'ProjectComplete'
+              GetActiveTab() == 'ProjectComplete'
                 ? '#13002B'
                 : 'rgba(255, 255, 255, 0.05)'
             }
-            onClick={() => setActiveTab('ProjectComplete')}
+            onClick={() => onChangeActivetab('ProjectComplete')}
             width={{ lg: '20%' }}
             textAlign={'center'}
             py={'30px'}
@@ -342,9 +498,10 @@ export default function ExplorerProject() {
                 >
                   {/* ------------------project desktop---------- */}
                   <VStack
-                    visibility={{ base: 'hidden', md: 'hidden', lg: 'visible' }}
+                    display={{ base: 'none', md: 'none', lg: 'block' }}
                     maxW={{ base: '0px', md: '0px', lg: '2560px' }}
                     maxH={{ base: '0px', md: '0px', lg: '9999px' }}
+                    width='100%'
                   >
                     {/* ------------------project list---------- */}
                     <Flex
@@ -365,14 +522,14 @@ export default function ExplorerProject() {
                           fontSize={{ base: '15px', md: '15px', lg: '22px' }}
                           width={'100px'}
                         >
-                          {state.projectData.length} Projects
+                          {state.projectData.length} Project{state.projectData.length === 1 ? '' : 's'}
                         </Text>
                       </Flex>
                     </Flex>
 
                     {/* ------------------project snippet detail---------- */}
-                    {state.projectData != '' &&
-                      state.projectData.map((projectItem, index) => (
+                    {postProjectData != '' &&
+                      postProjectData.map((projectItem, index) => (
                         <Box
                           w="100%"
                           mx="auto"
@@ -381,6 +538,7 @@ export default function ExplorerProject() {
                           shadow="lg"
                           rounded="lg"
                           overflow="hidden"
+                          key={index}
                         >
                           <HStack w="100%">
                             <Flex
@@ -421,15 +579,15 @@ export default function ExplorerProject() {
                                     fontSize="lg"
                                     fontWeight="bold"
                                   >
-                                    {activeTab === 'WeFundApproval' &&
+                                    {GetActiveTab() === 'WeFundApproval' &&
                                       'Project Status: Under WeFund Approval'}
-                                    {activeTab === 'CommuntyApproval' &&
+                                    {GetActiveTab() === 'CommuntyApproval' &&
                                       'Project Status: Under CommunitApproval'}
-                                    {activeTab === 'MileStoneFundraising' &&
+                                    {GetActiveTab() === 'MileStoneFundraising' &&
                                       'Project Status: Milestone Fundrasing'}
-                                    {activeTab === 'MileStoneDelivery' &&
+                                    {GetActiveTab() === 'MileStoneDelivery' &&
                                       'Project Status: Milestone Delivery'}
-                                    {activeTab === 'ProjectComplete' &&
+                                    {GetActiveTab() === 'ProjectComplete' &&
                                       'Project Status: Project Completed'}
                                   </chakra.h1>
                                   <chakra.h1
@@ -440,30 +598,22 @@ export default function ExplorerProject() {
                                     {projectItem.project_name}
                                   </chakra.h1>
                                 </Box>
-                                {activeTab === 'WeFundApproval' && (
+                                {GetActiveTab() === 'WeFundApproval' && isWefundWallet(state) && (
                                   <Flex w={'330px'} justify={'space-between'}>
                                     <ButtonTransition
-                                      unitid={'visit' + index}
-                                      width="160px"
-                                      height="50px"
-                                      selected={false}
-                                      rounded="33px"
-                                    >
-                                      Reject Project
-                                    </ButtonTransition>
-
-                                    <ButtonTransition
-                                      unitid={'view' + index}
+                                      unitid={'Approve' + index}
                                       selected={false}
                                       width="160px"
                                       height="50px"
                                       rounded="33px"
+                                      onClick={() => WefundApprove(projectItem.project_id)}
                                     >
-                                      View Project
+                                      Approve Project
                                     </ButtonTransition>
                                   </Flex>
                                 )}
-                                {activeTab === 'CommuntyApproval' && (
+                                {GetActiveTab() === 'CommuntyApproval' && 
+                                isCommunityWallet(state, projectItem.project_id) && (
                                   <Flex w={'330px'} justify={'space-between'}>
                                     <ButtonTransition
                                       unitid={'visit' + index}
@@ -471,6 +621,7 @@ export default function ExplorerProject() {
                                       height="50px"
                                       selected={false}
                                       rounded="33px"
+                                      onClick={() => CommunityVote(projectItem.project_id, true, projectItem.leftTime)}
                                     >
                                       Vote Yes
                                     </ButtonTransition>
@@ -481,12 +632,13 @@ export default function ExplorerProject() {
                                       width="160px"
                                       height="50px"
                                       rounded="33px"
+                                      onClick={() => CommunityVote(projectItem.project_id, false, projectItem.leftTime)}
                                     >
                                       Vote No
                                     </ButtonTransition>
                                   </Flex>
                                 )}
-                                {activeTab === 'MileStoneFundraising' && (
+                                {GetActiveTab() === 'MileStoneFundraising' && (
                                   <ButtonTransition
                                     unitid={'visit' + index}
                                     width="160px"
@@ -494,28 +646,32 @@ export default function ExplorerProject() {
                                     selected={false}
                                     rounded="33px"
                                     mb="10px"
+                                    onClick={()=>{navigate('/back?project_id=' + projectItem.project_id)}}
                                   >
                                     Back Project
                                   </ButtonTransition>
                                 )}
-                                {activeTab === 'MileStoneDelivery' && (
+                                {GetActiveTab() === 'MileStoneDelivery' && 
+                                isBackerWallet(state, projectItem.project_id) && (
                                   <Flex w={'330px'} justify={'space-between'}>
                                     <ButtonTransition
-                                      unitid={'visit' + index}
+                                      unitid={'milestonevoteyes' + index}
                                       width="160px"
                                       height="50px"
                                       selected={false}
                                       rounded="33px"
+                                      onClick={() => MilestoneVote(projectItem.project_id, true)}
                                     >
                                       Vote Yes
                                     </ButtonTransition>
 
                                     <ButtonTransition
-                                      unitid={'view' + index}
+                                      unitid={'milestonevoteno' + index}
                                       selected={false}
                                       width="160px"
                                       height="50px"
                                       rounded="33px"
+                                      onClick={() => MilestoneVote(projectItem.project_id, false)}
                                     >
                                       Vote No
                                     </ButtonTransition>
@@ -529,7 +685,7 @@ export default function ExplorerProject() {
                               >
                                 Date -{' '}
                                 <span style={{ color: '#FE8600' }}>
-                                  31 Dec, 2021
+                                  {projectItem.project_createddate}
                                 </span>
                               </chakra.p>
                               {/* -------It works, This margin will push it up by 40px and then added padding (same val + 10) for desc so it stays down---- */}
@@ -551,29 +707,35 @@ export default function ExplorerProject() {
                                       250,
                                     )}
                                   </chakra.p>
-                                  {activeTab === 'MileStoneDelivery' && (
-                                    <ButtonTransition
-                                      unitid={'visit' + index}
-                                      width="160px"
-                                      height="50px"
-                                      selected={false}
-                                      rounded="33px"
-                                      mb="10px"
-                                    >
-                                      Check Milestone Progress
-                                    </ButtonTransition>
-                                  )}
                                 </Box>
-                                <CircularProgress
-                                  value={projectItem.percent}
-                                  size="150px"
-                                  color="blue.600"
-                                >
-                                  <CircularProgressLabel>
-                                    {projectItem.percent}%
-                                  </CircularProgressLabel>
-                                </CircularProgress>
+                                <CircularProgresses projectItem={projectItem} sz="150px"/>
                               </HStack>
+                              {GetActiveTab() === 'CommuntyApproval' &&
+                                <HStack>
+                                  <chakra.p
+                                      py={2}
+                                      w="600px"
+                                      color={'gray.400'}
+                                      paddingTop={'55px'}
+                                      paddingRight={'20px'}
+                                    >
+                                      Community Voting will be finished in {projectItem.leftTime} minutes
+                                    </chakra.p>
+                                </HStack>
+                              }
+                              {GetActiveTab() === 'MileStoneDelivery' &&
+                                <HStack>
+                                  <chakra.p
+                                      py={2}
+                                      w="600px"
+                                      color={'gray.400'}
+                                      paddingTop={'55px'}
+                                      paddingRight={'20px'}
+                                    >
+                                      Project Milestone step - {parseInt(projectItem.project_milestonestep) + 1}
+                                    </chakra.p>
+                                </HStack>
+                              }
                               <HStack justify="space-between">
                                 <Flex alignItems="center" color={'gray.400'}>
                                   <Icon
@@ -671,10 +833,10 @@ export default function ExplorerProject() {
                   </VStack>
                   {/* ------------------project mobile---------- */}
                   <VStack
-                    visibility={{
-                      base: 'visible',
-                      md: 'visible',
-                      lg: 'hidden',
+                    display={{
+                      base: 'block',
+                      md: 'block',
+                      lg: 'none',
                     }}
                   >
                     {/* ------------------project list---------- */}
@@ -695,7 +857,7 @@ export default function ExplorerProject() {
                         <Text
                           fontSize={{ base: '15px', md: '15px', lg: '22px' }}
                         >
-                          {state.projectData.length} Projects
+                          {state.projectData.length} Project{state.projectData.length === 1 ? '' : 's'}
                         </Text>
                       </Flex>
                     </Flex>
@@ -709,13 +871,15 @@ export default function ExplorerProject() {
                       alignSelf={'center'}
                       direction={'column'}
                     >
-                      {state.projectData != '' &&
-                        state.projectData.map((projectItem, index) => (
+                      {postProjectData != '' &&
+                        postProjectData.map((projectItem, index) => (
                           <Flex
                             width={'300px'}
                             alignSelf={'center'}
                             direction={'column'}
                             mb="20px"
+                            key={index}
+                            align='center'
                           >
                             {/* ------------------project image---------- */}
                             <Flex
@@ -777,7 +941,7 @@ export default function ExplorerProject() {
                                 >
                                   Date -{' '}
                                   <span style={{ color: '#FE8600' }}>
-                                    31 Dec, 2021
+                                    {projectItem.project_createddate}
                                   </span>
                                 </chakra.p>
                                 {/* ------------------project synopsis---------- */}
@@ -797,19 +961,112 @@ export default function ExplorerProject() {
                                 </chakra.p>
                               </Flex>
                             </Flex>
+                            {GetActiveTab() === 'CommuntyApproval' &&
+                              <HStack>
+                                <chakra.p
+                                    py={2}
+                                    w="600px"
+                                    color={'gray.400'}
+                                  >
+                                    Community Voting will be finished in {projectItem.leftTime} minutes
+                                  </chakra.p>
+                              </HStack>
+                            }
+                            {GetActiveTab() === 'MileStoneDelivery' &&
+                              <HStack>
+                                <chakra.p
+                                    py={2}
+                                    w="600px"
+                                    color={'gray.400'}
+                                  >
+                                    Project Milestone step - {parseInt(projectItem.project_milestonestep) + 1}
+                                  </chakra.p>
+                              </HStack>
+                            }
+                            {GetActiveTab() === 'WeFundApproval' && isWefundWallet(state) && (
+                              <Flex justify={'center'}>
+                                <ButtonTransition
+                                  unitid={'Approve' + index}
+                                  selected={false}
+                                  width="140px"
+                                  height="40px"
+                                  rounded="30px"
+                                  onClick={() => WefundApprove(projectItem.project_id)}
+                                >
+                                  Approve Project
+                                </ButtonTransition>
+                              </Flex>
+                            )}
+                            {GetActiveTab() === 'CommuntyApproval' && 
+                            isCommunityWallet(state, projectItem.project_id) && (
+                              <Flex justify={'space-between'}>
+                                <ButtonTransition
+                                  unitid={'visit' + index}
+                                  width="140px"
+                                  height="40px"
+                                  selected={false}
+                                  rounded="30px"
+                                  onClick={() => CommunityVote(projectItem.project_id, true, projectItem.leftTime)}
+                                >
+                                  Vote Yes
+                                </ButtonTransition>
+
+                                <ButtonTransition
+                                  unitid={'view' + index}
+                                  selected={false}
+                                  width="140px"
+                                  height="40px"
+                                  rounded="30px"
+                                  onClick={() => CommunityVote(projectItem.project_id, false, projectItem.leftTime)}
+                                >
+                                  Vote No
+                                </ButtonTransition>
+                              </Flex>
+                            )}
+                            {GetActiveTab() === 'MileStoneFundraising' && (
+                              <ButtonTransition
+                                unitid={'visit' + index}
+                                width="140px"
+                                height="40px"
+                                selected={false}
+                                rounded="30px"
+                                mb="10px"
+                                onClick={()=>{navigate('/back?project_id=' + projectItem.project_id)}}
+                              >
+                                Back Project
+                              </ButtonTransition>
+                            )}
+                            {GetActiveTab() === 'MileStoneDelivery' && 
+                            isBackerWallet(state, projectItem.project_id) && (
+                              <Flex justify={'space-between'}>
+                                <ButtonTransition
+                                  unitid={'milestonevoteyes' + index}
+                                  width="140px"
+                                  height="40px"
+                                  selected={false}
+                                  rounded="30px"
+                                  onClick={() => MilestoneVote(projectItem.project_id, true)}
+                                >
+                                  Vote Yes
+                                </ButtonTransition>
+
+                                <ButtonTransition
+                                  unitid={'milestonevoteno' + index}
+                                  selected={false}
+                                  width="140px"
+                                  height="40px"
+                                  rounded="30px"
+                                  onClick={() => MilestoneVote(projectItem.project_id, false)}
+                                >
+                                  Vote No
+                                </ButtonTransition>
+                              </Flex>
+                            )}
                             <Flex
                               alignSelf={'center'}
                               marginTop={'20px !important'}
                             >
-                              <CircularProgress
-                                value={projectItem.percent}
-                                size="120px"
-                                color="blue.600"
-                              >
-                                <CircularProgressLabel>
-                                  {projectItem.percent}%
-                                </CircularProgressLabel>
-                              </CircularProgress>
+                              <CircularProgresses projectItem={projectItem} sz="130px"/>
                             </Flex>
                             {/* ------------------project buttons---------- */}
                             <Flex
@@ -904,8 +1161,11 @@ export default function ExplorerProject() {
                     bg={
                       'linear-gradient(180deg, #FE8600 21.43%, #F83E00 147.62%)'
                     }
-                    defaultCurrent={1}
-                    total={50}
+                    current={current}
+                    onChange={(page) => onChangePaginator(page)}        
+                    pageSize={pageSize}
+                    total={state.activeProjectData == ''? 0 : state.activeProjectData.length}
+                    itemRender={itemRender}
                     paginationProps={{ display: 'flex' }}
                   />
                 </Flex>

@@ -21,6 +21,7 @@ export default function BackProject() {
   const [condition, setCondition] = useState(false);
   const [backAmount, setBackAmount] = useState('');
   const [wfdAmount, setWfdamount] = useState('');
+  const [oneprojectData, setOneprojectData] = useState('');
 
 //----------extract project id------------------------------------------
   let project_id;
@@ -66,17 +67,41 @@ export default function BackProject() {
     else
       setWfdamount('');
   }
+//-----------------------------------------------------------
+  async function fetchContractQuery() {
+    let _project_id = 1
+    if (project_id != null) _project_id = project_id
+
+    try {
+      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+
+      const oneprojectData = GetOneProject(projectData, _project_id);
+      if(oneprojectData == ''){
+        notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
+        return;
+      }
+
+      setOneprojectData(oneprojectData);
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    fetchContractQuery()
+  }, [connectedWallet, lcd])
+  
 //---------------------back project-----------------------------
   async function backProject()
   {
     CheckNetwork(connectedWallet, notificationRef, state);
 
     if(backAmount != parseInt(backAmount).toString()){
-      notificationRef.current.showNotification("Invalid number format!", "error", 4000);
+      notificationRef.current.showNotification("Invalid number format", "error", 4000);
       return;
     }
     if(parseInt(backAmount) < 6){
-      notificationRef.current.showNotification("Back money at least 6 UST", "error", 4000);
+      notificationRef.current.showNotification("Amount must be at least 6 UST", "error", 4000);
       return;
     }
 
@@ -88,10 +113,10 @@ export default function BackProject() {
 
     const oneprojectData = GetOneProject(projectData, _project_id);
     if(oneprojectData == ''){
-      notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
+      notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
       return;
     }
-    const isCommunityMember = isCommunityWallet(connectedWallet, communityData);
+    const isCommunityMember = isCommunityWallet(state, _project_id);
     const targetAmount = parseInt(oneprojectData.project_collected)*(10**6)/2;
 
     let leftAmount = 0;
@@ -102,9 +127,9 @@ export default function BackProject() {
 
     if(leftAmount <= 0){
       if(isCommunityMember)
-        notificationRef.current.showNotification("Community allocation is already collected! You can't back", 'error', 6000);
+        notificationRef.current.showNotification("Community allocation is already collected! You can't back this project.", 'error', 6000);
       else
-        notificationRef.current.showNotification("Backer allocation is already collected! You can't back", 'error', 6000);
+        notificationRef.current.showNotification("Backer allocation is already collected! You can't back back this project.", 'error', 6000);
       return;
     }
 
@@ -131,12 +156,12 @@ export default function BackProject() {
     <ChakraProvider resetCSS theme={theme}>
       <div style={{background:"linear-gradient(90deg, #1F0021 0%, #120054 104.34%)", 
       width:'100%', color:'white', fontSize:'18px', fontFamily:'Sk-Modernist', fontWeight:'700' }}>
-        <div style={{backgroundImage:"url('/createproject_banner_emphasis.svg')", width:'100%', zIndex:'10'}}>
-        <div style={{backgroundImage:"url('/createproject_banner.svg')", position:'absolute', top:'80px', 
+        <div style={{backgroundImage:"url('/media/createproject_banner_emphasis.svg')", width:'100%', zIndex:'10'}}>
+        <div style={{backgroundImage:"url('/media/createproject_banner.svg')", position:'absolute', top:'80px', 
         width:'100%', zIndex:'11',backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
           <Flex pt='95px' justify="center">
             <Text fontSize='16px' fontWeight='normal' color={'rgba(255, 255, 255, 0.54)'}>Home &gt;&nbsp;</Text>
-            <Text fontSize='16px' color={'rgba(255, 255, 255, 0.84)'}>Back the Project</Text>
+            <Text fontSize='16px' color={'rgba(255, 255, 255, 0.84)'}>Back the project</Text>
           </Flex>
           <Flex mt='11px' pb='55px' mb="75px" justify='center'
             style={{fontFamily:'PilatExtended-Bold'}}>
@@ -152,12 +177,12 @@ export default function BackProject() {
             <Text fontSize='22px' fontWeight={'300'}>
               Back the Project</Text>
             <Text fontSize='28px' color='#4790f5' fontWeight={'bold'}>
-              {state.oneprojectData.project_name}
+              {oneprojectData.project_name}
             </Text>
           </Flex>
           {/* --------amount to back----------- */}
           <Flex mt='83px' textAlign={'left'} justify="space-between" align='center' direction='column'>
-                <Text mb='20px' textAlign={'center'} justify={'center'}>Select Tokens and Entry Amount to back</Text>
+                <Text mb='20px' textAlign={'center'} justify={'center'}>Select tokens and enter amount to back</Text>
           <InputTransition 
             unitid='backamount'
             selected={backAmount==''?false:true}
@@ -185,7 +210,6 @@ export default function BackProject() {
           </InputTransition>
 
           <Flex mt='25px' direction="row">
-            {/* <Input type="checkbox"  h='55px' bg='#FFFFFF0D' borderColor="#FFFFFF33" placeholder="Type here" focusBorderColor="purple.800" rounded="md"  onChange={(e)=>{}} /> */}
             <InputTransition 
               unitid='conditioncheck'
               selected={false}
@@ -197,7 +221,7 @@ export default function BackProject() {
               }
             </InputTransition>
 
-            <Text ml='10px' fontSize='14px' fontWeight='400'>I agree with all conditions of this Project and WeFund</Text>
+            <Text ml='10px' fontSize='14px' fontWeight='400'>I agree with all conditions of this project and WeFund</Text>
           </Flex>
           </Flex>
           {/* -----------------Back Project----------------- */}
@@ -220,7 +244,7 @@ export default function BackProject() {
             </ButtonTransition>
           </Flex>
           {/* -----------------------space line-------------------------------- */}
-          <Img mt='102px' height='1px' objectFit='cover' src='/line.svg' alt='UST Avatar'/>
+          <Img mt='102px' height='1px' objectFit='cover' src='/media/line.svg' alt='UST Avatar'/>
 
           {/* ---------------------------blog------------------------------ */}
 

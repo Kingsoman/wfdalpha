@@ -10,12 +10,43 @@ import { useStore } from '../store'
 import { ImageTransition, ButtonTransition } from "../components/ImageTransition";
 import Notification from '../components/Notification'
 
-export default function InvestStep4() {
+export default function Invest_step4() {
   const {state, dispatch} = useStore();
 
-  //------------notification setting---------------------------------
-  const notificationRef = useRef();
+  //---------------notification setting---------------------------------
+  const [notification, setNotification] = useState({
+    type: 'success',
+    message: '',
+    show: false,
+  })
 
+  function hideNotification() {
+    setNotification({
+        message: notification.message,
+        type: notification.type,
+        show: false,
+    })
+  }
+
+  function showNotification(message, type, duration) {
+    // console.log('fired notification')
+    setNotification({
+        message: message,
+        type: type,
+        show: true,
+    })
+    // console.log(notification)
+    // Disable after $var seconds
+    setTimeout(() => {
+        setNotification({
+            message: message,
+            type: type,
+            show: false,
+        })
+        // console.log('disabled',notification)
+    }, duration)
+  }
+  
   function download_pdf(){
     showNotification("Downloading", "success", 10000);
 
@@ -45,8 +76,8 @@ export default function InvestStep4() {
     <ChakraProvider resetCSS theme={theme}>
       <div style={{background:"linear-gradient(90deg, #1F0021 0%, #120054 104.34%)", 
       width:'100%', color:'white', fontSize:'18px', fontFamily:'Sk-Modernist-Regular', fontWeight:'500' }}>
-        <div style={{backgroundImage:"url('/createproject_banner_emphasis.svg')", width:'100%', zIndex:'10'}}>
-        <div  style={{backgroundImage:"url('/createproject_banner.svg')", position:'absolute', top:'80px',  width:'100%', width:'100%', zIndex:'11',backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover',zIndex:'11'}}>
+        <div style={{backgroundImage:"url('/media/createproject_banner_emphasis.svg')", width:'100%', zIndex:'10'}}>
+        <div  style={{backgroundImage:"url('/media/createproject_banner.svg')", position:'absolute', top:'80px', width:'100%', zIndex:'11', backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover', zIndex:'11'}}>
           <Flex pt='95px' justify="center">
             <Text fontSize='16px' fontWeight='normal' color={'rgba(255, 255, 255, 0.54)'}>Home &gt;&nbsp;</Text>
             <Text fontSize='16px' color={'rgba(255, 255, 255, 0.84)'}>Invest in WeFund</Text>
@@ -91,7 +122,7 @@ export default function InvestStep4() {
               }
             /></HStack>
             <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} maxWidth={'500px'} justifyContent={'center'} textAlign={'center'}  maxW={'390px'}>
-              You have invested in WeFund. <Text color={'#FE8600'}>Please be sure to check the transaction has been confirmed in your wallet. If there are any issues, please contact info@wefund.app</Text>  </Text>
+              You have invested in WeFund. For more update, please get in touch with us. We will confirm your investment status via email. </Text>
             
           </Flex>
           {/* --------Table confirmation dekstop---------- */}
@@ -150,7 +181,6 @@ export default function InvestStep4() {
                   </a>
               </Td>
             </Tr>
-            
           </Table>
 
           </Flex> 
@@ -176,7 +206,10 @@ export default function InvestStep4() {
           
         </Box>
         </Flex>
-        <Notification ref={notificationRef}/>
+        <Notification
+            notification={notification}
+            close={() => hideNotification()}
+        />
       </div>
     </ChakraProvider>
   )
