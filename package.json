@@ -66,9 +66,7 @@
         "autoprefixer": "^9",
         "postcss": "^7",
         "react-redux": "^7.2.4",
-        "react-static-plugin-tailwindcss": "^0.1.3",
-        "serve": "^11.3.2",
-        "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+        "serve": "^11.3.2"
     },
     "engines": {
         "node": "16.x"
