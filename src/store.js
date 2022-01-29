@@ -14,30 +14,36 @@ import {
 const StoreContext = createContext()
 
 const initialState = {
-    net: 'testnet',
-    // net: 'mainnet',
+    // net: 'testnet',
+    net: 'mainnet',
 
-    WEFundContractAddress: "terra17e7t7m9wxm4twr90cfgwrvtx7p40vnr2ywrdra", //testnet
-    // WEFundContractAddress: "terra1qcm9957c2gyghkaqgsk0h5mw6xf6ym4xdu7kmu",
+    // WEFundContractAddress: "terra1qe7p8nh3yrhkzp0u6f3ug25pavwky5uendhxcz", //testnet v2.1
+    // WEFundContractAddress: "terra1ca88767e6ganwq2zehtcpv7ef6z32ell26ts3r", //testnet v2.2
+    // WEFundContractAddress: "terra1qcm9957c2gyghkaqgsk0h5mw6xf6ym4xdu7kmu", //mainnet v2.1
+    WEFundContractAddress: "terra1rpqlf5y7e5ssg742v5vj0eza5yzjkxk02yapky", //mainnet v2.2
+    
+    referralCount: 0,
+    referralLink: '',
     projectData: '',
     activeProjectData: '',
     oneprojectData: '',
     communityData: '',
     configData: '',
+    connectedWallet: '',
     timer: '',
     wallet: {},    
     allNativeCoins: [],
     config: {},
     ustBalance: 0,
     contractBalance: {},
-    lcd_client: new LCDClient({ //testnet
-        URL: 'https://bombay-lcd.terra.dev/',
-        chainID: 'bombay-12',
-    }),
-    // lcd_client: new LCDClient({
-    //     URL: 'https://lcd.terra.dev',
-    //     chainID: 'columbus-4',
+    // lcd_client: new LCDClient({ //testnet
+    //     URL: 'https://bombay-lcd.terra.dev/',
+    //     chainID: 'bombay-12',
     // }),
+    lcd_client: new LCDClient({ //mainnet
+        URL: 'https://lcd.terra.dev',
+        chainID: 'columbus-4',
+    }),
     investAmount: '',
     investWfdamount: '',
     investName: '',
@@ -46,15 +52,30 @@ const initialState = {
     investDate: '',
     investSignature: '',
     request: 'https://wefund-nodejs-gwb6v.ondigitalocean.app',
-    // request: 'http://508d-87-116-164-143.ngrok.io',
+    // request: 'http://abf7-87-116-164-143.ngrok.io',
     pdfFile: '',
     whitepaper: '',
     logo: '',
-    fakeid: 0,
+    fakeid: 1,
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'setReferralCount':
+        return {
+            ...state,
+            referralCount: action.message,
+        }
+    case 'setReferralLink':
+        return {
+            ...state,
+            referralLink: action.message,
+        }
+    case 'setConnectedWallet':
+        return {
+            ...state,
+            connectedWallet: action.message,
+        }
     case 'setTimer':
         return {
             ...state,

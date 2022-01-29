@@ -25,7 +25,7 @@ import theme from '../theme'
 import { useStore } from '../store'
 import Notification from '../components/Notification'
 import Footer from '../components/Footer'
-import { EstimateSend, CheckNetwork, FetchData} from '../components/Util'
+import { EstimateSend, CheckNetwork, FetchData, Sleep} from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -222,7 +222,6 @@ export default function CreateProject() {
       notificationRef.current.showNotification('Please fill project name!', 'error', 4000)
       return
     }
-    console.log(parseInt(prjAmount))
 
     if (parseInt(prjAmount) < 6) {
       notificationRef.current.showNotification('Collected money at least 6 UST', 'error', 4000)
@@ -233,6 +232,14 @@ export default function CreateProject() {
     for(let i=0; i<milestoneTitle.length; i++){
       if (milestoneTitle[i] == '') {
         notificationRef.current.showNotification('Please fill milestone title!', 'error', 4000)
+        return
+      }
+      if (milestoneStartdate[i] == ''){
+        notificationRef.current.showNotification('Please fill milestone Start Date!', 'error', 4000)
+        return
+      }
+      if (milestoneEnddate[i] == ''){
+        notificationRef.current.showNotification('Please fill milestone End Date!', 'error', 4000)
         return
       }
       if (parseInt(milestoneAmount[i]) < 6) {
@@ -346,7 +353,9 @@ export default function CreateProject() {
       wefundContractAddress,
       AddProjectMsg,
     )
-    EstimateSend(connectedWallet, lcd, msg, "Create Project success", notificationRef);
+    await EstimateSend(connectedWallet, lcd, msg, "Create Project success", notificationRef);
+    await Sleep(2000);
+    await FetchData(api, notificationRef, state, dispatch, true);
   }
   function onNewMilestone() {
     let ar = [...milestoneTitle]
@@ -354,6 +363,8 @@ export default function CreateProject() {
     setMilestoneTitle(ar);
   }
   function onCancelMilestone() {
+    if (milestoneTitle.length <= 1)
+      return;
     let ar = [...milestoneTitle];
     ar.pop();
     setMilestoneTitle(ar);
@@ -378,7 +389,7 @@ export default function CreateProject() {
       >
         <div
           style={{
-            backgroundImage: "url('/createproject_banner_emphasis.svg')",
+            backgroundImage: "url('/media/createproject_banner_emphasis.svg')",
             boxShadow: '0px 5px 50px 0px #000000A6',
             width: '100%',
             zIndex: '10',
@@ -386,7 +397,7 @@ export default function CreateProject() {
         >
           <div
             style={{
-              backgroundImage: "url('/createproject_banner.svg')",
+              backgroundImage: "url('/media/createproject_banner.svg')",
               width: '100%',
               zIndex: '11',
               backgroundPosition: 'center',
@@ -463,7 +474,7 @@ export default function CreateProject() {
                   mt="23px"
                   boxSize="50px"
                   objectFit="cover"
-                  src="/UST.svg"
+                  src="/media/UST.svg"
                   alt="UST Avatar"
                 />
                 <Text mt="13px">UST</Text>
@@ -499,7 +510,7 @@ export default function CreateProject() {
                   mt="23px"
                   height="35px"
                   objectFit="cover"
-                  src="/WeFund Logos only.png"
+                  src="/media/WeFund-Logos-only.png"
                   alt="UST Avatar"
                 />
                 <Text mt="13px">WFD</Text>

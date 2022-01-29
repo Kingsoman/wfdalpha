@@ -4,8 +4,6 @@ import { useNavigate } from '@reach/router'
 import {chakra, Box, Flex, Text, VStack, Image, Img, HStack, Select
   } from "@chakra-ui/react";
 import React, { useState} from 'react';
-import { IoChevronUpOutline, IoChevronDownOutline, IoCheckmark } from 'react-icons/io5';
-
 import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
 
 export default function InvestKYC3() {
@@ -24,8 +22,8 @@ export default function InvestKYC3() {
     <ChakraProvider resetCSS theme={theme}>
       <div style={{background:"linear-gradient(90deg, #1F0021 0%, #120054 104.34%)", 
       width:'100%', color:'white', fontSize:'18px', fontFamily:'Sk-Modernist-Regular', fontWeight:'500' }}>
-        <div style={{backgroundImage:"url('/createproject_banner_emphasis.svg')", width:'100%', zIndex:'10'}}>
-        <div style={{backgroundImage:"url('/createproject_banner.svg')", position:'absolute', top:'80px',  width:'100%', width:'100%', zIndex:'11',backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover',zIndex:'11'}}>
+        <div style={{backgroundImage:"url('/media/createproject_banner_emphasis.svg')", width:'100%', zIndex:'10'}}>
+        <div style={{backgroundImage:"url('/media/createproject_banner.svg')", position:'absolute', top:'80px', width:'100%', zIndex:'11', backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover', zIndex:'11'}}>
           <Flex pt='95px' justify="center">
             <Text fontSize='16px' fontWeight='normal' color={'rgba(255, 255, 255, 0.54)'}>Home &gt;&nbsp;</Text>
             <Text fontSize='16px' color={'rgba(255, 255, 255, 0.84)'}>Back the Project</Text>

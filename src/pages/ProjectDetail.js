@@ -25,22 +25,30 @@ import {
   useDisclosure,
   Button,
 } from '@chakra-ui/react'
-import React, { useEffect, useState, useMemo, useRef } from 'react'
+import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react'
 import { WasmAPI, LCDClient, MsgExecuteContract } from '@terra-money/terra.js'
-import { MdOutlinePlace } from 'react-icons/md'
+// import { Chart } from "react-google-charts"
 import {
   BsArrowUpRight,
 } from 'react-icons/bs'
 import { useNavigate } from '@reach/router'
 
 import { useStore } from '../store'
-import { ImageTransition } from '../components/ImageTransition'
+import {ImageTransition, ButtonTransition} from '../components/ImageTransition'
 import Footer from '../components/Footer'
-
-import { Chart } from "react-google-charts"
-
 import Notification from '../components/Notification'
-import {CheckNetwork, GetOneProject, FetchData, EstimateSend} from '../components/Util'
+
+import {
+  GetProjectStatus, 
+  EstimateSend, 
+  CheckNetwork, 
+  FetchData, 
+  isWefundWallet,
+  isCommunityWallet,
+  isBackerWallet, 
+  GetOneProject,
+  GetProjectStatusString
+  }  from '../components/Util'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -50,8 +58,9 @@ if (typeof document !== 'undefined') {
 
 export default function ProjectDetail() {
   const { state, dispatch } = useStore()
+  const [oneprojectData, setOneprojectData] = useState('');
   const [totalBackedMoney, setTotalBackedMoney] = useState(0)
-  const [percent, setPercent] = useState(0)
+  const [totalBackedPercent, setTotalBackedPercent] = useState(0)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const navigate = useNavigate()
 
@@ -84,13 +93,40 @@ export default function ProjectDetail() {
 
   //------------notification setting---------------------------------
   const notificationRef = useRef();
+  
+  //------------deadline timer-------------------------------
+  const postRef = useRef(oneprojectData);
+  postRef.current = oneprojectData;
 
+  const [, updateState] = useState();
+  const forceUpdate = useCallback(() => updateState({}), []);
+
+  const myTimer = () => {
+    if(postRef.current != '')
+    {
+      postRef.current.leftTime = 
+        parseInt((parseInt(postRef.current.community_vote_deadline) - Date.now())/1000/60); //for minutes
+    }
+    setOneprojectData(postRef.current);
+    forceUpdate();
+  };
+
+  useEffect(
+    () => {
+        if(oneprojectData.project_status == '1'){ //CommuntyApproval
+          myTimer();
+          const id = setInterval(myTimer, 1000*60);
+          return () => clearInterval(id);
+        }
+    },
+    []
+  );
   //------------back button-----------------------------------
   function next() {
     if (project_id == state.fakeid)
       //fake
       navigate('/invest_step1')
-    else navigate('/back?project_id=' + state.oneprojectData.project_id)
+    else navigate('/back?project_id=' + oneprojectData.project_id)
   }
   //------------fectch project data------------------------------------
   async function fetchContractQuery() {
@@ -111,7 +147,7 @@ export default function ProjectDetail() {
           oneprojectData.milestone_states[i].milestone_statusmessage = "Released";
         }
         else if(i == oneprojectData.project_milestonestep){
-          if(oneprojectData.project_status == 3)//releasing status
+          if(oneprojectData.project_status == '3')//releasing status
           {
             oneprojectData.milestone_states[i].milestone_statusmessage = "Voting";
             oneprojectData.milestone_states[i].milestone_votingavailable = true;
@@ -123,23 +159,65 @@ export default function ProjectDetail() {
           oneprojectData.milestone_states[i].milestone_statusmessage = "Not yet";
       }
 
-      dispatch({
-        type: 'setOneprojectdata',
-        message: oneprojectData,
-      })
-console.log(oneprojectData);
+      setOneprojectData(oneprojectData);
+
       let totalBacked = parseInt(oneprojectData.communitybacked_amount) + parseInt(oneprojectData.backerbacked_amount);
       totalBacked /= 10 ** 6
 
-      if (project_id == state.fakeid)//fake
-        totalBacked = 120000
-
       let percent = parseInt(totalBacked/parseInt(oneprojectData.project_collected) * 100 );
-      setPercent(percent);
+      setTotalBackedPercent(percent);
       setTotalBackedMoney(totalBacked);
     } catch (e) {
       console.log(e)
     }
+  }
+
+  useEffect(() => {
+    fetchContractQuery()
+  }, [connectedWallet, lcd])
+
+//------------Wefund Approve-----------------
+function WefundApprove(project_id){
+  CheckNetwork(connectedWallet, notificationRef, state);
+
+  let deadline = Date.now() + 1000*60*60*24*15; //for 15days
+  let WefundApproveMsg = {
+    wefund_approve: {
+      project_id: project_id,
+      deadline: deadline,
+    },
+  }
+
+  let wefundContractAddress = state.WEFundContractAddress
+  let msg = new MsgExecuteContract(
+    connectedWallet.walletAddress,
+    wefundContractAddress,
+    WefundApproveMsg,
+  )
+  EstimateSend(connectedWallet, lcd, msg, "WeFund Approve success", notificationRef);
+}
+  //-----------Community Vote----------------
+  function CommunityVote(project_id, voted, leftTime){
+    CheckNetwork(connectedWallet, notificationRef, state);
+    if(leftTime <= 0){
+      notificationRef.current.showNotification("Time is expired", "error", 4000);
+      return;
+    }
+    let CommunityVoteMsg = {
+      set_community_vote: {
+        project_id: project_id,
+        wallet: connectedWallet.walletAddress,
+        voted: voted
+      },
+    }
+
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      CommunityVoteMsg,
+    )
+    EstimateSend(connectedWallet, lcd, msg, "Community vote success", notificationRef);
   }
   function MilestoneVote(project_id, voted){
     CheckNetwork(connectedWallet, notificationRef, state);
@@ -160,11 +238,6 @@ console.log(oneprojectData);
     )
     EstimateSend(connectedWallet, lcd, msg, "Milestone vote success", notificationRef);
   }
-
-  useEffect(() => {
-    fetchContractQuery()
-  }, [connectedWallet, lcd])
-  
     //--Pop Ups for Projects
     const { isOpen: isVoteBoxOpen, onOpen: onVoteBoxOpen, onClose: onVoteBoxClose  } = useDisclosure()
 
@@ -336,7 +409,6 @@ console.log(oneprojectData);
               justify="center"
               alignItems={'center'}
               zIndex={'1'}
-              mt={'50px'}
             >
               <VStack>
                 <Flex
@@ -358,22 +430,13 @@ console.log(oneprojectData);
                       }}
                     >
                       <Text fontSize="40px" fontWeight={'900'}>
-                        {state.oneprojectData.project_name}
-                        Project Name
+                        {oneprojectData.project_name}
                       </Text>
                     </Flex>
-                    <Flex widtht={{ base: '70%', md: '70%', lg: '100%' }}>
-                    <Text textAlign={'left'} fontWeight={'400'} fontSize={'18px'}>
-                                  Project Project Milestone Description <br/>
-                                  Aliquip mollit sunt qui irure. Irure ullamco Lorem
-                                  excepteur dolor qui ea ad quis. Enim fugiat cillum enim
-                                  ad occaecat sint qui elit labore mollit sunt laborum
-                                  fugiat consequat. Voluptate labore sunt duis eu
-                                  deserunt. Occaecat do ut ut labore cillum enim dolore ad
-                                  enim enim id. Aliquip do veniam ad excepteur ad cillum
-                                  qui deserunt nostrud sunt aliqua duis sunt occaecat.
-                                  Laborum incididunt commodo ullamco proident quis.
-                </Text>
+                    <Flex>
+                      <Text textAlign={'left'} fontWeight={'400'} fontSize={'18px'}>
+                        {oneprojectData.project_description}
+                      </Text>
                     </Flex>
                     <Flex
                       alignSelf={{
@@ -383,36 +446,35 @@ console.log(oneprojectData);
                       }}
                     >
                     {/* The Countdown and Vote*/}
-                      <Flex mt={{ base: '0px', md: '0px', lg: '25px' }}>
+                      {/* <Flex>
                         <Flex
-                            mt={{ base: '20px', md: '20px', lg: '00px' }}
-                            mr={{ base: '25px', md: '25px', lg: '25px' }}
-                            alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
-                            direction={{ base: 'column', md: 'column', lg: 'row' }} 
+                          mt={{ base: '20px', md: '20px', lg: '00px' }}
+                          mr={{ base: '0px', md: '0px', lg: '25px' }}
+                          alignSelf={{ base: 'center', md: 'center', lg: 'flex-start'}}
+                        >
+                          <ImageTransition
+                            unitid="vote"
+                            border1="linear-gradient(180deg, #21EC77 0%, #2ECC711A 100%)"
+                            background1="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
+                            border2="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
+                            background2="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
+                            border3="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
+                            background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
+                            selected={false}
+                            width="90px"
+                            height="90px"
+                            rounded="15px"
                           >
-                            <ImageTransition
-                              unitid="vote"
-                              border1="linear-gradient(180deg, #21EC77 0%, #2ECC711A 100%)"
-                              background1="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
-                              border2="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
-                              background2="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
-                              border3="linear-gradient(180deg,  #21EC77 0%, #2ECC711A 100%)"
-                              background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
-                              selected={false}
-                              width="90px"
-                              height="90px"
-                              rounded="15px"
+                            <Box
+                              variant="solid"
+                              color="white"
+                              justify="center"
+                              align="center"
+                              onClick={() => {}}
                             >
-                              <Box
-                                variant="solid"
-                                color="white"
-                                justify="center"
-                                align="center"
-                                onClick={() => {}}
-                              >
-                                Vote{' '}
-                              </Box>
-                            </ImageTransition>
+                              Vote{' '}
+                            </Box>
+                          </ImageTransition>
                         </Flex>
                         <Flex 
                           direction={{ base: 'column', md: 'column', lg: 'column' }} 
@@ -431,72 +493,97 @@ console.log(oneprojectData);
                                 textAlign={'center'}
                                 color={'#FE8600'}
                                 >
-                                $Day
+                                {oneprojectData.leftTime}
                               </Text>
                               <Text
                                 fontFamily={'Sk-Modernist-Regular'}
                                 fontSize={'15px'}
                                 color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
-                              </Text>
-                            </Box>
-                            <Box ml={{ base: '0px', md: '0px', lg: '25px' }}>
-                              <Text 
-                                fontFamily={'Pilat Extended'}
-                                fontWeight={'900'}
-                                fontSize={'26px'}
-                                lineHeight={'33px'}
-                                textAlign={'center'}
-                                color={'#FE8600'}
-                                >
-                                $Day
-                              </Text>
-                              <Text
-                                fontFamily={'Sk-Modernist-Regular'}
-                                fontSize={'15px'}
-                                color={'rgba(255, 255, 255, 0.7)'}>
-                                Days
+                                Minutes
                               </Text>
                             </Box>
                           </HStack>
                         </Flex>
-                      </Flex>
+                      </Flex> */}
+                      {oneprojectData.project_status === '0' && isWefundWallet(state) && (
+                        <Flex justify={'center'}>
+                          <ButtonTransition
+                            unitid='Approve'
+                            selected={false}
+                            width="160px"
+                            height="50px"
+                            rounded="33px"
+                            onClick={() => WefundApprove(oneprojectData.project_id)}
+                          >
+                            Approve Project
+                          </ButtonTransition>
+                        </Flex>
+                      )}
+                      {oneprojectData.project_status === '1' && 
+                      isCommunityWallet(state, oneprojectData.project_id) && (
+                        <Flex justify={'center'}>
+                          <ButtonTransition
+                            unitid='visit'
+                            width="160px"
+                            height="50px"
+                            selected={false}
+                            rounded="33px"
+                            onClick={() => CommunityVote(oneprojectData.project_id, true, oneprojectData.leftTime)}
+                          >
+                            Vote Yes
+                          </ButtonTransition>
+
+                          <ButtonTransition
+                            unitid='view'
+                            selected={false}
+                            width="160px"
+                            height="50px"
+                            rounded="33px"
+                            onClick={() => CommunityVote(oneprojectData.project_id, false, oneprojectData.leftTime)}
+                          >
+                            Vote No
+                          </ButtonTransition>
+                        </Flex>
+                      )}
+                      {oneprojectData.project_status === '2' && (
+                        <ButtonTransition
+                          unitid='visit'
+                          width="160px"
+                          height="50px"
+                          selected={false}
+                          rounded="33px"
+                          mb="10px"
+                          onClick={()=>{navigate('/back?project_id=' + oneprojectData.project_id)}}
+                        >
+                          Back Project
+                        </ButtonTransition>
+                      )}
+                      {oneprojectData.project_status === '3' && 
+                      isBackerWallet(state, oneprojectData.project_id) && (
+                        <Flex justify={'center'}>
+                          <ButtonTransition
+                            unitid='milestonevoteyes'
+                            width="160px"
+                            height="50px"
+                            selected={false}
+                            rounded="33px"
+                            onClick={() => MilestoneVote(oneprojectData.project_id, true)}
+                          >
+                            Vote Yes
+                          </ButtonTransition>
+
+                          <ButtonTransition
+                            unitid='milestonevoteno'
+                            selected={false}
+                            width="160px"
+                            height="50px"
+                            rounded="33px"
+                            onClick={() => MilestoneVote(oneprojectData.project_id, false)}
+                          >
+                            Vote No
+                          </ButtonTransition>
+                        </Flex>
+                      )}
                     </Flex>
                     {/* The Buttons*/}
                     <Flex
@@ -531,7 +618,13 @@ console.log(oneprojectData);
                             color="white"
                             justify="center"
                             align="center"
-                            onClick={() => {}}
+                            onClick={() => {
+                              window.open(
+                                oneprojectData.project_website,
+                                '_blank',
+                                'noopener,noreferrer',
+                              )
+                            }}
                           >
                             Visit Website{' '}
                             <Icon as={BsArrowUpRight} h={4} w={4} mr={3} />
@@ -556,6 +649,7 @@ console.log(oneprojectData);
                           height="50px"
                           rounded="33px"
                         >
+                          <a href={ state.request + '/download?filename=' + oneprojectData.project_whitepaper}>
                           <Box
                             variant="solid"
                             color="white"
@@ -565,6 +659,7 @@ console.log(oneprojectData);
                           >
                             See Whitepaper
                           </Box>
+                          </a>
                         </ImageTransition>
                       </Flex>
                       <Flex
@@ -582,7 +677,7 @@ console.log(oneprojectData);
                           border3="linear-gradient(180deg, #DEDBDB 0%, #DEDBDB 100%)"
                           background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
                           selected={false}
-                          width="170px"
+                          width="250px"
                           height="50px"
                           rounded="33px"
                         >
@@ -593,7 +688,7 @@ console.log(oneprojectData);
                             align="center"
                             onClick={() => next()}
                           >
-                            Back {state.oneprojectData.project_name}
+                            Back {oneprojectData.project_name}
                           </Box>
                         </ImageTransition>
                       </Flex>
@@ -605,11 +700,11 @@ console.log(oneprojectData);
                     height={{ lg: '484px' }}
                     paddingLeft={{ lg: '55px' }}
                   >
-                    <Text  alignSelf={'flex-start'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }} mt={'25px'}>
+                    <Text  alignSelf={'flex-start'}>
                       Details
                     </Text>
 
-                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
+                    <HStack width={'100%'}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -624,11 +719,11 @@ console.log(oneprojectData);
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          Voting
+                          {GetProjectStatusString(oneprojectData.project_status)}
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
+                    <HStack width={'100%'}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -643,11 +738,11 @@ console.log(oneprojectData);
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          Voting
+                          {oneprojectData.project_chain}
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
+                    <HStack width={'100%'}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -662,11 +757,11 @@ console.log(oneprojectData);
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          Voting
+                          {oneprojectData.backer_states && oneprojectData.backer_states.length}
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
+                    <HStack width={'100%'}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -681,11 +776,11 @@ console.log(oneprojectData);
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          Voting
+                          {oneprojectData.project_collected}
                         </Text>
                       </Flex>
                     </HStack>
-                    <HStack width={'100%'} paddingLeft={{ base: '25%', md: '25%', lg: '0%' }}>
+                    <HStack width={'100%'}>
                       <Flex width={'50%'} alignSelf={'flex-start'}>
                         <Text
                         color={'rgba(255, 255, 255, 0.84)'}
@@ -700,7 +795,7 @@ console.log(oneprojectData);
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          Voting
+                          {oneprojectData.project_category}
                         </Text>
                       </Flex>
                     </HStack>
@@ -716,7 +811,7 @@ console.log(oneprojectData);
                         <Flex>
                           <Text>
                             Progress : {totalBackedMoney} out of{' '}
-                            {state.oneprojectData.project_collected} UST
+                            {oneprojectData.project_collected} UST
                           </Text>
                         </Flex>
                         <Flex
@@ -727,12 +822,12 @@ console.log(oneprojectData);
                           }}
                         >
                           <CircularProgress
-                            value={40}
+                            value={totalBackedPercent}
                             size="120px"
                             color="#00A3FF;"
                           >
                             <CircularProgressLabel>
-                              {percent}%
+                              {totalBackedPercent}%
                             </CircularProgressLabel>
                           </CircularProgress>
                           {/* The progress - Replace with functional ones*/}
@@ -775,7 +870,7 @@ console.log(oneprojectData);
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
                         WeFund Mission is: 
-                        Host high-quality projects that align with WeFund’s investor community.
+                        Host high-quality projects that align with WeFund's investor community.
                         </chakra.p>
                         <chakra.p fontSize={'18px'}
                         marginBottom={'20px'}
@@ -787,7 +882,7 @@ console.log(oneprojectData);
                         marginBottom={'20px'}
                         color={'rgba(255, 255, 255, 0.5)'}
                       >
-                        Project funds managed exclusively on Terra’s Anchor protocol using smart contracts and following the Milestone.
+                        Project funds managed exclusively on Terra's Anchor protocol using smart contracts and following project milestones.
                       </chakra.p>
               
                   
@@ -797,7 +892,7 @@ console.log(oneprojectData);
                         color={'rgba(255, 255, 255, 0.5)'}
                         w={{ base: '400px', lg: '1000px' }}
                       >
-                        {state.oneprojectData.project_description}
+                        {oneprojectData.project_description}
                       </chakra.p>
                     </Flex>
                     <Flex
@@ -850,7 +945,7 @@ console.log(oneprojectData);
                           <Image
                             height="35px"
                             objectFit="cover"
-                            src="/WeFund Logos only.png"
+                            src="/media/WeFund-Logos-only.png"
                             alt="UST Avatar"
                           />
                           <VStack textAlign={'left'}>
@@ -939,17 +1034,18 @@ console.log(oneprojectData);
                       flexDirection="column"
                       background={'rgba(255, 255, 255, 0.05)'}
                       border={'1.5px solid rgba(255, 255, 255, 0.15)'}
-                      visibility={{base:'hidden',md:'hidden', lg:'visible'}}
+                      display={{base:'none',md:'none', lg:'block'}}
                     >
-                      <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} visibility={{base:'hidden',md:'hidden', lg:'visible'}} >
-                      <Chart
-      chartType="Gantt"
-      width="100%"
-      height="50%"
-      background='rgba(255, 255, 255, 0.05)'
-      data={data}
-      options={options}
-    />
+                      <Flex mt='60px' justify='center' align='center' direction='column' maxWidth={{base:'0px',md:'0px',lg:'999px'}} maxHeight={{base:'0px',md:'0px',lg:'999px'}} 
+                      display={{base:'none',md:'none', lg:'block'}} >
+                        {/* <Chart
+                          chartType="Gantt"
+                          width="100%"
+                          height="50%"
+                          background='rgba(255, 255, 255, 0.05)'
+                          data={data}
+                          options={options}
+                        /> */}
                         <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Project Milestones List</Text>
                         <Table variant='simple'>
                           <TableCaption style={{color:'#00A3FF'}}>Milestones that project have. Details might be more on Project own's website. Project Milestone up for voting would be listed for voting. 
@@ -963,40 +1059,24 @@ console.log(oneprojectData);
                               <Th style={{color:'#00A3FF'}}>Milestone Fund Amount</Th>
                               <Th style={{color:'#00A3FF'}}>Milestone Voting</Th>
                               <Th style={{color:'#00A3FF'}}>Milestone Status</Th>
-                              <Th style={{color:'#00A3FF'}}>Milestone External Detail</Th>
                             </Tr>
                           </Thead>
                           <Tbody bgColor={' rgba(196, 196, 196, 0.08)'} borderRadius={'10px 10px 0px 0px'}> 
-                            <Tr>
-                            <Td >1</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onVoteBoxOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
+                            {oneprojectData != '' && 
+                            oneprojectData.milestone_states.map((milestone, index) => (
+                            <Tr key={index}>
+                            <Td >{milestone.milestone_step}</Td>
+                            <Td >{milestone.milestone_name} </Td>
+                            <Td >{milestone.milestone_startdate}</Td>
+                            <Td >{milestone.milestone_enddate}</Td>
+                            <Td >{milestone.milestone_amount}</Td>
+                            <Td >
+                              {milestone.milestone_votingavailable &&
+                              <Button onClick={onOpen} colorScheme={'teal'}>Vote & Details</Button>}
+                            </Td>
+                            <Td >{milestone.milestone_statusmessage}</Td>
                             </Tr>
-                            <Tr>
-                            <Td >2</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onVoteBoxOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
-                            </Tr>
-                            <Tr>
-                            <Td >3</Td>
-                            <Td >Prototype Making </Td>
-                            <Td >20 . 02 . 2022 </Td>
-                            <Td >20 . 04 . 2022 </Td>
-                            <Td >$20.000,00 </Td>
-                            <Td ><Button onClick={onVoteBoxOpen} colorScheme={'teal'}>Vote & Details</Button></Td>
-                            <Td >Not Yet Started</Td>
-                            <Td ><Text color={'#FE8600'}>See More</Text></Td>
-                            </Tr>
+                            ))}
                           </Tbody>
                         </Table>
 
@@ -1020,16 +1100,16 @@ console.log(oneprojectData);
             <ModalCloseButton />
             <ModalBody>
               <Text textAlign={'left'}>
-                                  Project Project Milestone Description <br/>
-                                  Aliquip mollit sunt qui irure. Irure ullamco Lorem
-                                  excepteur dolor qui ea ad quis. Enim fugiat cillum enim
-                                  ad occaecat sint qui elit labore mollit sunt laborum
-                                  fugiat consequat. Voluptate labore sunt duis eu
-                                  deserunt. Occaecat do ut ut labore cillum enim dolore ad
-                                  enim enim id. Aliquip do veniam ad excepteur ad cillum
-                                  qui deserunt nostrud sunt aliqua duis sunt occaecat.
-                                  Laborum incididunt commodo ullamco proident quis.
-                </Text>
+                Project Project Milestone Description <br/>
+                Aliquip mollit sunt qui irure. Irure ullamco Lorem
+                excepteur dolor qui ea ad quis. Enim fugiat cillum enim
+                ad occaecat sint qui elit labore mollit sunt laborum
+                fugiat consequat. Voluptate labore sunt duis eu
+                deserunt. Occaecat do ut ut labore cillum enim dolore ad
+                enim enim id. Aliquip do veniam ad excepteur ad cillum
+                qui deserunt nostrud sunt aliqua duis sunt occaecat.
+                Laborum incididunt commodo ullamco proident quis.
+              </Text>
             </ModalBody>
             <ModalFooter>
                 <Button colorScheme='grey' mr={3} onClick={onVoteBoxClose}>
@@ -1037,13 +1117,13 @@ console.log(oneprojectData);
                 </Button>
                 <Button colorScheme='blue' mr={3} 
                   onClick={()=>{
-                    onClose(); MilestoneVote(state.oneprojectData.project_id, true);}}
+                    onClose(); MilestoneVote(oneprojectData.project_id, true);}}
                 >
                   Vote Yes
                 </Button>
                 <Button colorScheme='red' mr={3}
                   onClick={()=>{
-                    onClose(); MilestoneVote(state.oneprojectData.project_id, false);}}
+                    onClose(); MilestoneVote(oneprojectData.project_id, false);}}
                 >
                   Vote No
                 </Button>

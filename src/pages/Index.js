@@ -113,7 +113,7 @@ export default () => {
             <OurMissions />
             <Industry />
             <RoadMap />
-            <Partners />
+            {/* <Partners /> */}
             <Footer />
           </>
         )}
