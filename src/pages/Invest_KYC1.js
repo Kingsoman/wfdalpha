@@ -28,14 +28,14 @@ export default function InvestKYC1() {
       >
         <div
           style={{
-            backgroundImage: "url('/createproject_banner_emphasis.svg')",
+            backgroundImage: "url('/media/createproject_banner_emphasis.svg')",
             width: '100%',
             zIndex: '10',
           }}
         >
           <div
             style={{
-              backgroundImage: "url('/createproject_banner.svg')",
+              backgroundImage: "url('/media/createproject_banner.svg')",
               position: 'absolute',
               top: '80px',
               width: '100%',

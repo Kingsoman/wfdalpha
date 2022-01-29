@@ -77,7 +77,7 @@ export default function BackProject() {
 
       const oneprojectData = GetOneProject(projectData, _project_id);
       if(oneprojectData == ''){
-        notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
+        notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
         return;
       }
 
@@ -97,11 +97,11 @@ export default function BackProject() {
     CheckNetwork(connectedWallet, notificationRef, state);
 
     if(backAmount != parseInt(backAmount).toString()){
-      notificationRef.current.showNotification("Invalid number format!", "error", 4000);
+      notificationRef.current.showNotification("Invalid number format", "error", 4000);
       return;
     }
     if(parseInt(backAmount) < 6){
-      notificationRef.current.showNotification("Back money at least 6 UST", "error", 4000);
+      notificationRef.current.showNotification("Amount must be at least 6 UST", "error", 4000);
       return;
     }
 
@@ -113,7 +113,7 @@ export default function BackProject() {
 
     const oneprojectData = GetOneProject(projectData, _project_id);
     if(oneprojectData == ''){
-      notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
+      notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
       return;
     }
     const isCommunityMember = isCommunityWallet(state, _project_id);
@@ -127,9 +127,9 @@ export default function BackProject() {
 
     if(leftAmount <= 0){
       if(isCommunityMember)
-        notificationRef.current.showNotification("Community allocation is already collected! You can't back", 'error', 6000);
+        notificationRef.current.showNotification("Community allocation is already collected! You can't back this project.", 'error', 6000);
       else
-        notificationRef.current.showNotification("Backer allocation is already collected! You can't back", 'error', 6000);
+        notificationRef.current.showNotification("Backer allocation is already collected! You can't back back this project.", 'error', 6000);
       return;
     }
 
@@ -156,12 +156,12 @@ export default function BackProject() {
     <ChakraProvider resetCSS theme={theme}>
       <div style={{background:"linear-gradient(90deg, #1F0021 0%, #120054 104.34%)", 
       width:'100%', color:'white', fontSize:'18px', fontFamily:'Sk-Modernist', fontWeight:'700' }}>
-        <div style={{backgroundImage:"url('/createproject_banner_emphasis.svg')", width:'100%', zIndex:'10'}}>
-        <div style={{backgroundImage:"url('/createproject_banner.svg')", position:'absolute', top:'80px', 
+        <div style={{backgroundImage:"url('/media/createproject_banner_emphasis.svg')", width:'100%', zIndex:'10'}}>
+        <div style={{backgroundImage:"url('/media/createproject_banner.svg')", position:'absolute', top:'80px', 
         width:'100%', zIndex:'11',backgroundPosition:'center', backgroundRepeat:'no-repeat', backgroundSize:'cover'}}>
           <Flex pt='95px' justify="center">
             <Text fontSize='16px' fontWeight='normal' color={'rgba(255, 255, 255, 0.54)'}>Home &gt;&nbsp;</Text>
-            <Text fontSize='16px' color={'rgba(255, 255, 255, 0.84)'}>Back the Project</Text>
+            <Text fontSize='16px' color={'rgba(255, 255, 255, 0.84)'}>Back the project</Text>
           </Flex>
           <Flex mt='11px' pb='55px' mb="75px" justify='center'
             style={{fontFamily:'PilatExtended-Bold'}}>
@@ -182,7 +182,7 @@ export default function BackProject() {
           </Flex>
           {/* --------amount to back----------- */}
           <Flex mt='83px' textAlign={'left'} justify="space-between" align='center' direction='column'>
-                <Text mb='20px' textAlign={'center'} justify={'center'}>Select Tokens and Entry Amount to back</Text>
+                <Text mb='20px' textAlign={'center'} justify={'center'}>Select tokens and enter amount to back</Text>
           <InputTransition 
             unitid='backamount'
             selected={backAmount==''?false:true}
@@ -221,7 +221,7 @@ export default function BackProject() {
               }
             </InputTransition>
 
-            <Text ml='10px' fontSize='14px' fontWeight='400'>I agree with all conditions of this Project and WeFund</Text>
+            <Text ml='10px' fontSize='14px' fontWeight='400'>I agree with all conditions of this project and WeFund</Text>
           </Flex>
           </Flex>
           {/* -----------------Back Project----------------- */}

@@ -334,7 +334,7 @@ console.log("redraw");
         >
           <div
             style={{
-              backgroundImage: "url('/createproject_banner.svg')",
+              backgroundImage: "url('/media/createproject_banner.svg')",
               width: '100%',
               zIndex: '11',
               backgroundPosition: 'center',
@@ -442,7 +442,7 @@ console.log("redraw");
             textAlign={'center'}
             py={'30px'}
           >
-            <Text>MileStone Fundraising</Text>
+            <Text>Milestone Fundraising</Text>
           </Box>
           <Box
             border={'1px solid rgba(255, 255, 255, 0.05)'}
@@ -456,7 +456,7 @@ console.log("redraw");
             textAlign={'center'}
             py={'30px'}
           >
-            <Text>MileStone Delivery</Text>
+            <Text>Milestone Delivery</Text>
           </Box>
           <Box
             border={'1px solid rgba(255, 255, 255, 0.05)'}
@@ -522,7 +522,7 @@ console.log("redraw");
                           fontSize={{ base: '15px', md: '15px', lg: '22px' }}
                           width={'100px'}
                         >
-                          {state.projectData.length} Projects
+                          {state.projectData.length} Project{state.projectData.length === 1 ? '' : 's'}
                         </Text>
                       </Flex>
                     </Flex>
@@ -857,7 +857,7 @@ console.log("redraw");
                         <Text
                           fontSize={{ base: '15px', md: '15px', lg: '22px' }}
                         >
-                          {state.projectData.length} Projects
+                          {state.projectData.length} Project{state.projectData.length === 1 ? '' : 's'}
                         </Text>
                       </Flex>
                     </Flex>

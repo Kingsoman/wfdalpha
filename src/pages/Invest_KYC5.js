@@ -33,14 +33,14 @@ export default function InvestKYC5() {
       >
         <div
           style={{
-            backgroundImage: "url('/createproject_banner_emphasis.svg')",
+            backgroundImage: "url('/media/createproject_banner_emphasis.svg')",
             width: '100%',
             zIndex: '10',
           }}
         >
           <div
             style={{
-              backgroundImage: "url('/createproject_banner.svg')",
+              backgroundImage: "url('/media/createproject_banner.svg')",
               position: 'absolute',
               top: '80px',
               width: '100%',
@@ -105,7 +105,7 @@ export default function InvestKYC5() {
                     height: '24px',
                     width: '24px',
                     border: '3px solid #3BE489',
-                    backgroundColor: ' #3BE489',
+                    backgroundColor: '#3BE489',
                     borderRadius: '50%',
                     display: 'inline-block',
                   }}
