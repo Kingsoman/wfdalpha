@@ -28,50 +28,49 @@ export default function Partners() {
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/media/Kommunitas.png" 
-            />
+            <Image src="/media/partners/Kommunitas.png" />
           </a>
-          <a href='https://www.youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA'
+          <a href='https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/media/pandai.png" />
+            <Image src="/media/partners/pandai.png" />
           </a>
           <a href='https://linktr.ee/DanceroNFT'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/media/dancero.jpg" />
+            <Image src="/media/partners/dancero.jpg" />
           </a>
           <a href='https://baksomania.com/'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/media/Baksomania.png" />
+            <Image src="/media/partners/Baksomania.png" />
           </a>
           <a href='https://moggiesverse.com/'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/media/Moggie.jpg" />
+            <Image src="/media/partners/Moggie.jpg" />
           </a>
-          <a href='https://www.pinecone.community/#/home'
+          <a href='https://pinecone.community/'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/media/pinecone.png" />
+            <Image src="/media/partners/pinecone.png" />
           </a>
           <a href='https://terraspaces.org/'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/media/terraspace.jpg" />
+            <Image src="/media/partners/terraspace.jpg" />
           </a>
           <a href='https://www.lunapad.co/'
           alignItems="center"
           justifyContent="center"
           alignContent='center'>
-            <Image src="/media/lunapad.png" />
+            <Image src="/media/partners/lunapad.png" />
           </a>
         </SimpleGrid>
       </Box>
