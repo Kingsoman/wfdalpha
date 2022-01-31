@@ -1,4 +1,11 @@
-import { ChakraProvider } from '@chakra-ui/react'
+import React, {
+  useRef,
+  useMemo,
+  useState,
+  useEffect,
+  forwardRef,
+  useCallback,
+} from 'react'
 import {
   Box,
   Flex,
@@ -9,48 +16,41 @@ import {
   HStack,
   VStack,
   chakra,
+  Button,
+  ChakraProvider,
   CircularProgress,
   CircularProgressLabel,
-  Button,
 } from '@chakra-ui/react'
-import { WasmAPI, LCDClient, MsgExecuteContract } from '@terra-money/terra.js'
-import { BsArrowUpRight } from 'react-icons/bs'
-import Pagination from '@choc-ui/paginator'
+import {
+  Sleep,
+  FetchData,
+  EstimateSend,
+  CheckNetwork,
+  isBackerWallet,
+  isWefundWallet,
+  GetProjectStatus,
+  isCommunityWallet,
+} from '../components/Util'
 import {
   MdOutlinePlace,
   MdOutlineCategory,
   MdOutlineAccountBalanceWallet,
 } from 'react-icons/md'
-import { Link, useNavigate } from '@reach/router'
-import React, {
-  useEffect,
-  useState,
-  useMemo,
-  useRef,
-  forwardRef,
-  useCallback,
-} from 'react'
-
-import { useStore } from '../store'
-import theme from '../theme'
 import {
   ImageTransition,
   ButtonTransition,
   ButtonBackTransition,
   ButtonOrangeBackTransition,
 } from '../components/ImageTransition'
+import theme from '../theme'
+import { useStore } from '../store'
 import Footer from '../components/Footer'
+import Pagination from '@choc-ui/paginator'
+import Tabs from '../components/Explore/Tabs'
+import { BsArrowUpRight } from 'react-icons/bs'
+import { Link, useNavigate } from '@reach/router'
 import Notification from '../components/Notification'
-import {
-  GetProjectStatus,
-  EstimateSend,
-  CheckNetwork,
-  FetchData,
-  isWefundWallet,
-  isCommunityWallet,
-  isBackerWallet,
-  Sleep,
-} from '../components/Util'
+import { WasmAPI, LCDClient, MsgExecuteContract } from '@terra-money/terra.js'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -59,10 +59,9 @@ if (typeof document !== 'undefined') {
 }
 
 export default function ExplorerProject() {
+  const navigate = useNavigate()
   const { state, dispatch } = useStore()
   const [postProjectData, setPostProjectData] = useState('')
-
-  const navigate = useNavigate()
 
   let activeTab
   //------------extract active mode----------------------------
@@ -267,12 +266,12 @@ export default function ExplorerProject() {
     const community = value?.community_backedPercent
     return (
       <>
-        {GetActiveTab() == 'CommuntyApproval' && (
+        {activeTab == 'CommuntyApproval' && (
           <CircularProgress value={vote} size={sz} color="blue.600">
             <CircularProgressLabel>{vote}%</CircularProgressLabel>
           </CircularProgress>
         )}
-        {GetActiveTab() == 'MileStoneFundraising' && (
+        {activeTab == 'MileStoneFundraising' && (
           <>
             <CircularProgress value={community} size={sz} color="blue.600">
               <CircularProgressLabel>{community}%</CircularProgressLabel>
@@ -282,7 +281,7 @@ export default function ExplorerProject() {
             </CircularProgress>
           </>
         )}
-        {GetActiveTab() == 'MileStoneDelivery' && (
+        {activeTab == 'MileStoneDelivery' && (
           <CircularProgress value={released} size={sz} color="blue.600">
             <CircularProgressLabel>{released}%</CircularProgressLabel>
           </CircularProgress>
@@ -333,95 +332,16 @@ export default function ExplorerProject() {
 
         <Text fontSize="18px" color={'rgba(255, 255, 255, 0.84)'}>
           Project Status:
-          {GetActiveTab() === 'WeFundApproval' && ' Under WeFund Approval'}
-          {GetActiveTab() === 'CommuntyApproval' && ' Under CommunitApproval'}
-          {GetActiveTab() === 'MileStoneFundraising' && ' Milestone Fundrasing'}
-          {GetActiveTab() === 'MileStoneDelivery' && ' Milestone Delivery'}
-          {GetActiveTab() === 'ProjectComplete' && ' Project Completed'}
+          {activeTab === 'WeFundApproval' && ' Under WeFund Approval'}
+          {activeTab === 'CommuntyApproval' && ' Under CommunitApproval'}
+          {activeTab === 'MileStoneFundraising' && ' Milestone Fundrasing'}
+          {activeTab === 'MileStoneDelivery' && ' Milestone Delivery'}
+          {activeTab === 'ProjectComplete' && ' Project Completed'}
         </Text>
 
-        {/*---------------- Tabs-------------------- */}
-        <Flex
-          mt="50px"
-          cursor="pointer"
-          justify="center"
-          width={{ lg: '80%' }}
-          bg={'rgba(255, 255, 255, 0.05)'}
-        >
-          <Box
-            bg={
-              GetActiveTab() == 'WeFundApproval'
-                ? '#13002B'
-                : 'rgba(255, 255, 255, 0.05)'
-            }
-            border={'1px solid rgba(255, 255, 255, 0.05)'}
-            onClick={() => onChangeActivetab('WeFundApproval')}
-            width={{ lg: '20%' }}
-            textAlign={'center'}
-            py={'30px'}
-          >
-            <Text>WeFund Approval</Text>
-          </Box>
-          <Box
-            border={'1px solid rgba(255, 255, 255, 0.05)'}
-            bg={
-              GetActiveTab() == 'CommuntyApproval'
-                ? '#13002B'
-                : 'rgba(255, 255, 255, 0.05)'
-            }
-            onClick={() => onChangeActivetab('CommuntyApproval')}
-            width={{ lg: '20%' }}
-            textAlign={'center'}
-            py={'30px'}
-          >
-            <Text>Communty Approval</Text>
-          </Box>
-          <Box
-            bg={
-              GetActiveTab() == 'MileStoneFundraising'
-                ? '#13002B'
-                : 'rgba(255, 255, 255, 0.05)'
-            }
-            onClick={() => onChangeActivetab('MileStoneFundraising')}
-            border={'1px solid rgba(255, 255, 255, 0.05)'}
-            width={{ lg: '20%' }}
-            textAlign={'center'}
-            py={'30px'}
-          >
-            <Text>Milestone Fundraising</Text>
-          </Box>
-          <Box
-            border={'1px solid rgba(255, 255, 255, 0.05)'}
-            bg={
-              GetActiveTab() == 'MileStoneDelivery'
-                ? '#13002B'
-                : 'rgba(255, 255, 255, 0.05)'
-            }
-            onClick={() => onChangeActivetab('MileStoneDelivery')}
-            width={{ lg: '20%' }}
-            textAlign={'center'}
-            py={'30px'}
-          >
-            <Text>Milestone Delivery</Text>
-          </Box>
-          <Box
-            border={'1px solid rgba(255, 255, 255, 0.05)'}
-            bg={
-              GetActiveTab() == 'ProjectComplete'
-                ? '#13002B'
-                : 'rgba(255, 255, 255, 0.05)'
-            }
-            onClick={() => onChangeActivetab('ProjectComplete')}
-            width={{ lg: '20%' }}
-            textAlign={'center'}
-            py={'30px'}
-          >
-            <Text>Project Complete</Text>
-          </Box>
-        </Flex>
+        <Tabs activeTab={activeTab} onChangeActivetab={onChangeActivetab} />
 
         {/* Projects Incubated */}
-
         <Flex w={{ lg: '80%' }} justify="center" mt="50px">
           <Box fontFamily={'Sk-Modernist-Regular'} w={'100%'}>
             <Flex w={'100%'} justify="center" zIndex={'1'}>
