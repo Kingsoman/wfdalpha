@@ -16,6 +16,7 @@ import theme from './theme'
 import Navbar from './components/Navbar'
 import Index from 'pages/Index'
 import Faq from 'pages/Faq'
+import WalletInfo from 'pages/WalletInfo'
 import ExplorerProject from 'pages/ExploreComingSoon'
 import CreateProject from 'pages/CreateProject'
 import BackProject from 'pages/BackProject'
@@ -120,6 +121,7 @@ class App extends Component {
                   <Invest_KYC4 path="invest_kyc4" />
                   <Invest_KYC5 path="invest_kyc5" />
                   <Invest_KYC6 path="invest_kyc6" />
+                  <WalletInfo path="walletInfo" />
                   <Blog path="blog" />
                   <Dashboard path="dashboard" />
                   <NotFound default />

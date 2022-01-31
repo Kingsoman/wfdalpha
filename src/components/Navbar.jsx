@@ -1,21 +1,21 @@
 import React from 'react'
-import ConnectWallet from './ConnectWallet'
-import { Link } from '@reach/router'
 import {
-  ChakraProvider,
-  Image,
-  Flex,
   Box,
   Text,
+  Icon,
+  Flex,
+  Image,
   VStack,
   HStack,
+  ChakraProvider,
 } from '@chakra-ui/react'
-
 import theme from '../theme'
-import { ButtonBackTransition } from '../components/ImageTransition'
-import { Container } from '../components/Container'
 import '../styles/Navbar.css'
-import UserSideSnippet from './UserInfoDrawer'
+import { Link } from '@reach/router'
+import ConnectWallet from './ConnectWallet'
+import { RiAccountPinBoxFill } from 'react-icons/ri'
+import { Container } from '../components/Container'
+import { ButtonBackTransition } from '../components/ImageTransition'
 
 export default function Navbar() {
   return (
@@ -65,21 +65,23 @@ export default function Navbar() {
                 </Link>
               </ButtonBackTransition>
 
-              <Flex w="197px" ml="20px">
+              <Flex w="197px" ml="20px" mr={'10px'}>
                 <ConnectWallet />
               </Flex>
-              <UserSideSnippet />
+              <Link to="walletInfo">
+                <Icon as={RiAccountPinBoxFill} fontSize={'45px'} />
+              </Link>
             </Flex>
           </Flex>
         </VStack>
         <VStack display={{ base: 'block', md: 'block', lg: 'none' }}>
           <Flex
-            direction="row"
-            justify="space-between"
-            h="80px"
-            zIndex="99"
+            h="60px"
             w="100%"
+            zIndex="99"
+            direction="row"
             position="relative"
+            justify="space-between"
             backdropFilter="blur(54px)"
             borderBottom="2px solid rgba(255, 255, 255, 0.103)"
           >
@@ -88,24 +90,26 @@ export default function Navbar() {
                 <Image
                   alt="Wefund"
                   src="/media/WeFund-Logos-only.png"
-                  h="30px"
+                  h="25px"
                 />
               </Link>
             </Flex>
             <HStack>
-              <Flex mr="30px" className="dropdown2">
+              <Flex mr="10px" className="dropdown2">
                 <Flex className="dropbtn">
-                  <Image alt="menu1" src="/media/menuButton1.svg" h="28px" />
+                  <Image alt="menu1" src="/media/menuButton1.svg" h="20px" />
                 </Flex>
                 <div className="dropdown-content2">
                   <ConnectWallet />
                 </div>
               </Flex>
               <Flex pr="30px" className="dropdown">
-                <Flex className="dropbtn">
-                  <Image alt="menu2" src="/media/menuButton2.svg" h="28px" />
+                <Flex className="dropbtn" mr={'20px'}>
+                  <Image alt="menu2" src="/media/menuButton2.svg" h="20px" />
                 </Flex>
-                <UserSideSnippet />
+                <Link to="walletInfo">
+                  <Icon as={RiAccountPinBoxFill} fontSize={'30px'} />
+                </Link>
                 <div className="dropdown-content">
                   {NAV_ITEMS.map((navItem, index) => (
                     <Link to={navItem.href} key={index}>

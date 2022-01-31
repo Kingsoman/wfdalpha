@@ -169,6 +169,15 @@ export default function Industry() {
                     >
                       {projectItem.description}
                     </Text>
+                    <Text
+                      id="displayNoneInDesktop"
+                      className="projectDesc"
+                      fontFamily="Sk-Modernist-Regular"
+                      mt="10px"
+                      mb="20px"
+                    >
+                      {projectItem.mobile}
+                    </Text>
                   </Box>
                   {projectItem.state === 'Ongoing' && (
                     <Box>
