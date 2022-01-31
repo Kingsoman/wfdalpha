@@ -80,10 +80,7 @@ export default function ExplorerProject() {
   function onChangeActivetab(mode) {
     if (state.timer != '') {
       clearInterval(state.timer)
-      dispatch({
-        type: 'setTimer',
-        message: '',
-      })
+      dispatch({ type: 'setTimer', message: '' })
     }
     navigate('/explorer?activetab=' + mode)
   }
@@ -170,7 +167,7 @@ export default function ExplorerProject() {
   //-----------fetch project data=-------------------------
   async function fetchContractQuery(force = false) {
     try {
-      let { projectData, communityData, configData } = await FetchData(
+      let { projectData } = await FetchData(
         api,
         notificationRef,
         state,
@@ -183,11 +180,7 @@ export default function ExplorerProject() {
           parseInt(project.project_status) == GetProjectStatus(activeTab),
       )
 
-      dispatch({
-        type: 'setActiveProjectData',
-        message: activeProjectData,
-      })
-
+      dispatch({ type: 'setActiveProjectData', message: activeProjectData })
       setPostProjectData(activeProjectData.slice(0, pageSize))
       setCurrent(1)
     } catch (e) {
@@ -195,23 +188,13 @@ export default function ExplorerProject() {
     }
   }
   //------------Wefund Approve-----------------
-  console.log('redraw')
   async function WefundApprove(project_id) {
     CheckNetwork(connectedWallet, notificationRef, state)
-
     let deadline = Date.now() + 1000 * 60 * 60 * 24 * 15 //for 15days
-    let WefundApproveMsg = {
-      wefund_approve: {
-        project_id: project_id,
-        deadline: `${deadline}`,
-      },
-    }
-
-    let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
       connectedWallet.walletAddress,
-      wefundContractAddress,
-      WefundApproveMsg,
+      state.WEFundContractAddress,
+      { wefund_approve: { project_id, deadline } },
     )
     await EstimateSend(
       connectedWallet,
@@ -223,6 +206,7 @@ export default function ExplorerProject() {
     await Sleep(2000)
     fetchContractQuery(true)
   }
+
   //-----------Community Vote----------------
   async function CommunityVote(project_id, voted, leftTime) {
     CheckNetwork(connectedWallet, notificationRef, state)
@@ -230,17 +214,12 @@ export default function ExplorerProject() {
       notificationRef.current.showNotification('Time is expired', 'error', 4000)
       return
     }
-    let CommunityVoteMsg = {
-      set_community_vote: {
-        project_id: project_id,
-        wallet: connectedWallet.walletAddress,
-        voted: voted,
-      },
-    }
+    let wallet = connectedWallet.walletAddress
+    let CommunityVoteMsg = { set_community_vote: { project_id, wallet, voted } }
 
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      wallet,
       wefundContractAddress,
       CommunityVoteMsg,
     )
@@ -256,18 +235,12 @@ export default function ExplorerProject() {
   }
   async function MilestoneVote(project_id, voted) {
     CheckNetwork(connectedWallet, notificationRef, state)
-
-    let MilestoneVoteMsg = {
-      set_milestone_vote: {
-        project_id: project_id,
-        wallet: connectedWallet.walletAddress,
-        voted: voted,
-      },
-    }
+    let wallet = connectedWallet.walletAddress
+    let MilestoneVoteMsg = { set_milestone_vote: { project_id, wallet, voted } }
 
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      wallet,
       wefundContractAddress,
       MilestoneVoteMsg,
     )
@@ -286,51 +259,31 @@ export default function ExplorerProject() {
     fetchContractQuery()
   }, [activeTab])
 
-  const CircularProgresses = ({ projectItem, sz }) => {
+  const CircularProgresses = ({ value, sz }) => {
+    const released = value?.releasedPercent
+    const vote = value?.communityVotedPercent
+    const backer = value?.backer_backedPercent
+    const community = value?.community_backedPercent
     return (
       <>
         {GetActiveTab() == 'CommuntyApproval' && (
-          <CircularProgress
-            value={projectItem.communityVotedPercent}
-            size={sz}
-            color="blue.600"
-          >
-            <CircularProgressLabel>
-              {projectItem.communityVotedPercent}%
-            </CircularProgressLabel>
+          <CircularProgress value={vote} size={sz} color="blue.600">
+            <CircularProgressLabel>{vote}%</CircularProgressLabel>
           </CircularProgress>
         )}
         {GetActiveTab() == 'MileStoneFundraising' && (
           <>
-            <CircularProgress
-              value={projectItem.community_backedPercent}
-              size={sz}
-              color="blue.600"
-            >
-              <CircularProgressLabel>
-                {projectItem.community_backedPercent}%
-              </CircularProgressLabel>
+            <CircularProgress value={community} size={sz} color="blue.600">
+              <CircularProgressLabel>{community}%</CircularProgressLabel>
             </CircularProgress>
-            <CircularProgress
-              value={projectItem.backer_backedPercent}
-              size={sz}
-              color="blue.600"
-            >
-              <CircularProgressLabel>
-                {projectItem.backer_backedPercent}%
-              </CircularProgressLabel>
+            <CircularProgress value={backer} size={sz} color="blue.600">
+              <CircularProgressLabel>{backer}%</CircularProgressLabel>
             </CircularProgress>
           </>
         )}
         {GetActiveTab() == 'MileStoneDelivery' && (
-          <CircularProgress
-            value={projectItem.releasedPercent}
-            size={sz}
-            color="blue.600"
-          >
-            <CircularProgressLabel>
-              {projectItem.releasedPercent}%
-            </CircularProgressLabel>
+          <CircularProgress value={released} size={sz} color="blue.600">
+            <CircularProgressLabel>{released}%</CircularProgressLabel>
           </CircularProgress>
         )}
       </>
@@ -696,10 +649,7 @@ export default function ExplorerProject() {
                                     {e.project_description.substr(0, 250)}
                                   </chakra.p>
                                 </Flex>
-                                <CircularProgresses
-                                  projectItem={e}
-                                  sz="150px"
-                                />
+                                <CircularProgresses value={e} sz="150px" />
                               </Flex>
                               {GetActiveTab() === 'CommuntyApproval' && (
                                 <HStack>
@@ -1061,7 +1011,7 @@ export default function ExplorerProject() {
                               alignSelf={'center'}
                               marginTop={'20px !important'}
                             >
-                              <CircularProgresses projectItem={e} sz="130px" />
+                              <CircularProgresses value={e} sz="130px" />
                             </Flex>
                             {/* ------------------project buttons---------- */}
                             <Flex
