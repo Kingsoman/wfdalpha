@@ -76,6 +76,7 @@ export default function ExplorerProject() {
   function GetActiveTab() {
     return activeTab
   }
+
   //-----------Change mode---------------------
   function onChangeActivetab(mode) {
     if (state.timer != '') {
@@ -112,7 +113,7 @@ export default function ExplorerProject() {
       return () => clearInterval(id)
     }
   }, [postProjectData])
-  
+
   //-------------paginator-----------------------------------
   const [current, setCurrent] = useState(1)
   const pageSize = 3
@@ -304,27 +305,23 @@ export default function ExplorerProject() {
         background={'linear-gradient(90deg, #1F0021 0%, #120054 104.34%)'}
       >
         <Flex
-          zIndex={'11'}
+          mb={'30px'}
           width={'100%'}
           height={'250px'}
           justify={'center'}
           alignItems={'center'}
           flexDirection={'column'}
           backgroundSize={'cover'}
-          backgroundPosition={'center'}
           backgroundRepeat={'no-repeat'}
           boxShadow={'0px 5px 15px #000000A6'}
           backgroundImage={"url('/media/createproject_banner.svg')"}
         >
-          <Flex fontSize="16px" justify="center">
-            <Text fontWeight="normal" color={'rgba(255, 255, 255, 0.54)'}>
-              Home &gt;&nbsp;
-            </Text>
+          <Flex fontSize="16px" color={'rgba(255, 255, 255, 0.54)'}>
+            Home &gt;&nbsp;
             <Text color={'rgba(255, 255, 255, 0.84)'}>Projects</Text>
           </Flex>
           <Flex
             mt="10px"
-            justify="center"
             fontWeight={'900'}
             fontFamily={'PilatExtended-Bold'}
             fontSize={{ base: '25px', md: '25px', lg: '40px' }}
@@ -334,7 +331,7 @@ export default function ExplorerProject() {
           </Flex>
         </Flex>
 
-        <Text fontSize="18px" color={'rgba(255, 255, 255, 0.84)'} mt={'50px'}>
+        <Text fontSize="18px" color={'rgba(255, 255, 255, 0.84)'}>
           Project Status:
           {GetActiveTab() === 'WeFundApproval' && ' Under WeFund Approval'}
           {GetActiveTab() === 'CommuntyApproval' && ' Under CommunitApproval'}

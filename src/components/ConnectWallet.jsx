@@ -254,7 +254,7 @@ export default function ConnectWallet() {
                   alignItems: 'center',
                 }}
               >
-                <CaretRight size={16} /> Terra Station (QR Scann)
+                <CaretRight size={16} /> Terra Station (QR Code)
               </button>
             </ul>
           </>
@@ -320,7 +320,7 @@ export default function ConnectWallet() {
             <button
               onClick={() => connectTo('mobile')}
             >
-              <CaretRight size={16} /> Terra Station (QR Scann)
+              <CaretRight size={16} /> Terra Station (QR Code)
             </button>
           </div>
         )}
