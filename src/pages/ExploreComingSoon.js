@@ -112,6 +112,7 @@ export default function ExplorerProject() {
       return () => clearInterval(id)
     }
   }, [postProjectData])
+  
   //-------------paginator-----------------------------------
   const [current, setCurrent] = useState(1)
   const pageSize = 3
@@ -121,11 +122,13 @@ export default function ExplorerProject() {
       Prev
     </Button>
   ))
+
   const Next = forwardRef((props, ref) => (
     <Button ref={ref} {...props}>
       Next
     </Button>
   ))
+
   const itemRender = (_, type) => {
     if (type === 'prev') {
       return Prev
@@ -134,6 +137,7 @@ export default function ExplorerProject() {
       return Next
     }
   }
+
   function onChangePaginator(page) {
     if (state.activeProjectData == '') {
       setPostProjectData('')
@@ -147,6 +151,7 @@ export default function ExplorerProject() {
   if (typeof document !== 'undefined') {
     connectedWallet = useConnectedWallet()
   }
+
   //------------notification setting---------------------------------
   const notificationRef = useRef()
 
@@ -155,11 +160,8 @@ export default function ExplorerProject() {
     if (!connectedWallet) {
       return null
     }
-
-    return new LCDClient({
-      URL: connectedWallet.network.lcd,
-      chainID: connectedWallet.network.chainID,
-    })
+    const { lcd, chainID } = connectedWallet.network
+    return new LCDClient({ URL: lcd, chainID })
   }, [connectedWallet])
 
   const api = new WasmAPI(state.lcd_client.apiRequester)
@@ -187,6 +189,7 @@ export default function ExplorerProject() {
       console.log(e)
     }
   }
+
   //------------Wefund Approve-----------------
   async function WefundApprove(project_id) {
     CheckNetwork(connectedWallet, notificationRef, state)
@@ -215,14 +218,9 @@ export default function ExplorerProject() {
       return
     }
     let wallet = connectedWallet.walletAddress
-    let CommunityVoteMsg = { set_community_vote: { project_id, wallet, voted } }
-
-    let wefundContractAddress = state.WEFundContractAddress
-    let msg = new MsgExecuteContract(
-      wallet,
-      wefundContractAddress,
-      CommunityVoteMsg,
-    )
+    let msg = new MsgExecuteContract(wallet, state.WEFundContractAddress, {
+      set_community_vote: { project_id, wallet, voted },
+    })
     await EstimateSend(
       connectedWallet,
       lcd,
@@ -233,6 +231,7 @@ export default function ExplorerProject() {
     await Sleep(2000)
     fetchContractQuery(true)
   }
+
   async function MilestoneVote(project_id, voted) {
     CheckNetwork(connectedWallet, notificationRef, state)
     let wallet = connectedWallet.walletAddress
@@ -254,6 +253,7 @@ export default function ExplorerProject() {
     await Sleep(2000)
     fetchContractQuery(true)
   }
+
   //---------initialize fetching---------------------
   useEffect(() => {
     fetchContractQuery()
