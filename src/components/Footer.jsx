@@ -87,11 +87,14 @@ const PagesLinks = () => (
     <Link href="/" mr={'20px'}>
       Home
     </Link>
-    <Link href="explorer" mr={'20px'}>
+    <Link href="/explorer" mr={'20px'}>
       Projects
     </Link>
-    <Link href="invest_step1" mr={'20px'}>
+    <Link href="/invest_step1" mr={'20px'}>
       Invest In WeFund
+    </Link>
+    <Link href="/blog" mr={'20px'}>
+      Blog
     </Link>
     {/* <Link href="faq" mr={'20px'}>
       FAQ

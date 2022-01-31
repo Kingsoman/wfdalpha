@@ -82,6 +82,10 @@ export default {
             template: 'src/pages/Invest_KYC6',
         },
         {
+            path: 'blog',
+            template: 'src/pages/Blog',
+        },
+        {
             path: 'dashboard',
             template: 'src/pages/Dashboard',
         },

@@ -153,11 +153,11 @@ const NAV_ITEMS = [
   },
   {
     label: 'Projects',
-    href: 'explorer',
+    href: '/explorer',
   },
   {
     label: 'Invest in WeFund',
-    href: 'invest_step1',
+    href: '/invest_step1',
   },
   // {
   //   label: 'Dashboard',
@@ -171,10 +171,10 @@ const NAV_ITEMS = [
   //    label: 'Contact',
   //    href: '#',
   //  },
-  //  {
-  //    label: 'Blog',
-  //    href: '#',
-  //  },
+  {
+    label: 'Blog',
+    href: '/blog',
+  },
   // {
   //   label: 'FAQ',
   //   href: 'faq',

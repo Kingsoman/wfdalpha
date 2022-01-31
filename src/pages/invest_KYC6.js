@@ -1,39 +1,16 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import theme from '../theme'
-import { useNavigate } from '@reach/router'
 import {
-  chakra,
-  Icon,
   Box,
   Flex,
   Text,
-  VStack,
   Image,
-  Img,
   HStack,
-  Select,
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  Textarea,
-  InputLeftElement,
-  InputRightElement,
+  ChakraProvider,
 } from '@chakra-ui/react'
+import theme from '../theme'
 import React, { useState } from 'react'
-import {
-  IoCloudUploadOutline,
-  IoCheckbox,
-  IoChevronUpOutline,
-  IoChevronDownOutline,
-  IoCheckmark,
-} from 'react-icons/io5'
-
-import {
-  ImageTransition,
-  InputTransition,
-  InputTransitiongrey,
-} from '../components/ImageTransition'
+import { useNavigate } from '@reach/router'
 import { CheckIcon } from '@chakra-ui/icons'
+import { ImageTransition } from '../components/ImageTransition'
 
 export default function InvestKYC6() {
   const [condition, setCondition] = useState(false)
@@ -60,17 +37,16 @@ export default function InvestKYC6() {
       >
         <div
           style={{
-            backgroundImage: "url('/createproject_banner_emphasis.svg')",
+            backgroundImage: "url('/media/createproject_banner_emphasis.svg')",
             width: '100%',
             zIndex: '10',
           }}
         >
           <div
             style={{
-              backgroundImage: "url('/createproject_banner.svg')",
+              backgroundImage: "url('/media/createproject_banner.svg')",
               position: 'absolute',
               top: '80px',
-              width: '100%',
               width: '100%',
               zIndex: '11',
               backgroundPosition: 'center',
@@ -132,7 +108,7 @@ export default function InvestKYC6() {
                     height: '24px',
                     width: '24px',
                     border: '3px solid #3BE489',
-                    backgroundColor: ' #3BE489',
+                    backgroundColor: '#3BE489',
                     borderRadius: '50%',
                     display: 'inline-block',
                   }}
@@ -160,7 +136,7 @@ export default function InvestKYC6() {
                     height: '24px',
                     width: '24px',
                     border: '3px solid #3BE489',
-                    backgroundColor: ' #3BE489',
+                    backgroundColor: '#3BE489',
                     borderRadius: '50%',
                     display: 'inline-block',
                   }}
@@ -188,7 +164,7 @@ export default function InvestKYC6() {
                     height: '24px',
                     width: '24px',
                     border: '3px solid #3BE489',
-                    backgroundColor: ' #3BE489',
+                    backgroundColor: '#3BE489',
                     borderRadius: '50%',
                     display: 'inline-block',
                   }}
