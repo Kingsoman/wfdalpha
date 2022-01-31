@@ -22,6 +22,7 @@ const initialState = {
     // WEFundContractAddress: "terra1qcm9957c2gyghkaqgsk0h5mw6xf6ym4xdu7kmu", //mainnet v2.1
     WEFundContractAddress: "terra1rpqlf5y7e5ssg742v5vj0eza5yzjkxk02yapky", //mainnet v2.2
     
+    wefundRate: 0.09,
     referralCount: 0,
     referralLink: '',
     projectData: '',
@@ -56,11 +57,16 @@ const initialState = {
     pdfFile: '',
     whitepaper: '',
     logo: '',
-    fakeid: 1,
+    wefundID: 1,
 }
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'setWefundRate':
+        return {
+            ...state,
+            wefundRate: action.message,
+        }
     case 'setReferralCount':
         return {
             ...state,

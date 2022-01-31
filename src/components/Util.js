@@ -225,15 +225,13 @@ console.log(force);
       notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
     }else{
       //----------fake--------------------------
-      let fakeone = GetOneProject(projectData, state.fakeid);
+      let fakeone = GetOneProject(projectData, state.wefundID);
       fakeone.project_collected = 60000;
       fakeone.communitybacked_amount = 19200*10**6;
-      projectData[GetProjectIndex(projectData, state.fakeid)] = fakeone;
+      projectData[GetProjectIndex(projectData, state.wefundID)] = fakeone;
       //------------------------------------
 
       projectData = AddExtraInfo(state, projectData, communityData);
-console.log( "dispatch projectData");
-console.log(projectData);
       dispatch({
         type: 'setProjectdata',
         message: projectData,
@@ -297,4 +295,15 @@ export function ShortenText(text, startingPoint, maxLength) {
   return text.length > maxLength
     ? text.slice(startingPoint, maxLength)
     : text;
+}
+
+export function ParseParam(){
+  let queryString, urlParams, project_id = 1;
+  if (typeof window != 'undefined') {
+    queryString = window.location.search
+    urlParams = new URLSearchParams(queryString)
+    project_id = urlParams.get('project_id')
+  }
+
+  return project_id;
 }

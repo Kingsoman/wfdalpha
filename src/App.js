@@ -21,6 +21,7 @@ import ExplorerProject from 'pages/ExploreComingSoon'
 import CreateProject from 'pages/CreateProject'
 import BackProject from 'pages/BackProject'
 import DetailProject from 'pages/ProjectDetail'
+import Invest_step0 from 'pages/Invest_step0'
 import Invest_step1 from 'pages/Invest_step1'
 import Invest_step2 from 'pages/Invest_step2'
 import Invest_step3 from 'pages/Invest_step3'
@@ -111,6 +112,7 @@ class App extends Component {
                   <BackProject path="back" />
                   <ExplorerProject path="explorer" />
                   <DetailProject path="detail" />
+                  <Invest_step0 path="invest_step0" />
                   <Invest_step1 path="invest_step1" />
                   <Invest_step2 path="invest_step2" />
                   <Invest_step3 path="invest_step3" />

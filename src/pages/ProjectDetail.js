@@ -47,7 +47,8 @@ import {
   isCommunityWallet,
   isBackerWallet, 
   GetOneProject,
-  GetProjectStatusString
+  GetProjectStatusString,
+  ParseParam,
   }  from '../components/Util'
 
 let useConnectedWallet = {}
@@ -64,13 +65,8 @@ export default function ProjectDetail() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const navigate = useNavigate()
 
-  //------------extract project id----------------------------
-  let queryString, urlParams, project_id
-  if (typeof window != 'undefined') {
-    queryString = window.location.search
-    urlParams = new URLSearchParams(queryString)
-    project_id = urlParams.get('project_id')
-  }
+  //------------parse URL for project id----------------------------
+  let project_id = ParseParam();
 
   //------------connect wallet ---------------------------------
   let connectedWallet = ''
@@ -121,12 +117,9 @@ export default function ProjectDetail() {
     },
     []
   );
-  //------------back button-----------------------------------
-  function next() {
-    if (project_id == state.fakeid)
-      //fake
-      navigate('/invest_step1')
-    else navigate('/back?project_id=' + oneprojectData.project_id)
+
+  function onNext() {
+    navigate('/invest_step1?project_id=' + oneprojectData.project_id)
   }
   //------------fectch project data------------------------------------
   async function fetchContractQuery() {
@@ -386,9 +379,8 @@ function WefundApprove(project_id){
     },
   };
 
-  //--------Visual Code Start
+  //-----------------Visual Code Start----------------------------
   return (
-
     <ChakraProvider resetCSS theme={theme}>
       <div
         style={{
@@ -553,7 +545,7 @@ function WefundApprove(project_id){
                           selected={false}
                           rounded="33px"
                           mb="10px"
-                          onClick={()=>{navigate('/back?project_id=' + oneprojectData.project_id)}}
+                          onClick={onNext}
                         >
                           Back Project
                         </ButtonTransition>
@@ -686,7 +678,7 @@ function WefundApprove(project_id){
                             color="white"
                             justify="center"
                             align="center"
-                            onClick={() => next()}
+                            onClick={onNext}
                           >
                             Back {oneprojectData.project_name}
                           </Box>

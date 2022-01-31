@@ -169,7 +169,7 @@ export default function ExplorerProject() {
     try {
       let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch, force);
       //----------------fake------------------------------
-      const oneprojectData = GetOneProject(projectData, state.fakeid);
+      const oneprojectData = GetOneProject(projectData, state.wefundID);
 
       let fake_projectData = []
       fake_projectData[0] = oneprojectData
