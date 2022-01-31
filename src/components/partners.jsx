@@ -35,7 +35,7 @@ export default function Partners() {
             <Center
             height={'100%'}
             >
-              <Image src="/media/Kommunitas.png" />
+              <Image src="/media/partners/Kommunitas.png" />
             </Center>
           </Link>
           <Link href='https://www.youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA'
@@ -43,7 +43,7 @@ export default function Partners() {
             <Center
             height={'100%'}
             >
-              <Image src="/media/pandai.png" />
+              <Image src="/media/partners/pandai.png" />
             </Center>
           </Link>
           <Link href='https://linktr.ee/DanceroNFT'
@@ -51,7 +51,7 @@ export default function Partners() {
             <Center
             height={'100%'}
             >
-              <Image src="/media/dancero.jpg" />
+              <Image src="/media/partners/dancero.jpg" />
             </Center>
           </Link>
           <Link href='https://baksomania.com/'
@@ -59,7 +59,7 @@ export default function Partners() {
             <Center
             height={'100%'}
             >
-              <Image src="/media/Baksomania.png" />
+              <Image src="/media/partners/Baksomania.png" />
             </Center>
           </Link>
           <Link href='https://moggiesverse.com/'
@@ -67,15 +67,15 @@ export default function Partners() {
             <Center
             height={'100%'}
             >
-              <Image src="/media/Moggie.jpg" />
+              <Image src="/media/partners/Moggie.jpg" />
             </Center>
           </Link>
-          <Link href='https://www.pinecone.community/#/home'
+          <Link href='https://www.pinecone.community/'
           backgroundColor={'#f0f3fa'}>
             <Center
             height={'100%'}
             >
-              <Image src="/media/pinecone.png" />
+              <Image src="/media/partners/pinecone.png" />
             </Center>
           </Link>
           <Link href='https://terraspaces.org/'
@@ -83,7 +83,7 @@ export default function Partners() {
             <Center
             height={'100%'}
             >
-              <Image src="/media/terraspace.jpg" />
+              <Image src="/media/partners/terraspace.jpg" />
             </Center>
           </Link>
           <Link href='https://www.lunapad.co/'
@@ -91,7 +91,7 @@ export default function Partners() {
             <Center
             height={'100%'}
             >
-              <Image src="/media/lunapad.png" />
+              <Image src="/media/partners/lunapad.png" />
             </Center>
           </Link>
         </SimpleGrid>
