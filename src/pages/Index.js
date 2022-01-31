@@ -12,8 +12,6 @@ import Industry from '../components/Industry'
 import OurMissions from '../components/OurMissions'
 import Partners from '../components/partners'
 import { Container } from '../components/Container'
-import '../styles/transition.scss'
-import '../styles/transition.css'
 
 import AOS from 'aos'
 import 'aos/dist/aos.css' // You can also use <link> for styles

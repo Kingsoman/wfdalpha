@@ -1,7 +1,7 @@
-import { Flex, Image, Text } from '@chakra-ui/react'
+import { Flex, Image, Text, UnorderedList, ListItem } from '@chakra-ui/react'
 import React from 'react'
 
-export default function Roadmaps() {
+export default function Roadmap() {
   return (
     <Flex
       w="100%"
@@ -21,11 +21,11 @@ export default function Roadmaps() {
         <Text id="aboutUsPageLable">ROADMAP</Text>
         <Flex id="headingIndustry">
           <Text color="#00A3FF">WeFund&nbsp;</Text>
-          <Text>RoadMap</Text>
+          <Text>Roadmap</Text>
         </Flex>
       </Flex>
 
-      {/* {/ Road Map For Desktop /} */}
+      {/* {/ Roadmap For Desktop /} */}
       <Flex id="RoadMapDesktop">
         <Image src="/media/RoadmapLine.svg" data-aos="zoom-in-up" />
         <Flex id="roadmapBox1">
@@ -35,12 +35,14 @@ export default function Roadmaps() {
             <Text className="RoadmapHeading">January 2022</Text>
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V2</Text>
-            <Text className="RoadmapDesc">
-              -Community registration system -Community Project Approval by
-              voting power -Create project with milestone system -Multi-stage
-              fundraising -Milestone money release with Backers approval voting
-              power -Customer Service
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Community registration system</ListItem>
+              <ListItem>Community project approval by voting power</ListItem>
+              <ListItem>Project creation with milestone system</ListItem>
+              <ListItem>Multi-stage fundraising</ListItem>
+              <ListItem>Milestone funds released with backers approval through voting power</ListItem>
+              <ListItem>Customer service</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox2">
@@ -48,20 +50,22 @@ export default function Roadmaps() {
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
-            <Text className="RoadmapDesc">
-              -Seed Phase until end of January -Starting PreSale
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Seed phase until end of January</ListItem>
+              <ListItem>Pre-sale begins</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox3">
           <Flex className="RoadmapContent2"></Flex>
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapTitle">Projects Incubates</Text>
-            <Text className="RoadmapDesc">
-              Bakso Mania Seed Phase, Pandai Crypto Seed Phase, LynxVR Seed
-              Phase
-            </Text>
+            <Text className="RoadmapTitle">Project Incubation</Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Bakso Mania Seed Phase</ListItem>
+              <ListItem>Pandai Crypto Seed Phase</ListItem>
+              <ListItem>LynxVR Seed Phase</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox4">
@@ -69,9 +73,10 @@ export default function Roadmaps() {
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Documentation</Text>
-            <Text className="RoadmapDesc">
-              Release WhitePaper 2.0 Update Litepaper
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Release Whitepaper 2.0</ListItem>
+              <ListItem>Update Litepaper</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox5">
@@ -79,10 +84,11 @@ export default function Roadmaps() {
             <Text className="RoadmapHeading">February 2022</Text>
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V3</Text>
-            <Text className="RoadmapDesc">
-              Set up Community allocation, Set up WeFund holder allocation, Set
-              up staking mechanism
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Set up community allocation</ListItem>
+              <ListItem>Set up WeFund holder allocation</ListItem>
+              <ListItem>Set up staking mechanism</ListItem>
+            </UnorderedList>
           </Flex>
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent"></Flex>
@@ -90,19 +96,20 @@ export default function Roadmaps() {
         <Flex id="roadmapBox6">
           <Flex className="RoadmapContent2" data-aos="fade-left">
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
-            <Text className="RoadmapDesc">
-              -PreSale Phase until end of February -Pre marketing for IWO
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Presale phase until end of February</ListItem>
+              <ListItem>Marketing for IWO</ListItem>
+            </UnorderedList>
           </Flex>
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent"></Flex>
         </Flex>
         <Flex id="roadmapBox7">
           <Flex className="RoadmapContent2" data-aos="fade-left">
-            <Text className="RoadmapTitle">Projects Incubates</Text>
-            <Text className="RoadmapDesc">
-              Real World Projects (Details coming soon)
-            </Text>
+            <Text className="RoadmapTitle">Project Incubation</Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Real World Projects (Details coming soon)</ListItem>
+            </UnorderedList>
           </Flex>
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent"></Flex>
@@ -110,9 +117,10 @@ export default function Roadmaps() {
         <Flex id="roadmapBox8">
           <Flex className="RoadmapContent2" data-aos="fade-left">
             <Text className="RoadmapTitle">Documentation</Text>
-            <Text className="RoadmapDesc">
-              Release WhitePaper 3.0, Update Litepaper
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Release Whitepaper 3.0</ListItem>
+              <ListItem>Update Litepaper</ListItem>
+            </UnorderedList>
           </Flex>
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent"></Flex>
@@ -124,25 +132,28 @@ export default function Roadmaps() {
             <Text className="RoadmapHeading">March 2022</Text>
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
-            <Text className="RoadmapDesc">- IWO</Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>IWO</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox10">
           <Flex className="RoadmapContent2"></Flex>
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent">
-            <Text className="RoadmapTitle">Project Incubate</Text>
-            <Text className="RoadmapDesc" data-aos="fade-right">
-              Sport Industry first Project Seed Phase, Game Industry first
-              Project Seed Phase, Creative Industry first Project Seed Phase,
-              Real Estate Industry first Project Seed Phase
-            </Text>
+            <Text className="RoadmapTitle">Project Incubation</Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Sport industry first project - Seed phase</ListItem>
+              <ListItem>Game industry first project - Seed phase</ListItem>
+              <ListItem>Creative industry first project - Seed phase</ListItem>
+              <ListItem>Real estate industry first project - Seed phase</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
       </Flex>
-      {/* {/ Road Map For Desktop /} */}
+      {/* {/ Roadmap For Desktop /} */}
 
-      {/* {/ Road Map For Mobile /} */}
+      {/* {/ Roadmap For Mobile /} */}
       <Flex id="RoadMapMobile">
         <Image src="/media/RoadmapLine.svg" id="roadMapLineId" />
         <Flex id="roadmapBox1">
@@ -151,40 +162,45 @@ export default function Roadmaps() {
             <Text className="RoadmapHeading">January 2022</Text>
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V2</Text>
-            <Text className="RoadmapDesc">
-              -Community registration system -Community Project Approval by
-              voting power -Create project with milestone system -Multi-stage
-              fundraising -Milestone money release with Backers approval voting
-              power -Customer Service
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Community registration system</ListItem>
+              <ListItem>Community project approval by voting power</ListItem>
+              <ListItem>Project creation with milestone system</ListItem>
+              <ListItem>Multi-stage fundraising</ListItem>
+              <ListItem>Milestone funds released with backers approval through voting power</ListItem>
+              <ListItem>Customer service</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox2">
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
-            <Text className="RoadmapDesc">
-              -Seed Phase until end of January -Starting PreSale
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Seed phase until end of January</ListItem>
+              <ListItem>Pre-sale begins</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox3">
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapTitle">Projects Incubates</Text>
-            <Text className="RoadmapDesc">
-              Bakso Mania Seed Phase, Pandai Crypto Seed Phase, LinkxVR Seed
-              Phase
-            </Text>
+            <Text className="RoadmapTitle">Project Incubation</Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Bakso Mania Seed Phase</ListItem>
+              <ListItem>Pandai Crypto Seed Phase</ListItem>
+              <ListItem>LynxVR Seed Phase</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox4">
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Documentation</Text>
-            <Text className="RoadmapDesc">
-              Release WhitePaper 2.0 Update Litepaper
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Release Whitepaper 2.0</ListItem>
+              <ListItem>Update Litepaper</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox5">
@@ -193,40 +209,40 @@ export default function Roadmaps() {
             <Text className="RoadmapHeading">February 2022</Text>
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V3</Text>
-            <Text className="RoadmapDesc">
-              Set up Community allocation, Set up WeFund holder allocation, Set
-              up staking mechanism
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Set up community allocation</ListItem>
+              <ListItem>Set up WeFund holder allocation</ListItem>
+              <ListItem>Set up staking mechanism</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox6">
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
-            <Text className="RoadmapDesc">
-              -PreSale Phase until end of February -Pre marketing for IWO
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Presale phase until end of February</ListItem>
+              <ListItem>Marketing for IWO</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox7">
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapTitle">Projects Incubates</Text>
-            <Text className="RoadmapDesc">
-              Green House Seed Phase (Real World Projects), Recycling Bali Seed
-              Phase (Real World Projects), NaturalPool Seed Phase (Real World
-              Projects), GreenProtocol Seed Phase, BattleChain of Duty Seed
-              Phase, JobChain Seed Phase
-            </Text>
+            <Text className="RoadmapTitle">Project Incubation</Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Real World Projects (Details coming soon)</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox8">
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Documentation</Text>
-            <Text className="RoadmapDesc">
-              Release WhitePaper 3.0, Update Litepaper
-            </Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Release Whitepaper 3.0</ListItem>
+              <ListItem>Update Litepaper</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox9">
@@ -235,18 +251,21 @@ export default function Roadmaps() {
             <Text className="RoadmapHeading">March 2022</Text>
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
-            <Text className="RoadmapDesc">- IWO</Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>IWO</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
         <Flex id="roadmapBox10">
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
           <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapTitle">Project Incubate</Text>
-            <Text className="RoadmapDesc">
-              Sport Industry first Project Seed Phase, Game Industry first
-              Project Seed Phase, Creative Industry first Project Seed Phase,
-              Real Estate Industry first Project Seed Phase
-            </Text>
+            <Text className="RoadmapTitle">Project Incubation</Text>
+            <UnorderedList className="RoadmapDesc">
+              <ListItem>Sport industry first project - Seed phase</ListItem>
+              <ListItem>Game industry first project - Seed phase</ListItem>
+              <ListItem>Creative industry first project - Seed phase</ListItem>
+              <ListItem>Real estate industry first project - Seed phase</ListItem>
+            </UnorderedList>
           </Flex>
         </Flex>
       </Flex>

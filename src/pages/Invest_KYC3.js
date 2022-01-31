@@ -1,10 +1,9 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import theme from '../theme';
 import { useNavigate } from '@reach/router'
-import {chakra, Box, Flex, Text, VStack, Image, Img, HStack, Select
-  } from "@chakra-ui/react";
-import React, { useState} from 'react';
-import { ImageTransition, InputTransition, InputTransitiongrey } from "../components/ImageTransition";
+import { Box, Flex, Text, Img, HStack, Select } from "@chakra-ui/react";
+import React, { useState } from 'react';
+import { ImageTransition, InputTransition } from "../components/ImageTransition";
 
 export default function InvestKYC3() {
   const [condition, setCondition] = useState(false);
@@ -184,7 +183,7 @@ export default function InvestKYC3() {
                       <option style={{backgroundColor:'#1B0645',border: '1.5px solid rgba(255, 255, 255, 0.2)', height: '55px', fontFamily:'Sk-Modernist-Regular', fontSize:'15px' }} value="Kenya">Kenya</option>
                       <option style={{backgroundColor:'#1B0645',border: '1.5px solid rgba(255, 255, 255, 0.2)', height: '55px', fontFamily:'Sk-Modernist-Regular', fontSize:'15px' }} value="Kiribati">Kiribati</option>
                       <option style={{backgroundColor:'#1B0645',border: '1.5px solid rgba(255, 255, 255, 0.2)', height: '55px', fontFamily:'Sk-Modernist-Regular', fontSize:'15px' }} value="Korea North">Korea North</option>
-                      <option style={{backgroundColor:'#1B0645',border: '1.5px solid rgba(255, 255, 255, 0.2)', height: '55px', fontFamily:'Sk-Modernist-Regular', fontSize:'15px' }} value="Korea Sout">Korea South</option>
+                      <option style={{backgroundColor:'#1B0645',border: '1.5px solid rgba(255, 255, 255, 0.2)', height: '55px', fontFamily:'Sk-Modernist-Regular', fontSize:'15px' }} value="Korea South">Korea South</option>
                       <option style={{backgroundColor:'#1B0645',border: '1.5px solid rgba(255, 255, 255, 0.2)', height: '55px', fontFamily:'Sk-Modernist-Regular', fontSize:'15px' }} value="Kuwait">Kuwait</option>
                       <option style={{backgroundColor:'#1B0645',border: '1.5px solid rgba(255, 255, 255, 0.2)', height: '55px', fontFamily:'Sk-Modernist-Regular', fontSize:'15px' }} value="Kyrgyzstan">Kyrgyzstan</option>
                       <option style={{backgroundColor:'#1B0645',border: '1.5px solid rgba(255, 255, 255, 0.2)', height: '55px', fontFamily:'Sk-Modernist-Regular', fontSize:'15px' }} value="Laos">Laos</option>
@@ -320,10 +319,10 @@ export default function InvestKYC3() {
                 </InputTransition>
 
                 <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} mt={'20px'} textAlign={'center'} maxW={'465px'} lineHeight={'140%'} fontFamily={'Sk-Modernist-Regular'} mt={'35px'} mb={'10px'}>
-                    Select Document to provide
+                    Select document to provide
                 </Text>
                 
-            <Flex direction={{base: 'column',md: 'column',lg: 'row',}}>
+            <Flex direction={{ base: 'column', md: 'column', lg: 'row' }}>
               {/* ----Passport--- */}
             <ImageTransition
                 unitid="passport"
@@ -357,7 +356,7 @@ export default function InvestKYC3() {
                 width="120px"
                 height="50px"
                 rounded="10px"
-                direction="row"                
+                direction="row"
                 selected={isDriving}
                 ml="20px"
                 onClick={() => {

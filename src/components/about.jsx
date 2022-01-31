@@ -36,21 +36,20 @@ export default function Aboutone() {
               <br />
               WeFund's mission is to host high-quality projects that align with
               WeFund's investor community, community-driven decision making for
-              100% transparency, and manage funds exclusively on Terra's Anchor
+              100% transparency, and managing funds exclusively on Terra's Anchor
               protocol using smart contracts for investor security.
             </Text>
-
             <Text id="aboutUsPageHeadingDesc" mt="30px">
               Select Litepaper Languange
             </Text>
-            <Select value={selectedLang} onChange={handleSelectChange} placeholder='Select option' id='paper-lang' 
+            <Select value={selectedLang} onChange={handleSelectChange} placeholder='Select language' id='paper-lang'
                     border="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
                     background="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
                     color="white" mt="10px">
               <option value='/media/Litepaper_Wefund.pdf' style={{ backgroundColor: '#1B0645' }}>English</option>
               <option value='/media/Litepaper_Wefund_ID.pdf' style={{ backgroundColor: '#1B0645' }}>Indonesian</option>
               <option value='/media/Litepaper_Wefund_ITA.pdf' style={{ backgroundColor: '#1B0645' }}>Italian</option>
-              <option value='/media/Litepaper_Wefund_KOR.pdf' style={{ backgroundColor: '#1B0645' }}>Korea</option>
+              <option value='/media/Litepaper_Wefund_KOR.pdf' style={{ backgroundColor: '#1B0645' }}>Korean</option>
             </Select>
             <a href={selectedLang}>
               <Flex w="100%" mt="30px" id="displayNoneInMobile">
@@ -164,7 +163,6 @@ export default function Aboutone() {
               </Text>
             </Flex>
           </Flex>
-
           <Flex alignItems="center" justifyContent="center">
             <Flex className="aboutUsBox" bg="#200E55">
               <Image className="aboutUsSectionImages" src="/media/incubatore.svg" />
@@ -179,7 +177,6 @@ export default function Aboutone() {
               </Text>
             </Flex>
           </Flex>
-
           <Flex alignItems="center" justifyContent="center">
             <Flex className="aboutUsBox LeftBottomRadiusAboutUs" bg="#291554">
               <Image alt="Crypto Industry" src="/media/voting.svg" />
@@ -190,8 +187,7 @@ export default function Aboutone() {
             <Flex className="aboutUsBox RightBottomRadiusAboutUs" bg="#200E55">
               <Image alt="Crypto Industry" src="/media/lowriskinvestment.svg" />
               <Text className="aboutUsSectionBoxesTexts">
-                Money release with Milestone system after Investor Voting
-                approval
+                Funds released according to milestone system after investor approval by vote
               </Text>
             </Flex>
           </Flex>
