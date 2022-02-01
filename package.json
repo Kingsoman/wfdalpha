@@ -58,7 +58,6 @@
         "react-static-plugin-source-filesystem": "^7.6.2",
         "react-timer-hook": "^3.0.4",
         "react-tsparticles": "^1.39.0",
-        "react-use-intercom": "^1.4.1",
         "reactjs-popup": "^2.0.5",
         "tslib": "^2.3.1"
     },
