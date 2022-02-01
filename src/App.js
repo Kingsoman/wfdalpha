@@ -35,31 +35,28 @@ import Invest_KYC6  from 'pages/Invest_KYC6'
 import Blog from 'pages/Blog'
 import Dashboard from 'pages/Dashboard'
 import NotFound from 'pages/NotFound'
-import { IntercomProvider, useIntercom } from 'react-use-intercom'
 
 class App extends Component {
   render() {
     return (
-      <IntercomProvider appId="pi5l7uoa" onHide={false} autoBoot>
-        <Suspense
-          fallback={
-            <div className="vh-100 d-flex">
-              <div className="align-self-center w-100 text-center">
-                <img src="/media/logo.png" className="img-fluid mb-4" />
-                <p
-                  style={{
-                    color: '#f038f0',
-                    textTransform: 'uppercase',
-                    fontSize: '36px',
-                    fontWeight: '300',
-                    textShadow: '0px 0px 26px #ff36ff',
-                    fontFamily: "'Monoton', cursive",
-                  }}
-                  className="loading_animation"
-                >
-                  Loading...{' '}
-                </p>
-              </div>
+      <Suspense
+        fallback={
+          <div className="vh-100 d-flex">
+            <div className="align-self-center w-100 text-center">
+              <img src="/media/logo.png" className="img-fluid mb-4" />
+              <p
+                style={{
+                  color: '#f038f0',
+                  textTransform: 'uppercase',
+                  fontSize: '36px',
+                  fontWeight: '300',
+                  textShadow: '0px 0px 26px #ff36ff',
+                  fontFamily: "'Monoton', cursive",
+                }}
+                className="loading_animation"
+              >
+                Loading...{' '}
+              </p>
             </div>
           }
         >
