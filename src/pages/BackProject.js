@@ -85,7 +85,8 @@ export default function BackProject() {
 //---------------------back project-----------------------------
   async function backProject()
   {
-    CheckNetwork(connectedWallet, notificationRef, state);
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
 
     if(backAmount != parseInt(backAmount).toString()){
       notificationRef.current.showNotification("Invalid number format", "error", 4000);

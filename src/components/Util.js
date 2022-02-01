@@ -4,6 +4,7 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
 {
   const obj = new Fee(10_000, { uusd: 4500})
   let accountInfo;
+  let abort = false;
   await lcd.auth.accountInfo(
     connectedWallet.walletAddress
   )
@@ -13,9 +14,11 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
   .catch((e) => {
     notificationRef.current.showNotification(e.message, 'error', 4000)
     console.log(e.message);
-    return;
+    abort = true;
   })
-console.log(accountInfo);
+  if(abort == true) 
+    return false;
+
   let txOptions = 
   {
     msgs: [msg],
@@ -41,10 +44,11 @@ console.log(accountInfo);
   .catch((e) => {
     notificationRef.current.showNotification(e.message, 'error', 4000)
     console.log(e.message);
-    return;
+    abort = true;
   })
+  if(abort == true)
+    return false;
 
-  let res = false;
   await connectedWallet
   .post({
     msgs: [msg],
@@ -55,7 +59,6 @@ console.log(accountInfo);
   .then((e) => {
     if (e.success) {
       notificationRef.current.showNotification(message, 'success', 4000)
-      res =  true;
     } else {
       notificationRef.current.showNotification(e.message, 'error', 4000)
       console.log(e.message);
@@ -64,8 +67,11 @@ console.log(accountInfo);
   .catch((e) => {
     notificationRef.current.showNotification(e.message, 'error', 4000)
     console.log(e.message);
+    abort = true;
   })
-  return res;
+  if(abort == true)
+    return false;
+  return true;
 }
 export function GetProjectStatusString(mode){
   let projectstatus = 0;
