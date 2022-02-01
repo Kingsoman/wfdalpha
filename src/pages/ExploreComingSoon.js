@@ -156,14 +156,6 @@ export default function ExplorerProject() {
   const notificationRef = useRef()
 
   //----------init api, lcd-------------------------
-  const lcd = useMemo(() => {
-    if (!connectedWallet) {
-      return null
-    }
-    const { lcd, chainID } = connectedWallet.network
-    return new LCDClient({ URL: lcd, chainID })
-  }, [connectedWallet])
-
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
@@ -201,7 +193,7 @@ export default function ExplorerProject() {
     )
     await EstimateSend(
       connectedWallet,
-      lcd,
+      state.lcd_client,
       msg,
       'WeFund Approve success',
       notificationRef,
@@ -223,7 +215,7 @@ export default function ExplorerProject() {
     })
     await EstimateSend(
       connectedWallet,
-      lcd,
+      state.lcd_client,
       msg,
       'Community vote success',
       notificationRef,
@@ -245,7 +237,7 @@ export default function ExplorerProject() {
     )
     EstimateSend(
       connectedWallet,
-      lcd,
+      state.lcd_client,
       msg,
       'Milestone vote success',
       notificationRef,
@@ -590,7 +582,7 @@ export default function ExplorerProject() {
                                     mb="10px"
                                     onClick={() => {
                                       navigate(
-                                        '/back?project_id=' + e.project_id,
+                                        '/invest_step1?project_id=' + e.project_id,
                                       )
                                     }}
                                   >

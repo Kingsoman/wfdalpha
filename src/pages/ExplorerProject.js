@@ -151,17 +151,6 @@ export default function ExplorerProject() {
   const notificationRef = useRef();
 
   //----------init api, lcd-------------------------
-  const lcd = useMemo(() => {
-    if (!connectedWallet) {
-      return null
-    }
-
-    return new LCDClient({
-      URL: connectedWallet.network.lcd,
-      chainID: connectedWallet.network.chainID,
-    })
-  }, [connectedWallet])
-
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
@@ -208,7 +197,7 @@ console.log("redraw");
       wefundContractAddress,
       WefundApproveMsg,
     )
-    await EstimateSend(connectedWallet, lcd, msg, "WeFund Approve success", notificationRef);
+    await EstimateSend(connectedWallet, state.lcd_client, msg, "WeFund Approve success", notificationRef);
     await Sleep(2000);
     fetchContractQuery(true);
   }
@@ -233,7 +222,7 @@ console.log("redraw");
       wefundContractAddress,
       CommunityVoteMsg,
     )
-    await EstimateSend(connectedWallet, lcd, msg, "Community vote success", notificationRef);
+    await EstimateSend(connectedWallet, state.lcd_client, msg, "Community vote success", notificationRef);
     await Sleep(2000);
     fetchContractQuery(true);
   }
@@ -254,7 +243,7 @@ console.log("redraw");
       wefundContractAddress,
       MilestoneVoteMsg,
     )
-    EstimateSend(connectedWallet, lcd, msg, "Milestone vote success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, msg, "Milestone vote success", notificationRef);
     await Sleep(2000);
     fetchContractQuery(true);
   }

@@ -71,16 +71,6 @@ export default function CreateProject() {
   }
   
   //----------init api, lcd-------------------------
-  const lcd = useMemo(() => {
-    if (!connectedWallet) {
-      return null
-    }
-    return new LCDClient({
-      URL: connectedWallet.network.lcd,
-      chainID: connectedWallet.network.chainID,
-    })
-  }, [connectedWallet])
-
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //------------notification setting---------------------------------
@@ -353,7 +343,7 @@ export default function CreateProject() {
       wefundContractAddress,
       AddProjectMsg,
     )
-    await EstimateSend(connectedWallet, lcd, msg, "Create Project success", notificationRef);
+    await EstimateSend(connectedWallet, state.lcd_client, msg, "Create Project success", notificationRef);
     await Sleep(2000);
     await FetchData(api, notificationRef, state, dispatch, true);
   }

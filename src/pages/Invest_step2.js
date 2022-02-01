@@ -38,7 +38,8 @@ export default function InvestStep2() {
       notificationRef.current.showNotification("Please input number only", "error", 4000);
       return;
     }
-    setWfdamount(parseInt(parseInt(e.target.value)/state.wefundRate));
+    let wefundRate = state.presale? 0.09: 0.06;
+    setWfdamount(parseInt(parseInt(e.target.value)/wefundRate));
     setBackAmount(e.target.value);
   }
 
@@ -55,7 +56,12 @@ export default function InvestStep2() {
   }
   return (
     <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WEFUND">
-      <Box width='900px' bg='#FFFFFF0D' px='50px' style={{fontFamily:'Sk-Modernist-Regular'}} >
+      <Box 
+        width={{base:'500px', md:'500px', lg:'100%'}} 
+        bg='#FFFFFF0D' 
+        px='50px' 
+        style={{fontFamily:'Sk-Modernist-Regular'}} 
+      >
         <Flex mt='83px' justify='center' align='center' direction='column'
           style={{fontFamily:'PilatExtended-Regular'}}>
             <HStack  mt='150px' mb='50px' px='15px'>

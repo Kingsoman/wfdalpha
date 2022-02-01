@@ -6,7 +6,7 @@ import {
   Flex,
   Input,
   Button,
-  Text, 
+  Box, 
   VStack, 
   Image, 
   Img, 
@@ -27,8 +27,8 @@ export default function InvestStep1() {
 
   function onPresale(){
     dispatch({
-      type: 'setWefundRate',
-      message: 0.06,
+      type: 'setPresale',
+      message: true,
     })
     navigate('/invest_step1?project_id=' + state.wefundID);
   }
@@ -38,17 +38,19 @@ export default function InvestStep1() {
 
   function onConfirm(){
     const CryptoJS = require('crypto-js');
-    if(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(passRef.current.value)) === 'd2VmdW5kMjAyMg==')
+  
+    if(CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(passRef.current.value)) === 'V2VGdW5kVkMyMDIy')
     {
       dispatch({
-        type: 'setWefundRate',
-        message: 0.09,
+        type: 'setPresale',
+        message: false,
       })
       navigate('/invest_step1?project_id=' + state.wefundID);
     }
   }
   return (
     <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WEFUND">
+      <Box pt='100px'>
       <ButtonTransition 
         unitid='presale'
         selected={false}
@@ -69,7 +71,7 @@ export default function InvestStep1() {
         onClick = {onSeed}
         mt = '50px'
       >
-        Seed
+        Private
       </ButtonTransition>
       <Flex 
         display={showInput? 'block' : 'none'} 
@@ -103,6 +105,7 @@ export default function InvestStep1() {
           Ok
         </Button>
       </Flex>
+      </Box>
     </PageLayout>
   )
 }

@@ -18,13 +18,15 @@ import {
   ImageTransition, 
   InputTransition 
 } from "../components/ImageTransition";
-import ESign from '../components/Pdf';
+import PDFTemplate from '../components/Pdf';
 import PageLayout from '../components/PageLayout';
 import { ParseParam } from "../components/Util";
+import { useStore } from '../store';
 
 export default function InvestStep1() {
   const [condition, setCondition] = useState(false);
   const navigate = useNavigate();
+  const {state, dispatch} = useStore();
 
   //------------parse URL for project id----------------------------
   let project_id = ParseParam();
@@ -35,7 +37,12 @@ export default function InvestStep1() {
   }
   return (
     <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WEFUND">
-      <Box width='900px' bg='#FFFFFF0D' px='50px' style={{fontFamily:'Sk-Modernist-Regular'}} >
+      <Box 
+        width={{base:'500px', md:'500px', lg:'100%'}} 
+        bg='#FFFFFF0D' 
+        px='50px' 
+        style={{fontFamily:'Sk-Modernist-Regular'}} 
+      >
         <Flex mt='83px' justify='center' align='center' direction='column'
           style={{fontFamily:'PilatExtended'}}>
             <HStack  mt='150px' mb='50px'>
@@ -89,10 +96,8 @@ export default function InvestStep1() {
           </Flex>
           <Flex >
             {/* <Image alignSelf={'flex-start'} alt={'WeFund'} src={ 'saft.svg' } /> */}
-            <ESign/>
+            <PDFTemplate presale={state.presale} />
           </Flex>
-
-          
         </Flex>
       </Box>
    </PageLayout>

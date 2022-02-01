@@ -3,10 +3,19 @@ import { Fee, MsgExecuteContract, WasmAPI, LCDClient} from '@terra-money/terra.j
 export async function EstimateSend(connectedWallet, lcd, msg, message, notificationRef)
 {
   const obj = new Fee(10_000, { uusd: 4500})
-  const accountInfo = await lcd.auth.accountInfo(
+  let accountInfo;
+  await lcd.auth.accountInfo(
     connectedWallet.walletAddress
-  );
-
+  )
+  .then((e) => {
+    accountInfo = e;
+  })
+  .catch((e) => {
+    notificationRef.current.showNotification(e.message, 'error', 4000)
+    console.log(e.message);
+    return;
+  })
+console.log(accountInfo);
   let txOptions = 
   {
     msgs: [msg],
@@ -28,8 +37,6 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
   .then((e) => {
     rawFee = e;
     notificationRef.current.showNotification("Estimate success", 'success', 4000)
-
-    
   })
   .catch((e) => {
     notificationRef.current.showNotification(e.message, 'error', 4000)
@@ -37,6 +44,7 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
     return;
   })
 
+  let res = false;
   await connectedWallet
   .post({
     msgs: [msg],
@@ -47,7 +55,7 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
   .then((e) => {
     if (e.success) {
       notificationRef.current.showNotification(message, 'success', 4000)
-      return true;
+      res =  true;
     } else {
       notificationRef.current.showNotification(e.message, 'error', 4000)
       console.log(e.message);
@@ -57,7 +65,7 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
     notificationRef.current.showNotification(e.message, 'error', 4000)
     console.log(e.message);
   })
-  return false;
+  return res;
 }
 export function GetProjectStatusString(mode){
   let projectstatus = 0;
@@ -143,17 +151,21 @@ export function CheckNetwork(connectedWallet, notificationRef, state)
   //----------verify connection--------------------------------
   if (connectedWallet == '' || typeof connectedWallet == 'undefined') {
     notificationRef.current.showNotification('Please connect wallet first!', 'error', 6000)
-    return
+    console.log("Please connect wallet first!");
+    return false;
   }
 
   if (state.net == 'mainnet' && connectedWallet.network.name == 'testnet') {
-    notificationRef.current.showNotification('Please switch to mainnet!', 'error', 4000)
-    return
+    notificationRef.current.showNotification('Please switch to mainnet!', 'error', 4000);
+    console.log("Please switch to mainnet!");
+    return false;
   }
   if (state.net == 'testnet' && connectedWallet.network.name == 'mainnet') {
-    notificationRef.current.showNotification('Please switch to testnet!', 'error', 4000)
-    return
+    notificationRef.current.showNotification('Please switch to testnet!', 'error', 4000);
+    console.log("Please switch to testnet!");
+    return false;
   }
+  return true;
 }
 
 export function GetProjectIndex(projectData, project_id){
@@ -164,8 +176,6 @@ export function GetProjectIndex(projectData, project_id){
 
 export async function FetchData(api, notificationRef, state, dispatch, force = false)
 {
-console.log("force")
-console.log(force);
   let projectData, communityData, configData;
   //-----------------fetch community members-----------------
   communityData = state.communityData;

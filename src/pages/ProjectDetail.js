@@ -75,16 +75,6 @@ export default function ProjectDetail() {
   }
 
   //------------init api, lcd ----------------------------------------------------
-  const lcd = useMemo(() => {
-    if (!connectedWallet) {
-      return null
-    }
-    return new LCDClient({
-      URL: connectedWallet.network.lcd,
-      chainID: connectedWallet.network.chainID,
-    })
-  }, [connectedWallet])
-
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //------------notification setting---------------------------------
@@ -167,7 +157,7 @@ export default function ProjectDetail() {
 
   useEffect(() => {
     fetchContractQuery()
-  }, [connectedWallet, lcd])
+  }, [connectedWallet])
 
 //------------Wefund Approve-----------------
 function WefundApprove(project_id){
@@ -187,7 +177,7 @@ function WefundApprove(project_id){
     wefundContractAddress,
     WefundApproveMsg,
   )
-  EstimateSend(connectedWallet, lcd, msg, "WeFund Approve success", notificationRef);
+  EstimateSend(connectedWallet, state.lcd_client, msg, "WeFund Approve success", notificationRef);
 }
   //-----------Community Vote----------------
   function CommunityVote(project_id, voted, leftTime){
@@ -210,7 +200,7 @@ function WefundApprove(project_id){
       wefundContractAddress,
       CommunityVoteMsg,
     )
-    EstimateSend(connectedWallet, lcd, msg, "Community vote success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, msg, "Community vote success", notificationRef);
   }
   function MilestoneVote(project_id, voted){
     CheckNetwork(connectedWallet, notificationRef, state);
@@ -229,7 +219,7 @@ function WefundApprove(project_id){
       wefundContractAddress,
       MilestoneVoteMsg,
     )
-    EstimateSend(connectedWallet, lcd, msg, "Milestone vote success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, msg, "Milestone vote success", notificationRef);
   }
     //--Pop Ups for Projects
     const { isOpen: isVoteBoxOpen, onOpen: onVoteBoxOpen, onClose: onVoteBoxClose  } = useDisclosure()

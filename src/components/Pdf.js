@@ -9,7 +9,6 @@ import SignatureCanvas from 'react-signature-canvas';
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
-const PDFTEMPLATE = "/PDFTemplate.pdf";
 const MyInput = (props) => {
   const [cover, setCover] = useState(true);
   const inputRef = useRef();
@@ -37,7 +36,8 @@ const MyInput = (props) => {
 const dt = new Date();
 const [month, day, year] = [dt.getMonth(), dt.getDate(), dt.getFullYear()];
 
-export default ()=> {
+export default function PDFTemplate(presale)
+{
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(day+"/"+(month+1)%12+"/"+year);
   const [name, setName] = useState('');
@@ -47,6 +47,9 @@ export default ()=> {
   const [cover, setCover] = useState(true);
   const canvasRef = useRef({});
 
+  const PDFTEMPLATE = presale.presale === true? "/PDFTemplate_presale.pdf" : "/PDFTemplate.pdf";
+console.log(PDFTEMPLATE);
+console.log(presale);
 
   function onDocumentLoadSuccess(){
     // document.getElementById('loading').innerHTML='';
@@ -98,8 +101,11 @@ export default ()=> {
 
   return (
     <Flex direction='column'>
-
-       <VStack display={{base:'none', md:'none', lg:'block'}} maxW={{base:'0px',md:'0px',lg:'2560px'}} maxH={{base:'0px',md:'0px',lg:'9999px'}}>
+      <VStack 
+      display={{base:'none', md:'none', lg:'block'}} 
+      maxW={{base:'0px',md:'0px',lg:'2560px'}} 
+      maxH={{base:'0px',md:'0px',lg:'9999px'}}
+      >
       <div style={{display:'flex', flexDirection:'row', width:'100%'}}>
         {/* <div style={{width:"30%"}}>
           <span style={{width:"100%"}}></span>
@@ -187,7 +193,10 @@ export default ()=> {
         </div> */}
       </div>
       </VStack>
-      <VStack display={{base:'block', md:'block', lg:'none'}} maxW='300px'>
+      <VStack 
+        display={{base:'block', md:'block', lg:'none'}} 
+        maxW='500px'
+      >
       <div style={{display:'flex', flexDirection:'row', width:'100%'}}>
         <div>
           <div style={{display:'flex', flexDirection:'column', width:'100%'}}>
@@ -196,7 +205,7 @@ export default ()=> {
                 file={PDFTEMPLATE}
                 onLoadSuccess={onDocumentLoadSuccess}
               >
-                <Page pageNumber={1} scale="0.5"/>
+                <Page pageNumber={1} scale="0.6"/>
               </Document>
             </div>
             <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
@@ -204,7 +213,7 @@ export default ()=> {
                 file={PDFTEMPLATE}
                 onLoadSuccess={onDocumentLoadSuccess}
               >
-                <Page pageNumber={2} scale="0.5" />
+                <Page pageNumber={2} scale="0.6" />
               </Document>
             </div>
             <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
@@ -212,7 +221,7 @@ export default ()=> {
                 file={PDFTEMPLATE}
                 onLoadSuccess={onDocumentLoadSuccess}
               >
-                <Page pageNumber={3} scale="0.5" />
+                <Page pageNumber={3} scale="0.6" />
               </Document>
             </div>
             <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
@@ -220,7 +229,7 @@ export default ()=> {
                 file={PDFTEMPLATE}
                 onLoadSuccess={onDocumentLoadSuccess}
               >
-                <Page pageNumber={4} scale="0.5" />
+                <Page pageNumber={4} scale="0.6" />
               </Document>
             </div>
             <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
@@ -228,7 +237,7 @@ export default ()=> {
                 file={PDFTEMPLATE}
                 onLoadSuccess={onDocumentLoadSuccess}
               >
-                <Page pageNumber={5} scale="0.5" />
+                <Page pageNumber={5} scale="0.6" />
               </Document>
             </div>
             <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
@@ -236,7 +245,7 @@ export default ()=> {
                 file={PDFTEMPLATE}
                 onLoadSuccess={onDocumentLoadSuccess}
               >
-                <Page pageNumber={6} scale="0.5" />
+                <Page pageNumber={6} scale="0.6" />
               </Document>
             </div>
           </div>

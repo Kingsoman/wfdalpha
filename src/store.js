@@ -22,7 +22,7 @@ const initialState = {
     // WEFundContractAddress: "terra1qcm9957c2gyghkaqgsk0h5mw6xf6ym4xdu7kmu", //mainnet v2.1
     WEFundContractAddress: "terra1rpqlf5y7e5ssg742v5vj0eza5yzjkxk02yapky", //mainnet v2.2
     
-    wefundRate: 0.09,
+    presale: true,
     referralCount: 0,
     referralLink: '',
     projectData: '',
@@ -45,15 +45,15 @@ const initialState = {
         URL: 'https://lcd.terra.dev',
         chainID: 'columbus-4',
     }),
-    investAmount: '',
+    investAmount: '0',
     investWfdamount: '',
     investName: '',
     investEmail: '',
     investTitle: '',
     investDate: '',
     investSignature: '',
-    request: 'https://wefund-nodejs-gwb6v.ondigitalocean.app',
-    // request: 'http://abf7-87-116-164-143.ngrok.io',
+    // request: 'https://wefund-nodejs-gwb6v.ondigitalocean.app',
+    request: 'http://0b3d-188-43-136-33.ngrok.io',
     pdfFile: '',
     whitepaper: '',
     logo: '',
@@ -62,10 +62,10 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'setWefundRate':
+    case 'setPresale':
         return {
             ...state,
-            wefundRate: action.message,
+            presale: action.message,
         }
     case 'setReferralCount':
         return {

@@ -1,5 +1,5 @@
 import { CheckIcon } from "@chakra-ui/icons";
-import {Fee, MsgExecuteContract, MsgSend, LCDClient,  } from '@terra-money/terra.js'
+import {Fee, MsgExecuteContract, MsgSend, WasmAPI } from '@terra-money/terra.js'
 import {chakra, 
   Box, 
   Flex, 
@@ -19,11 +19,22 @@ import SignatureCanvas from 'react-signature-canvas';
 import { navigate } from '@reach/router'
 
 import { useStore } from '../store'
-import { ImageTransition, ButtonTransition, InputTransition } from "../components/ImageTransition";
+import { 
+  ImageTransition, 
+  ButtonTransition, 
+  InputTransition 
+} from "../components/ImageTransition";
 import Notification from '../components/Notification'
 import Faq from '../components/FAQ'
 import PageLayout from '../components/PageLayout'
-import { EstimateSend, ParseParam, FetchData, isCommunityWallet } from "../components/Util";
+import { 
+  EstimateSend, 
+  ParseParam, 
+  FetchData, 
+  isCommunityWallet, 
+  CheckNetwork,
+  GetOneProject
+} from "../components/Util";
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -48,17 +59,8 @@ export default function Invest_step3() {
   if (typeof document !== 'undefined') {
     connectedWallet = useConnectedWallet()
   }
-  
   //----------init api, lcd-------------------------
-  const lcd = useMemo(() => {
-    if (!connectedWallet) {
-      return null
-    }
-    return new LCDClient({
-      URL: connectedWallet.network.lcd,
-      chainID: connectedWallet.network.chainID,
-    })
-  }, [connectedWallet])
+  const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //---------------notification setting---------------------------------
   const notificationRef = useRef();
@@ -93,153 +95,183 @@ export default function Invest_step3() {
 
   async function onNext(){
     //----------verify connection--------------------------------
-    CheckNetwork(connectedWallet, notificationRef, state);
-    
-    if(parseInt(state.investAmount) <= 0 )
+    if(CheckNetwork(connectedWallet, notificationRef, state) == true)
     {
-      showNotification("Please input UST amount", "error", 40000);
-      return;
-    }
+console.log(state.investAmount);
+console.log(state.lcd_client);
+      if(parseInt(state.investAmount) <= 0 ){
+        notificationRef.current.showNotification("Please input UST amount", "error", 40000);
+        console.log('Please input UST amount');
+      }
+      else{ 
+        dispatch({
+          type: 'setInvestname',
+          message: InsName,
+        })
+        dispatch({
+          type: 'setInvestemail',
+          message: InsEmail,
+        })
+        dispatch({
+          type: 'setInvesttitle',
+          message: InsTitle
+        })
 
-    dispatch({
-      type: 'setInvestname',
-      message: InsName,
-    })
-    dispatch({
-      type: 'setInvestemail',
-      message: InsEmail,
-    })
-    dispatch({
-      type: 'setInvesttitle',
-      message: InsTitle
-    })
+        const currentDate = new Date();
+        let date = currentDate.getDate() + "/" + (currentDate.getMonth()+1) + 
+              "/" + currentDate.getFullYear();
+        dispatch({
+          type: 'setInvestDate',
+          message: date,
+        })
 
-    const currentDate = new Date();
-    let date = currentDate.getDate() + "/" + (currentDate.getMonth()+1) + 
-          "/" + currentDate.getFullYear();
-    dispatch({
-      type: 'setInvestDate',
-      message: date,
-    })
+        var formData = new FormData();
+        formData.append("investName", InsName);
+        formData.append("investTitle", InsTitle);
+        formData.append("investEmail", InsEmail);
+        formData.append("investAmount", state.investAmount);
+        formData.append("investDate", date);
+        formData.append("investSignature", canvasRef.current.toDataURL());
+        formData.append("presale", state.presale);
+        // formData.append("file", state.investSignature);
 
-    var formData = new FormData();
-    formData.append("investName", InsName);
-    formData.append("investTitle", InsTitle);
-    formData.append("investEmail", InsEmail);
-    formData.append("investAmount", state.investAmount);
-    formData.append("investDate", date);
-    formData.append("investSignature", canvasRef.current.toDataURL());
-    // formData.append("file", state.investSignature);
+        const requestOptions = {
+          method: 'POST',
+          body: formData,
+        };
 
-    const requestOptions = {
-      method: 'POST',
-      body: formData,
-    };
+        notificationRef.current.showNotification("Uploading", 'success', 100000)
 
-    notificatonRef.current.showNotification("Uploading", 'success', 100000)
+        await fetch(state.request + '/pdfmake', requestOptions)
+        .then((res) => res.json())
+        .then((data) => {
+          notificationRef.current.hideNotification();
+          dispatch({
+            type: 'setPdffile',
+            message: data.data,
+          })
+          // console.log(data);
+        })
+        .catch((e) =>{
+          console.log("Error:"+e);
+        })
 
-    await fetch(state.request + '/pdfmake', requestOptions)
-    .then((res) => res.json())
-    .then((data) => {
-      notificationRef.current.hideNotification();
-      dispatch({
-        type: 'setPdffile',
-        message: data.data,
-      })
-      console.log(data);
-    })
-    .catch((e) =>{
-      console.log("Error:"+e);
-    })
+        if(project_id == state.wefundID){
+          let amount = parseInt(state.investAmount) * 10**6;
 
-    if(project_id == state.wefundID){
-      let amount = parseInt(state.investAmount) * 10**6;
+          const msg = new MsgSend(
+            connectedWallet.walletAddress,
+            'terra1zjwrdt4rm69d84m9s9hqsrfuchnaazhxf2ywpc',
+            { uusd: amount }
+          );
 
-      const msg = new MsgSend(
-        connectedWallet.walletAddress,
-        'terra1zjwrdt4rm69d84m9s9hqsrfuchnaazhxf2ywpc',
-        { uusd: amount }
-      );
-
-      await EstimateSend(connectedWallet, lcd, msg, "Invest success", notificationRef);
-    }
-    else{
-      backProject();
+          let res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Invest success", notificationRef);
+          if(res)
+            navigate('/invest_step4');
+        }
+        else{
+          let res = await backProject();
+          if(res)
+            navigate('/invest_step4');
+        }
+      }
     }
   }
 
   async function backProject()
   {
     let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+console.log(projectData);
+    let res = false;
 
-    let _project_id = 1;
-    if(project_id != null)
-      _project_id = project_id;
-
-    const oneprojectData = GetOneProject(projectData, _project_id);
+    const oneprojectData = GetOneProject(projectData, project_id);
     if(oneprojectData == ''){
       notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
-      return;
     }
+    else{
+      const isCommunityMember = isCommunityWallet(state, project_id);
+      const targetAmount = parseInt(oneprojectData.project_collected)*(10**6)/2;
 
-    const isCommunityMember = isCommunityWallet(state, _project_id);
-    const targetAmount = parseInt(oneprojectData.project_collected)*(10**6)/2;
-
-    let leftAmount = 0;
-    if(isCommunityMember)
-      leftAmount = targetAmount - oneprojectData.communitybacked_amount;
-    else
-      leftAmount = targetAmount - oneprojectData.backerbacked_amount;
-
-    if(leftAmount <= 0){
+      let leftAmount = 0;
       if(isCommunityMember)
-        notificationRef.current.showNotification("Community allocation is already collected! You can't back this project.", 'error', 6000);
+        leftAmount = targetAmount - oneprojectData.communitybacked_amount;
       else
-        notificationRef.current.showNotification("Backer allocation is already collected! You can't back back this project.", 'error', 6000);
-      return;
+        leftAmount = targetAmount - oneprojectData.backerbacked_amount;
+
+      if(leftAmount <= 0){
+        if(isCommunityMember)
+          notificationRef.current.showNotification("Community allocation is already collected! You can't back this project.", 'error', 6000);
+        else
+          notificationRef.current.showNotification("Backer allocation is already collected! You can't back this project.", 'error', 6000);
+      }
+      else{
+        let wefundContractAddress = state.WEFundContractAddress;
+        let BackProjectMsg = {
+            back2_project: {
+              backer_wallet: connectedWallet.walletAddress,
+              project_id: `${project_id}`
+            },
+        }
+
+        let amount = parseInt(state.investAmount) * 10**6;
+        let msg = new MsgExecuteContract(
+          connectedWallet.walletAddress,
+          wefundContractAddress,
+          BackProjectMsg,
+          {uusd: amount}
+        );
+
+        res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Back to Project Success", notificationRef);
+      }
     }
-
-    let wefundContractAddress = state.WEFundContractAddress;
-    let BackProjectMsg = {
-        back2_project: {
-          backer_wallet: connectedWallet.walletAddress,
-          project_id: `${_project_id}`
-        },
-    }
-
-    let amount = parseInt(backAmount * 1000000 * 105 / 100);
-    let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
-      wefundContractAddress,
-      BackProjectMsg,
-      {uusd: amount}
-    )
-
-    EstimateSend(connectedWallet, lcd, msg, "Back to Project Success", notificationRef);
+    return res;
   }
 
   return (
     <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WEFUND">
-      <Box width='900px' bg='#FFFFFF0D' px='50px' style={{fontFamily:'Sk-Modernist'}} >
-
-        <Flex mt='83px' justify='center' align='center' direction='column'
-          style={{fontFamily:'PilatExtended-Regular'}}>
-            <HStack  mt='150px' mb='50px'>
-              <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', backgroundColor: '#3BE489', borderRadius: '50%', display:'inline-block'}}>
-              <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
-              </Box>
-              <Text>Step 1</Text>
-              <Box style={{height: '0x', width: '63px', border: '2px solid #3BE489', background: ' #3BE489'}}></Box>
-              <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', backgroundColor: '#3BE489', borderRadius: '50%', display:'inline-block'}}>
-              <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
-              </Box>
-              <Text>Step 2</Text>
-              <Box style={{height: '4px', width: '63px', background: 'linear-gradient(90deg, #3BE489 0%, rgba(59, 228, 137, 0) 100%)'}}></Box>
-              <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
-              <Text>Final Step</Text>
-            </HStack>
-              <Text fontSize={{base:'16px',md:'16px',lg:'22px'}} fontWeight={'300'}>Please <span style={{color:'#00A3FF'}}>share with us</span> this information</Text>
-          <Text fontSize={{base:'14px',md:'14px',lg:'16px'}} color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} mt={'20px'} textAlign={'center'}>Please fill in all fields to finalize the SAFT process</Text>
+      <Box 
+        width={{base:'500px', md:'500px', lg:'100%'}} 
+        bg='#FFFFFF0D' 
+        px='50px' 
+        style={{fontFamily:'Sk-Modernist-Regular'}} 
+      >
+        <Flex 
+          mt='83px' 
+          justify='center' 
+          align='center' 
+          direction='column'
+          style={{fontFamily:'PilatExtended-Regular'}}
+        >
+          <HStack  mt='150px' mb='50px'>
+            <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', backgroundColor: '#3BE489', borderRadius: '50%', display:'inline-block'}}
+            >
+            <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
+            </Box>
+            <Text>Step 1</Text>
+            <Box style={{height: '0x', width: '63px', border: '2px solid #3BE489', background: ' #3BE489'}}></Box>
+            <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', backgroundColor: '#3BE489', borderRadius: '50%', display:'inline-block'}}>
+            <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
+            </Box>
+            <Text>Step 2</Text>
+            <Box style={{height: '4px', width: '63px', background: 'linear-gradient(90deg, #3BE489 0%, rgba(59, 228, 137, 0) 100%)'}}></Box>
+            <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
+            <Text>Final Step</Text>
+          </HStack>
+          <Text 
+            fontSize={{base:'16px',md:'16px',lg:'22px'}} 
+            fontWeight={'300'}
+          >
+            Please <span style={{color:'#00A3FF'}}>share with us</span> this information
+          </Text>
+          <Text 
+            fontSize={{base:'14px',md:'14px',lg:'16px'}} 
+            color='rgba(255, 255, 255, 0.54)' 
+            fontWeight={'normal'} 
+            mt={'20px'} 
+            textAlign={'center'}
+          >
+            Please fill in all fields to finalize the SAFT process
+          </Text>
         </Flex>
         
         {/* -----------------Name and Title----------------- */}
