@@ -155,10 +155,10 @@ const NAV_ITEMS = [
     label: 'Projects',
     href: '/explorer',
   },
-  {
-    label: 'Invest in WeFund',
-    href: '/invest_step1',
-  },
+  // {
+  //   label: 'Invest in WeFund',
+  //   href: '/invest_step1',
+  // },
   // {
   //   label: 'Dashboard',
   //   href: 'dashboard',
