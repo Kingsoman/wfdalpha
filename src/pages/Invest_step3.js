@@ -47,8 +47,8 @@ export default function Invest_step3() {
   const [InsTitle, setInsTitle] = useState('');
   const [InsName, setInsName] = useState('');
   const [InsEmail, setInsEmail] = useState('');
-  const [chain, setChain] = useState('');
-  const [walletAddress, setWalletAddress] = useState('');
+  // const [chain, setChain] = useState('');
+  // const [walletAddress, setWalletAddress] = useState('');
   const {state, dispatch} = useStore();
   const canvasRef = useRef({});
   
@@ -214,8 +214,8 @@ export default function Invest_step3() {
     let BackProjectMsg = {
         back2_project: {
           backer_wallet: connectedWallet.walletAddress,
-          otherchain: chain,
-          otherchain_wallet: walletAddress,
+          // otherchain: chain,
+          // otherchain_wallet: walletAddress,
           project_id: `${project_id}`
         },
     }
@@ -356,7 +356,7 @@ export default function Invest_step3() {
               onChange={(e)=>onChangeSignature(e)}/>
           </Box>
         </Flex>
-        <Flex direction={{base:'column',md:'column',lg:'row'}} mt='40px' justify="center" align='center'>
+        {/* <Flex direction={{base:'column',md:'column',lg:'row'}} mt='40px' justify="center" align='center'>
           <Box align='center' ml={{base:'0px',md:'0px',lg:'0px'}}>
             <Flex>
               <Text mb='20px'>Select Chain</Text>
@@ -426,7 +426,7 @@ export default function Invest_step3() {
             </Box>
           </Box>
         </Flex>
-        
+         */}
         <Flex w='100%' mt='60px'justify='center' mb='170px'>
           <ImageTransition 
             unitid='submit'
