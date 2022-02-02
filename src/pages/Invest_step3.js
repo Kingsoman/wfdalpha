@@ -106,8 +106,8 @@ export default function Invest_step3() {
       return false;
     }
     if(state.presale == false && parseInt(state.investAmount) < 20000){
-      notificationRef.current.showNotification("Input UST amount for Private sale is at least 20000", "error", 40000);
-      console.log('Invalid Private sale amount');
+      notificationRef.current.showNotification("Input UST amount for private sale of at least 20,000", "error", 40000);
+      console.log('Invalid private sale amount');
       return false;
     }
     
@@ -172,7 +172,7 @@ export default function Invest_step3() {
         { uusd: amount }
       );
       let memo = state.presale? "Presale" : "Private sale";
-      let res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Invest success", notificationRef, memo);
+      let res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Invest success ", notificationRef, memo);
       if(res == true)
         navigate('/invest_step4');
     }
@@ -204,14 +204,14 @@ export default function Invest_step3() {
 
     if(leftAmount <= 0){
       if(isCommunityMember)
-        notificationRef.current.showNotification("Community allocation is already collected! You can't back this project.", 'error', 6000);
+        notificationRef.current.showNotification("Community allocation has already been collected! You can't back this project.", 'error', 6000);
       else
-        notificationRef.current.showNotification("Backer allocation is already collected! You can't back this project.", 'error', 6000);
+        notificationRef.current.showNotification("Backer allocation has already been collected! You can't back this project.", 'error', 6000);
       return false;
     }
 
     if(parseInt(state.investAmount) < 6){
-      notificationRef.current.showNotification("Invest amount should be at least 6 UST.", 'error', 6000);
+      notificationRef.current.showNotification("Investment amount should be at least 6 UST.", 'error', 6000);
       return false;
     }
 
@@ -237,7 +237,7 @@ export default function Invest_step3() {
   }
 
   return (
-    <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WeFund">
+    <PageLayout title="Back the project" subTitle1="Invest" subTitle2="in WeFund">
       <Box 
         width={{base:'500px', md:'500px', lg:'100%'}} 
         bg='#FFFFFF0D' 
