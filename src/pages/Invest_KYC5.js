@@ -175,8 +175,8 @@ export default function InvestKYC5() {
                 mb={'15px'}
               >
                 We would like to confirm your facial identification. Face the
-                camera and ensure your face within the frame. Turn around to
-                ensure all angle are captured
+                camera and ensure your face is within the frame. Turn around to
+                ensure all angles are captured.
               </Text>
 
               <Flex direction={'column'}>
@@ -281,7 +281,7 @@ export default function InvestKYC5() {
                       onClick={() => onNext()}
                     >
                       <Icon as={BsPhone} h={4} w={4} mr={3} />
-                      Or Continue with Phone
+                      Or continue with phone
                     </Box>
                   </ImageTransition>
                 </Flex>
