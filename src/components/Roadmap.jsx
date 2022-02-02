@@ -98,7 +98,7 @@ export default function Roadmap() {
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <UnorderedList className="RoadmapDesc">
               <ListItem>Presale phase until end of February</ListItem>
-              <ListItem>Marketing for IWO</ListItem>
+              <ListItem>Marketing for IWO (ICO/IDO)</ListItem>
             </UnorderedList>
           </Flex>
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
@@ -133,7 +133,7 @@ export default function Roadmap() {
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem>IWO</ListItem>
+              <ListItem>IWO (ICO/IDO)</ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
@@ -222,7 +222,7 @@ export default function Roadmap() {
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <UnorderedList className="RoadmapDesc">
               <ListItem>Presale phase until end of February</ListItem>
-              <ListItem>Marketing for IWO</ListItem>
+              <ListItem>Marketing for IWO (ICO/IDO)</ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
@@ -252,7 +252,7 @@ export default function Roadmap() {
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem>IWO</ListItem>
+              <ListItem>IWO (ICO/IDO)</ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
