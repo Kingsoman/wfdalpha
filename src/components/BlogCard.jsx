@@ -51,9 +51,9 @@ export default function BlogCard(props) {
     bg={'rgba(20, 48, 124, 0.74)'}
     border={'2px solid rgba(255, 255, 255, 0.05)'}
     backdropFilter={'blur(150px)'}
-    maxW="2xl"
-    maxH="4xl"
-    minH="4xl"
+    maxW={{base:'sm',sm:'md',md:'2xl',lg:'2xl'}} 
+    maxH={{base:'5xl',sm:'5xl',md:'4xl',lg:'4xl'}}
+    minH={{base:'4xl',sm:'4xl',md:'3xl',lg:'3xl'}}
   >
     <Image
       roundedTop="lg"
@@ -74,7 +74,7 @@ export default function BlogCard(props) {
           fontSize="2xl"
           mt={2}
           _hover={{ color: "blue.600", textDecor: "underline" }}
-          minH = {'150px'}
+          minH = {'125px'}
           
         >
            {ShortenText(props.title, 0, 100)}
@@ -84,7 +84,7 @@ export default function BlogCard(props) {
           fontSize="sm"
           color={"gray.200"}
           minH = {'350px'}
-          maxH= {'350px'}
+          maxH= {{base:'500px',sm:'400px',md:'375px',lg:'350px'}}
           overflow= {'hidden'}
         >
           {`${ToText(props.description.substring(0, 1000))}...`}
@@ -98,6 +98,7 @@ export default function BlogCard(props) {
               mx={2}
               fontWeight="bold"
               color={"gray.200"}
+              fontSize={{base:'xs',sm:'sm',md:'sm',lg:'sm'}}
               
             >
               {props.author}
@@ -105,14 +106,14 @@ export default function BlogCard(props) {
           </Flex>
           <chakra.span
             mx={1}
-            fontSize="sm"
+            fontSize={{base:'xs',sm:'sm',md:'sm',lg:'sm'}}
             color={"gray.200"}
           >
             {finalDate}
           </chakra.span>
           <a href={props.link}>
           <Flex
-            ml={{ base: '0px', md: '0px', lg: '45px' }}
+            ml={{ base: '20px',sm: '25px', md: '45px', lg: '75px', xl: '45px' }}
             alignSelf={{ base: 'center', md: 'center', lg: 'flex-end'}}
           >
             <ImageTransition
@@ -124,8 +125,8 @@ export default function BlogCard(props) {
               border3="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
               background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
               selected={false}
-              width="145px"
-              height="45px"
+              width={{base:'120px',sm:'145px',md:'145px',lg:'145px'}}
+              height={{base:'35px',sm:'45px',md:'45px',lg:'45px'}}
               rounded="33px"
             >
               <Box
@@ -134,6 +135,7 @@ export default function BlogCard(props) {
                 justify="center"
                 align="center"
                 pl={'10px'}
+                fontSize={{base:'xs',sm:'sm',md:'sm',lg:'sm'}}
                 
               
               >

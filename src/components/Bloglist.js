@@ -86,11 +86,11 @@ class Bloglist extends React.Component {
                     mb="20px" justify='center'
                     style={{fontFamily:'PilatExtended-Bold'}}>
                     <Text 
-                    fontSize={{base:'25px',md:'25px',lg:'40px'}} 
+                    fontSize={{base:'20px',sm:'24px',md:'35px',lg:'40px'}}
                     color='#4790f5'>
                         Blog Stories
                     </Text>
-                    <Text fontSize={{base:'25px',md:'25px',lg:'40px'}}>   
+                    <Text fontSize={{base:'20px',sm:'24px',md:'35px',lg:'40px'}}>   
                         &nbsp;of WeFund
                     </Text>
                 </Flex>
@@ -98,9 +98,9 @@ class Bloglist extends React.Component {
                 </div>
                 <SimpleGrid
                 p={{
-                    base: 10,
-                    md: 10,
-                    lg: 50
+                    base: 2,
+                    md: 2,
+                    lg: 25
                 }}
                 mt={'300px'}
                 w="full"
@@ -110,7 +110,9 @@ class Bloglist extends React.Component {
                 spacing="6"
                 columns={{
                     base: 1,
-                    md: 3,
+                    md: 2,
+                    lg: 2,
+                    xl: 3,
                 }}
                 >
                     {itemRows.map((row, id) =>
