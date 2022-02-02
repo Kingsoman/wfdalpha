@@ -36,7 +36,7 @@ export default function InvestStep1() {
       navigate('/invest_step2?project_id=' + project_id);
   }
   return (
-    <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WEFUND">
+    <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WeFund">
       <Box 
         width={{base:'500px', md:'500px', lg:'100%'}} 
         bg='#FFFFFF0D' 

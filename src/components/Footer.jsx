@@ -90,9 +90,9 @@ const PagesLinks = () => (
     <Link href="/explorer" mr={'20px'}>
       Projects
     </Link>
-    {/* <Link href="/invest_step1" mr={'20px'}>
+    <Link href="/invest_step0" mr={'20px'}>
       Invest In WeFund
-    </Link> */}
+    </Link>
     <Link href="/blog" mr={'20px'}>
       Blog
     </Link>
