@@ -57,7 +57,7 @@ export default function InvestStep1() {
           rounded='33px'
           onClick = {onPresale}
         >
-          PreSale
+          Presale
         </ButtonTransition>
 
         <ButtonTransition 
@@ -69,7 +69,7 @@ export default function InvestStep1() {
           onClick = {onSeed}
           mt = '50px'
         >
-          Private
+          Private Sale
         </ButtonTransition>
         <Flex 
           display={showInput? 'block' : 'none'} 
