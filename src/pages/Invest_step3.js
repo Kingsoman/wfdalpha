@@ -105,7 +105,12 @@ export default function Invest_step3() {
       console.log('Please input UST amount');
       return false;
     }
-
+    if(state.presale == false && parseInt(state.investAmount) < 20000){
+      notificationRef.current.showNotification("Input UST amount for Private sale is at least 20000", "error", 40000);
+      console.log('Invalid Private sale amount');
+      return false;
+    }
+    
     dispatch({
       type: 'setInvestname',
       message: InsName,
