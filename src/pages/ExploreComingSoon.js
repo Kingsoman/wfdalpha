@@ -185,7 +185,8 @@ export default function ExplorerProject() {
 
   //------------Wefund Approve-----------------
   async function WefundApprove(project_id) {
-    CheckNetwork(connectedWallet, notificationRef, state)
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
     let deadline = Date.now() + 1000 * 60 * 60 * 24 * 15 //for 15days
     let msg = new MsgExecuteContract(
       connectedWallet.walletAddress,
@@ -205,7 +206,8 @@ export default function ExplorerProject() {
 
   //-----------Community Vote----------------
   async function CommunityVote(project_id, voted, leftTime) {
-    CheckNetwork(connectedWallet, notificationRef, state)
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
     if (leftTime <= 0) {
       notificationRef.current.showNotification('Time is expired', 'error', 4000)
       return
@@ -226,7 +228,8 @@ export default function ExplorerProject() {
   }
 
   async function MilestoneVote(project_id, voted) {
-    CheckNetwork(connectedWallet, notificationRef, state)
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
     let wallet = connectedWallet.walletAddress
     let MilestoneVoteMsg = { set_milestone_vote: { project_id, wallet, voted } }
 

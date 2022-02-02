@@ -181,7 +181,8 @@ export default function ExplorerProject() {
   //------------Wefund Approve-----------------
 console.log("redraw");
   async function WefundApprove(project_id){
-    CheckNetwork(connectedWallet, notificationRef, state);
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
 
     let deadline = Date.now() + 1000*60*60*24*15; //for 15days
     let WefundApproveMsg = {
@@ -203,7 +204,9 @@ console.log("redraw");
   }
   //-----------Community Vote----------------
   async function CommunityVote(project_id, voted, leftTime){
-    CheckNetwork(connectedWallet, notificationRef, state);
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
+
     if(leftTime <= 0){
       notificationRef.current.showNotification("Time is expired", "error", 4000);
       return;
@@ -227,7 +230,8 @@ console.log("redraw");
     fetchContractQuery(true);
   }
   async function MilestoneVote(project_id, voted){
-    CheckNetwork(connectedWallet, notificationRef, state);
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
 
     let MilestoneVoteMsg = {
       set_milestone_vote: {

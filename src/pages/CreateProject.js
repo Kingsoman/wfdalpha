@@ -199,7 +199,8 @@ export default function CreateProject() {
   }
   //---------------create project---------------------------------
   async function createProject() {
-    CheckNetwork(connectedWallet, notificationRef, state);
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
 
     let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
 

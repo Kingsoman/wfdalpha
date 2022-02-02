@@ -6,7 +6,7 @@ import {chakra,
   Text, 
   Input, 
   InputGroup,  
-  Stack, 
+  Select, 
   Image, 
   InputLeftElement, 
   Button, 
@@ -47,6 +47,8 @@ export default function Invest_step3() {
   const [InsTitle, setInsTitle] = useState('');
   const [InsName, setInsName] = useState('');
   const [InsEmail, setInsEmail] = useState('');
+  // const [chain, setChain] = useState('');
+  // const [walletAddress, setWalletAddress] = useState('');
   const {state, dispatch} = useStore();
   const canvasRef = useRef({});
   
@@ -95,140 +97,142 @@ export default function Invest_step3() {
 
   async function onNext(){
     //----------verify connection--------------------------------
-    if(CheckNetwork(connectedWallet, notificationRef, state) == true)
-    {
-console.log(state.investAmount);
-console.log(state.lcd_client);
-      if(parseInt(state.investAmount) <= 0 ){
-        notificationRef.current.showNotification("Please input UST amount", "error", 40000);
-        console.log('Please input UST amount');
-      }
-      else{ 
-        dispatch({
-          type: 'setInvestname',
-          message: InsName,
-        })
-        dispatch({
-          type: 'setInvestemail',
-          message: InsEmail,
-        })
-        dispatch({
-          type: 'setInvesttitle',
-          message: InsTitle
-        })
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
 
-        const currentDate = new Date();
-        let date = currentDate.getDate() + "/" + (currentDate.getMonth()+1) + 
-              "/" + currentDate.getFullYear();
-        dispatch({
-          type: 'setInvestDate',
-          message: date,
-        })
+    if(parseInt(state.investAmount) <= 0 ){
+      notificationRef.current.showNotification("Please input UST amount", "error", 40000);
+      console.log('Please input UST amount');
+      return false;
+    }
 
-        var formData = new FormData();
-        formData.append("investName", InsName);
-        formData.append("investTitle", InsTitle);
-        formData.append("investEmail", InsEmail);
-        formData.append("investAmount", state.investAmount);
-        formData.append("investDate", date);
-        formData.append("investSignature", canvasRef.current.toDataURL());
-        formData.append("presale", state.presale);
-        // formData.append("file", state.investSignature);
+    dispatch({
+      type: 'setInvestname',
+      message: InsName,
+    })
+    dispatch({
+      type: 'setInvestemail',
+      message: InsEmail,
+    })
+    dispatch({
+      type: 'setInvesttitle',
+      message: InsTitle
+    })
 
-        const requestOptions = {
-          method: 'POST',
-          body: formData,
-        };
+    const currentDate = new Date();
+    let date = currentDate.getDate() + "/" + (currentDate.getMonth()+1) + 
+          "/" + currentDate.getFullYear();
+    dispatch({
+      type: 'setInvestDate',
+      message: date,
+    })
 
-        notificationRef.current.showNotification("Uploading", 'success', 100000)
+    var formData = new FormData();
+    formData.append("investName", InsName);
+    formData.append("investTitle", InsTitle);
+    formData.append("investEmail", InsEmail);
+    formData.append("investAmount", state.investAmount);
+    formData.append("investDate", date);
+    formData.append("investSignature", canvasRef.current.toDataURL());
+    formData.append("presale", state.presale);
+    // formData.append("file", state.investSignature);
 
-        await fetch(state.request + '/pdfmake', requestOptions)
-        .then((res) => res.json())
-        .then((data) => {
-          notificationRef.current.hideNotification();
-          dispatch({
-            type: 'setPdffile',
-            message: data.data,
-          })
-          // console.log(data);
-        })
-        .catch((e) =>{
-          console.log("Error:"+e);
-        })
+    const requestOptions = {
+      method: 'POST',
+      body: formData,
+    };
 
-        if(project_id == state.wefundID){
-          let amount = parseInt(state.investAmount) * 10**6;
+    notificationRef.current.showNotification("Uploading", 'success', 100000)
 
-          const msg = new MsgSend(
-            connectedWallet.walletAddress,
-            'terra1zjwrdt4rm69d84m9s9hqsrfuchnaazhxf2ywpc',
-            { uusd: amount }
-          );
+    await fetch(state.request + '/pdfmake', requestOptions)
+    .then((res) => res.json())
+    .then((data) => {
+      notificationRef.current.hideNotification();
+      dispatch({
+        type: 'setPdffile',
+        message: data.data,
+      })
+      // console.log(data);
+    })
+    .catch((e) =>{
+      console.log("Error:"+e);
+    })
 
-          let res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Invest success", notificationRef);
-          if(res)
-            navigate('/invest_step4');
-        }
-        else{
-          let res = await backProject();
-          if(res)
-            navigate('/invest_step4');
-        }
-      }
+    if(project_id == state.wefundID){
+      let amount = parseInt(state.investAmount) * 10**6;
+
+      const msg = new MsgSend(
+        connectedWallet.walletAddress,
+        'terra1zjwrdt4rm69d84m9s9hqsrfuchnaazhxf2ywpc',
+        { uusd: amount }
+      );
+
+      let res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Invest success", notificationRef);
+      if(res == true)
+        navigate('/invest_step4');
+    }
+    else{
+      let res = await backProject();
+      if(res == true)
+        navigate('/invest_step4');
     }
   }
 
   async function backProject()
   {
     let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
-console.log(projectData);
-    let res = false;
 
     const oneprojectData = GetOneProject(projectData, project_id);
     if(oneprojectData == ''){
       notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
+      return false;
     }
-    else{
-      const isCommunityMember = isCommunityWallet(state, project_id);
-      const targetAmount = parseInt(oneprojectData.project_collected)*(10**6)/2;
 
-      let leftAmount = 0;
+    const isCommunityMember = isCommunityWallet(state, project_id);
+    const targetAmount = parseInt(oneprojectData.project_collected)*(10**6)/2;
+
+    let leftAmount = 0;
+    if(isCommunityMember)
+      leftAmount = targetAmount - oneprojectData.communitybacked_amount;
+    else
+      leftAmount = targetAmount - oneprojectData.backerbacked_amount;
+
+    if(leftAmount <= 0){
       if(isCommunityMember)
-        leftAmount = targetAmount - oneprojectData.communitybacked_amount;
+        notificationRef.current.showNotification("Community allocation is already collected! You can't back this project.", 'error', 6000);
       else
-        leftAmount = targetAmount - oneprojectData.backerbacked_amount;
-
-      if(leftAmount <= 0){
-        if(isCommunityMember)
-          notificationRef.current.showNotification("Community allocation is already collected! You can't back this project.", 'error', 6000);
-        else
-          notificationRef.current.showNotification("Backer allocation is already collected! You can't back this project.", 'error', 6000);
-      }
-      else{
-        let wefundContractAddress = state.WEFundContractAddress;
-        let BackProjectMsg = {
-            back2_project: {
-              backer_wallet: connectedWallet.walletAddress,
-              project_id: `${project_id}`
-            },
-        }
-
-        let amount = parseInt(state.investAmount) * 10**6;
-        let msg = new MsgExecuteContract(
-          connectedWallet.walletAddress,
-          wefundContractAddress,
-          BackProjectMsg,
-          {uusd: amount}
-        );
-
-        res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Back to Project Success", notificationRef);
-      }
+        notificationRef.current.showNotification("Backer allocation is already collected! You can't back this project.", 'error', 6000);
+      return false;
     }
-    return res;
+
+    if(parseInt(state.investAmount) < 6){
+      notificationRef.current.showNotification("Invest amount should be at least 6 UST.", 'error', 6000);
+      return false;
+    }
+
+    let wefundContractAddress = state.WEFundContractAddress;
+    let BackProjectMsg = {
+        back2_project: {
+          backer_wallet: connectedWallet.walletAddress,
+          // otherchain: chain,
+          // otherchain_wallet: walletAddress,
+          project_id: `${project_id}`
+        },
+    }
+
+    let amount = parseInt(state.investAmount) * 10**6;
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      BackProjectMsg,
+      {uusd: amount}
+    );
+
+    return await EstimateSend(connectedWallet, state.lcd_client, msg, "Back to Project Success", notificationRef);
   }
 
   return (
-    <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WEFUND">
+    <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WeFund">
       <Box 
         width={{base:'500px', md:'500px', lg:'100%'}} 
         bg='#FFFFFF0D' 
@@ -287,7 +291,7 @@ console.log(projectData);
             >      
               <InputGroup size="sm" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
                 <InputLeftElement style={{background: 'transparent', }} pointerEvents='none' color='gray.300' fontSize='1.2em' children=' ' />
-                <Input style={{ }} type="text" h='55px'placeholder="Type Name" focusBorderColor="purple.800" rounded="md"  value={InsName} onChange={(e)=>{setInsName(e.target.value)}} />
+                <Input style={{ }} type="text" h='55px'placeholder="Type Name" rounded="md"  value={InsName} onChange={(e)=>{setInsName(e.target.value)}} />
               </InputGroup>
             </InputTransition>
           </Box>
@@ -302,14 +306,14 @@ console.log(projectData);
             >      
               <InputGroup size="sm" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
                 <InputLeftElement style={{background: 'transparent', }} pointerEvents='none' color='gray.300' fontSize='1.2em' children=' ' />
-                <Input style={{ }} type="text" h='55px'placeholder="Your title" focusBorderColor="purple.800" rounded="md"  value={InsTitle} onChange={(e)=>{setInsTitle(e.target.value)}} />
+                <Input style={{ }} type="text" h='55px'placeholder="Your title" rounded="md"  value={InsTitle} onChange={(e)=>{setInsTitle(e.target.value)}} />
               </InputGroup>
             </InputTransition>
           </Box>
         </Flex>
         
         <Flex direction={{base:'column',md:'column',lg:'row'}} mt='40px' justify="center" align='center'>
-        <Box align='center' ml={{base:'0px',md:'0px',lg:'0px'}} mt={{base:'0px',md:'0px',lg:'-100px'}}>
+          <Box align='center' ml={{base:'0px',md:'0px',lg:'0px'}} mt={{base:'0px',md:'0px',lg:'-100px'}}>
             <Flex>
               <Text mb='20px'>Email</Text>
             </Flex>
@@ -320,7 +324,7 @@ console.log(projectData);
             >      
               <InputGroup size="sm" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
                 <InputLeftElement style={{background: 'transparent', }} pointerEvents='none' color='gray.300' fontSize='1.2em' children=' ' />
-                <Input style={{ }} type="email" h='55px'placeholder="example@email.com" focusBorderColor="purple.800" rounded="md"  value={InsEmail} onChange={(e)=>{setInsEmail(e.target.value)}} />
+                <Input style={{ }} type="email" h='55px'placeholder="example@email.com" rounded="md"  value={InsEmail} onChange={(e)=>{setInsEmail(e.target.value)}} />
               </InputGroup>
             </InputTransition>
           </Box>
@@ -350,22 +354,79 @@ console.log(projectData);
             </Box>
             <input type='file' id="fileSelector" name='userFile' style={{display:'none'}}
               onChange={(e)=>onChangeSignature(e)}/>
-            {/* 
-            {signature == '' && 
-              <InputGroup size="sm" width='290px'>
-                <InputLeftElement width='290px' h='55px' pointerEvents='none' children={<IoCloudUploadOutline color='#00A3FF' width='30px' height='30px'/>} />
-                <Input type="text" h='55px' bg='#FFFFFF' borderColor="#FFFFFF33" placeholder="Upload here" focusBorderColor="purple.800"  rounded="md"  
-                onClick={()=>{openUpload()}}  /> 
-              </InputGroup>}
-            {signature != '' && 
-              <InputGroup size="sm" width='290px'>
-                <InputLeftElement h='55px' pointerEvents='none' children={<IoCheckbox color='00A3FF'  width='30px' height='30px' />} />
-                <Input type="text" h='55px' bg='#FFFFFF' borderColor="#FFFFFF33" placeholder={signature} focusBorderColor="purple.800"  rounded="md"  
-                onClick={()=>{openUpload()}} /> 
-              </InputGroup>}
-              */}
           </Box>
         </Flex>
+        {/* <Flex direction={{base:'column',md:'column',lg:'row'}} mt='40px' justify="center" align='center'>
+          <Box align='center' ml={{base:'0px',md:'0px',lg:'0px'}}>
+            <Flex>
+              <Text mb='20px'>Select Chain</Text>
+            </Flex>
+            <InputTransition
+              unitid = "chaintransition"
+              selected = {false}
+              width = "300px"
+              height = "45px"
+              rounded = "md"
+            >
+              <Select
+                id = "chainselect"
+                style = {{ background: 'transparent', border: '0' }}
+                h = "45px"
+                shadow = "sm"
+                size = "sm"
+                w = "100%"
+                value = {chain}
+                rounded = "md"
+                onChange={(e) => {
+                  setChain(e.target.value)
+                }}
+              >
+                <option style={{ backgroundColor: '#1B0645' }}>
+                  Ethereum
+                </option>
+                <option style={{ backgroundColor: '#1B0645' }}>
+                  BSC
+                </option>
+                <option style={{ backgroundColor: '#1B0645' }}>
+                  Solana
+                </option>
+                <option style={{ backgroundColor: '#1B0645' }}>
+                  Harmony
+                </option>
+                <option style={{ backgroundColor: '#1B0645' }}>
+                  Osmis
+                </option>
+              </Select>
+            </InputTransition>
+          </Box>
+          <Box align='center' ml={{base:'0px',md:'0px',lg:'30px'}}>
+            <Flex mt={{base:'40px', md:'40px', lg:'0px'}}>
+              <Text mb='20px'>Wallet Address</Text>
+            </Flex>
+            <Box>
+            <InputTransition
+                unitid="inputwallet"
+                selected = {false}
+                width= "300px"
+                height= "45px"
+                rounded= "md"
+              >
+                <Input
+                  background={'transparent'}
+                  border = '0px'
+                  h= '45px'
+                  type='text'
+                  placeholder='Enter wallet address'
+                  boxShadow={''}
+                  rounded= 'md'
+                  value = {walletAddress}
+                  onChange = {(e) => {setWalletAddress(e.target.value)}}
+                />
+              </InputTransition>
+            </Box>
+          </Box>
+        </Flex>
+         */}
         <Flex w='100%' mt='60px'justify='center' mb='170px'>
           <ImageTransition 
             unitid='submit'

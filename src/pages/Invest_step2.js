@@ -55,7 +55,7 @@ export default function InvestStep2() {
     navigate('/invest_step3?project_id=' + project_id);
   }
   return (
-    <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WEFUND">
+    <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WeFund">
       <Box 
         width={{base:'500px', md:'500px', lg:'100%'}} 
         bg='#FFFFFF0D' 
@@ -82,7 +82,7 @@ export default function InvestStep2() {
         {/* --------amount to back----------- */}
         <Flex direction={{base:'column',md:'column',lg:'column'}} ml={{base:'0px',md:'0px',lg:'0px'}} mt='40px' justify="center" align='center'>
         <Flex >
-          <Text mb='20px'>UST amount you want to Invest</Text>
+          <Text mb='20px'>UST amount you want to invest</Text>
         </Flex>
         <InputTransition 
           unitid='backamount'
@@ -111,7 +111,7 @@ export default function InvestStep2() {
             </InputGroup>
         </InputTransition>
         <Flex>
-          <Text mb='20px' >WFD Tokens You Will Receive</Text>
+          <Text mb='20px' >WFD tokens you will receive</Text>
         </Flex>
         <InputTransition 
           unitid='WFDamount'
