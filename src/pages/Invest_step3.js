@@ -166,8 +166,8 @@ export default function Invest_step3() {
         'terra1zjwrdt4rm69d84m9s9hqsrfuchnaazhxf2ywpc',
         { uusd: amount }
       );
-
-      let res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Invest success", notificationRef);
+      let memo = state.presale? "Presale" : "Private sale";
+      let res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Invest success", notificationRef, memo);
       if(res == true)
         navigate('/invest_step4');
     }
