@@ -1,6 +1,6 @@
 import { Fee, MsgExecuteContract, WasmAPI, LCDClient} from '@terra-money/terra.js'
 
-export async function EstimateSend(connectedWallet, lcd, msg, message, notificationRef)
+export async function EstimateSend(connectedWallet, lcd, msg, message, notificationRef, memo='')
 {
   const obj = new Fee(10_000, { uusd: 4500})
   let accountInfo;
@@ -22,7 +22,7 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
   let txOptions = 
   {
     msgs: [msg],
-    memo: '',
+    memo: memo,
     gasPrices: obj.gasPrices(),
     gasAdjustment: 1.7,
   };
@@ -55,6 +55,7 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
     fee: rawFee,
     gasPrices: obj.gasPrices(),
     gasAdjustment: 1.7,
+    memo: memo,
   })
   .then((e) => {
     if (e.success) {
