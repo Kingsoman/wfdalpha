@@ -68,7 +68,7 @@ export default function Partners() {
           />
           <Partner
             link="https://twitter.com/PejuangCryptoID"
-            img="/media/partners/pejuangcrypto.png"
+            img="/media/partners/pejuangcrypto.jpg"
           />
           <Partner
             link="https://twitter.com/CryptoNews_Indo"
