@@ -50,7 +50,7 @@ export default function Invest_step4() {
         px='50px' 
         style={{fontFamily:'Sk-Modernist-Regular'}} 
       >
-        <Flex mt='83px' justify='center' align='center' direction='column'
+        <Flex justify='center' align='center' direction='column'
           style={{fontFamily:'PilatExtended-Regular'}}>
             <HStack ml={{base:'0px',md:'0px',lg:'10px'}} mt='150px' mb='50px' px='15px' align={'center'}>
               <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', background: ' #3BE489', borderRadius: '50%', display:'inline-block'}}>

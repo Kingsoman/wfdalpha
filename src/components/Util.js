@@ -324,3 +324,11 @@ export function ParseParam(){
 
   return project_id;
 }
+export function isNull(val){
+  if(typeof val == 'undefined' || val == '')
+    return true;
+  return false;
+}
+export function getVal(val){
+  return isNull(val)? '' : val;
+}

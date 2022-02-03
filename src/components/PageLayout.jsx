@@ -21,6 +21,7 @@ export default function PageLayout(props) {
         <div 
           style={{backgroundImage:"url('/media/createproject_banner_emphasis.svg')", 
           width:'100%', 
+          height: '330px',
           zIndex:'10'}}
         >
           <div 
@@ -75,8 +76,8 @@ export default function PageLayout(props) {
         </div>
         <Box 
           w='100%' 
-          mt='250px'
           justify='center' 
+          mt = "-70px"
         >
           <Box 
             w = '100%' 

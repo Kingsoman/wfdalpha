@@ -61,8 +61,9 @@ export default function InvestStep2() {
         bg='#FFFFFF0D' 
         px='50px' 
         style={{fontFamily:'Sk-Modernist-Regular'}} 
+        pb = '50px'
       >
-        <Flex mt='83px' justify='center' align='center' direction='column'
+        <Flex justify='center' align='center' direction='column'
           style={{fontFamily:'PilatExtended-Regular'}}>
             <HStack  mt='150px' mb='50px' px='15px'>
               <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', backgroundColor: '#3BE489', borderRadius: '50%', display:'inline-block'}}>

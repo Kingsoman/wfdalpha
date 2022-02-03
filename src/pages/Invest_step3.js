@@ -167,7 +167,8 @@ console.log(oneprojectData);
 
     notificationRef.current.showNotification("Uploading", 'success', 100000)
 
-    await fetch(state.request + '/pdfmake', requestOptions)
+    // await fetch(state.request + '/pdfmake', requestOptions)
+    await fetch(state.request + '/docxmake', requestOptions)
     .then((res) => res.json())
     .then((data) => {
       notificationRef.current.hideNotification();
@@ -175,12 +176,12 @@ console.log(oneprojectData);
         type: 'setPdffile',
         message: data.data,
       })
-      // console.log(data);
+      console.log(data);
     })
     .catch((e) =>{
       console.log("Error:"+e);
     })
-
+return;
     if(project_id == state.wefundID){
       let amount = parseInt(state.investAmount) * 10**6;
 
@@ -331,7 +332,6 @@ console.log(oneprojectData);
         style={{fontFamily:'Sk-Modernist-Regular'}} 
       >
         <Flex 
-          mt='83px' 
           justify='center' 
           align='center' 
           direction='column'

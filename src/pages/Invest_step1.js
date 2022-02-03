@@ -41,21 +41,21 @@ export default function InvestStep1() {
         px='50px' 
         style={{fontFamily:'Sk-Modernist-Regular'}} 
       >
-      <Flex mt='83px' justify='center' align='center' direction='column'
-        style={{fontFamily:'PilatExtended'}}>
-        <HStack  mt='150px' mb='50px'>
-          <Box style={{height: '24px', width: '24px', border: '3px solid #3BE489', borderRadius: '50%', display:'inline-block'}}></Box>
-          <Text>Step 1</Text>
-          <Box style={{height: '0x', width: '63px', border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', background: ' rgba(255, 255, 255, 0.3799999952316284)'}}></Box>
-          <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
-          <Text>Step 2</Text>
-          <Box style={{height: '0px', width: '63px', border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', background: ' rgba(255, 255, 255, 0.3799999952316284)'}}></Box>
-          <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
-          <Text>Final Step</Text>
-        </HStack>
-        <Text fontSize='22px' fontWeight={'300'}>SAFT Form</Text>
-        <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} mt={'20px'} textAlign={'center'}>Please check and confirm the form and go next step</Text>
-      </Flex>
+        <Flex justify='center' align='center' direction='column'
+          style={{fontFamily:'PilatExtended'}}>
+          <HStack  mt='150px' mb='50px'>
+            <Box style={{height: '24px', width: '24px', border: '3px solid #3BE489', borderRadius: '50%', display:'inline-block'}}></Box>
+            <Text>Step 1</Text>
+            <Box style={{height: '0x', width: '63px', border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', background: ' rgba(255, 255, 255, 0.3799999952316284)'}}></Box>
+            <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
+            <Text>Step 2</Text>
+            <Box style={{height: '0px', width: '63px', border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', background: ' rgba(255, 255, 255, 0.3799999952316284)'}}></Box>
+            <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
+            <Text>Final Step</Text>
+          </HStack>
+          <Text fontSize='22px' fontWeight={'300'}>SAFT Form</Text>
+          <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} mt={'20px'} textAlign={'center'}>Please check and confirm the form and go next step</Text>
+        </Flex>
 
         <Flex mt='83px' justify='center' align='center' direction='column'>
           <Flex mt='25px' direction="row">
@@ -96,6 +96,6 @@ export default function InvestStep1() {
           </Flex>
         </Flex>
       </Box>
-   </PageLayout>
+    </PageLayout>
   )
 }
