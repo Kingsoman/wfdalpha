@@ -47,13 +47,31 @@ export default function Invest_step3() {
   const [InsTitle, setInsTitle] = useState('');
   const [InsName, setInsName] = useState('');
   const [InsEmail, setInsEmail] = useState('');
-  // const [chain, setChain] = useState('');
-  // const [walletAddress, setWalletAddress] = useState('');
+  const [chain, setChain] = useState('');
+  const [walletAddress, setWalletAddress] = useState('');
+  const [oneprojectData, setOneprojectData] = useState('');
+
   const {state, dispatch} = useStore();
   const canvasRef = useRef({});
   
   //------------parse URL for project id----------------------------
   let project_id = ParseParam();
+  useEffect( () => {
+    async function fetchData(){
+      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+
+      const oneprojectData = GetOneProject(projectData, project_id);
+      if(oneprojectData == ''){
+        notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
+        return '';
+      }
+      setOneprojectData(oneprojectData);
+      setChain(oneprojectData.project_chain);
+console.log(oneprojectData);
+    }
+    fetchData();
+  }, 
+  [project_id])
 
   //---------------wallet connect-------------------------------------
   let connectedWallet = ''
@@ -185,14 +203,6 @@ export default function Invest_step3() {
 
   async function backProject()
   {
-    let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
-
-    const oneprojectData = GetOneProject(projectData, project_id);
-    if(oneprojectData == ''){
-      notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
-      return false;
-    }
-
     const isCommunityMember = isCommunityWallet(state, project_id);
     const targetAmount = parseInt(oneprojectData.project_collected)*(10**6)/2;
 
@@ -235,7 +245,83 @@ export default function Invest_step3() {
 
     return await EstimateSend(connectedWallet, state.lcd_client, msg, "Back to Project Success", notificationRef);
   }
-
+  const OtherChainWallet = () => {
+    return(
+      <Flex direction={{base:'column',md:'column',lg:'row'}} mt='40px' justify="center" align='center'>
+        <Box align='center' ml={{base:'0px',md:'0px',lg:'0px'}}>
+          <Flex>
+            <Text mb='20px'>Select Chain</Text>
+          </Flex>
+          <InputTransition
+            unitid = "chaintransition"
+            selected = {false}
+            width = "300px"
+            height = "45px"
+            rounded = "md"
+          >
+            <Select
+              id = "chainselect"
+              style = {{ background: 'transparent', border: '0' }}
+              h = "45px"
+              shadow = "sm"
+              size = "sm"
+              w = "100%"
+              value = {chain}
+              rounded = "md"
+              onChange={(e) => {
+                setChain(e.target.value)
+              }}
+            >
+              <option style={{ backgroundColor: '#1B0645' }}>
+                Ethereum
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
+                BSC
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
+                Solana
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
+                Harmony
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
+                Osmis
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
+                Terra
+              </option>
+            </Select>
+          </InputTransition>
+        </Box>
+        <Box align='center' ml={{base:'0px',md:'0px',lg:'30px'}}>
+          <Flex mt={{base:'40px', md:'40px', lg:'0px'}}>
+            <Text mb='20px'>Wallet Address</Text>
+          </Flex>
+          <Box>
+          <InputTransition
+              unitid="inputwallet"
+              selected = {false}
+              width= "300px"
+              height= "45px"
+              rounded= "md"
+            >
+              <Input
+                background={'transparent'}
+                border = '0px'
+                h= '45px'
+                type='text'
+                placeholder='Paste wallet address here'
+                boxShadow={''}
+                rounded= 'md'
+                value = {walletAddress}
+                onChange = {(e) => {setWalletAddress(e.target.value)}}
+              />
+            </InputTransition>
+          </Box>
+        </Box>
+      </Flex>
+    )
+  }
   return (
     <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WeFund">
       <Box 
@@ -361,77 +447,8 @@ export default function Invest_step3() {
               onChange={(e)=>onChangeSignature(e)}/>
           </Box>
         </Flex>
-        {/* <Flex direction={{base:'column',md:'column',lg:'row'}} mt='40px' justify="center" align='center'>
-          <Box align='center' ml={{base:'0px',md:'0px',lg:'0px'}}>
-            <Flex>
-              <Text mb='20px'>Select Chain</Text>
-            </Flex>
-            <InputTransition
-              unitid = "chaintransition"
-              selected = {false}
-              width = "300px"
-              height = "45px"
-              rounded = "md"
-            >
-              <Select
-                id = "chainselect"
-                style = {{ background: 'transparent', border: '0' }}
-                h = "45px"
-                shadow = "sm"
-                size = "sm"
-                w = "100%"
-                value = {chain}
-                rounded = "md"
-                onChange={(e) => {
-                  setChain(e.target.value)
-                }}
-              >
-                <option style={{ backgroundColor: '#1B0645' }}>
-                  Ethereum
-                </option>
-                <option style={{ backgroundColor: '#1B0645' }}>
-                  BSC
-                </option>
-                <option style={{ backgroundColor: '#1B0645' }}>
-                  Solana
-                </option>
-                <option style={{ backgroundColor: '#1B0645' }}>
-                  Harmony
-                </option>
-                <option style={{ backgroundColor: '#1B0645' }}>
-                  Osmis
-                </option>
-              </Select>
-            </InputTransition>
-          </Box>
-          <Box align='center' ml={{base:'0px',md:'0px',lg:'30px'}}>
-            <Flex mt={{base:'40px', md:'40px', lg:'0px'}}>
-              <Text mb='20px'>Wallet Address</Text>
-            </Flex>
-            <Box>
-            <InputTransition
-                unitid="inputwallet"
-                selected = {false}
-                width= "300px"
-                height= "45px"
-                rounded= "md"
-              >
-                <Input
-                  background={'transparent'}
-                  border = '0px'
-                  h= '45px'
-                  type='text'
-                  placeholder='Enter wallet address'
-                  boxShadow={''}
-                  rounded= 'md'
-                  value = {walletAddress}
-                  onChange = {(e) => {setWalletAddress(e.target.value)}}
-                />
-              </InputTransition>
-            </Box>
-          </Box>
-        </Flex>
-         */}
+        {state.wefundID != project_id && <OtherChainWallet /> }
+        
         <Flex w='100%' mt='60px'justify='center' mb='170px'>
           <ImageTransition 
             unitid='submit'

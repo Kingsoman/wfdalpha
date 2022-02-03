@@ -5,7 +5,8 @@ import {chakra, Box, Flex, Text, VStack, Image, Img
 
 import { Document, Page, pdfjs } from "react-pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
-import SignatureCanvas from 'react-signature-canvas';
+import { useStore } from '../store';
+import DocViewer from './Doc'
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
@@ -36,7 +37,7 @@ const MyInput = (props) => {
 const dt = new Date();
 const [month, day, year] = [dt.getMonth(), dt.getDate(), dt.getFullYear()];
 
-export default function PDFTemplate(presale)
+export default function PDFTemplate(presale, project_id)
 {
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(day+"/"+(month+1)%12+"/"+year);
@@ -46,8 +47,11 @@ export default function PDFTemplate(presale)
   
   const [cover, setCover] = useState(true);
   const canvasRef = useRef({});
+  const {state, dispatch} = useStore();
 
-  const PDFTEMPLATE = presale.presale === true? "/PDFTemplate_presale.pdf" : "/PDFTemplate.pdf";
+  // const PDFTEMPLATE = state.wefundID == project_id?(presale.presale === true? "/PDFTemplate_presale.pdf" : "/PDFTemplate.pdf"): "/DOCXTemplate.pdf";
+
+  const PDFTEMPLATE = "/DOCXTemplate.pdf";
 console.log(PDFTEMPLATE);
 console.log(presale);
 
@@ -107,149 +111,15 @@ console.log(presale);
       maxH={{base:'0px',md:'0px',lg:'9999px'}}
       >
       <div style={{display:'flex', flexDirection:'row', width:'100%'}}>
-        {/* <div style={{width:"30%"}}>
-          <span style={{width:"100%"}}></span>
-        </div> */}
-        <div>
-          <div style={{display:'flex', flexDirection:'column', width:'100%'}}>
-            <div style={{display:'flex', justifyContent:'center'}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={1} scale="1.3"/>
-              </Document>
-            </div>
-            <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={2} scale="1.3" />
-              </Document>
-            </div>
-            <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={3} scale="1.3" />
-              </Document>
-            </div>
-            <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={4} scale="1.3" />
-              </Document>
-            </div>
-            <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={5} scale="1.3" />
-              </Document>
-            </div>
-            <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={6} scale="1.3" />
-              </Document>
-            </div>
-          </div>
-        </div>
-        {/* <div style={{width:"30%", display:'flex', flexDirection:'column'}}>
-          <MyInput width='65px' left='-432px' top='152px' value={amount} 
-            onChange={(e) => setAmount(e.target.value)} fontsize='12px'/>
-          <MyInput width='55px' left='-163px' top='102px' value={date} fontsize='10px'/>
-          <MyInput width='130px' left='-233px' top='3757px' value={name} 
-            onChange={(e) => setName(e.target.value)} fontsize='12px'/>
-          <MyInput width='130px' left='-233px' top='3733px' value={title} 
-            onChange={(e) => setTitle(e.target.value)} fontsize='12px'/>
-          <MyInput width='130px' left='-233px' top='3709px' value={email} 
-            onChange={(e) => setEmail(e.target.value)} fontsize='12px'/>
-          <div style={{display:'flex', flexDirection:'row', alignItem:'end', width:'150px', height:'55px',
-            position:'relative', left:'-250px', top:'3545px', zIndex:'999', border:'2px', color:'black'}}>
-              {cover &&
-                <div onClick={()=>{setCover(false); }} style={{display:'flex', justifyContent:'center', fontSize:'14px', color:'white',backgroundColor:'rgb(24 99 124)', width:'100%', alignItems:'center'}}><div>Click</div></div>
-              }
-              {!cover &&
-                <>
-                <div style={{display:'flex', justifyContent:'center', backgroundColor:'rgb(109 209 243)',
-                  width:'150px'}}>
-                  <SignatureCanvas ref={canvasRef} penColor='black'
-                    canvasProps={{width: 150, height: 55}}/>
-                </div>
-                <div style={{cursor:'pointer', margin:'2px', display:'flex', alignItems:'end'}} onClick={()=>{canvasRef.current.clear()}}>
-                  <div style={{fontsize:'12px'}}>Clear</div>
-                </div>
-                </>
-              }
-          </div>             
-        </div> */}
+        <DocViewer source="https://localhost:3000/1.doc" />
       </div>
       </VStack>
       <VStack 
         display={{base:'block', md:'block', lg:'none'}} 
         maxW='500px'
       >
-      <div style={{display:'flex', flexDirection:'row', width:'100%'}}>
-        <div>
-          <div style={{display:'flex', flexDirection:'column', width:'100%'}}>
-            <div style={{display:'flex', justifyContent:'center'}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={1} scale="0.6"/>
-              </Document>
-            </div>
-            <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={2} scale="0.6" />
-              </Document>
-            </div>
-            <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={3} scale="0.6" />
-              </Document>
-            </div>
-            <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={4} scale="0.6" />
-              </Document>
-            </div>
-            <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={5} scale="0.6" />
-              </Document>
-            </div>
-            <div style={{display:'flex', justifyContent:'center', marginTop:"20px"}}>
-              <Document
-                file={PDFTEMPLATE}
-                onLoadSuccess={onDocumentLoadSuccess}
-              >
-                <Page pageNumber={6} scale="0.6" />
-              </Document>
-            </div>
-          </div>
-        </div>
+            <div style={{display:'flex', flexDirection:'row', width:'100%'}}>
+        <DocViewer source="https://localhost:3000/1.doc" />
       </div>
       </VStack>      
     </Flex>

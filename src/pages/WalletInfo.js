@@ -35,7 +35,7 @@ export default function UserSideSnippet() {
         for (let j = 0; j < one.backer_states.length; j++) {
           if (
             one.backer_states[j].backer_wallet ==
-            state.connectedWallet.walletAddress
+            connectedWallet.walletAddress
           ) {
             projectCount++
             totalbacked += one.backer_states[i].ust_amount
@@ -44,7 +44,7 @@ export default function UserSideSnippet() {
         for (let j = 0; j < one.communitybacker_states.length; j++) {
           if (
             one.communitybacker_states[j].backer_wallet ==
-            state.connectedWallet.walletAddress
+            connectedWallet.walletAddress
           ) {
             projectCount++
             totalbacked += one.backer_states[i].ust_amount
@@ -58,10 +58,38 @@ export default function UserSideSnippet() {
     }
   }
 
-  useEffect(() => {
-    fetchContractQuery()
-  }, [connectedWallet])
+  function addCommunityMember(){
+    let CommunityMsg = {
+      add_communitymember: {
+        wallet: connectedWallet.walletAddress,
+      },
+    }
+  
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      CommunityMsg,
+    )
+    EstimateSend(connectedWallet, state.lcd_client, msg, "Add Community success", notificationRef);
+  }
 
+  function removeCommunityMember(){
+    let CommunityMsg = {
+      remove_communitymember: {
+        wallet: connectedWallet.walletAddress,
+      },
+    }
+  
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      CommunityMsg,
+    )
+    EstimateSend(connectedWallet, state.lcd_client, msg, "Remove Community success", notificationRef);
+  }
+  
   return (
     <Box color={'white'} padding={'5%'}>
       <Text mb="20px" fontSize={'25px'} fontWeight={'bold'}>
@@ -78,7 +106,7 @@ export default function UserSideSnippet() {
       <Flex mt="10px">
         <Text>You have earned:</Text>
         <Text ml={'5px'} color={'blue.400'}>
-          {state.referralCount * 50}WFD
+          {state.referralCount * 50} WFD
         </Text>
       </Flex>
 
@@ -92,12 +120,26 @@ export default function UserSideSnippet() {
         <Text color={'blue.400'}>{state.referralLink}</Text>
       </Link>
 
+
+      <Text mt="50px" fontSize={'25px'} fontWeight={'bold'}>
+        Register to community member
+      </Text>
+
       <Flex mt={'20px'}>
-        <Button variant="outline" width={'200px'} mr={3}>
-          Cancel
+        <Button 
+          colorScheme="blue" 
+          width={'200px'}
+          onClick = {addCommunityMember}
+        >
+          Register
         </Button>
-        <Button colorScheme="blue" width={'200px'}>
-          Save
+        <Button 
+          variant="outline" 
+          width={'200px'} 
+          mr={3}
+          onClick = {removeCommunityMember}
+        >
+          Cancel
         </Button>
       </Flex>
     </Box>

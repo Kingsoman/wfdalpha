@@ -52,11 +52,11 @@ const initialState = {
     investTitle: '',
     investDate: '',
     investSignature: '',
-    request: 'https://wefund-nodejs-gwb6v.ondigitalocean.app',
-    // request: 'http://0b3d-188-43-136-33.ngrok.io',
+    // request: 'https://wefund-nodejs-gwb6v.ondigitalocean.app',
+    request: 'http://9adf-188-43-136-33.ngrok.io',
     pdfFile: '',
     whitepaper: '',
-    logo: '',
+    logo: '' ,
     wefundID: 1,
 }
 

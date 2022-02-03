@@ -58,7 +58,7 @@ export default function InvestStep1() {
           <Text fontSize='22px' fontWeight={'300'}>SAFT Form</Text>
           <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} mt={'20px'} textAlign={'center'}>Please check and confirm the form and go next step</Text>
         </Flex>
-        {/* --------PDF----------- */}
+
         <Flex mt='83px' justify='center' align='center' direction='column'>
           <Flex mt='25px' direction="row">
               {/* <Input type="checkbox"  h='55px' bg='#FFFFFF0D' borderColor="#FFFFFF33" placeholder="Type here" focusBorderColor="purple.800" rounded="md"  onChange={(e)=>{}} /> */}
@@ -75,7 +75,7 @@ export default function InvestStep1() {
 
               <Text ml='10px' fontSize='14px' fontWeight='400'>I agree with all conditions of this Project and WeFund</Text>
             </Flex>
-            {/* -----------------Sign Invest----------------- */}
+
           <Flex w='100%' mt='60px'justify='center' mb='170px'>
             <ImageTransition 
               unitid='investnext'
@@ -95,8 +95,7 @@ export default function InvestStep1() {
             </ImageTransition>
           </Flex>
           <Flex >
-            {/* <Image alignSelf={'flex-start'} alt={'WeFund'} src={ 'saft.svg' } /> */}
-            <PDFTemplate presale={state.presale} />
+            <PDFTemplate presale={state.presale} project_id={project_id}/>
           </Flex>
         </Flex>
       </Box>
