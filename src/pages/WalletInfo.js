@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import {Fee, MsgExecuteContract, MsgSend, WasmAPI } from '@terra-money/terra.js'
 import { Box, Flex, Text, Button } from '@chakra-ui/react'
-import { WasmAPI } from '@terra-money/terra.js'
 import { FetchData } from '../components/Util'
 import { Link } from '@reach/router'
 import { useStore } from '../store'

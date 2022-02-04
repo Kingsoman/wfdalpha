@@ -14,27 +14,27 @@ import {
 } from '../ImageTransition'
 
 
-export default function ProjectCollectedAmount({prjAmount, setPrjAmount, notificationRef}) 
+export default function CustomNumberInput({typeText, type, setType, notificationRef}) 
 {
-  function onChangePrjAmount(e) {
+  function onChangeAmount(e) {
     if (
       e.target.value != '' &&
       e.target.value != parseInt(e.target.value).toString()
     ) {
-      notificationRef.current.showNotification('Please input number only', 'error', 4000)
+      notificationRef?.current.showNotification('Please input number only', 'error', 4000)
       return
     }
-    setPrjAmount(e.target.value)
+    setType(e.target.value)
   }
 
   return (
-    <Box ml="24px" w="100%">
+    <Box mt ="40px">
       <Flex justify="space-between">
-        <Text mb="20px">Amount Required</Text>
+        <Text mb="20px">{typeText}</Text>
       </Flex>
       <InputTransition
-        unitid="projectamount"
-        selected={prjAmount == '' ? false : true}
+        unitid={"projectamount" + typeText}
+        selected={type == '' ? false : true}
         width="100%"
         height="55px"
         rounded="md"
@@ -47,12 +47,12 @@ export default function ProjectCollectedAmount({prjAmount, setPrjAmount, notific
             style={{ border: '0', background: 'transparent' }}
             type="text"
             h="55px"
-            placeholder="Type here"
+            placeholder="Input number here"
             focusBorderColor="purple.800"
             rounded="md"
-            value={prjAmount}
+            value={type}
             onChange={(e) => {
-              onChangePrjAmount(e)
+              onChangeAmount(e)
             }}
           />
           <InputRightElement
@@ -64,18 +64,18 @@ export default function ProjectCollectedAmount({prjAmount, setPrjAmount, notific
             color="blue.200"
           />
           <Select
-            id="peg"
+            id={"peg" + typeText}
             style={{ border: '0', background: 'transparent' }}
             h="55px"
             w="140px"
             rounded="md"
             fontSize="16px"
-            value=""
-            onChange={(e) => {
-              setPrjChain(e.target.value)
-            }}
+            value="($)UST"
+            // onChange={(e) => {
+            //   setPrjChain(e.target.value)
+            // }}
           >
-            <option selected style={{ backgroundColor: '#1B0645' }}>
+            <option style={{ backgroundColor: '#1B0645' }}>
               ($)UST
             </option>
           </Select>

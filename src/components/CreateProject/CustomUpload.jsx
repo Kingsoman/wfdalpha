@@ -9,39 +9,27 @@ import {
 } from '@chakra-ui/react';
 
 import { IoCloudUploadOutline, IoCheckbox } from 'react-icons/io5';
-import { useStore } from '../../store';
+import {isNull} from '../Util'
 
-export default function ProjectWhitepaper({whitepaper, setWhitepaper}) 
+export default function CustomUpload({typeText, type, setType, setFile}) 
 {
-  const { state, dispatch } = useStore();
-
   function openUpload() {
     if (typeof document !== 'undefined') {
       let fileSelector = document.getElementById('fileSelector')
       fileSelector.click()
     }
   }
-  function changeWhitepaper(e) {
-    if (typeof document !== 'undefined') {
-      let fileSelector = document.getElementById('fileSelector')
-      var fileName = fileSelector.value
-      setWhitepaper(
-        fileName.substr(fileName.lastIndexOf('\\') + 1, fileName.length - 1),
-      )
-
-      dispatch({
-        type: 'setWhitepaper',
-        message: e.target.files[0],
-      })
-    }
+  function onChangeType(e) {
+    setType(e.target.files[0]);
+console.log(e.target.files[0]);
   }
 
   return (
-    <Box w="48%">
+    <Box mt='30px' w="48%">
       <Flex justify="space-between">
-        <Text mb="20px">Project Whitepaper</Text>
+        <Text mb="20px">{typeText}</Text>
       </Flex>
-      {whitepaper == '' && (
+      {isNull(type) && (
         <InputGroup size="sm">
           <InputLeftElement
             h="55px"
@@ -68,7 +56,7 @@ export default function ProjectWhitepaper({whitepaper, setWhitepaper})
           />
         </InputGroup>
       )}
-      {whitepaper != '' && (
+      {!isNull(type) && (
         <InputGroup size="sm">
           <InputLeftElement
             h="55px"
@@ -82,7 +70,7 @@ export default function ProjectWhitepaper({whitepaper, setWhitepaper})
             h="55px"
             bg="#FFFFFF"
             borderColor="#FFFFFF33"
-            placeholder={whitepaper}
+            placeholder={type.name}
             focusBorderColor="purple.800"
             rounded="md"
             onClick={(e) => {
@@ -96,7 +84,7 @@ export default function ProjectWhitepaper({whitepaper, setWhitepaper})
         id="fileSelector"
         name="userFile"
         style={{ display: 'none' }}
-        onChange={(e) => changeWhitepaper(e)}
+        onChange={(e) => onChangeType(e)}
       />
     </Box>
   )

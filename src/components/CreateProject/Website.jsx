@@ -3,25 +3,25 @@ import {
   Flex,
   Text,
   InputGroup,
-  InputLeftElement,
+  InputLeftAddon,
   Input,
-  Box
+  Box,
 } from '@chakra-ui/react'
 
 import {
   InputTransition,
 } from '../ImageTransition'
 
-export default function ProjectEmail({prjEmail, setPrjEmail}) {
+export default function Website({typeText, type, setType}) {
 
   return (
-    <Box w="100%">
+    <Box w="100%" mt="50px">
       <Flex justify="space-between">
-        <Text mb="20px">Email</Text>
+        <Text mb="20px">{typeText}</Text>
       </Flex>
       <InputTransition
-        unitid="projectemail"
-        selected={prjEmail == '' ? false : true}
+        unitid={"projectwebsite" + typeText}
+        selected={type == '' ? false : true}
         width="100%"
         height="55px"
         rounded="md"
@@ -30,27 +30,26 @@ export default function ProjectEmail({prjEmail, setPrjEmail}) {
           size="sm"
           style={{ background: 'rgba(255, 255, 255, 0.05)' }}
         >
-          <InputLeftElement
+          <InputLeftAddon
+            h="55px"
             style={{ background: 'transparent', border: '0' }}
-            pointerEvents="none"
-            color="gray.300"
-            fontSize="1.2em"
-            children=" "
+            children="http://"
+            color="white"
+            rounded="md"
           />
           <Input
-            style={{ background: 'transparent', border: '0' }}
-            type="email"
+            type="text"
             h="55px"
-            placeholder="example@email.com"
-            focusBorderColor="purple.800"
+            style={{ background: 'transparent', border: '0' }}
+            placeholder="Type here"
             rounded="md"
-            value={prjEmail}
+            value={type}
             onChange={(e) => {
-              setPrjEmail(e.target.value)
+              setType(e.target.value)
             }}
           />
         </InputGroup>
       </InputTransition>
     </Box>
   )
-};
+}

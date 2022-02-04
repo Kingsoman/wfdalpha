@@ -10,83 +10,75 @@ import {
 export default function PageLayout(props) {
   return (
     <ChakraProvider resetCSS theme={theme}>
-      <div 
-        style={{background:"linear-gradient(90deg, #1F0021 0%, #120054 104.34%)", 
-        width:'100%', 
-        color:'white', 
-        fontSize:'18px', 
-        fontFamily:'Sk-Modernist-Regular', 
-        fontWeight:'500' }}
+      <Flex
+        color={'white'}
+        width={'100%'}
+        fontSize={'18px'}
+        justify={'center'}
+        fontWeight={'500'}
+        alignItems={'center'}
+        flexDirection={'column'}
+        fontFamily={'Sk-Modernist-Regular'}
+        background={'linear-gradient(90deg, #1F0021 0%, #120054 104.34%)'}
       >
-        <div 
-          style={{backgroundImage:"url('/media/createproject_banner_emphasis.svg')", 
-          width:'100%', 
-          height: '330px',
-          zIndex:'10'}}
+        <Flex
+          mb={'30px'}
+          width={'100%'}
+          height={'250px'}
+          justify={'center'}
+          alignItems={'center'}
+          flexDirection={'column'}
+          backgroundSize={'cover'}
+          backgroundRepeat={'no-repeat'}
+          boxShadow={'0px 5px 15px #000000A6'}
+          backgroundImage={"url('/media/createproject_banner.svg')"}
         >
-          <div 
-            style={{backgroundImage:"url('/media/createproject_banner.svg')", 
-            position:'absolute', 
-            top:'80px', 
-            width:'100%', 
-            zIndex:'11', 
-            backgroundPosition:'center', 
-            backgroundRepeat:'no-repeat', 
-            backgroundSize:'cover', 
-            zIndex:'11'}}
+          <Flex 
+            pt='95px' 
+            justify="center"
           >
-            <Flex 
-              pt='95px' 
-              justify="center"
+            <Text 
+            fontSize='16px' 
+            fontWeight='normal' 
+            color={'rgba(255, 255, 255, 0.54)'}
             >
-              <Text 
+              Home &gt;&nbsp;
+            </Text>
+            <Text 
               fontSize='16px' 
-              fontWeight='normal' 
-              color={'rgba(255, 255, 255, 0.54)'}
-              >
-                Home &gt;&nbsp;
-              </Text>
-              <Text 
-                fontSize='16px' 
-                color={'rgba(255, 255, 255, 0.84)'}
-              >
-                {props.title}
-              </Text>
-            </Flex>
-            <Flex 
-              mt='11px' 
-              pb='55px' 
-              mb="20px" 
-              justify='center'
-              style={{fontFamily:'PilatExtended-Bold'}}
-              >
-              <Text 
-              fontSize={{base:'25px',md:'25px',lg:'40px'}} 
-              color='#4790f5'
-              >
-                {props.subTitle1}
-              </Text>
-              <Text 
-                fontSize={{base:'25px',md:'25px',lg:'40px'}}
-              >
-                &nbsp;{props.subTitle2}
-              </Text>
-            </Flex>
-          </div>
-        </div>
+              color={'rgba(255, 255, 255, 0.84)'}
+            >
+              {props.title}
+            </Text>
+          </Flex>
+          <Flex 
+            mt='11px' 
+            pb='55px' 
+            mb="20px" 
+            justify='center'
+            style={{fontFamily:'PilatExtended-Bold'}}
+            >
+            <Text 
+            fontSize={{base:'25px',md:'25px',lg:'40px'}} 
+            color='#4790f5'
+            >
+              {props.subTitle1}
+            </Text>
+            <Text 
+              fontSize={{base:'25px',md:'25px',lg:'40px'}}
+            >
+              &nbsp;{props.subTitle2}
+            </Text>
+          </Flex>
+        </Flex>
         <Box 
           w='100%' 
           justify='center' 
-          mt = "-70px"
+          align = 'center'
         >
-          <Box 
-            w = '100%' 
-            align='center'
-          >
             {props.children}
-          </Box>
         </Box>
-      </div>
+      </Flex>
     </ChakraProvider>
   )
 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {
   Flex,
   Text,
@@ -10,23 +10,24 @@ import {
   InputTransition,
 } from '../ImageTransition'
 
-export default function ProjectDescription({prjDescription, setPrjDescription, prjDescriptionLen, setPrjDescriptionLen}) {
-  function onChangePrjDescription(e) {
-    setPrjDescriptionLen(e.target.value.length)
-    if (e.target.value.length < 3000) setPrjDescription(e.target.value)
+export default function CustomTextarea({typeText, type, setType}) {
+  const [nameLen, setNameLen] = useState(0);
+  function onChangeType(e) {
+    setNameLen(e.target.value.length)
+    if (e.target.value.length < 3000) setType(e.target.value)
   }
 
   return (
     <Box mt="40px">
       <Flex justify="space-between">
-        <Text mb="20px">Project Description</Text>
+        <Text mb="20px">{typeText}</Text>
         <Text fontSize="15px" opacity="0.5">
-          {prjDescriptionLen}/3000 words
+          {nameLen}/3000 words
         </Text>
       </Flex>
       <InputTransition
         unitid="projectdescription"
-        selected={prjDescription == '' ? false : true}
+        selected={type == '' ? false : true}
         width="100%"
         height="175px"
         rounded="md"
@@ -34,9 +35,9 @@ export default function ProjectDescription({prjDescription, setPrjDescription, p
       >
         <Textarea
           style={{ background: 'transparent', border: '0' }}
-          value={prjDescription}
+          value={type}
           onChange={(e) => {
-            onChangePrjDescription(e)
+            onChangeType(e)
           }}
           rounded="md"
           placeholder="Type here"

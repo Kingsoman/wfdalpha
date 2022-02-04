@@ -1,27 +1,14 @@
 import React, { useState, useRef, useMemo } from 'react'
-import { ChakraProvider } from '@chakra-ui/react'
 import { Fee, MsgExecuteContract, WasmAPI, LCDClient} from '@terra-money/terra.js'
 import {
   Box,
   Flex,
-  Text,
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  Textarea,
-  Select,
-  InputLeftElement,
-  InputRightElement,
-  Img,
+  HStack
 } from '@chakra-ui/react'
-import { IoCloudUploadOutline, IoCheckbox } from 'react-icons/io5'
 import {
   ButtonBackTransition,
   ButtonTransition,
-  ImageTransition,
-  InputTransition,
 } from '../components/ImageTransition'
-import theme from '../theme'
 import { useStore } from '../store'
 import Notification from '../components/Notification'
 import Footer from '../components/Footer'
@@ -33,20 +20,19 @@ import {
   isNull,
   getVal
 } from '../components/Util'
+
 import PageLayout from '../components/PageLayout'
 
 import Payment from '../components/CreateProject/Payment'
-import ProjectTitle from '../components/CreateProject/ProjectTitle'
-import ProjectDescription from '../components/CreateProject/ProjectDescription'
-import ProjectWebsite from '../components/CreateProject/ProjectWebsite'
-import ProjectWhitepaper from '../components/CreateProject/ProjectWhitepaper'
-import ProjectLogo from '../components/CreateProject/ProjectLogo'
-import ProjectTeamDescription from '../components/CreateProject/ProjectTeamDescription'
-import ProjectCategory from '../components/CreateProject/ProjectCategory'
-import ProjectSubCategory from '../components/CreateProject/ProjectSubCategory'
-import ProjectChain from '../components/CreateProject/ProjectChain'
-import ProjectEmail from '../components/CreateProject/ProjectEmail'
-import ProjectCollectedAmount from '../components/CreateProject/ProjectCollectedAmount'
+import CustomInput from '../components/CreateProject/CustomInput'
+import CustomTextarea from '../components/CreateProject/CustomTextarea'
+import CustomNumberInput from '../components/CreateProject/CustomNumberInput'
+import CustomSimpleNumberInput from '../components/CreateProject/CustomSimpleNumberInput'
+import CustomSelect from '../components/CreateProject/CustomSelect'
+import CustomEmailInput from '../components/CreateProject/CustomEmailInput'
+import CustomUpload from '../components/CreateProject/CustomUpload'
+import Website from '../components/CreateProject/Website'
+
 import Milestons from '../components/CreateProject/Milestones'
 
 let useConnectedWallet = {}
@@ -62,19 +48,23 @@ export default function CreateProject() {
   const [logo, setLogo] = useState('')
   const [whitepaper, setWhitepaper] = useState('')
 
-  const [prjCategory, setPrjCategory] = useState('Crypto')
-  const [prjName, setPrjName] = useState('')
-  const [prjDescription, setPrjDescription] = useState('')
-  const [prjWebsite, setPrjWebsite] = useState('')
-  const [prjTeamDescription, setPrjTeamDescription] = useState('')
-  const [prjEmail, setPrjEmail] = useState('')
-  const [prjAmount, setPrjAmount] = useState('')
-  const [prjSubcategory, setPrjSubcategory] = useState('Lending')
-  const [prjChain, setPrjChain] = useState('Terra')
-
-  const [prjNameLen, setPrjNameLen] = useState(0)
-  const [prjDescriptionLen, setPrjDescriptionLen] = useState(0)
-  const [prjTeamDescriptionLen, setPrjTeamDescriptionLen] = useState(0)
+  const [company, setCompany] = useState('');
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [collectedAmount, setCollectedAmount] = useState('')
+  const [ecosystem, setEcosystem] = useState('')
+  const [tokenName, setTokenName] = useState('')
+  const [priceSeed, setPriceSeed] = useState('')
+  const [pricePresale, setPricePresale] = useState('')
+  const [priceIDO, setPriceIDO] = useState('')
+  const [country, setCountry] = useState('')
+  const [cofounderName, setCofounderName] = useState('')
+  const [signature, setSignature] = useState('')
+  const [address, setAddress] = useState('')
+  const [email, setEmail] = useState('')
+  const [serviceWefund, setServiceWefund] = useState(5)
+  const [serviceCharity, setServiceCharity] = useState(0)
+  const [website, setWebsite] = useState('')
 
   const [milestoneTitle, setMilestoneTitle] = useState([''])
   const [milestoneType, setMilestoneType] = useState([''])
@@ -110,12 +100,12 @@ export default function CreateProject() {
       return;
     }
 
-    if (prjNameLen == 0) {
+    if (title?.length == 0) {
       notificationRef.current.showNotification('Please fill project name!', 'error', 4000)
       return
     }
 
-    if (parseInt(prjAmount) < 6) {
+    if (parseInt(collectedAmount) < 6) {
       notificationRef.current.showNotification('Collected money at least 6 UST', 'error', 4000)
       return
     }
@@ -140,16 +130,51 @@ export default function CreateProject() {
       }
       total_release += parseInt(milestoneAmount[i]);
     }
-    if (total_release != parseInt(prjAmount)){
+    if (total_release != parseInt(collectedAmount)){
       notificationRef.current.showNotification('milestone total amount should equal to collected amount', 'error', 4000)
       return
     }
 
+    let realSAFT = ''
+    // if (logo != '') {
+      var formData = new FormData()
+      formData.append('tokenName', tokenName);
+      formData.append('company', company);
+      formData.append('title', title);
+      formData.append('address', address);
+      formData.append('description', description);
+      formData.append('ecosystem', ecosystem);
+      formData.append('priceSeed', priceSeed);
+      formData.append('pricePresale', pricePresale);
+      formData.append('priceIDO', priceIDO);
+      formData.append('cofounderName', cofounderName);
+      formData.append('country', country);
+      formData.append('email', email);
+
+      formData.append('file', signature);
+
+      const requestOptions = {
+        method: 'POST',
+        body: formData,
+      }
+
+      await fetch(state.request + '/docxmake', requestOptions)
+        .then((res) => res.json())
+        .then((data) => {
+          realSAFT = data.data
+          notificationRef.current.showNotification(data.data + 'SAFT Success', 'success', 1000)
+        })
+        .catch((e) => {
+          console.log('Error:' + e)
+          notificationRef.current.showNotification('SAFT failed', 'error', 1000)
+        })
+    // }
+    return;
     //----------upload whitepaper---------------------------------------
     notificationRef.current.showNotification('Please wait', 'success', 10000)
 
-    let realWhitepaer = ''
-    if (whitepaper != '') {
+    let realWhitepaper = ''
+    if (!isNull(whitepaper) != '') {
       var formData = new FormData()
       formData.append('projectName', prjName)
       formData.append('file', state.whitepaper)
@@ -162,7 +187,7 @@ export default function CreateProject() {
       await fetch(state.request + '/uploadWhitepaper', requestOptions)
         .then((res) => res.json())
         .then((data) => {
-          realWhitepaer = data.data
+          realWhitepaper = data.data
           notificationRef.current.showNotification(
             data.data + 'Whitepaper upload Success',
             'success',
@@ -175,28 +200,28 @@ export default function CreateProject() {
         })
     }
     //---------upload logo-------------------------------------------------
-    let realLogo = ''
-    if (logo != '') {
-      var formData = new FormData()
-      formData.append('projectName', prjName)
-      formData.append('file', state.logo)
+    // let realLogo = ''
+    // if (logo != '') {
+    //   var formData = new FormData()
+    //   formData.append('projectName', prjName)
+    //   formData.append('file', state.logo)
 
-      const requestOptions = {
-        method: 'POST',
-        body: formData,
-      }
+    //   const requestOptions = {
+    //     method: 'POST',
+    //     body: formData,
+    //   }
 
-      await fetch(state.request + '/uploadLogo', requestOptions)
-        .then((res) => res.json())
-        .then((data) => {
-          realLogo = data.data
-          notificationRef.current.showNotification(data.data + 'Logo upload Success', 'success', 1000)
-        })
-        .catch((e) => {
-          console.log('Error:' + e)
-          notificationRef.current.showNotification('upload logo failed', 'error', 1000)
-        })
-    }
+    //   await fetch(state.request + '/uploadLogo', requestOptions)
+    //     .then((res) => res.json())
+    //     .then((data) => {
+    //       realLogo = data.data
+    //       notificationRef.current.showNotification(data.data + 'Logo upload Success', 'success', 1000)
+    //     })
+    //     .catch((e) => {
+    //       console.log('Error:' + e)
+    //       notificationRef.current.showNotification('upload logo failed', 'error', 1000)
+    //     })
+    // }
     //---------------execute contract----------------------------------
 
     let project_milestones=[];
@@ -263,7 +288,7 @@ export default function CreateProject() {
   }
   return (
     <PageLayout title="Create Your Project" subTitle1="Create a" subTitle2="New Project">
-      <Flex width="100%" justify="center" mb={'150px'} zIndex={'1'}>
+      <Flex width="100%" justify="center" mb={'150px'} zIndex={'1'} mt = '-30px'>
         <Box
           w = '900px'
           background = 'rgba(255, 255, 255, 0.05)'
@@ -275,49 +300,103 @@ export default function CreateProject() {
           zIndex = '1'
         >
           <Payment isUST={isUST} setIsUST={setIsUST}/>
-          <ProjectTitle 
-            prjName={prjName} 
-            setPrjName={setPrjName} 
-            prjNameLen={prjNameLen} 
-            setPrjNameLen={setPrjNameLen}
+          <CustomInput
+            typeText = "Company Name"
+            type={company} 
+            setType={setCompany} 
           />
-          <ProjectDescription 
-            prjDescription={prjDescription} 
-            setPrjDescription={setPrjDescription} 
-            prjDescrioptionLen={prjDescriptionLen} 
-            setPrjDescriptionLen={setPrjDescriptionLen}
+          <CustomInput
+            typeText = "Project Title"
+            type={title} 
+            setType={setTitle} 
           />
-          <ProjectWebsite 
-            prjWebsite={prjWebsite} 
-            setPrjWebsite={setPrjWebsite} 
+          <CustomTextarea 
+            typeText = "Project Description" 
+            type = {description} 
+            setType = {setDescription} 
           />
-          
-          <Flex direction="row" mt="40px" justify="space-between">
-            <ProjectWhitepaper whitepaper={whitepaper} setWhitepaper={setWhitepaper} />
-            <ProjectLogo logo={logo} setLogo={setLogo} />
-          </Flex>
-          <ProjectTeamDescription
-            prjTeamDescription={prjTeamDescription}
-            setPrjTeamDescription={setPrjTeamDescription}
-            prjTeamDescriptionLen={prjTeamDescriptionLen}
-            setPrjTeamDescriptionLen={setPrjTeamDescriptionLen}
+          <CustomNumberInput
+            typeText = "Amount Required"
+            type = {collectedAmount}
+            setType = {setCollectedAmount}
+            notificationRef={notificationRef}
           />
-
-          <Flex w="100%" justify="space-between" alignItems="center">
-            <ProjectCategory prjCategory={prjCategory} setPrjCategory={setPrjCategory} />
-            <ProjectSubCategory prjSubcategory={prjSubcategory} setPrjSubcategory={setPrjSubcategory} />
-            <ProjectChain prjChain={prjChain} setPrjChain={setPrjChain}/>
-          </Flex>
-          {/* -------------------------email------------------------ */}
-          <Flex direction="row" mt="40px" justify="space-between">
-            <ProjectEmail prjEmail={prjEmail} setPrjEmail={setPrjEmail} />
-            <ProjectCollectedAmount 
-              prjAmount={prjAmount} 
-              setPrjAmount={setPrjAmount} 
-              notificationRef={notificationRef}
+          <CustomSelect
+            typeText =  "Chain"
+            type = {ecosystem}
+            setType = {setEcosystem}
+            options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
+          />
+          <CustomInput
+            typeText = "Token Name"
+            type={tokenName} 
+            setType={setTokenName} 
+          />
+          <CustomSimpleNumberInput
+            typeText = "Price set at Seed"
+            type={priceSeed} 
+            setType={setPriceSeed}
+            notificationRef={notificationRef}
+          />
+          <CustomSimpleNumberInput
+            typeText = "Price set at Presale"
+            type={pricePresale} 
+            setType={setPricePresale}
+            notificationRef={notificationRef}
+          />
+          <CustomSimpleNumberInput
+            typeText = "Price set at IDO"
+            type={priceIDO} 
+            setType={setPriceIDO}
+            notificationRef={notificationRef}
+          />
+          <CustomInput
+            typeText = "Country"
+            type={country} 
+            setType={setCountry} 
+          />
+          <CustomInput
+            typeText = "Founder Name"
+            type={cofounderName} 
+            setType={setCofounderName} 
+          />
+          <CustomInput
+            typeText = "Address"
+            type={address} 
+            setType={setAddress} 
+          />
+          <CustomEmailInput
+            typeText = "Email"
+            type = {email}
+            setType = {setEmail}
+          />
+          <CustomSimpleNumberInput
+            typeText = "% for WeFund Service"
+            type = {serviceWefund}
+            setType = {setServiceWefund}
+          />
+          <CustomSimpleNumberInput
+            typeText = '% for Charitty'
+            type = {serviceCharity}
+            setType= {setServiceCharity}
+          />
+          <HStack spacing = '10px'>
+            <CustomUpload
+              typeText = 'Signature'
+              type = {signature}
+              setType = {setSignature}
             />
-          </Flex>
-
+            <CustomUpload
+              typeText = 'Whitepaper'
+              type = {whitepaper}
+              setType = {setWhitepaper}
+            />
+          </HStack>
+          <Website
+            typeText = "Project Website"
+            type = {website}
+            setType = {setWebsite}
+          />
           <Milestons
             milestoneTitle = {milestoneTitle}
             setMilestoneTitle = {setMilestoneTitle}

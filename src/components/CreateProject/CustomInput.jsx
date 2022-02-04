@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {
   Flex,
   Text,
@@ -11,25 +11,26 @@ import {
   InputTransition,
 } from '../ImageTransition'
 
-export default function ProjectTitle({prjName, setPrjName, prjNameLen, setPrjNameLen}) {
-  function onChangePrjName(e) {
-    setPrjNameLen(e.target.value.length)
+export default function CustomInput({typeText, type, setType}) {
+  const [nameLen, setNameLen] = useState(0)
+  function onChangeType(e) {
+    setNameLen(e.target.value.length)
     if (e.target.value.length < 100) {
-      setPrjName(e.target.value)
+      setType(e.target.value)
     }
   }
 
   return (
     <Box mt="40px">
       <Flex justify="space-between">
-        <Text mb="20px">Project Name</Text>
+        <Text mb="20px">{typeText}</Text>
         <Text fontSize="15px" opacity="0.5">
-          {prjNameLen}/100 words
+          {nameLen}/100 words
         </Text>
       </Flex>
       <InputTransition
-        unitid="projectname"
-        selected={prjName == '' ? false : true}
+        unitid={"inputtransition" + typeText}
+        selected={type == '' ? false : true}
         width="100%"
         height="55px"
         rounded="md"
@@ -44,9 +45,9 @@ export default function ProjectTitle({prjName, setPrjName, prjNameLen, setPrjNam
             type="text"
             h="55px"
             rounded="md"
-            value={prjName}
+            value={type}
             placeholder="Type here"
-            onChange={(e) => onChangePrjName(e)}
+            onChange={(e) => onChangeType(e)}
           />
         </InputGroup>
       </InputTransition>

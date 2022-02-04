@@ -327,7 +327,6 @@ return;
     <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WeFund">
       <Box 
         width={{base:'500px', md:'500px', lg:'100%'}} 
-        bg='#FFFFFF0D' 
         px='50px' 
         style={{fontFamily:'Sk-Modernist-Regular'}} 
       >
