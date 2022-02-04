@@ -11,7 +11,7 @@ import {
 import { IoCloudUploadOutline, IoCheckbox } from 'react-icons/io5';
 import {isNull} from '../Util'
 
-export default function CustomUpload({typeText, type, setType, setFile}) 
+export default function CustomUpload({typeText, type, setType}) 
 {
   function openUpload() {
     if (typeof document !== 'undefined') {
@@ -21,7 +21,6 @@ export default function CustomUpload({typeText, type, setType, setFile})
   }
   function onChangeType(e) {
     setType(e.target.files[0]);
-console.log(e.target.files[0]);
   }
 
   return (

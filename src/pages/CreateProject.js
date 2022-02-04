@@ -89,7 +89,7 @@ export default function CreateProject() {
   const notificationRef = useRef();
 
   //---------------create project---------------------------------
-  async function createProject() {
+  const checkInvalidation = async () => {
     if(CheckNetwork(connectedWallet, notificationRef, state) == false)
       return false;
 
@@ -97,82 +97,86 @@ export default function CreateProject() {
 
     if (communityData == ''){
       notificationRef.current.showNotification('There is no any community member!', 'error', 4000);
-      return;
+      return false;
     }
 
     if (title?.length == 0) {
       notificationRef.current.showNotification('Please fill project name!', 'error', 4000)
-      return
+      return false; false;
     }
 
     if (parseInt(collectedAmount) < 6) {
       notificationRef.current.showNotification('Collected money at least 6 UST', 'error', 4000)
-      return
+      return false;
     }
 
     let total_release = 0;
     for(let i=0; i<milestoneTitle.length; i++){
       if (milestoneTitle[i] == '') {
         notificationRef.current.showNotification('Please fill milestone title!', 'error', 4000)
-        return
+        return false;
       }
       if (milestoneStartdate[i] == ''){
         notificationRef.current.showNotification('Please fill milestone Start Date!', 'error', 4000)
-        return
+        return false;
       }
       if (milestoneEnddate[i] == ''){
         notificationRef.current.showNotification('Please fill milestone End Date!', 'error', 4000)
-        return
+        return false;
       }
       if (parseInt(milestoneAmount[i]) < 6) {
         notificationRef.current.showNotification('Collected money at least 6 UST', 'error', 4000)
-        return
+        return false;
       }
       total_release += parseInt(milestoneAmount[i]);
     }
     if (total_release != parseInt(collectedAmount)){
       notificationRef.current.showNotification('milestone total amount should equal to collected amount', 'error', 4000)
-      return
+      return false;
+    }
+    return true;
+  }
+
+  const createDocx = async () => {
+    var formData = new FormData()
+    formData.append('tokenName', tokenName);
+    formData.append('company', company);
+    formData.append('title', title);
+    formData.append('address', address);
+    formData.append('description', description);
+    formData.append('ecosystem', ecosystem);
+    formData.append('priceSeed', priceSeed);
+    formData.append('pricePresale', pricePresale);
+    formData.append('priceIDO', priceIDO);
+    formData.append('cofounderName', cofounderName);
+    formData.append('country', country);
+    formData.append('email', email);
+
+    formData.append('file', signature);
+
+    const requestOptions = {
+      method: 'POST',
+      body: formData,
     }
 
-    let realSAFT = ''
-    // if (logo != '') {
-      var formData = new FormData()
-      formData.append('tokenName', tokenName);
-      formData.append('company', company);
-      formData.append('title', title);
-      formData.append('address', address);
-      formData.append('description', description);
-      formData.append('ecosystem', ecosystem);
-      formData.append('priceSeed', priceSeed);
-      formData.append('pricePresale', pricePresale);
-      formData.append('priceIDO', priceIDO);
-      formData.append('cofounderName', cofounderName);
-      formData.append('country', country);
-      formData.append('email', email);
+    let realSAFT = '', err = false;
+    await fetch(state.request + '/docxmake', requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        realSAFT = data.data
+        notificationRef.current.showNotification(data.data + 'SAFT Success', 'success', 1000)
+      })
+      .catch((e) => {
+        console.log('Error:' + e)
+        notificationRef.current.showNotification('SAFT failed', 'error', 1000)
+        err = true;
+      })
 
-      formData.append('file', signature);
+    if(err) return '';
+    return realSAFT;
+  }
 
-      const requestOptions = {
-        method: 'POST',
-        body: formData,
-      }
-
-      await fetch(state.request + '/docxmake', requestOptions)
-        .then((res) => res.json())
-        .then((data) => {
-          realSAFT = data.data
-          notificationRef.current.showNotification(data.data + 'SAFT Success', 'success', 1000)
-        })
-        .catch((e) => {
-          console.log('Error:' + e)
-          notificationRef.current.showNotification('SAFT failed', 'error', 1000)
-        })
-    // }
-    return;
-    //----------upload whitepaper---------------------------------------
-    notificationRef.current.showNotification('Please wait', 'success', 10000)
-
+  const uploadWhitepaper = async () => {
     let realWhitepaper = ''
     if (!isNull(whitepaper) != '') {
       var formData = new FormData()
@@ -187,9 +191,9 @@ export default function CreateProject() {
       await fetch(state.request + '/uploadWhitepaper', requestOptions)
         .then((res) => res.json())
         .then((data) => {
-          realWhitepaper = data.data
+          realWhitepaper = data.data;
           notificationRef.current.showNotification(
-            data.data + 'Whitepaper upload Success',
+            'Whitepaper upload Success',
             'success',
             1000,
           )
@@ -199,6 +203,10 @@ export default function CreateProject() {
           notificationRef.current.showNotification('upload whitepaper failed', 'error', 1000)
         })
     }
+    return realWhitepaper;
+  }
+
+  const uploadLogo = async () => {
     //---------upload logo-------------------------------------------------
     // let realLogo = ''
     // if (logo != '') {
@@ -222,6 +230,20 @@ export default function CreateProject() {
     //       notificationRef.current.showNotification('upload logo failed', 'error', 1000)
     //     })
     // }
+  }
+
+  async function createProject() {
+    if(await checkInvalidation() == false)
+      return false;
+
+    notificationRef.current.showNotification('Please wait', 'success', 10000)
+
+    let realSAFT = await createDocx();
+    if(realSAFT == '') 
+      return false;
+
+    let realWhitepaer = await uploadWhitepaper();
+    
     //---------------execute contract----------------------------------
 
     let project_milestones=[];
@@ -380,7 +402,7 @@ export default function CreateProject() {
             type = {serviceCharity}
             setType= {setServiceCharity}
           />
-          <HStack spacing = '10px'>
+          <Flex direction='row' >
             <CustomUpload
               typeText = 'Signature'
               type = {signature}
@@ -391,7 +413,7 @@ export default function CreateProject() {
               type = {whitepaper}
               setType = {setWhitepaper}
             />
-          </HStack>
+          </Flex>
           <Website
             typeText = "Project Website"
             type = {website}

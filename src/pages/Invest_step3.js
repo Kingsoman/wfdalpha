@@ -67,7 +67,6 @@ export default function Invest_step3() {
       }
       setOneprojectData(oneprojectData);
       setChain(oneprojectData.project_chain);
-console.log(oneprojectData);
     }
     fetchData();
   }, 
@@ -167,8 +166,7 @@ console.log(oneprojectData);
 
     notificationRef.current.showNotification("Uploading", 'success', 100000)
 
-    // await fetch(state.request + '/pdfmake', requestOptions)
-    await fetch(state.request + '/docxmake', requestOptions)
+    await fetch(state.request + '/pdfmake', requestOptions)
     .then((res) => res.json())
     .then((data) => {
       notificationRef.current.hideNotification();
@@ -181,7 +179,7 @@ console.log(oneprojectData);
     .catch((e) =>{
       console.log("Error:"+e);
     })
-return;
+
     if(project_id == state.wefundID){
       let amount = parseInt(state.investAmount) * 10**6;
 

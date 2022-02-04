@@ -53,7 +53,7 @@ const initialState = {
     investDate: '',
     investSignature: '',
     // request: 'https://wefund-nodejs-gwb6v.ondigitalocean.app',
-    request: 'http://8372-188-43-136-33.ngrok.io',
+    request: 'http://c80e-188-43-136-33.ngrok.io',
     pdfFile: '',
     whitepaper: '',
     logo: '' ,
