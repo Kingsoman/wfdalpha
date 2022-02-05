@@ -2,6 +2,7 @@ import { Fee, MsgExecuteContract, WasmAPI, LCDClient} from '@terra-money/terra.j
 
 export async function EstimateSend(connectedWallet, lcd, msg, message, notificationRef, memo='')
 {
+console.log(msg);
   const obj = new Fee(10_000, { uusd: 4500})
   let accountInfo;
   let abort = false;
@@ -255,7 +256,7 @@ export async function FetchData(api, notificationRef, state, dispatch, force = f
       })  
     }
   }
-
+console.log(projectData);
   return {projectData, communityData, configData};
 }
 export function GetOneProject(projectData, project_id){

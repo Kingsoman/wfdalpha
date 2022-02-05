@@ -17,13 +17,13 @@ import {
 export default function CustomNumberInput({typeText, type, setType, notificationRef}) 
 {
   function onChangeAmount(e) {
-    if (
-      e.target.value != '' &&
-      e.target.value != parseInt(e.target.value).toString()
-    ) {
-      notificationRef?.current.showNotification('Please input number only', 'error', 4000)
-      return
-    }
+    // if (
+    //   e.target.value != '' &&
+    //   e.target.value != parseInt(e.target.value).toString()
+    // ) {
+    //   notificationRef?.current.showNotification('Please input number only', 'error', 4000)
+    //   return
+    // }
     setType(e.target.value)
   }
 

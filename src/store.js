@@ -14,11 +14,11 @@ import {
 const StoreContext = createContext()
 
 const initialState = {
-    net: 'testnet',
-    // net: 'mainnet',
+    // net: 'testnet',
+    net: 'mainnet',
 
-    WEFundContractAddress: "terra13xgjj5h9hsea8awes4t77ws8prx8c2w28udmru", //testnet v2.2
-    // WEFundContractAddress: "terra1rpqlf5y7e5ssg742v5vj0eza5yzjkxk02yapky", //mainnet v2.2
+    // WEFundContractAddress: "terra13xgjj5h9hsea8awes4t77ws8prx8c2w28udmru", //testnet v2.2
+    WEFundContractAddress: "terra1prfeefv02cfxl0zc6aaut9zlc7elygnt66rq2x", //mainnet v2.2
     
     presale: true,
     referralCount: 0,
@@ -35,14 +35,14 @@ const initialState = {
     config: {},
     ustBalance: 0,
     contractBalance: {},
-    lcd_client: new LCDClient({ //testnet
-        URL: 'https://bombay-lcd.terra.dev/',
-        chainID: 'bombay-12',
-    }),
-    // lcd_client: new LCDClient({ //mainnet
-    //     URL: 'https://lcd.terra.dev',
-    //     chainID: 'columbus-4',
+    // lcd_client: new LCDClient({ //testnet
+    //     URL: 'https://bombay-lcd.terra.dev/',
+    //     chainID: 'bombay-12',
     // }),
+    lcd_client: new LCDClient({ //mainnet
+        URL: 'https://lcd.terra.dev',
+        chainID: 'columbus-4',
+    }),
     investAmount: '0',
     investWfdamount: '',
     investName: '',
@@ -51,8 +51,9 @@ const initialState = {
     investDate: '',
     investSignature: '',
     request: 'https://wefund-nodejs-gwb6v.ondigitalocean.app',
-    // request: 'http://1b8b-188-43-136-33.ngrok.io',
+    // request: 'http://a7e8-188-43-136-33.ngrok.io',
     pdfFile: '',
+    docxFile: '',
     whitepaper: '',
     logo: '' ,
     wefundID: 1,
@@ -119,6 +120,11 @@ const reducer = (state, action) => {
         return {
             ...state,
             investWfdamount: action.message,
+        }
+    case 'setDocxfile':
+        return {
+            ...state,
+            docxFile: action.message,
         }
     case 'setPdffile':
         return {

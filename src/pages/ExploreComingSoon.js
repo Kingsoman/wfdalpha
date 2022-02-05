@@ -181,7 +181,12 @@ export default function ExplorerProject() {
     let msg = new MsgExecuteContract(
       connectedWallet.walletAddress,
       state.WEFundContractAddress,
-      { wefund_approve: { project_id, deadline } },
+      { 
+        wefund_approve: { 
+          project_id: project_id, 
+          deadline: `${deadline}` 
+        } 
+      }
     )
     await EstimateSend(
       connectedWallet,
@@ -400,7 +405,7 @@ export default function ExplorerProject() {
                                 <Img
                                   w={'100%'}
                                   objectFit={'contain'}
-                                  src={`${state.request}/download?filename=${e.project_icon}`}
+                                  src={`${state.request}/download?filename=${e.project_logo}`}
                                 />
                               </object>
                             </Flex>
@@ -430,7 +435,7 @@ export default function ExplorerProject() {
                                     fontSize="lg"
                                     fontWeight="bold"
                                   >
-                                    {e.project_name}
+                                    {e.project_title}
                                   </chakra.h1>
                                 </Box>
                                 {activeTab === 'WeFundApproval' &&
@@ -651,7 +656,7 @@ export default function ExplorerProject() {
                                     mr={1}
                                   />
                                   <chakra.h1 px={1} fontSize="sm">
-                                    {e.project_chain}
+                                    {e.project_ecosystem}
                                   </chakra.h1>
                                 </Flex>
                                 <Flex alignItems="center" color={'gray.400'}>
@@ -662,7 +667,7 @@ export default function ExplorerProject() {
                                     mr={1}
                                   />
                                   <chakra.h1 px={1} fontSize="sm">
-                                    {e.project_category}
+                                    {/* {e.project_category} */}
                                   </chakra.h1>
                                 </Flex>
                                 <Flex alignItems="center" color={'gray.400'}>
@@ -800,7 +805,7 @@ export default function ExplorerProject() {
                                   <Image
                                     w="100%"
                                     objectFit="contain"
-                                    src={`${state.request}/download?filename=${e.project_icon}`}
+                                    src={`${state.request}/download?filename=${e.project_logo}`}
                                   />
                                 </object>
                               </Flex>
@@ -813,7 +818,7 @@ export default function ExplorerProject() {
                                 justify={'space-between'}
                               >
                                 <Text color="white" fontWeight="bold">
-                                  {e.project_name}
+                                  {e.project_title}
                                 </Text>
                                 <Text color={'gray.400'}>
                                   Date -{' '}
@@ -844,13 +849,13 @@ export default function ExplorerProject() {
                                   <Flex alignItems={'center'}>
                                     <Icon as={MdOutlineCategory} h={6} w={6} />
                                     <chakra.h1 fontSize="sm" ml={1}>
-                                      {e.project_chain}
+                                      {e.project_ecosystem}
                                     </chakra.h1>
                                   </Flex>
                                   <Flex alignItems={'center'}>
                                     <Icon as={MdOutlinePlace} h={6} w={6} />
                                     <chakra.h1 fontSize="sm" ml={1}>
-                                      {e.project_category}
+                                      {/* {e.project_category} */}
                                     </chakra.h1>
                                   </Flex>
                                 </Flex>

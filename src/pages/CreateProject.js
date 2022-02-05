@@ -52,7 +52,7 @@ export default function CreateProject() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [collectedAmount, setCollectedAmount] = useState('')
-  const [ecosystem, setEcosystem] = useState('')
+  const [ecosystem, setEcosystem] = useState('Terra')
   const [tokenName, setTokenName] = useState('')
   const [priceSeed, setPriceSeed] = useState('')
   const [pricePresale, setPricePresale] = useState('')
@@ -137,7 +137,7 @@ export default function CreateProject() {
     return true;
   }
 
-  const createDocx = async () => {
+  const createDocxTemplate = async () => {
     var formData = new FormData()
     formData.append('tokenName', tokenName);
     formData.append('company', company);
@@ -160,7 +160,7 @@ export default function CreateProject() {
     }
 
     let realSAFT = '', err = false;
-    await fetch(state.request + '/docxmake', requestOptions)
+    await fetch(state.request + '/docxtemplatemake', requestOptions)
       .then((res) => res.json())
       .then((data) => {
         realSAFT = data.data
@@ -239,7 +239,7 @@ export default function CreateProject() {
 
     notificationRef.current.showNotification('Please wait', 'success', 10000)
 
-    let realSAFT = await createDocx();
+    let realSAFT = await createDocxTemplate();
     if(realSAFT == '') 
       return false;
 

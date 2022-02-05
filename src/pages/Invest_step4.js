@@ -1,18 +1,18 @@
-import { ChakraProvider, ThemeProvider } from "@chakra-ui/react";
 import { CheckIcon } from "@chakra-ui/icons";
-import theme from '../theme';
 import {Box, Flex, Text,Table,Thead,Tbody,Tr,Th,Td,TableCaption, VStack,Image, HStack, Img
   } from "@chakra-ui/react";
 import React, { useEffect, useState,  useCallback, useContext, useRef, } from 'react';
 import { navigate } from "@reach/router";
 
 import { useStore } from '../store'
-import { ImageTransition, ButtonTransition } from "../components/ImageTransition";
+import { ImageTransition } from "../components/ImageTransition";
 import Notification from '../components/Notification'
 import PageLayout from '../components/PageLayout'
+import { ParseParam } from "../components/Util";
 
 export default function Invest_step4() {
   const {state, dispatch} = useStore();
+  let project_id = ParseParam();
 
   //---------------notification setting---------------------------------
   const notificationRef = useRef();
@@ -25,7 +25,11 @@ export default function Invest_step4() {
     var xhr = new XMLHttpRequest(),
           a = document.createElement('a'), file;
 
-    xhr.open('GET', state.request + '/download_pdf?filename='+state.pdfFile, true);
+    if(project_id = state.wefundID)
+      xhr.open('GET', state.request + '/download_pdf?filename='+state.pdfFile, true);
+    else
+      xhr.open('GET', state.request + '/download_docx?filename='+state.docxFile, true);
+
     xhr.responseType = 'blob';
     xhr.onload = function () {
         file = new Blob([xhr.response], { type : 'application/octet-stream' });

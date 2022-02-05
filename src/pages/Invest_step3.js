@@ -66,7 +66,7 @@ export default function Invest_step3() {
         return '';
       }
       setOneprojectData(oneprojectData);
-      setChain(oneprojectData.project_chain);
+      setChain(oneprojectData.project_ecosystem);
     }
     fetchData();
   }, 
@@ -111,11 +111,10 @@ export default function Invest_step3() {
     }    
   }
   //---------------on next------------------------------------
-
-  async function onNext(){
-    //----------verify connection--------------------------------
+  function checkValication()
+  {
     if(CheckNetwork(connectedWallet, notificationRef, state) == false)
-      return false;
+    return false;
 
     if(parseInt(state.investAmount) <= 0 ){
       notificationRef.current.showNotification("Please input UST amount", "error", 40000);
@@ -127,28 +126,10 @@ export default function Invest_step3() {
       console.log('Invalid private sale amount');
       return false;
     }
-    
-    dispatch({
-      type: 'setInvestname',
-      message: InsName,
-    })
-    dispatch({
-      type: 'setInvestemail',
-      message: InsEmail,
-    })
-    dispatch({
-      type: 'setInvesttitle',
-      message: InsTitle
-    })
+    return true;
+  }
 
-    const currentDate = new Date();
-    let date = currentDate.getDate() + "/" + (currentDate.getMonth()+1) + 
-          "/" + currentDate.getFullYear();
-    dispatch({
-      type: 'setInvestDate',
-      message: date,
-    })
-
+  async function createSAFTPdf(date){
     var formData = new FormData();
     formData.append("investName", InsName);
     formData.append("investTitle", InsTitle);
@@ -179,8 +160,68 @@ export default function Invest_step3() {
     .catch((e) =>{
       console.log("Error:"+e);
     })
+  }
+  async function createSAFTDocx(date){
+console.log(oneprojectData);
+    var formData = new FormData();
+    formData.append("docxTemplate", oneprojectData.project_saft);
+    formData.append("purchaserName", InsName);
+    formData.append("purchaserTitle", InsTitle);
+    formData.append("purchaserEmail", InsEmail);
+    formData.append("purchaserAmount", state.investAmount);
+    formData.append("purchaserDate", date);
+    formData.append("purchaserSignature", canvasRef.current.toDataURL());
+
+    const requestOptions = {
+      method: 'POST',
+      body: formData,
+    };
+
+    notificationRef.current.showNotification("Uploading", 'success', 100000)
+
+    await fetch(state.request + '/docxmake', requestOptions)
+    .then((res) => res.json())
+    .then((data) => {
+      notificationRef.current.hideNotification();
+      dispatch({
+        type: 'setDocxfile',
+        message: data.data,
+      })
+      console.log(data);
+    })
+    .catch((e) =>{
+      console.log("Error:"+e);
+    })
+  }
+  async function onNext(){
+    //----------verify connection--------------------------------
+    if(checkValication() == false)
+      return false;
+
+    dispatch({
+      type: 'setInvestname',
+      message: InsName,
+    })
+    dispatch({
+      type: 'setInvestemail',
+      message: InsEmail,
+    })
+    dispatch({
+      type: 'setInvesttitle',
+      message: InsTitle
+    })
+
+    const currentDate = new Date();
+    let date = currentDate.getDate() + "/" + (currentDate.getMonth()+1) + 
+          "/" + currentDate.getFullYear();
+    dispatch({
+      type: 'setInvestDate',
+      message: date,
+    })
 
     if(project_id == state.wefundID){
+      await createSAFTPdf(date);
+
       let amount = parseInt(state.investAmount) * 10**6;
 
       const msg = new MsgSend(
@@ -191,12 +232,14 @@ export default function Invest_step3() {
       let memo = state.presale? "Presale" : "Private sale";
       let res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Invest success ", notificationRef, memo);
       if(res == true)
-        navigate('/invest_step4');
+        navigate('/invest_step4?project_id=' + project_id);
     }
     else{
+      await createSAFTDocx(date);
+
       let res = await backProject();
       if(res == true)
-        navigate('/invest_step4');
+        navigate('/invest_step4?project_id=' + project_id);
     }
   }
 
@@ -228,8 +271,8 @@ export default function Invest_step3() {
     let BackProjectMsg = {
         back2_project: {
           backer_wallet: connectedWallet.walletAddress,
-          // otherchain: chain,
-          // otherchain_wallet: walletAddress,
+          otherchain: chain,
+          otherchain_wallet: walletAddress,
           project_id: `${project_id}`
         },
     }
