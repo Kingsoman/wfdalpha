@@ -1,8 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import {Fee, MsgExecuteContract, MsgSend, WasmAPI } from '@terra-money/terra.js'
-import { Box, Flex, Text, Button } from '@chakra-ui/react'
-import { FetchData } from '../components/Util'
+import React, { useState, useEffect, useRef } from 'react'
+import {
+  Fee, 
+  MsgExecuteContract, 
+  MsgSend, 
+  WasmAPI 
+} from '@terra-money/terra.js'
 import { Link } from '@reach/router'
+import { 
+  Box, 
+  Flex, 
+  Text, 
+  Button 
+  } from '@chakra-ui/react'
+import { 
+  FetchData, 
+  EstimateSend 
+  } from '../components/Util'
+import Notification from '../components/Notification'
 import { useStore } from '../store'
 
 let useConnectedWallet = {}
@@ -15,6 +29,7 @@ export default function UserSideSnippet() {
   const { state, dispatch } = useStore()
   const [contributes, setContributes] = useState(0)
   const [projectCount, setProjectCount] = useState(0)
+  const notificationRef = useRef();
 
   //-----------connect to wallet ---------------------
   let connectedWallet = ''
@@ -57,6 +72,9 @@ export default function UserSideSnippet() {
       console.log(e)
     }
   }
+  useEffect( () => {
+    fetchContractQuery();
+  }, [])
 
   function addCommunityMember(){
     let CommunityMsg = {
@@ -136,12 +154,13 @@ export default function UserSideSnippet() {
         <Button 
           variant="outline" 
           width={'200px'} 
-          mr={3}
+          ml={3}
           onClick = {removeCommunityMember}
         >
           Cancel
         </Button>
       </Flex>
+      <Notification ref={notificationRef} />
     </Box>
   )
 }

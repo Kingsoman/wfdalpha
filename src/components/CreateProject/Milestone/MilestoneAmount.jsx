@@ -81,15 +81,11 @@ export default function MilestoneAmount({
             h="55px"
             w="140px"
             name="peg"
-            autoComplete="peg"
-            focusBorderColor="purple.800"
-            shadow="sm"
             size="sm"
             rounded="md"
             fontSize="16px"
           >
             <option
-              selected
               style={{ backgroundColor: '#1B0645' }}
             >
               ($)UST

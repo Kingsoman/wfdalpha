@@ -9,7 +9,7 @@ import {
   Img, 
   HStack
   } from "@chakra-ui/react";
-import React, { useState} from 'react';
+import React, { useState, useRef } from 'react';
 import { IoCheckmark } from 'react-icons/io5';
 
 import { 
@@ -20,12 +20,14 @@ import SAFTTemplate from '../components/SAFTTemplate';
 import PageLayout from '../components/PageLayout';
 import { ParseParam } from "../components/Util";
 import { useStore } from '../store';
+import Notification from '../components/Notification';
 
 export default function InvestStep1() {
   const [condition, setCondition] = useState(false);
   const navigate = useNavigate();
   const {state, dispatch} = useStore();
-
+  const notificationRef = useRef();
+  
   //------------parse URL for project id----------------------------
   let project_id = ParseParam();
 
@@ -69,7 +71,9 @@ export default function InvestStep1() {
               }
             </InputTransition>
 
-            <Text ml='10px' fontSize='14px' fontWeight='400'>I agree with all conditions of this Project and WeFund</Text>
+            <Text ml='10px' fontSize='14px' fontWeight='400'>
+              I agree with all conditions of this Project and WeFund
+            </Text>
           </Flex>
 
           <Flex w='100%' mt='60px'justify='center' mb='170px'>
@@ -91,10 +95,11 @@ export default function InvestStep1() {
             </ImageTransition>
           </Flex>
           <Flex >
-            <SAFTTemplate presale={state.presale} project_id={project_id}/>
+            <SAFTTemplate presale={state.presale} project_id={project_id} notificationRef={notificationRef}/>
           </Flex>
         </Flex>
       </Box>
+      <Notification ref={notificationRef} />
     </PageLayout>
   )
 }

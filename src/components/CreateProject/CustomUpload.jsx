@@ -15,7 +15,7 @@ export default function CustomUpload({typeText, type, setType})
 {
   function openUpload() {
     if (typeof document !== 'undefined') {
-      let fileSelector = document.getElementById('fileSelector')
+      let fileSelector = document.getElementById('fileSelector'+typeText)
       fileSelector.click()
     }
   }
@@ -80,7 +80,7 @@ export default function CustomUpload({typeText, type, setType})
       )}
       <input
         type="file"
-        id="fileSelector"
+        id={"fileSelector" + typeText}
         name="userFile"
         style={{ display: 'none' }}
         onChange={(e) => onChangeType(e)}

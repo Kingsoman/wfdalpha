@@ -180,8 +180,8 @@ export default function CreateProject() {
     let realWhitepaper = ''
     if (!isNull(whitepaper) != '') {
       var formData = new FormData()
-      formData.append('projectName', prjName)
-      formData.append('file', state.whitepaper)
+      formData.append('title', title)
+      formData.append('file', whitepaper)
 
       const requestOptions = {
         method: 'POST',
@@ -208,28 +208,29 @@ export default function CreateProject() {
 
   const uploadLogo = async () => {
     //---------upload logo-------------------------------------------------
-    // let realLogo = ''
-    // if (logo != '') {
-    //   var formData = new FormData()
-    //   formData.append('projectName', prjName)
-    //   formData.append('file', state.logo)
+    let realLogo = ''
+    if (logo != '') {
+      var formData = new FormData()
+      formData.append('title', title)
+      formData.append('file', logo)
 
-    //   const requestOptions = {
-    //     method: 'POST',
-    //     body: formData,
-    //   }
+      const requestOptions = {
+        method: 'POST',
+        body: formData,
+      }
 
-    //   await fetch(state.request + '/uploadLogo', requestOptions)
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       realLogo = data.data
-    //       notificationRef.current.showNotification(data.data + 'Logo upload Success', 'success', 1000)
-    //     })
-    //     .catch((e) => {
-    //       console.log('Error:' + e)
-    //       notificationRef.current.showNotification('upload logo failed', 'error', 1000)
-    //     })
-    // }
+      await fetch(state.request + '/uploadLogo', requestOptions)
+        .then((res) => res.json())
+        .then((data) => {
+          realLogo = data.data
+          notificationRef.current.showNotification('Logo upload Success', 'success', 1000)
+        })
+        .catch((e) => {
+          console.log('Error:' + e)
+          notificationRef.current.showNotification('upload logo failed', 'error', 1000)
+        })
+    }
+    return realLogo;
   }
 
   async function createProject() {
@@ -243,7 +244,7 @@ export default function CreateProject() {
       return false;
 
     let realWhitepaer = await uploadWhitepaper();
-    
+    let realLogo = await uploadLogo();
     //---------------execute contract----------------------------------
 
     let project_milestones=[];
@@ -268,19 +269,17 @@ export default function CreateProject() {
     let AddProjectMsg = {
       add_project: {
         creator_wallet: connectedWallet.walletAddress,
-        project_category: prjCategory,
-        project_chain: prjChain,
-        project_collected: prjAmount,
+        project_company: company,
+        project_title: title,
+        project_description: description,
+        project_collected: collectedAmount,
+        project_ecosystem: ecosystem,
         project_createddate: createdate,
-        project_deadline: '',
-        project_description: prjDescription,
-        project_email: prjEmail,
-        project_icon: realLogo,
-        project_name: prjName,
-        project_subcategory: prjSubcategory,
-        project_teamdescription: prjTeamDescription,
-        project_website: prjWebsite,
+        project_saft: realSAFT,
+        project_logo: realLogo,
         project_whitepaper: realWhitepaer,
+        project_website: website,
+        project_email: email,
         project_milestones: project_milestones,
       },
     }

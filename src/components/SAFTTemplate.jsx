@@ -1,23 +1,63 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import {chakra, Box, Flex, Text, VStack, Image, Img
-} from "@chakra-ui/react";
+import {
+  chakra, 
+  Box, 
+  Flex, 
+  Text, 
+  VStack, 
+  Image, 
+  Img
+  } from "@chakra-ui/react";
 
 import { Document, Page, pdfjs } from "react-pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 import { useStore } from '../store';
-import DocViewer from './Doc'
+import { 
+  FetchData,
+  GetOneProject
+ } from './Util';
+import {
+  Fee, 
+  MsgExecuteContract, 
+  MsgSend, 
+  WasmAPI 
+} from '@terra-money/terra.js'
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 
-export default function PDFTemplate({presale, project_id})
+export default function PDFTemplate({presale, project_id, notificationRef})
 {
   const {state, dispatch} = useStore();
   const isWeFund = state.wefundID == project_id;
+  const [src, setSrc] = useState("/PDFTemplate_presale.pdf");
 
-  const src = isWeFund?(presale.presale === true? "/PDFTemplate_presale.pdf" : "/PDFTemplate.pdf"): state.request + "/download?filename=DOCXTemplate.docx";
+  //----------init api, lcd-------------------------
+  const api = new WasmAPI(state.lcd_client.apiRequester)
 
+  async function fetchData(){
+    let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+console.log(projectData);
+    const oneprojectData = GetOneProject(projectData, project_id);
+    if(oneprojectData == ''){
+      notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
+      return '';
+    }
+// console.log(oneprojectData.project_saft);
+    if(!isWeFund)
+      setSrc(state.request + "/download_docx?filename=" + oneprojectData.project_saft);
+  }
+
+  useEffect( () => {
+    if(!isWeFund)
+      fetchData();
+    else{
+      setSrc(presale === true? "/PDFTemplate_presale.pdf" : "/PDFTemplate.pdf");
+    }
+  }, [])
+
+console.log(src);
   function onDocumentLoadSuccess(){
     // document.getElementById('loading').innerHTML='';
   }
@@ -80,9 +120,10 @@ export default function PDFTemplate({presale, project_id})
   return (
     <Flex direction='column'>
       <VStack 
-      display={{base:'none', md:'none', lg:'block'}} 
-      maxW={{base:'0px',md:'0px',lg:'2560px'}} 
-      maxH={{base:'0px',md:'0px',lg:'9999px'}}
+        display={{base:'none', md:'none', lg:'block'}} 
+        maxW={{base:'0px',md:'0px',lg:'2560px'}} 
+        maxH={{base:'0px',md:'0px',lg:'9999px'}}
+        mb = {'50px'}
       >
         {isWeFund &&
           <div style={{display:'flex', flexDirection:'row', width:'100%'}}>
@@ -93,7 +134,7 @@ export default function PDFTemplate({presale, project_id})
           <Flex w='800px'>
             <iframe 
               width="100%" 
-              height="600" 
+              height="1200" 
               frameborder="0" 
               src={`https://docs.google.com/gview?url=${src}&embedded=true`}
             />
@@ -103,6 +144,7 @@ export default function PDFTemplate({presale, project_id})
       <VStack 
         display={{base:'block', md:'block', lg:'none'}} 
         maxW='500px'
+        mb = {'50px'}
       >
         {isWeFund &&
           <div style={{display:'flex', flexDirection:'row', width:'100%'}}>
@@ -113,7 +155,7 @@ export default function PDFTemplate({presale, project_id})
           <Flex w='400px'>
             <iframe 
               width="100%" 
-              height="600" 
+              height="1200" 
               frameborder="0" 
               src={`https://docs.google.com/gview?url=${src}&embedded=true`}
             />

@@ -41,7 +41,7 @@ export default function CustomSelect({typeText, type, setType, options})
           }}
         >
           {options.map((item, index) =>(
-          <option style={{ backgroundColor: '#1B0645' }}>
+          <option style={{ backgroundColor: '#1B0645' }} key={index}>
             {item}
           </option>
           ))}
