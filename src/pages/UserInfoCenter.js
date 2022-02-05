@@ -26,7 +26,7 @@ import {
   useDisclosure,
   Button,
 } from '@chakra-ui/react'
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo, useRef } from 'react'
 import { WasmAPI, LCDClient } from '@terra-money/terra.js'
 import {
   BsArrowUpRight,
@@ -70,57 +70,17 @@ export default function ProjectDetail() {
   }
 
   //------------init api, lcd ----------------------------------------------------
-  const lcd = useMemo(() => {
-    if (!connectedWallet) {
-      return null
-    }
-    return new LCDClient({
-      URL: connectedWallet.network.lcd,
-      chainID: connectedWallet.network.chainID,
-    })
-  }, [connectedWallet])
-
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //------------notification setting---------------------------------
-  const [notification, setNotification] = useState({
-    type: 'success',
-    message: '',
-    show: false,
-  })
-
-  function hideNotification() {
-    setNotification({
-      message: notification.message,
-      type: notification.type,
-      show: false,
-    })
-  }
-
-  function showNotification(message, type, duration) {
-    // console.log('fired notification')
-    setNotification({
-      message: message,
-      type: type,
-      show: true,
-    })
-
-    // Disable after $var seconds
-    setTimeout(() => {
-      setNotification({
-        message: message,
-        type: type,
-        show: false,
-      })
-      // console.log('disabled',notification)
-    }, duration)
-  }
+  const notificationRef = useRef();
   //------------back button-----------------------------------
   function next() {
     if (project_id == 2)
       //fake
-      navigate('/invest_step1')
-    else navigate('/back?project_id=' + oneprojectData.project_id)
+      navigate('/invest_step1?project_id=' + state.wefundID);
+    else 
+      navigate('/invest_step1?project_id=' + oneprojectData.project_id);
   }
   //------------fectch project data------------------------------------
   async function fetchContractQuery() {
@@ -165,7 +125,7 @@ export default function ProjectDetail() {
 
   useEffect(() => {
     fetchContractQuery()
-  }, [connectedWallet, lcd])
+  }, [connectedWallet])
   //--Pop Ups for Projects
   const { isOpen: isVoteBoxOpen, onOpen: onVoteBoxOpen, onClose: onVoteBoxClose  } = useDisclosure()
   //--Pop ups for Referral thing

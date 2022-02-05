@@ -76,16 +76,6 @@ export default function ExplorerProject() {
   const notificationRef = useRef();
 
   //----------init api, lcd-------------------------
-  const lcd = useMemo(() => {
-    if (!connectedWallet) {
-      return null
-    }
-    return new LCDClient({
-      URL: connectedWallet.network.lcd,
-      chainID: connectedWallet.network.chainID,
-    })
-  }, [connectedWallet])
-
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
@@ -115,7 +105,7 @@ console.log(communityData);
       wefundContractAddress,
       CommunityMsg,
     )
-    EstimateSend(connectedWallet, lcd, msg, "Add Community success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, msg, "Add Community success", notificationRef);
   }
 
   function removeCommunityMember(wallet){
@@ -131,13 +121,13 @@ console.log(communityData);
       wefundContractAddress,
       CommunityMsg,
     )
-    EstimateSend(connectedWallet, lcd, msg, "Remove Community success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, msg, "Remove Community success", notificationRef);
   }
   
   //---------initialize fetching---------------------
   useEffect(() => {
     fetchContractQuery();
-  }, [connectedWallet, lcd])
+  }, [connectedWallet])
 
   return (
     <ChakraProvider resetCSS theme={theme}>

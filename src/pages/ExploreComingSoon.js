@@ -1,11 +1,4 @@
-import React, {
-  useRef,
-  useMemo,
-  useState,
-  useEffect,
-  forwardRef,
-  useCallback,
-} from 'react'
+import React from 'react'
 import {
   Box,
   Flex,
@@ -50,12 +43,13 @@ import Tabs from '../components/Explore/Tabs'
 import { BsArrowUpRight } from 'react-icons/bs'
 import { Link, useNavigate } from '@reach/router'
 import Notification from '../components/Notification'
-import { WasmAPI, LCDClient, MsgExecuteContract } from '@terra-money/terra.js'
+import { WasmAPI, MsgExecuteContract } from '@terra-money/terra.js'
+import { useRef, useState, useEffect, forwardRef, useCallback } from 'react'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
   useConnectedWallet =
-    require('@terra-money/wallet-provider').useConnectedWallet
+  require('@terra-money/wallet-provider').useConnectedWallet
 }
 
 export default function ExplorerProject() {
@@ -153,14 +147,6 @@ export default function ExplorerProject() {
   const notificationRef = useRef()
 
   //----------init api, lcd-------------------------
-  const lcd = useMemo(() => {
-    if (!connectedWallet) {
-      return null
-    }
-    const { lcd, chainID } = connectedWallet.network
-    return new LCDClient({ URL: lcd, chainID })
-  }, [connectedWallet])
-
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
@@ -189,7 +175,8 @@ export default function ExplorerProject() {
 
   //------------Wefund Approve-----------------
   async function WefundApprove(project_id) {
-    CheckNetwork(connectedWallet, notificationRef, state)
+    if (CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false
     let deadline = Date.now() + 1000 * 60 * 60 * 24 * 15 //for 15days
     let msg = new MsgExecuteContract(
       connectedWallet.walletAddress,
@@ -198,7 +185,7 @@ export default function ExplorerProject() {
     )
     await EstimateSend(
       connectedWallet,
-      lcd,
+      state.lcd_client,
       msg,
       'WeFund Approve success',
       notificationRef,
@@ -209,7 +196,8 @@ export default function ExplorerProject() {
 
   //-----------Community Vote----------------
   async function CommunityVote(project_id, voted, leftTime) {
-    CheckNetwork(connectedWallet, notificationRef, state)
+    if (CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false
     if (leftTime <= 0) {
       notificationRef.current.showNotification('Time is expired', 'error', 4000)
       return
@@ -220,7 +208,7 @@ export default function ExplorerProject() {
     })
     await EstimateSend(
       connectedWallet,
-      lcd,
+      state.lcd_client,
       msg,
       'Community vote success',
       notificationRef,
@@ -230,7 +218,8 @@ export default function ExplorerProject() {
   }
 
   async function MilestoneVote(project_id, voted) {
-    CheckNetwork(connectedWallet, notificationRef, state)
+    if (CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false
     let wallet = connectedWallet.walletAddress
     let MilestoneVoteMsg = { set_milestone_vote: { project_id, wallet, voted } }
 
@@ -242,7 +231,7 @@ export default function ExplorerProject() {
     )
     EstimateSend(
       connectedWallet,
-      lcd,
+      state.lcd_client,
       msg,
       'Milestone vote success',
       notificationRef,
@@ -533,7 +522,8 @@ export default function ExplorerProject() {
                                     fontSize={{ base: '14px', lg: '16px' }}
                                     onClick={() => {
                                       navigate(
-                                        `/back?project_id=${e.project_id}`,
+                                        '/invest_step1?project_id=' +
+                                          e.project_id,
                                       )
                                     }}
                                   >

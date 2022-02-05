@@ -54,6 +54,26 @@ export default function Partners() {
             link="https://www.lunapad.co/"
             img="/media/partners/lunapad.png"
           />
+          <Partner
+            link="https://www.lynxverse.io/"
+            img="/media/partners/lynx-dark.png"
+          />
+          <Partner
+            link="https://www.ftmlaunch.com/"
+            img="/media/partners/FL.png"
+          />
+          <Partner
+            link="https://twitter.com/cryptodiviners/"
+            img="/media/partners/devine.png"
+          />
+          <Partner
+            link="https://twitter.com/PejuangCryptoID"
+            img="/media/partners/pejuangcrypto.jpg"
+          />
+          <Partner
+            link="https://twitter.com/CryptoNews_Indo"
+            img="/media/partners/cryptonews.png"
+          />
         </SimpleGrid>
       </Box>
     </Box>

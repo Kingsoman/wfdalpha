@@ -204,7 +204,7 @@ export default function ConnectWallet() {
     }
 
     window.addEventListener('scroll', handleScroll)
-  }, [connectedWallet, lcd])
+  }, [connectedWallet])
 
   return (
     <>

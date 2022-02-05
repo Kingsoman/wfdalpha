@@ -43,15 +43,6 @@ export default function UserSideSnippet() {
   }
 
   //----------init api, lcd-------------------------
-  const lcd = useMemo(() => {
-    if (!connectedWallet) {
-      return null
-    }
-    return new LCDClient({
-      URL: connectedWallet.network.lcd,
-      chainID: connectedWallet.network.chainID,
-    })
-  }, [connectedWallet])
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   async function fetchContractQuery() {

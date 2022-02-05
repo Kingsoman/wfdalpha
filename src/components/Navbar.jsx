@@ -157,7 +157,7 @@ const NAV_ITEMS = [
   },
   {
     label: 'Invest in WeFund',
-    href: '/invest_step1',
+    href: '/invest_step0',
   },
   // {
   //   label: 'Dashboard',

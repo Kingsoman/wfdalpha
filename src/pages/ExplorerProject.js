@@ -151,17 +151,6 @@ export default function ExplorerProject() {
   const notificationRef = useRef();
 
   //----------init api, lcd-------------------------
-  const lcd = useMemo(() => {
-    if (!connectedWallet) {
-      return null
-    }
-
-    return new LCDClient({
-      URL: connectedWallet.network.lcd,
-      chainID: connectedWallet.network.chainID,
-    })
-  }, [connectedWallet])
-
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
@@ -169,7 +158,7 @@ export default function ExplorerProject() {
     try {
       let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch, force);
       //----------------fake------------------------------
-      const oneprojectData = GetOneProject(projectData, state.fakeid);
+      const oneprojectData = GetOneProject(projectData, state.wefundID);
 
       let fake_projectData = []
       fake_projectData[0] = oneprojectData
@@ -192,7 +181,8 @@ export default function ExplorerProject() {
   //------------Wefund Approve-----------------
 console.log("redraw");
   async function WefundApprove(project_id){
-    CheckNetwork(connectedWallet, notificationRef, state);
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
 
     let deadline = Date.now() + 1000*60*60*24*15; //for 15days
     let WefundApproveMsg = {
@@ -208,13 +198,15 @@ console.log("redraw");
       wefundContractAddress,
       WefundApproveMsg,
     )
-    await EstimateSend(connectedWallet, lcd, msg, "WeFund Approve success", notificationRef);
+    await EstimateSend(connectedWallet, state.lcd_client, msg, "WeFund Approve success", notificationRef);
     await Sleep(2000);
     fetchContractQuery(true);
   }
   //-----------Community Vote----------------
   async function CommunityVote(project_id, voted, leftTime){
-    CheckNetwork(connectedWallet, notificationRef, state);
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
+
     if(leftTime <= 0){
       notificationRef.current.showNotification("Time is expired", "error", 4000);
       return;
@@ -233,12 +225,13 @@ console.log("redraw");
       wefundContractAddress,
       CommunityVoteMsg,
     )
-    await EstimateSend(connectedWallet, lcd, msg, "Community vote success", notificationRef);
+    await EstimateSend(connectedWallet, state.lcd_client, msg, "Community vote success", notificationRef);
     await Sleep(2000);
     fetchContractQuery(true);
   }
   async function MilestoneVote(project_id, voted){
-    CheckNetwork(connectedWallet, notificationRef, state);
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
 
     let MilestoneVoteMsg = {
       set_milestone_vote: {
@@ -254,7 +247,7 @@ console.log("redraw");
       wefundContractAddress,
       MilestoneVoteMsg,
     )
-    EstimateSend(connectedWallet, lcd, msg, "Milestone vote success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, msg, "Milestone vote success", notificationRef);
     await Sleep(2000);
     fetchContractQuery(true);
   }

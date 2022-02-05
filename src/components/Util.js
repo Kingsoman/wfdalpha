@@ -1,16 +1,28 @@
 import { Fee, MsgExecuteContract, WasmAPI, LCDClient} from '@terra-money/terra.js'
 
-export async function EstimateSend(connectedWallet, lcd, msg, message, notificationRef)
+export async function EstimateSend(connectedWallet, lcd, msg, message, notificationRef, memo='')
 {
   const obj = new Fee(10_000, { uusd: 4500})
-  const accountInfo = await lcd.auth.accountInfo(
+  let accountInfo;
+  let abort = false;
+  await lcd.auth.accountInfo(
     connectedWallet.walletAddress
-  );
+  )
+  .then((e) => {
+    accountInfo = e;
+  })
+  .catch((e) => {
+    notificationRef.current.showNotification(e.message, 'error', 4000)
+    console.log(e.message);
+    abort = true;
+  })
+  if(abort == true) 
+    return false;
 
   let txOptions = 
   {
     msgs: [msg],
-    memo: '',
+    memo: memo,
     gasPrices: obj.gasPrices(),
     gasAdjustment: 1.7,
   };
@@ -28,14 +40,14 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
   .then((e) => {
     rawFee = e;
     notificationRef.current.showNotification("Estimate success", 'success', 4000)
-
-    
   })
   .catch((e) => {
     notificationRef.current.showNotification(e.message, 'error', 4000)
     console.log(e.message);
-    return;
+    abort = true;
   })
+  if(abort == true)
+    return false;
 
   await connectedWallet
   .post({
@@ -43,11 +55,11 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
     fee: rawFee,
     gasPrices: obj.gasPrices(),
     gasAdjustment: 1.7,
+    memo: memo,
   })
   .then((e) => {
     if (e.success) {
       notificationRef.current.showNotification(message, 'success', 4000)
-      return true;
     } else {
       notificationRef.current.showNotification(e.message, 'error', 4000)
       console.log(e.message);
@@ -56,8 +68,11 @@ export async function EstimateSend(connectedWallet, lcd, msg, message, notificat
   .catch((e) => {
     notificationRef.current.showNotification(e.message, 'error', 4000)
     console.log(e.message);
+    abort = true;
   })
-  return false;
+  if(abort == true)
+    return false;
+  return true;
 }
 export function GetProjectStatusString(mode){
   let projectstatus = 0;
@@ -143,17 +158,21 @@ export function CheckNetwork(connectedWallet, notificationRef, state)
   //----------verify connection--------------------------------
   if (connectedWallet == '' || typeof connectedWallet == 'undefined') {
     notificationRef.current.showNotification('Please connect wallet first!', 'error', 6000)
-    return
+    console.log("Please connect wallet first!");
+    return false;
   }
 
   if (state.net == 'mainnet' && connectedWallet.network.name == 'testnet') {
-    notificationRef.current.showNotification('Please switch to mainnet!', 'error', 4000)
-    return
+    notificationRef.current.showNotification('Please switch to mainnet!', 'error', 4000);
+    console.log("Please switch to mainnet!");
+    return false;
   }
   if (state.net == 'testnet' && connectedWallet.network.name == 'mainnet') {
-    notificationRef.current.showNotification('Please switch to testnet!', 'error', 4000)
-    return
+    notificationRef.current.showNotification('Please switch to testnet!', 'error', 4000);
+    console.log("Please switch to testnet!");
+    return false;
   }
+  return true;
 }
 
 export function GetProjectIndex(projectData, project_id){
@@ -164,8 +183,6 @@ export function GetProjectIndex(projectData, project_id){
 
 export async function FetchData(api, notificationRef, state, dispatch, force = false)
 {
-console.log("force")
-console.log(force);
   let projectData, communityData, configData;
   //-----------------fetch community members-----------------
   communityData = state.communityData;
@@ -225,15 +242,13 @@ console.log(force);
       notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
     }else{
       //----------fake--------------------------
-      let fakeone = GetOneProject(projectData, state.fakeid);
+      let fakeone = GetOneProject(projectData, state.wefundID);
       fakeone.project_collected = 60000;
       fakeone.communitybacked_amount = 19200*10**6;
-      projectData[GetProjectIndex(projectData, state.fakeid)] = fakeone;
+      projectData[GetProjectIndex(projectData, state.wefundID)] = fakeone;
       //------------------------------------
 
       projectData = AddExtraInfo(state, projectData, communityData);
-console.log( "dispatch projectData");
-console.log(projectData);
       dispatch({
         type: 'setProjectdata',
         message: projectData,
@@ -297,4 +312,15 @@ export function ShortenText(text, startingPoint, maxLength) {
   return text.length > maxLength
     ? text.slice(startingPoint, maxLength)
     : text;
+}
+
+export function ParseParam(){
+  let queryString, urlParams, project_id = 1;
+  if (typeof window != 'undefined') {
+    queryString = window.location.search
+    urlParams = new URLSearchParams(queryString)
+    project_id = urlParams.get('project_id')
+  }
+
+  return project_id;
 }

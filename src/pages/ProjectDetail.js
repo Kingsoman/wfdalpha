@@ -47,7 +47,8 @@ import {
   isCommunityWallet,
   isBackerWallet, 
   GetOneProject,
-  GetProjectStatusString
+  GetProjectStatusString,
+  ParseParam,
   }  from '../components/Util'
 
 let useConnectedWallet = {}
@@ -64,13 +65,8 @@ export default function ProjectDetail() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const navigate = useNavigate()
 
-  //------------extract project id----------------------------
-  let queryString, urlParams, project_id
-  if (typeof window != 'undefined') {
-    queryString = window.location.search
-    urlParams = new URLSearchParams(queryString)
-    project_id = urlParams.get('project_id')
-  }
+  //------------parse URL for project id----------------------------
+  let project_id = ParseParam();
 
   //------------connect wallet ---------------------------------
   let connectedWallet = ''
@@ -79,16 +75,6 @@ export default function ProjectDetail() {
   }
 
   //------------init api, lcd ----------------------------------------------------
-  const lcd = useMemo(() => {
-    if (!connectedWallet) {
-      return null
-    }
-    return new LCDClient({
-      URL: connectedWallet.network.lcd,
-      chainID: connectedWallet.network.chainID,
-    })
-  }, [connectedWallet])
-
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //------------notification setting---------------------------------
@@ -121,12 +107,9 @@ export default function ProjectDetail() {
     },
     []
   );
-  //------------back button-----------------------------------
-  function next() {
-    if (project_id == state.fakeid)
-      //fake
-      navigate('/invest_step1')
-    else navigate('/back?project_id=' + oneprojectData.project_id)
+
+  function onNext() {
+    navigate('/invest_step1?project_id=' + oneprojectData.project_id)
   }
   //------------fectch project data------------------------------------
   async function fetchContractQuery() {
@@ -174,11 +157,12 @@ export default function ProjectDetail() {
 
   useEffect(() => {
     fetchContractQuery()
-  }, [connectedWallet, lcd])
+  }, [connectedWallet])
 
 //------------Wefund Approve-----------------
 function WefundApprove(project_id){
-  CheckNetwork(connectedWallet, notificationRef, state);
+  if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+    return false;
 
   let deadline = Date.now() + 1000*60*60*24*15; //for 15days
   let WefundApproveMsg = {
@@ -194,11 +178,13 @@ function WefundApprove(project_id){
     wefundContractAddress,
     WefundApproveMsg,
   )
-  EstimateSend(connectedWallet, lcd, msg, "WeFund Approve success", notificationRef);
+  EstimateSend(connectedWallet, state.lcd_client, msg, "WeFund Approve success", notificationRef);
 }
   //-----------Community Vote----------------
   function CommunityVote(project_id, voted, leftTime){
-    CheckNetwork(connectedWallet, notificationRef, state);
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
+
     if(leftTime <= 0){
       notificationRef.current.showNotification("Time is expired", "error", 4000);
       return;
@@ -217,10 +203,11 @@ function WefundApprove(project_id){
       wefundContractAddress,
       CommunityVoteMsg,
     )
-    EstimateSend(connectedWallet, lcd, msg, "Community vote success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, msg, "Community vote success", notificationRef);
   }
   function MilestoneVote(project_id, voted){
-    CheckNetwork(connectedWallet, notificationRef, state);
+    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false;
 
     let MilestoneVoteMsg = {
       set_milestone_vote: {
@@ -236,7 +223,7 @@ function WefundApprove(project_id){
       wefundContractAddress,
       MilestoneVoteMsg,
     )
-    EstimateSend(connectedWallet, lcd, msg, "Milestone vote success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, msg, "Milestone vote success", notificationRef);
   }
     //--Pop Ups for Projects
     const { isOpen: isVoteBoxOpen, onOpen: onVoteBoxOpen, onClose: onVoteBoxClose  } = useDisclosure()
@@ -386,9 +373,8 @@ function WefundApprove(project_id){
     },
   };
 
-  //--------Visual Code Start
+  //-----------------Visual Code Start----------------------------
   return (
-
     <ChakraProvider resetCSS theme={theme}>
       <div
         style={{
@@ -553,7 +539,7 @@ function WefundApprove(project_id){
                           selected={false}
                           rounded="33px"
                           mb="10px"
-                          onClick={()=>{navigate('/back?project_id=' + oneprojectData.project_id)}}
+                          onClick={onNext}
                         >
                           Back Project
                         </ButtonTransition>
@@ -686,7 +672,7 @@ function WefundApprove(project_id){
                             color="white"
                             justify="center"
                             align="center"
-                            onClick={() => next()}
+                            onClick={onNext}
                           >
                             Back {oneprojectData.project_name}
                           </Box>
