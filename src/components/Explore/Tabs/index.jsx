@@ -5,11 +5,11 @@ import { Flex } from '@chakra-ui/react'
 export default function Tabs({ activeTab, onChangeActivetab }) {
   return (
     <Flex
-      mt="50px"
       cursor="pointer"
       justify="center"
-      width={{ lg: '80%' }}
-      bg={'rgba(255, 255, 255, 0.05)'}
+      bg="rgba(255, 255, 255, 0.05)"
+      mt={{ base: '25px', lg: '50px' }}
+      width={{ base: '90%', md: '98%', lg: '80%' }}
     >
       <Tab
         activeTab={activeTab}
