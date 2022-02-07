@@ -1,6 +1,6 @@
-import React, { Component, Suspense, useContext } from 'react'
-import { Root, Routes } from 'react-static'
-import { Router, Link } from '@reach/router'
+import React, { Component, Suspense } from 'react'
+import { Root } from 'react-static'
+import { Router } from '@reach/router'
 import './styles/base.scss'
 import { Head } from 'react-static'
 
@@ -26,17 +26,17 @@ import Invest_step1 from 'pages/Invest_step1'
 import Invest_step2 from 'pages/Invest_step2'
 import Invest_step3 from 'pages/Invest_step3'
 import Invest_step4 from 'pages/Invest_step4'
-import Invest_KYC1  from 'pages/Invest_KYC1'
-import Invest_KYC2  from 'pages/Invest_KYC2'
-import Invest_KYC3  from 'pages/Invest_KYC3'
-import Invest_KYC4  from 'pages/Invest_KYC4'
-import Invest_KYC5  from 'pages/Invest_KYC5'
-import Invest_KYC6  from 'pages/Invest_KYC6'
+import Invest_KYC1 from 'pages/Invest_KYC1'
+import Invest_KYC2 from 'pages/Invest_KYC2'
+import Invest_KYC3 from 'pages/Invest_KYC3'
+import Invest_KYC4 from 'pages/Invest_KYC4'
+import Invest_KYC5 from 'pages/Invest_KYC5'
+import Invest_KYC6 from 'pages/Invest_KYC6'
 import Blog from 'pages/Blog'
 import Dashboard from 'pages/Dashboard'
 import NotFound from 'pages/NotFound'
 
-class App extends Component {
+export default class App extends Component {
   render() {
     return (
       <Suspense
@@ -68,9 +68,7 @@ class App extends Component {
               name="viewport"
               content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
             />
-            <title>
-              WeFund - Community Crowdfunding Cross-Chain Incubator
-            </title>
+            <title>WeFund - Community Crowdfunding Cross-Chain Incubator</title>
             <link rel="icon" type="image/x-icon" href="/favicon.ico" />
             <link
               data-hid="shortcut-icon"
@@ -100,8 +98,6 @@ class App extends Component {
           </Head>
           <StoreProvider>
             <ChakraProvider resetCSS theme={theme}>
-              {/* <Routes default /> */}
-              {/* <AppRouter /> */}
               <Navbar />
               <Router>
                 <Index path="/" />
@@ -133,5 +129,3 @@ class App extends Component {
     )
   }
 }
-
-export default App
