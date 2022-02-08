@@ -367,30 +367,56 @@ console.log(oneprojectData);
   return (
     <PageLayout title="Back the project" subTitle1="Invest" subTitle2="in WeFund">
       <Box 
-        width={{base:'500px', md:'500px', lg:'100%'}} 
+        width={{base:'100%',sm:'80%',md:'80%',lg:'80%', xl: '70%'}} 
         px='50px' 
         style={{fontFamily:'Sk-Modernist-Regular'}} 
       >
         <Flex 
+          mt='83px' 
           justify='center' 
           align='center' 
           direction='column'
           style={{fontFamily:'PilatExtended-Regular'}}
         >
           <HStack  mt='150px' mb='50px'>
-            <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', backgroundColor: '#3BE489', borderRadius: '50%', display:'inline-block'}}
+            <Box 
+              width={{base:'50px',md:'40px'}} 
+              style={{paddingTop: '3px', 
+              paddingLeft:'3px', 
+              height: '24px', 
+              border: '3px solid #3BE489', 
+              backgroundColor: '#3BE489', 
+              borderRadius: '50%', 
+              display:'inline-block'}}
             >
             <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
             </Box>
-            <Text>Step 1</Text>
-            <Box style={{height: '0x', width: '63px', border: '2px solid #3BE489', background: ' #3BE489'}}></Box>
-            <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', backgroundColor: '#3BE489', borderRadius: '50%', display:'inline-block'}}>
+            <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 1</Text>
+            <Box style={{height: '0x', width: '30%', border: '2px solid #3BE489', background: ' #3BE489'}}></Box>
+            <Box 
+              width={{base:'50px',md:'40px'}} 
+              style={{paddingTop: '3px', 
+              paddingLeft:'3px', 
+              height: '24px', 
+              border: '3px solid #3BE489', 
+              backgroundColor: '#3BE489', 
+              borderRadius: '50%', 
+              display:'inline-block'}}>
             <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
             </Box>
-            <Text>Step 2</Text>
-            <Box style={{height: '4px', width: '63px', background: 'linear-gradient(90deg, #3BE489 0%, rgba(59, 228, 137, 0) 100%)'}}></Box>
-            <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
-            <Text>Final Step</Text>
+            <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 2</Text>
+            <Box style={{height: '4px', width: '30%', background: 'linear-gradient(90deg, #3BE489 0%, rgba(59, 228, 137, 0) 100%)'}}></Box>
+            <Box 
+              width={{base:'50px',md:'40px'}} 
+              style={{height: '24px', 
+              border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', 
+              borderRadius: '50%', 
+              display:'inline-block'}}>
+            </Box>
+            <Text 
+              fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>
+              Final Step
+              </Text>
           </HStack>
           <Text 
             fontSize={{base:'16px',md:'16px',lg:'22px'}} 

@@ -48,34 +48,67 @@ export default function Invest_step4() {
 
   return (
     <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WeFund">
-      <Box 
-        width={{base:'500px', md:'500px', lg:'100%'}} 
+     <Box 
+        width={{base:'100%',sm:'80%',md:'80%',lg:'80%', xl: '70%'}} 
         px='50px' 
         style={{fontFamily:'Sk-Modernist-Regular'}} 
       >
-        <Flex justify='center' align='center' direction='column'
+        <Flex mt='83px' justify='center' align='center' direction='column'
           style={{fontFamily:'PilatExtended-Regular'}}>
             <HStack ml={{base:'0px',md:'0px',lg:'10px'}} mt='150px' mb='50px' px='15px' align={'center'}>
-              <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', background: ' #3BE489', borderRadius: '50%', display:'inline-block'}}>
+              <Box  
+                width={{base:'50px',md:'40px'}} 
+                style={{paddingTop: '3px', 
+                paddingLeft:'3px', height: '24px',  
+                border: '3px solid #3BE489', 
+                background: ' #3BE489', 
+                borderRadius: '50%', 
+                display:'inline-block'}}>
               <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
               </Box>
-              <Text>Step 1</Text>
-              <Box style={{height: '0x', width: '63px', border: '2px solid #3BE489', background: ' #3BE489'}}></Box>
-              <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', background: ' #3BE489', borderRadius: '50%', display:'inline-block'}}>
+              <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 1</Text>
+              <Box 
+                width={{base:'50px',md:'40px'}}
+                style={{height: '0x', 
+                width: '30%', 
+                border: '2px solid #3BE489', 
+                background: ' #3BE489'}}>
+               </Box>
+              <Box 
+                style={{paddingTop: '3px', 
+                paddingLeft:'3px',
+                height: '24px',  
+                border: '3px solid #3BE489', 
+                background: ' #3BE489', 
+                borderRadius: '50%', 
+                display:'inline-block'}}>
               <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
               </Box>
-              <Text>Step 2</Text>
-              <Box style={{height: '0x', width: '63px', border: '2px solid #3BE489', background: ' #3BE489'}}></Box>
-              <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', background: ' #3BE489', borderRadius: '50%', display:'inline-block'}}>
+              <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 2</Text>
+              <Box 
+                width={{base:'50px',md:'40px'}}
+                style={{height: '0x', 
+                width: '30%', 
+                border: '2px solid #3BE489', 
+                background: ' #3BE489'}}>
+               </Box>
+              <Box 
+                style={{paddingTop: '3px', 
+                paddingLeft:'3px', 
+                height: '24px',  
+                border: '3px solid #3BE489', 
+                background: ' #3BE489', 
+                borderRadius: '50%', 
+                display:'inline-block'}}>
               <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
               </Box>
-              <Text>Final Step</Text>
+              <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Final Step</Text>
             </HStack>
           <HStack mb={'20px'}><Image
               src={
                 'popperleft.svg'
               }
-            /><Text fontSize='22px' fontWeight={'300'}>
+            /><Text fontSize={{base:'14px',sm:'16px',md:'22px',lg:'22px'}} fontWeight={'300'}>
             Congratulations 
             </Text><Image
             src={
@@ -118,7 +151,7 @@ export default function Invest_step4() {
         </Table>             
         </Flex>
         {/* --------Table confirmation mobile---------- */}
-        <Flex maxWidth={{base:'350px',md:'350px',lg:'0px'}} marginLeft={'50px'} maxHeight={{base:'999px',md:'999px',lg:'0px'}} justify='center' align='center' direction='column' visibility={{base:'visible',md:'visible',lg:'hidden'}}>
+        <Flex maxWidth={{base:'350px',md:'350px',lg:'0px'}} maxHeight={{base:'999px',md:'999px',lg:'0px'}} justify='center' align='center' direction='column' visibility={{base:'visible',md:'visible',lg:'hidden'}}>
         <Text fontSize='16px' fontWeight={'300'} mb={'20px'}>Transaction History</Text>
         <Table variant='simple'>
           <TableCaption>Your download has been procced automatically. Do you want to download again? Click on <span style={{color:'#FE8600'}}>Download</span></TableCaption>
