@@ -1,6 +1,7 @@
-import React, { useState, useRef, useMemo } from 'react'
-import { Fee, MsgExecuteContract, WasmAPI, LCDClient} from '@terra-money/terra.js'
+import React, { useState, useRef } from 'react'
+import { MsgExecuteContract, WasmAPI } from '@terra-money/terra.js'
 import {
+  Img,
   Box,
   Flex,
   HStack
@@ -10,7 +11,6 @@ import {
   ButtonTransition,
 } from '../components/ImageTransition'
 import { useStore } from '../store'
-import Notification from '../components/Notification'
 import Footer from '../components/Footer'
 import { 
   EstimateSend, 
@@ -20,7 +20,7 @@ import {
   isNull,
   getVal
 } from '../components/Util'
-
+import Notification from '../components/Notification'
 import PageLayout from '../components/PageLayout'
 
 import Payment from '../components/CreateProject/Payment'
@@ -81,57 +81,94 @@ export default function CreateProject() {
   if (typeof document !== 'undefined') {
     connectedWallet = useConnectedWallet()
   }
-  
+
   //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //------------notification setting---------------------------------
-  const notificationRef = useRef();
+  const notificationRef = useRef()
 
   //---------------create project---------------------------------
   const checkInvalidation = async () => {
     if(CheckNetwork(connectedWallet, notificationRef, state) == false)
       return false;
+  
+    let { projectData, communityData, configData } = await FetchData(
+      api,
+      notificationRef,
+      state,
+      dispatch,
+    )
 
-    let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
-
-    if (communityData == ''){
-      notificationRef.current.showNotification('There is no any community member!', 'error', 4000);
+    if (communityData == '') {
+      notificationRef.current.showNotification(
+        'There is no any community member!',
+        'error',
+        4000,
+      )
       return false;
     }
 
-    if (title?.length == 0) {
-      notificationRef.current.showNotification('Please fill project name!', 'error', 4000)
-      return false; false;
+    if (title.length == 0) {
+      notificationRef.current.showNotification(
+        'Please fill project name!',
+        'error',
+        4000,
+      )
+      return false;
     }
 
     if (parseInt(collectedAmount) < 6) {
-      notificationRef.current.showNotification('Collected money at least 6 UST', 'error', 4000)
+      notificationRef.current.showNotification(
+        'Collected money at least 6 UST',
+        'error',
+        4000,
+      )
       return false;
     }
 
-    let total_release = 0;
-    for(let i=0; i<milestoneTitle.length; i++){
+    let total_release = 0
+    for (let i = 0; i < milestoneTitle.length; i++) {
       if (milestoneTitle[i] == '') {
-        notificationRef.current.showNotification('Please fill milestone title!', 'error', 4000)
+        notificationRef.current.showNotification(
+          'Please fill milestone title!',
+          'error',
+          4000,
+        )
         return false;
       }
-      if (milestoneStartdate[i] == ''){
-        notificationRef.current.showNotification('Please fill milestone Start Date!', 'error', 4000)
+      if (milestoneStartdate[i] == '') {
+        notificationRef.current.showNotification(
+          'Please fill milestone Start Date!',
+          'error',
+          4000,
+        )
         return false;
       }
-      if (milestoneEnddate[i] == ''){
-        notificationRef.current.showNotification('Please fill milestone End Date!', 'error', 4000)
+      if (milestoneEnddate[i] == '') {
+        notificationRef.current.showNotification(
+          'Please fill milestone End Date!',
+          'error',
+          4000,
+        )
         return false;
       }
       if (parseInt(milestoneAmount[i]) < 6) {
-        notificationRef.current.showNotification('Collected money at least 6 UST', 'error', 4000)
+        notificationRef.current.showNotification(
+          'Collected money at least 6 UST',
+          'error',
+          4000,
+        )
         return false;
       }
-      total_release += parseInt(milestoneAmount[i]);
+      total_release += parseInt(milestoneAmount[i])
     }
-    if (total_release != parseInt(collectedAmount)){
-      notificationRef.current.showNotification('milestone total amount should equal to collected amount', 'error', 4000)
+    if (total_release != parseInt(collectedAmount)) {
+      notificationRef.current.showNotification(
+        'milestone total amount should equal to collected amount',
+        'error',
+        4000,
+      )
       return false;
     }
     return true;
@@ -200,7 +237,11 @@ export default function CreateProject() {
         })
         .catch((e) => {
           console.log('Error:' + e)
-          notificationRef.current.showNotification('upload whitepaper failed', 'error', 1000)
+          notificationRef.current.showNotification(
+            'upload whitepaper failed',
+            'error',
+            1000,
+          )
         })
     }
     return realWhitepaper;
@@ -223,11 +264,19 @@ export default function CreateProject() {
         .then((res) => res.json())
         .then((data) => {
           realLogo = data.data
-          notificationRef.current.showNotification('Logo upload Success', 'success', 1000)
+          notificationRef.current.showNotification(
+            data.data + 'Logo upload Success',
+            'success',
+            1000,
+          )
         })
         .catch((e) => {
           console.log('Error:' + e)
-          notificationRef.current.showNotification('upload logo failed', 'error', 1000)
+          notificationRef.current.showNotification(
+            'upload logo failed',
+            'error',
+            1000,
+          )
         })
     }
     return realLogo;
@@ -247,24 +296,24 @@ export default function CreateProject() {
     let realLogo = await uploadLogo();
     //---------------execute contract----------------------------------
 
-    let project_milestones=[];
-    for(let i=0; i<milestoneTitle.length; i++){
-      let milestone={
+    let project_milestones = []
+    for (let i = 0; i < milestoneTitle.length; i++) {
+      let milestone = {
         milestone_step: `${i}`,
         milestone_name: milestoneTitle[i],
         milestone_description: getVal(milestoneDescription[i]),
         milestone_startdate: getVal(milestoneStartdate[i]),
         milestone_enddate: getVal(milestoneEnddate[i]),
         milestone_amount: getVal(milestoneAmount[i]),
-        milestone_status: "0",
-        milestone_votes: []
-      };
-      project_milestones.push(milestone);
+        milestone_status: '0',
+        milestone_votes: [],
+      }
+      project_milestones.push(milestone)
     }
-    
-    const dt = new Date();
-    const [month, day, year] = [dt.getMonth(), dt.getDate(), dt.getFullYear()];
-    const createdate = day+"/"+(month+1)%12+"/"+year;
+
+    const dt = new Date()
+    const [month, day, year] = [dt.getMonth(), dt.getDate(), dt.getFullYear()]
+    const createdate = day + '/' + ((month + 1) % 12) + '/' + year
 
     let AddProjectMsg = {
       add_project: {
@@ -291,21 +340,26 @@ export default function CreateProject() {
       wefundContractAddress,
       AddProjectMsg,
     )
-    await EstimateSend(connectedWallet, state.lcd_client, msg, "Create Project success", notificationRef);
-    await Sleep(2000);
-    await FetchData(api, notificationRef, state, dispatch, true);
+    await EstimateSend(
+      connectedWallet,
+      state.lcd_client,
+      msg,
+      'Create Project success',
+      notificationRef,
+    )
+    await Sleep(2000)
+    await FetchData(api, notificationRef, state, dispatch, true)
   }
   function onNewMilestone() {
     let ar = [...milestoneTitle]
-    ar.push('');
-    setMilestoneTitle(ar);
+    ar.push('')
+    setMilestoneTitle(ar)
   }
   function onCancelMilestone() {
-    if (milestoneTitle.length <= 1)
-      return;
-    let ar = [...milestoneTitle];
-    ar.pop();
-    setMilestoneTitle(ar);
+    if (milestoneTitle.length <= 1) return
+    let ar = [...milestoneTitle]
+    ar.pop()
+    setMilestoneTitle(ar)
   }
   return (
     <PageLayout title="Create Your Project" subTitle1="Create a" subTitle2="New Project">

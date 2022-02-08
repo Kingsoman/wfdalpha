@@ -19,7 +19,7 @@ console.log(msg);
   })
   if(abort == true) 
     return false;
-
+console.log(accountInfo);
   let txOptions = 
   {
     msgs: [msg],
