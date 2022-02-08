@@ -42,6 +42,7 @@ import Pagination from '@choc-ui/paginator'
 import Tabs from '../components/Explore/Tabs'
 import { BsArrowUpRight } from 'react-icons/bs'
 import { Link, useNavigate } from '@reach/router'
+import CoverHeader from '../components/CoverHeader'
 import Notification from '../components/Notification'
 import { WasmAPI, MsgExecuteContract } from '@terra-money/terra.js'
 import { useRef, useState, useEffect, forwardRef, useCallback } from 'react'
@@ -49,7 +50,7 @@ import { useRef, useState, useEffect, forwardRef, useCallback } from 'react'
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
   useConnectedWallet =
-  require('@terra-money/wallet-provider').useConnectedWallet
+    require('@terra-money/wallet-provider').useConnectedWallet
 }
 
 export default function ExplorerProject() {
@@ -289,35 +290,12 @@ export default function ExplorerProject() {
         fontFamily={'Sk-Modernist-Regular'}
         background={'linear-gradient(90deg, #1F0021 0%, #120054 104.34%)'}
       >
-        <Flex
-          mb={'30px'}
-          width={'100%'}
-          justify={'center'}
-          alignItems={'center'}
-          flexDirection={'column'}
-          backgroundSize={'cover'}
-          backgroundRepeat={'no-repeat'}
-          boxShadow={'0px 5px 15px #000000A6'}
-          height={{ base: '150px', lg: '250px' }}
-          backgroundImage={"url('/media/createproject_banner.svg')"}
-        >
-          <Flex
-            color="rgba(255, 255, 255, 0.54)"
-            fontSize={{ base: '12px', lg: '16px' }}
-          >
-            Home &gt;&nbsp;
-            <Text color={'rgba(255, 255, 255, 0.84)'}>Projects</Text>
-          </Flex>
-          <Flex
-            mt="10px"
-            fontWeight={'900'}
-            fontFamily={'PilatExtended-Bold'}
-            fontSize={{ base: '20px', md: '25px', lg: '40px' }}
-          >
-            <Text>Explore&nbsp;</Text>
-            <Text color="#4790f5">Projects</Text>
-          </Flex>
-        </Flex>
+        <CoverHeader
+          text2Color
+          title={'Projects'}
+          text1={'Explore'}
+          text2={'Projects'}
+        />
 
         <Text
           color="rgba(255, 255, 255, 0.84)"
