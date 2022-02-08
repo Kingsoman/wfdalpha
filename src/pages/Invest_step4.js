@@ -1,18 +1,18 @@
-import { ChakraProvider, ThemeProvider } from "@chakra-ui/react";
 import { CheckIcon } from "@chakra-ui/icons";
-import theme from '../theme';
 import {Box, Flex, Text,Table,Thead,Tbody,Tr,Th,Td,TableCaption, VStack,Image, HStack, Img
   } from "@chakra-ui/react";
 import React, { useEffect, useState,  useCallback, useContext, useRef, } from 'react';
 import { navigate } from "@reach/router";
 
 import { useStore } from '../store'
-import { ImageTransition, ButtonTransition } from "../components/ImageTransition";
+import { ImageTransition } from "../components/ImageTransition";
 import Notification from '../components/Notification'
 import PageLayout from '../components/PageLayout'
+import { ParseParam } from "../components/Util";
 
 export default function Invest_step4() {
   const {state, dispatch} = useStore();
+  let project_id = ParseParam();
 
   //---------------notification setting---------------------------------
   const notificationRef = useRef();
@@ -25,7 +25,11 @@ export default function Invest_step4() {
     var xhr = new XMLHttpRequest(),
           a = document.createElement('a'), file;
 
-    xhr.open('GET', state.request + '/download_pdf?filename='+state.pdfFile, true);
+    if(project_id = state.wefundID)
+      xhr.open('GET', state.request + '/download_pdf?filename='+state.pdfFile, true);
+    else
+      xhr.open('GET', state.request + '/download_docx?filename='+state.docxFile, true);
+
     xhr.responseType = 'blob';
     xhr.onload = function () {
         file = new Blob([xhr.response], { type : 'application/octet-stream' });
@@ -46,11 +50,10 @@ export default function Invest_step4() {
     <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WeFund">
       <Box 
         width={{base:'500px', md:'500px', lg:'100%'}} 
-        bg='#FFFFFF0D' 
         px='50px' 
         style={{fontFamily:'Sk-Modernist-Regular'}} 
       >
-        <Flex mt='83px' justify='center' align='center' direction='column'
+        <Flex justify='center' align='center' direction='column'
           style={{fontFamily:'PilatExtended-Regular'}}>
             <HStack ml={{base:'0px',md:'0px',lg:'10px'}} mt='150px' mb='50px' px='15px' align={'center'}>
               <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', background: ' #3BE489', borderRadius: '50%', display:'inline-block'}}>

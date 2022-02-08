@@ -416,7 +416,7 @@ function WefundApprove(project_id){
                       }}
                     >
                       <Text fontSize="40px" fontWeight={'900'}>
-                        {oneprojectData.project_name}
+                        {oneprojectData.project_title}
                       </Text>
                     </Flex>
                     <Flex>
@@ -674,7 +674,7 @@ function WefundApprove(project_id){
                             align="center"
                             onClick={onNext}
                           >
-                            Back {oneprojectData.project_name}
+                            Back {oneprojectData.project_title}
                           </Box>
                         </ImageTransition>
                       </Flex>
@@ -724,7 +724,7 @@ function WefundApprove(project_id){
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          {oneprojectData.project_chain}
+                          {oneprojectData.project_ecosystem}
                         </Text>
                       </Flex>
                     </HStack>
@@ -781,7 +781,7 @@ function WefundApprove(project_id){
                           fontFamily={'Pilat-Extended'}
                           fontWeight={'700'}
                           fontSize={'18px'}>
-                          {oneprojectData.project_category}
+                          {/* {oneprojectData.project_category} */}
                         </Text>
                       </Flex>
                     </HStack>
