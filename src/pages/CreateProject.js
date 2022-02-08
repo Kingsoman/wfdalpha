@@ -431,15 +431,13 @@ export default function CreateProject() {
     <ChakraProvider resetCSS theme={theme}>
       <Flex
         w={'100%'}
-        mb={'2em'}
-        pb={'2em'}
         color={'white'}
-        fontSize={'18px'}
         fontWeight={'500'}
         justify={'center'}
         alignItems={'center'}
         flexDirection={'column'}
         fontFamily={'Sk-Modernist-Regular'}
+        fontSize={{ base: '14px', lg: '18px' }}
         background={'linear-gradient(90deg, #1F0021 0%, #120054 104.34%)'}
       >
         <CoverHeader
@@ -449,24 +447,23 @@ export default function CreateProject() {
           title={'Create Your Project'}
         />
 
-        <Flex width="100%" justify="center" mb={'150px'} zIndex={'1'}>
-          <div
-            style={{
-              width: '900px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1.5px solid rgba(255, 255, 255, 0.15)',
-              fontFamily: 'Sk-Modernist-Regular',
-              paddingLeft: '50px',
-              paddingRight: '50px',
-              zIndex: '1',
-            }}
+        <Flex width="100%" justify="center" mb={'50px'} zIndex={'1'}>
+          <Flex
+            flexDirection={'column'}
+            w={{ base: '100%', lg: '80%' }}
+            fontFamily={'Sk-Modernist-Regular'}
+            background={'rgba(255, 255, 255, 0.05)'}
+            p={{ base: '10px', md: '25px', lg: '50px' }}
+            border={'1.5px solid rgba(255, 255, 255, 0.15)'}
           >
             {/* --------Select UST or WFD------------------ */}
-            <Text fontSize="18px" pt="50px">
-              Select Payment Method
-            </Text>
+            <Text>Select Payment Method</Text>
 
-            <Flex direction="row" mt="40px">
+            <Flex
+              mt={{ base: '10px', lg: '20px' }}
+              justify="flex-start"
+              direction="row"
+            >
               {/* ------------UST---------------------- */}
               <ImageTransition
                 unitid="coinust"
@@ -480,25 +477,23 @@ export default function CreateProject() {
                 width="120px"
                 height="160px"
                 rounded="10px"
-                onClick={() => {
-                  setIsUST(true)
-                }}
+                onClick={() => setIsUST(true)}
               >
                 <Img
                   mt="23px"
                   boxSize="50px"
                   objectFit="cover"
-                  src="/media/UST.svg"
                   alt="UST Avatar"
+                  src="/media/UST.svg"
                 />
                 <Text mt="13px">UST</Text>
                 <Img
                   mt="15px"
-                  mb="20px"
+                  mb={{ base: '10px', lg: '20px' }}
                   boxSize="20px"
+                  alt="UST Avatar"
                   objectFit="cover"
                   src={isUST ? '/group_dot.svg' : '/group_undot.svg'}
-                  alt="UST Avatar"
                 />
               </ImageTransition>
 
@@ -516,32 +511,31 @@ export default function CreateProject() {
                 height="160px"
                 rounded="10px"
                 ml="20px"
-                onClick={() => {
-                  setIsUST(false)
-                }}
+                onClick={() => setIsUST(false)}
               >
                 <Img
                   mt="23px"
                   height="35px"
+                  alt="UST Avatar"
                   objectFit="cover"
                   src="/media/WeFund-Logos-only.png"
-                  alt="UST Avatar"
                 />
                 <Text mt="13px">WFD</Text>
                 <Img
                   mt="25px"
                   mt="15px"
                   boxSize="20px"
+                  alt="UST Avatar"
                   objectFit="cover"
                   src={isUST ? '/group_undot.svg' : '/group_dot.svg'}
-                  alt="UST Avatar"
                 />
               </ImageTransition>
             </Flex>
+
             {/* --------project name-------------- */}
-            <Box mt="40px">
+            <Box mt={{ base: '20px', lg: '40px' }}>
               <Flex justify="space-between">
-                <Text mb="20px">Project Name</Text>
+                <Text mb={{ base: '10px', lg: '20px' }}>Project Name</Text>
                 <Text fontSize="15px" opacity="0.5">
                   {prjNameLen}/100 words
                 </Text>
@@ -571,9 +565,11 @@ export default function CreateProject() {
               </InputTransition>
             </Box>
             {/* ------------project description--------------- */}
-            <Box mt="40px">
+            <Box mt={{ base: '20px', lg: '40px' }}>
               <Flex justify="space-between">
-                <Text mb="20px">Project Description</Text>
+                <Text mb={{ base: '10px', lg: '20px' }}>
+                  Project Description
+                </Text>
                 <Text fontSize="15px" opacity="0.5">
                   {prjDescriptionLen}/3000 words
                 </Text>
@@ -589,9 +585,7 @@ export default function CreateProject() {
                 <Textarea
                   style={{ background: 'transparent', border: '0' }}
                   value={prjDescription}
-                  onChange={(e) => {
-                    onChangePrjDescription(e)
-                  }}
+                  onChange={(e) => onChangePrjDescription(e)}
                   rounded="md"
                   placeholder="Type here"
                   size="sm"
@@ -600,9 +594,9 @@ export default function CreateProject() {
               </InputTransition>
             </Box>
             {/* ---------------project website------------------- */}
-            <Box w="100%" mt="50px">
+            <Box w="100%" mt={{ base: '20px', lg: '50px' }}>
               <Flex justify="space-between">
-                <Text mb="20px">Project Website</Text>
+                <Text mb={{ base: '10px', lg: '20px' }}>Project Website</Text>
               </Flex>
               <InputTransition
                 unitid="projectwebsite"
@@ -636,11 +630,17 @@ export default function CreateProject() {
                 </InputGroup>
               </InputTransition>
             </Box>
-            <Flex direction="row" mt="40px" justify="space-between">
+            <Flex
+              mt={{ base: '20px', lg: '40px' }}
+              justify="space-between"
+              direction={{ base: 'column', lg: 'row' }}
+            >
               {/* ---------------upload---------------------------------- */}
-              <Box w="48%">
+              <Box w={{ base: '100%', lg: '48%' }}>
                 <Flex justify="space-between">
-                  <Text mb="20px">Project Whitepaper</Text>
+                  <Text mb={{ base: '10px', lg: '20px' }}>
+                    Project Whitepaper
+                  </Text>
                 </Flex>
                 {whitepaper == '' && (
                   <InputGroup size="sm">
@@ -663,9 +663,7 @@ export default function CreateProject() {
                       placeholder="Upload here"
                       focusBorderColor="purple.800"
                       rounded="md"
-                      onClick={(e) => {
-                        openUpload()
-                      }}
+                      onClick={(e) => openUpload()}
                     />
                   </InputGroup>
                 )}
@@ -686,9 +684,7 @@ export default function CreateProject() {
                       placeholder={whitepaper}
                       focusBorderColor="purple.800"
                       rounded="md"
-                      onClick={(e) => {
-                        openUpload()
-                      }}
+                      onClick={(e) => openUpload()}
                     />
                   </InputGroup>
                 )}
@@ -701,9 +697,12 @@ export default function CreateProject() {
                 />
               </Box>
               {/* -------------------Project Icon------------------- */}
-              <Box w="48%">
+              <Box
+                w={{ base: '100%', lg: '48%' }}
+                mt={{ base: '20px', lg: '0' }}
+              >
                 <Flex justify="space-between">
-                  <Text mb="20px">Project Logo</Text>
+                  <Text mb={{ base: '10px', lg: '20px' }}>Project Logo</Text>
                 </Flex>
                 {logo == '' && (
                   <InputGroup size="sm">
@@ -726,9 +725,7 @@ export default function CreateProject() {
                       placeholder="Upload here"
                       focusBorderColor="purple.800"
                       rounded="md"
-                      onClick={(e) => {
-                        openLogoUpload()
-                      }}
+                      onClick={(e) => openLogoUpload()}
                     />
                   </InputGroup>
                 )}
@@ -749,9 +746,7 @@ export default function CreateProject() {
                       placeholder={logo}
                       focusBorderColor="purple.800"
                       rounded="md"
-                      onClick={(e) => {
-                        openLogoUpload()
-                      }}
+                      onClick={(e) => openLogoUpload()}
                     />
                   </InputGroup>
                 )}
@@ -765,9 +760,11 @@ export default function CreateProject() {
               </Box>
             </Flex>
             {/* --------------project Team description------- */}
-            <Box mt="40px">
+            <Box mt={{ base: '20px', lg: '40px' }}>
               <Flex justify="space-between">
-                <Text mb="20px">Project Team Description</Text>
+                <Text mb={{ base: '10px', lg: '20px' }}>
+                  Project Team Description
+                </Text>
                 <Text fontSize="15px" opacity="0.5">
                   {prjTeamdescriptionLen}/5000 words
                 </Text>
@@ -783,9 +780,7 @@ export default function CreateProject() {
                 <Textarea
                   style={{ background: 'transparent', border: '0' }}
                   value={prjTeamdescription}
-                  onChange={(e) => {
-                    onChangePrjTeamDescription(e)
-                  }}
+                  onChange={(e) => onChangePrjTeamDescription(e)}
                   placeholder="Type here"
                   size="sm"
                   rounded="md"
@@ -794,10 +789,20 @@ export default function CreateProject() {
               </InputTransition>
             </Box>
             {/* ------------------project category---------- */}
-            <Flex w="100%" justify="space-between" alignItems="center">
-              <Box mt="40px" w="30%">
+            <Flex
+              w="100%"
+              alignItems="center"
+              justify="space-between"
+              flexDirection={{ base: 'column', lg: 'row' }}
+            >
+              <Box
+                mt={{ base: '20px', lg: '40px' }}
+                w={{ base: '100%', lg: '30%' }}
+              >
                 <Flex justify="space-between">
-                  <Text mb="20px">Project Category</Text>
+                  <Text mb={{ base: '10px', lg: '20px' }}>
+                    Project Category
+                  </Text>
                 </Flex>
 
                 <InputTransition
@@ -818,9 +823,7 @@ export default function CreateProject() {
                     size="sm"
                     w="full"
                     rounded="md"
-                    onChange={(e) => {
-                      setPrjCategory(e.target.value)
-                    }}
+                    onChange={(e) => setPrjCategory(e.target.value)}
                   >
                     <option selected style={{ backgroundColor: '#1B0645' }}>
                       Crypto
@@ -850,9 +853,14 @@ export default function CreateProject() {
                 </InputTransition>
               </Box>
               {/* -------------------project sub category--------------- */}
-              <Box mt="40px" w="30%">
+              <Box
+                mt={{ base: '20px', lg: '40px' }}
+                w={{ base: '100%', lg: '30%' }}
+              >
                 <Flex justify="space-between">
-                  <Text mb="20px">Project Sub Category</Text>
+                  <Text mb={{ base: '10px', lg: '20px' }}>
+                    Project Sub Category
+                  </Text>
                 </Flex>
                 <InputTransition
                   unitid="projectsubcategory"
@@ -872,9 +880,7 @@ export default function CreateProject() {
                     size="sm"
                     w="full"
                     rounded="md"
-                    onChange={(e) => {
-                      setPrjSubcategory(e.target.value)
-                    }}
+                    onChange={(e) => setPrjSubcategory(e.target.value)}
                   >
                     <option selected style={{ backgroundColor: '#1B0645' }}>
                       Protocol
@@ -898,9 +904,12 @@ export default function CreateProject() {
               </Box>
 
               {/* ------------------------blockchain category----------------- */}
-              <Box mt="40px" w="30%">
+              <Box
+                mt={{ base: '20px', lg: '40px' }}
+                w={{ base: '100%', lg: '30%' }}
+              >
                 <Flex justify="space-between">
-                  <Text mb="20px">Blockchain</Text>
+                  <Text mb={{ base: '10px', lg: '20px' }}>Blockchain</Text>
                 </Flex>
                 <InputTransition
                   unitid="projectchain"
@@ -921,9 +930,7 @@ export default function CreateProject() {
                     size="sm"
                     w="full"
                     rounded="md"
-                    onChange={(e) => {
-                      setPrjChain(e.target.value)
-                    }}
+                    onChange={(e) => setPrjChain(e.target.value)}
                   >
                     <option selected style={{ backgroundColor: '#1B0645' }}>
                       Terra
@@ -948,10 +955,14 @@ export default function CreateProject() {
               </Box>
             </Flex>
             {/* -------------------------email------------------------ */}
-            <Flex direction="row" mt="40px" justify="space-between">
+            <Flex
+              direction="row"
+              mt={{ base: '20px', lg: '40px' }}
+              justify="space-between"
+            >
               <Box w="100%">
                 <Flex justify="space-between">
-                  <Text mb="20px">Email</Text>
+                  <Text mb={{ base: '10px', lg: '20px' }}>Email</Text>
                 </Flex>
                 <InputTransition
                   unitid="projectemail"
@@ -979,16 +990,14 @@ export default function CreateProject() {
                       focusBorderColor="purple.800"
                       rounded="md"
                       value={prjEmail}
-                      onChange={(e) => {
-                        setPrjEmail(e.target.value)
-                      }}
+                      onChange={(e) => setPrjEmail(e.target.value)}
                     />
                   </InputGroup>
                 </InputTransition>
               </Box>
               <Box ml="24px" w="100%">
                 <Flex justify="space-between">
-                  <Text mb="20px">Amount Required</Text>
+                  <Text mb={{ base: '10px', lg: '20px' }}>Amount Required</Text>
                 </Flex>
                 <InputTransition
                   unitid="projectamount"
@@ -1009,9 +1018,7 @@ export default function CreateProject() {
                       focusBorderColor="purple.800"
                       rounded="md"
                       value={prjAmount}
-                      onChange={(e) => {
-                        onChangePrjAmount(e)
-                      }}
+                      onChange={(e) => onChangePrjAmount(e)}
                     />
                     <InputRightElement
                       style={{ border: '0', background: 'transparent' }}
@@ -1034,9 +1041,7 @@ export default function CreateProject() {
                       rounded="md"
                       fontSize="16px"
                       value=""
-                      onChange={(e) => {
-                        setPrjChain(e.target.value)
-                      }}
+                      onChange={(e) => setPrjChain(e.target.value)}
                     >
                       <option selected style={{ backgroundColor: '#1B0645' }}>
                         ($)UST
@@ -1048,16 +1053,16 @@ export default function CreateProject() {
             </Flex>
 
             <Flex
-              mt="100px"
-              mb="20px"
               justify="center"
-              style={{ fontFamily: 'PilatExtended-Bold' }}
+              fontFamily="PilatExtended-Bold"
+              mb={{ base: '10px', lg: '20px' }}
+              mt={{ base: '20px', lg: '100px' }}
             >
-              <Text fontSize={{ base: '25px', md: '25px' }}>Create&nbsp;</Text>
-              <Text fontSize={{ base: '25px', md: '25px' }} color="#4790f5">
+              <Text fontSize={{ base: '15px', md: '25px' }}>Create&nbsp;</Text>
+              <Text fontSize={{ base: '15px', md: '25px' }} color="#4790f5">
                 Milestones
               </Text>
-              <Text fontSize={{ base: '25px', md: '25px' }}>
+              <Text fontSize={{ base: '15px', md: '25px' }}>
                 &nbsp;for the Project
               </Text>
             </Flex>
@@ -1066,15 +1071,17 @@ export default function CreateProject() {
                 <Flex direction="column" key={index}>
                   {/* -----------------Create New Milestone----------------- */}
                   <Text
-                    fontSize={{ base: '25px', md: '25px' }}
                     color="#4790f5"
-                    mb="30px"
+                    mb={{ base: '10px', lg: '30px' }}
+                    fontSize={{ base: '15px', md: '25px' }}
                   >
                     Milestone - {index + 1}
                   </Text>
-                  <Box mt="40px">
+                  <Box mt={{ base: '20px', lg: '40px' }}>
                     <Flex justify="space-between">
-                      <Text mb="20px">Milestone Title</Text>
+                      <Text mb={{ base: '10px', lg: '20px' }}>
+                        Milestone Title
+                      </Text>
                       <Text fontSize="15px" opacity="0.5">
                         {milestoneTitleLen[index]}/100 words
                       </Text>
@@ -1103,10 +1110,16 @@ export default function CreateProject() {
                       </InputGroup>
                     </InputTransition>
                   </Box>
-                  <Flex direction="row" mt="40px" justify="space-between">
+                  <Flex
+                    direction="row"
+                    mt={{ base: '20px', lg: '40px' }}
+                    justify="space-between"
+                  >
                     <Box w="100%">
                       <Flex justify="space-between">
-                        <Text mb="20px">Milestone Type</Text>
+                        <Text mb={{ base: '10px', lg: '20px' }}>
+                          Milestone Type
+                        </Text>
                       </Flex>
                       <InputTransition
                         unitid={`milestonetype${index}`}
@@ -1141,7 +1154,9 @@ export default function CreateProject() {
                     </Box>
                     <Box ml="24px" w="100%">
                       <Flex justify="space-between">
-                        <Text mb="20px">Amount Required</Text>
+                        <Text mb={{ base: '10px', lg: '20px' }}>
+                          Amount Required
+                        </Text>
                       </Flex>
                       <InputTransition
                         unitid={`milestoneamount${index}`}
@@ -1198,9 +1213,11 @@ export default function CreateProject() {
                       </InputTransition>
                     </Box>
                   </Flex>
-                  <Box mt="40px">
+                  <Box mt={{ base: '20px', lg: '40px' }}>
                     <Flex justify="space-between">
-                      <Text mb="20px">Milestone Description</Text>
+                      <Text mb={{ base: '10px', lg: '20px' }}>
+                        Milestone Description
+                      </Text>
                       <Text fontSize="15px" opacity="0.5">
                         {milestoneDescriptionLen[index]}/5000 words
                       </Text>
@@ -1226,10 +1243,16 @@ export default function CreateProject() {
                       />
                     </InputTransition>
                   </Box>
-                  <Flex direction="row" mt="40px" justify="space-between">
+                  <Flex
+                    direction="row"
+                    mt={{ base: '20px', lg: '40px' }}
+                    justify="space-between"
+                  >
                     <Box w="48%">
                       <Flex justify="space-between">
-                        <Text mb="20px">Milestone Duration</Text>
+                        <Text mb={{ base: '10px', lg: '20px' }}>
+                          Milestone Duration
+                        </Text>
                       </Flex>
                       <InputTransition
                         unitid={`milestonestartdate${index}`}
@@ -1266,7 +1289,7 @@ export default function CreateProject() {
                         </InputGroup>
                       </InputTransition>
                     </Box>
-                    <Box w="48%" pt={'45px'}>
+                    <Box w="48%" pt={{ base: '30px', lg: '45px' }}>
                       <InputTransition
                         unitid={`milestoneenddate${index}`}
                         width="100%"
@@ -1303,16 +1326,16 @@ export default function CreateProject() {
                   </Flex>
                   <Flex
                     w="100%"
-                    mt="50px"
-                    pb="50px"
                     justify="space-between"
+                    mt={{ base: '20px', lg: '50px' }}
+                    pb={{ base: '20px', lg: '50px' }}
                     borderBottom={'1px solid rgba(255, 255, 255, 0.3)'}
                   >
                     <ButtonBackTransition
+                      width={{ base: '200px', lg: '250px' }}
+                      height={{ base: '40px', lg: '45px' }}
                       unitid={`milestonecancel${index}`}
                       selected={false}
-                      width="250px"
-                      height="45px"
                       rounded="33px"
                     >
                       <Box
@@ -1330,21 +1353,20 @@ export default function CreateProject() {
                 </Flex>
               )
             })}
+
             <Flex
-              w="100%"
-              mt="50px"
-              pt="30px"
-              pb="30px"
-              mb="50px"
-              justify="center"
-              borderBottom={'1px solid rgba(255, 255, 255, 0.3)'}
+              alignSelf="center"
+              justify="space-between"
+              mb={{ base: '10px', lg: '0px' }}
+              mt={{ base: '20px', lg: '30px' }}
+              w={{ base: '100%', lg: '520px' }}
             >
               <ButtonBackTransition
-                unitid="AddNewMilestone"
-                selected={false}
-                width="250px"
-                height="45px"
                 rounded="33px"
+                selected={false}
+                unitid="AddNewMilestone"
+                width={{ base: '160px', lg: '250px' }}
+                height={{ base: '40px', lg: '45px' }}
               >
                 <Box
                   variant="solid"
@@ -1356,14 +1378,13 @@ export default function CreateProject() {
                   Add New Milestone
                 </Box>
               </ButtonBackTransition>
-            </Flex>
-            <Flex w="100%" mt="30px" justify="center" mb="30px">
+
               <ButtonTransition
+                rounded="33px"
                 unitid="submit"
                 selected={false}
-                width="400px"
-                height="50px"
-                rounded="33px"
+                width={{ base: '160px', lg: '250px' }}
+                height={{ base: '40px', lg: '45px' }}
               >
                 <Box
                   variant="solid"
@@ -1376,7 +1397,7 @@ export default function CreateProject() {
                 </Box>
               </ButtonTransition>
             </Flex>
-          </div>
+          </Flex>
         </Flex>
         <Footer />
         <Notification ref={notificationRef} />
