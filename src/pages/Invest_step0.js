@@ -74,6 +74,7 @@ export default function InvestStep1() {
         <Flex 
           display={showInput? 'block' : 'none'} 
           mt='30px'
+          pb='100px'
         >
           <InputTransition
             unitid="inputpassword"

@@ -37,23 +37,51 @@ export default function InvestStep1() {
   }
   return (
     <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WeFund">
-      <Box 
-        width={{base:'500px', md:'500px', lg:'100%'}} 
+       <Box 
+        width={{base:'100%',sm:'80%',md:'80%',lg:'80%', xl: '70%'}} 
         px='50px' 
         style={{fontFamily:'Sk-Modernist-Regular'}} 
       >
-        <Flex justify='center' align='center' direction='column'
-          style={{fontFamily:'PilatExtended'}}>
-          <HStack  mt='150px' mb='50px'>
-            <Box style={{height: '24px', width: '24px', border: '3px solid #3BE489', borderRadius: '50%', display:'inline-block'}}></Box>
-            <Text>Step 1</Text>
-            <Box style={{height: '0x', width: '63px', border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', background: ' rgba(255, 255, 255, 0.3799999952316284)'}}></Box>
-            <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
-            <Text>Step 2</Text>
-            <Box style={{height: '0px', width: '63px', border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', background: ' rgba(255, 255, 255, 0.3799999952316284)'}}></Box>
-            <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
-            <Text>Final Step</Text>
-          </HStack>
+        <Flex mt='83px' justify='center' align='center' direction='column'
+          style={{fontFamily:'PilatExtended-Regular'}}>
+            <HStack  mt='150px' mb='50px'>
+              <Box  
+                width={{base:'50px',md:'40px'}} 
+                style={{height: '24px', 
+                border: '3px solid #3BE489', 
+                borderRadius: '50%', 
+                display:'inline-block'}}>
+              </Box>
+              <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 1</Text>
+              <Box 
+                style={{height: '0x', 
+                width: '30%', 
+                border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', 
+                background: ' rgba(255, 255, 255, 0.3799999952316284)'}}>
+              </Box>
+              <Box  
+                width={{base:'50px',md:'40px'}} 
+                style={{height: '24px', 
+                border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', 
+                borderRadius: '50%', 
+                display:'inline-block'}}>
+              </Box>
+              <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 2</Text>
+              <Box 
+                style={{height: '0px', 
+                width: '30%', 
+                border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', 
+                background: ' rgba(255, 255, 255, 0.3799999952316284)'}}>
+              </Box>
+              <Box  
+                width={{base:'50px',md:'40px'}} 
+                style={{height: '24px', 
+                border: '3px solid rgba(255, 255, 255, 0.3799999952316284)',
+                borderRadius: '50%', 
+                display:'inline-block'}}>
+               </Box>
+              <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Final Step</Text>
+            </HStack>
           <Text fontSize='22px' fontWeight={'300'}>SAFT Form</Text>
           <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} mt={'20px'} textAlign={'center'}>Please check and confirm the form and go next step</Text>
         </Flex>
