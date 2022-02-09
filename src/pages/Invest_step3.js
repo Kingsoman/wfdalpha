@@ -47,13 +47,30 @@ export default function Invest_step3() {
   const [InsTitle, setInsTitle] = useState('');
   const [InsName, setInsName] = useState('');
   const [InsEmail, setInsEmail] = useState('');
-  // const [chain, setChain] = useState('');
-  // const [walletAddress, setWalletAddress] = useState('');
+  const [chain, setChain] = useState('');
+  const [walletAddress, setWalletAddress] = useState('');
+  const [oneprojectData, setOneprojectData] = useState('');
+
   const {state, dispatch} = useStore();
   const canvasRef = useRef({});
   
   //------------parse URL for project id----------------------------
   let project_id = ParseParam();
+  useEffect( () => {
+    async function fetchData(){
+      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+
+      const oneprojectData = GetOneProject(projectData, project_id);
+      if(oneprojectData == ''){
+        notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
+        return '';
+      }
+      setOneprojectData(oneprojectData);
+      setChain(oneprojectData.project_ecosystem);
+    }
+    fetchData();
+  }, 
+  [project_id])
 
   //---------------wallet connect-------------------------------------
   let connectedWallet = ''
@@ -94,11 +111,10 @@ export default function Invest_step3() {
     }    
   }
   //---------------on next------------------------------------
-
-  async function onNext(){
-    //----------verify connection--------------------------------
+  function checkValication()
+  {
     if(CheckNetwork(connectedWallet, notificationRef, state) == false)
-      return false;
+    return false;
 
     if(parseInt(state.investAmount) <= 0 ){
       notificationRef.current.showNotification("Please input UST amount", "error", 40000);
@@ -110,28 +126,10 @@ export default function Invest_step3() {
       console.log('Invalid private sale amount');
       return false;
     }
-    
-    dispatch({
-      type: 'setInvestname',
-      message: InsName,
-    })
-    dispatch({
-      type: 'setInvestemail',
-      message: InsEmail,
-    })
-    dispatch({
-      type: 'setInvesttitle',
-      message: InsTitle
-    })
+    return true;
+  }
 
-    const currentDate = new Date();
-    let date = currentDate.getDate() + "/" + (currentDate.getMonth()+1) + 
-          "/" + currentDate.getFullYear();
-    dispatch({
-      type: 'setInvestDate',
-      message: date,
-    })
-
+  async function createSAFTPdf(date){
     var formData = new FormData();
     formData.append("investName", InsName);
     formData.append("investTitle", InsTitle);
@@ -157,13 +155,73 @@ export default function Invest_step3() {
         type: 'setPdffile',
         message: data.data,
       })
-      // console.log(data);
+      console.log(data);
     })
     .catch((e) =>{
       console.log("Error:"+e);
     })
+  }
+  async function createSAFTDocx(date){
+console.log(oneprojectData);
+    var formData = new FormData();
+    formData.append("docxTemplate", oneprojectData.project_saft);
+    formData.append("purchaserName", InsName);
+    formData.append("purchaserTitle", InsTitle);
+    formData.append("purchaserEmail", InsEmail);
+    formData.append("purchaserAmount", state.investAmount);
+    formData.append("purchaserDate", date);
+    formData.append("purchaserSignature", canvasRef.current.toDataURL());
+
+    const requestOptions = {
+      method: 'POST',
+      body: formData,
+    };
+
+    notificationRef.current.showNotification("Uploading", 'success', 100000)
+
+    await fetch(state.request + '/docxmake', requestOptions)
+    .then((res) => res.json())
+    .then((data) => {
+      notificationRef.current.hideNotification();
+      dispatch({
+        type: 'setDocxfile',
+        message: data.data,
+      })
+      console.log(data);
+    })
+    .catch((e) =>{
+      console.log("Error:"+e);
+    })
+  }
+  async function onNext(){
+    //----------verify connection--------------------------------
+    if(checkValication() == false)
+      return false;
+
+    dispatch({
+      type: 'setInvestname',
+      message: InsName,
+    })
+    dispatch({
+      type: 'setInvestemail',
+      message: InsEmail,
+    })
+    dispatch({
+      type: 'setInvesttitle',
+      message: InsTitle
+    })
+
+    const currentDate = new Date();
+    let date = currentDate.getDate() + "/" + (currentDate.getMonth()+1) + 
+          "/" + currentDate.getFullYear();
+    dispatch({
+      type: 'setInvestDate',
+      message: date,
+    })
 
     if(project_id == state.wefundID){
+      await createSAFTPdf(date);
+
       let amount = parseInt(state.investAmount) * 10**6;
 
       const msg = new MsgSend(
@@ -174,25 +232,19 @@ export default function Invest_step3() {
       let memo = state.presale? "Presale" : "Private sale";
       let res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Invest success ", notificationRef, memo);
       if(res == true)
-        navigate('/invest_step4');
+        navigate('/invest_step4?project_id=' + project_id);
     }
     else{
+      await createSAFTDocx(date);
+
       let res = await backProject();
       if(res == true)
-        navigate('/invest_step4');
+        navigate('/invest_step4?project_id=' + project_id);
     }
   }
 
   async function backProject()
   {
-    let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
-
-    const oneprojectData = GetOneProject(projectData, project_id);
-    if(oneprojectData == ''){
-      notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
-      return false;
-    }
-
     const isCommunityMember = isCommunityWallet(state, project_id);
     const targetAmount = parseInt(oneprojectData.project_collected)*(10**6)/2;
 
@@ -219,8 +271,8 @@ export default function Invest_step3() {
     let BackProjectMsg = {
         back2_project: {
           backer_wallet: connectedWallet.walletAddress,
-          // otherchain: chain,
-          // otherchain_wallet: walletAddress,
+          otherchain: chain,
+          otherchain_wallet: walletAddress,
           project_id: `${project_id}`
         },
     }
@@ -235,12 +287,87 @@ export default function Invest_step3() {
 
     return await EstimateSend(connectedWallet, state.lcd_client, msg, "Back to Project Success", notificationRef);
   }
-
+  const OtherChainWallet = () => {
+    return(
+      <Flex direction={{base:'column',md:'column',lg:'row'}} mt='40px' justify="center" align='center'>
+        <Box align='center' ml={{base:'0px',md:'0px',lg:'0px'}}>
+          <Flex>
+            <Text mb='20px'>Select Chain</Text>
+          </Flex>
+          <InputTransition
+            unitid = "chaintransition"
+            selected = {false}
+            width = "300px"
+            height = "45px"
+            rounded = "md"
+          >
+            <Select
+              id = "chainselect"
+              style = {{ background: 'transparent', border: '0' }}
+              h = "45px"
+              shadow = "sm"
+              size = "sm"
+              w = "100%"
+              value = {chain}
+              rounded = "md"
+              onChange={(e) => {
+                setChain(e.target.value)
+              }}
+            >
+              <option style={{ backgroundColor: '#1B0645' }}>
+                Ethereum
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
+                BSC
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
+                Solana
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
+                Harmony
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
+                Osmis
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
+                Terra
+              </option>
+            </Select>
+          </InputTransition>
+        </Box>
+        <Box align='center' ml={{base:'0px',md:'0px',lg:'30px'}}>
+          <Flex mt={{base:'40px', md:'40px', lg:'0px'}}>
+            <Text mb='20px'>Wallet Address</Text>
+          </Flex>
+          <Box>
+          <InputTransition
+              unitid="inputwallet"
+              selected = {false}
+              width= "300px"
+              height= "45px"
+              rounded= "md"
+            >
+              <Input
+                background={'transparent'}
+                border = '0px'
+                h= '45px'
+                type='text'
+                placeholder='Paste wallet address here'
+                boxShadow={''}
+                rounded= 'md'
+                value = {walletAddress}
+                onChange = {(e) => {setWalletAddress(e.target.value)}}
+              />
+            </InputTransition>
+          </Box>
+        </Box>
+      </Flex>
+    )
+  }
   return (
     <PageLayout title="Back the project" subTitle1="Invest" subTitle2="in WeFund">
       <Box 
-        width={{base:'500px', md:'500px', lg:'100%'}} 
-        bg='#FFFFFF0D' 
+        width={{base:'100%',sm:'80%',md:'80%',lg:'80%', xl: '70%'}} 
         px='50px' 
         style={{fontFamily:'Sk-Modernist-Regular'}} 
       >
@@ -252,19 +379,44 @@ export default function Invest_step3() {
           style={{fontFamily:'PilatExtended-Regular'}}
         >
           <HStack  mt='150px' mb='50px'>
-            <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', backgroundColor: '#3BE489', borderRadius: '50%', display:'inline-block'}}
+            <Box 
+              width={{base:'50px',md:'40px'}} 
+              style={{paddingTop: '3px', 
+              paddingLeft:'3px', 
+              height: '24px', 
+              border: '3px solid #3BE489', 
+              backgroundColor: '#3BE489', 
+              borderRadius: '50%', 
+              display:'inline-block'}}
             >
             <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
             </Box>
-            <Text>Step 1</Text>
-            <Box style={{height: '0x', width: '63px', border: '2px solid #3BE489', background: ' #3BE489'}}></Box>
-            <Box style={{paddingTop: '3px', paddingLeft:'3px', height: '24px', width: '24px', border: '3px solid #3BE489', backgroundColor: '#3BE489', borderRadius: '50%', display:'inline-block'}}>
+            <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 1</Text>
+            <Box style={{height: '0x', width: '30%', border: '2px solid #3BE489', background: ' #3BE489'}}></Box>
+            <Box 
+              width={{base:'50px',md:'40px'}} 
+              style={{paddingTop: '3px', 
+              paddingLeft:'3px', 
+              height: '24px', 
+              border: '3px solid #3BE489', 
+              backgroundColor: '#3BE489', 
+              borderRadius: '50%', 
+              display:'inline-block'}}>
             <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
             </Box>
-            <Text>Step 2</Text>
-            <Box style={{height: '4px', width: '63px', background: 'linear-gradient(90deg, #3BE489 0%, rgba(59, 228, 137, 0) 100%)'}}></Box>
-            <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
-            <Text>Final Step</Text>
+            <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 2</Text>
+            <Box style={{height: '4px', width: '30%', background: 'linear-gradient(90deg, #3BE489 0%, rgba(59, 228, 137, 0) 100%)'}}></Box>
+            <Box 
+              width={{base:'50px',md:'40px'}} 
+              style={{height: '24px', 
+              border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', 
+              borderRadius: '50%', 
+              display:'inline-block'}}>
+            </Box>
+            <Text 
+              fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>
+              Final Step
+              </Text>
           </HStack>
           <Text 
             fontSize={{base:'16px',md:'16px',lg:'22px'}} 
@@ -361,77 +513,8 @@ export default function Invest_step3() {
               onChange={(e)=>onChangeSignature(e)}/>
           </Box>
         </Flex>
-        {/* <Flex direction={{base:'column',md:'column',lg:'row'}} mt='40px' justify="center" align='center'>
-          <Box align='center' ml={{base:'0px',md:'0px',lg:'0px'}}>
-            <Flex>
-              <Text mb='20px'>Select Chain</Text>
-            </Flex>
-            <InputTransition
-              unitid = "chaintransition"
-              selected = {false}
-              width = "300px"
-              height = "45px"
-              rounded = "md"
-            >
-              <Select
-                id = "chainselect"
-                style = {{ background: 'transparent', border: '0' }}
-                h = "45px"
-                shadow = "sm"
-                size = "sm"
-                w = "100%"
-                value = {chain}
-                rounded = "md"
-                onChange={(e) => {
-                  setChain(e.target.value)
-                }}
-              >
-                <option style={{ backgroundColor: '#1B0645' }}>
-                  Ethereum
-                </option>
-                <option style={{ backgroundColor: '#1B0645' }}>
-                  BSC
-                </option>
-                <option style={{ backgroundColor: '#1B0645' }}>
-                  Solana
-                </option>
-                <option style={{ backgroundColor: '#1B0645' }}>
-                  Harmony
-                </option>
-                <option style={{ backgroundColor: '#1B0645' }}>
-                  Osmis
-                </option>
-              </Select>
-            </InputTransition>
-          </Box>
-          <Box align='center' ml={{base:'0px',md:'0px',lg:'30px'}}>
-            <Flex mt={{base:'40px', md:'40px', lg:'0px'}}>
-              <Text mb='20px'>Wallet Address</Text>
-            </Flex>
-            <Box>
-            <InputTransition
-                unitid="inputwallet"
-                selected = {false}
-                width= "300px"
-                height= "45px"
-                rounded= "md"
-              >
-                <Input
-                  background={'transparent'}
-                  border = '0px'
-                  h= '45px'
-                  type='text'
-                  placeholder='Enter wallet address'
-                  boxShadow={''}
-                  rounded= 'md'
-                  value = {walletAddress}
-                  onChange = {(e) => {setWalletAddress(e.target.value)}}
-                />
-              </InputTransition>
-            </Box>
-          </Box>
-        </Flex>
-         */}
+        {state.wefundID != project_id && <OtherChainWallet /> }
+        
         <Flex w='100%' mt='60px'justify='center' mb='170px'>
           <ImageTransition 
             unitid='submit'

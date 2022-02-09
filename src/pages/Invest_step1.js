@@ -1,5 +1,3 @@
-import { ChakraProvider } from "@chakra-ui/react";
-import theme from '../theme';
 import { useNavigate } from '@reach/router'
 import {
   chakra, 
@@ -11,23 +9,25 @@ import {
   Img, 
   HStack
   } from "@chakra-ui/react";
-import React, { useState} from 'react';
+import React, { useState, useRef } from 'react';
 import { IoCheckmark } from 'react-icons/io5';
 
 import { 
   ImageTransition, 
   InputTransition 
 } from "../components/ImageTransition";
-import PDFTemplate from '../components/Pdf';
+import SAFTTemplate from '../components/SAFTTemplate';
 import PageLayout from '../components/PageLayout';
 import { ParseParam } from "../components/Util";
 import { useStore } from '../store';
+import Notification from '../components/Notification';
 
 export default function InvestStep1() {
   const [condition, setCondition] = useState(false);
   const navigate = useNavigate();
   const {state, dispatch} = useStore();
-
+  const notificationRef = useRef();
+  
   //------------parse URL for project id----------------------------
   let project_id = ParseParam();
 
@@ -37,45 +37,73 @@ export default function InvestStep1() {
   }
   return (
     <PageLayout title="Back the Project" subTitle1="Invest" subTitle2="in WeFund">
-      <Box 
-        width={{base:'500px', md:'500px', lg:'100%'}} 
-        bg='#FFFFFF0D' 
+       <Box 
+        width={{base:'100%',sm:'80%',md:'80%',lg:'80%', xl: '70%'}} 
         px='50px' 
         style={{fontFamily:'Sk-Modernist-Regular'}} 
       >
         <Flex mt='83px' justify='center' align='center' direction='column'
-          style={{fontFamily:'PilatExtended'}}>
+          style={{fontFamily:'PilatExtended-Regular'}}>
             <HStack  mt='150px' mb='50px'>
-              <Box style={{height: '24px', width: '24px', border: '3px solid #3BE489', borderRadius: '50%', display:'inline-block'}}></Box>
-              <Text>Step 1</Text>
-              <Box style={{height: '0x', width: '63px', border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', background: ' rgba(255, 255, 255, 0.3799999952316284)'}}></Box>
-              <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
-              <Text>Step 2</Text>
-              <Box style={{height: '0px', width: '63px', border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', background: ' rgba(255, 255, 255, 0.3799999952316284)'}}></Box>
-              <Box style={{height: '24px', width: '24px', border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', borderRadius: '50%', display:'inline-block'}}></Box>
-              <Text>Final Step</Text>
+              <Box  
+                width={{base:'50px',md:'40px'}} 
+                style={{height: '24px', 
+                border: '3px solid #3BE489', 
+                borderRadius: '50%', 
+                display:'inline-block'}}>
+              </Box>
+              <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 1</Text>
+              <Box 
+                style={{height: '0x', 
+                width: '30%', 
+                border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', 
+                background: ' rgba(255, 255, 255, 0.3799999952316284)'}}>
+              </Box>
+              <Box  
+                width={{base:'50px',md:'40px'}} 
+                style={{height: '24px', 
+                border: '3px solid rgba(255, 255, 255, 0.3799999952316284)', 
+                borderRadius: '50%', 
+                display:'inline-block'}}>
+              </Box>
+              <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 2</Text>
+              <Box 
+                style={{height: '0px', 
+                width: '30%', 
+                border: '2px solid rgba(255, 255, 255, 0.3799999952316284)', 
+                background: ' rgba(255, 255, 255, 0.3799999952316284)'}}>
+              </Box>
+              <Box  
+                width={{base:'50px',md:'40px'}} 
+                style={{height: '24px', 
+                border: '3px solid rgba(255, 255, 255, 0.3799999952316284)',
+                borderRadius: '50%', 
+                display:'inline-block'}}>
+               </Box>
+              <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Final Step</Text>
             </HStack>
           <Text fontSize='22px' fontWeight={'300'}>SAFT Form</Text>
           <Text fontSize='16px' color='rgba(255, 255, 255, 0.54)' fontWeight={'normal'} mt={'20px'} textAlign={'center'}>Please check and confirm the form and go next step</Text>
         </Flex>
-        {/* --------PDF----------- */}
+
         <Flex mt='83px' justify='center' align='center' direction='column'>
           <Flex mt='25px' direction="row">
-              {/* <Input type="checkbox"  h='55px' bg='#FFFFFF0D' borderColor="#FFFFFF33" placeholder="Type here" focusBorderColor="purple.800" rounded="md"  onChange={(e)=>{}} /> */}
-              <InputTransition 
-                unitid='conditioncheck'
-                selected={false}
-                width='24px' height='24px' rounded='md'
-                onClick={()=>{setCondition(!condition)}}
-              >
-                {condition &&
-                <IoCheckmark width='24px' height='24px' color='#FE8600'></IoCheckmark>
-                }
-              </InputTransition>
+            <InputTransition 
+              unitid='conditioncheck'
+              selected={false}
+              width='24px' height='24px' rounded='md'
+              onClick={()=>{setCondition(!condition)}}
+            >
+              {condition &&
+              <IoCheckmark width='24px' height='24px' color='#FE8600'></IoCheckmark>
+              }
+            </InputTransition>
 
-              <Text ml='10px' fontSize='14px' fontWeight='400'>I agree with all conditions of this Project and WeFund</Text>
-            </Flex>
-            {/* -----------------Sign Invest----------------- */}
+            <Text ml='10px' fontSize='14px' fontWeight='400'>
+              I agree with all conditions of this Project and WeFund
+            </Text>
+          </Flex>
+
           <Flex w='100%' mt='60px'justify='center' mb='170px'>
             <ImageTransition 
               unitid='investnext'
@@ -95,11 +123,11 @@ export default function InvestStep1() {
             </ImageTransition>
           </Flex>
           <Flex >
-            {/* <Image alignSelf={'flex-start'} alt={'WeFund'} src={ 'saft.svg' } /> */}
-            <PDFTemplate presale={state.presale} />
+            <SAFTTemplate presale={state.presale} project_id={project_id} notificationRef={notificationRef}/>
           </Flex>
         </Flex>
       </Box>
-   </PageLayout>
+      <Notification ref={notificationRef} />
+    </PageLayout>
   )
 }

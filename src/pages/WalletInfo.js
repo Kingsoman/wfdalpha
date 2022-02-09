@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { Box, Flex, Text, Button } from '@chakra-ui/react'
-import { WasmAPI } from '@terra-money/terra.js'
-import { FetchData } from '../components/Util'
+import React, { useState, useEffect, useRef } from 'react'
+import { MsgExecuteContract, WasmAPI } from '@terra-money/terra.js'
 import { Link } from '@reach/router'
+import { Box, Flex, Text, Button } from '@chakra-ui/react'
+import { FetchData, EstimateSend } from '../components/Util'
+import Notification from '../components/Notification'
 import { useStore } from '../store'
 
 let useConnectedWallet = {}
@@ -16,6 +17,7 @@ export default function UserSideSnippet() {
   const [contributes, setContributes] = useState(0)
   const [projectCount, setProjectCount] = useState(0)
   const [activeTab, setActiveTab] = useState('Account')
+  const notificationRef = useRef()
 
   //-----------connect to wallet ---------------------
   let connectedWallet = ''
@@ -35,8 +37,7 @@ export default function UserSideSnippet() {
         let one = projectData[i]
         for (let j = 0; j < one.backer_states.length; j++) {
           if (
-            one.backer_states[j].backer_wallet ==
-            state.connectedWallet.walletAddress
+            one.backer_states[j].backer_wallet == connectedWallet.walletAddress
           ) {
             projectCount++
             totalbacked += one.backer_states[i].ust_amount
@@ -45,7 +46,7 @@ export default function UserSideSnippet() {
         for (let j = 0; j < one.communitybacker_states.length; j++) {
           if (
             one.communitybacker_states[j].backer_wallet ==
-            state.connectedWallet.walletAddress
+            connectedWallet.walletAddress
           ) {
             projectCount++
             totalbacked += one.backer_states[i].ust_amount
@@ -58,10 +59,53 @@ export default function UserSideSnippet() {
       console.log(e)
     }
   }
-
   useEffect(() => {
     fetchContractQuery()
-  }, [connectedWallet])
+  }, [])
+
+  function addCommunityMember() {
+    let CommunityMsg = {
+      add_communitymember: {
+        wallet: connectedWallet.walletAddress,
+      },
+    }
+
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      CommunityMsg,
+    )
+    EstimateSend(
+      connectedWallet,
+      state.lcd_client,
+      msg,
+      'Add Community success',
+      notificationRef,
+    )
+  }
+
+  function removeCommunityMember() {
+    let CommunityMsg = {
+      remove_communitymember: {
+        wallet: connectedWallet.walletAddress,
+      },
+    }
+
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      wefundContractAddress,
+      CommunityMsg,
+    )
+    EstimateSend(
+      connectedWallet,
+      state.lcd_client,
+      msg,
+      'Remove Community success',
+      notificationRef,
+    )
+  }
 
   return (
     <Box color={'white'} padding={'5%'}>
@@ -155,6 +199,25 @@ export default function UserSideSnippet() {
           </Link>
         </>
       )}
+
+      <Text mt="50px" fontSize={'25px'} fontWeight={'bold'}>
+        Register to community member
+      </Text>
+
+      <Flex mt={'20px'}>
+        <Button colorScheme="blue" width={'200px'} onClick={addCommunityMember}>
+          Register
+        </Button>
+        <Button
+          variant="outline"
+          width={'200px'}
+          ml={3}
+          onClick={removeCommunityMember}
+        >
+          Cancel
+        </Button>
+      </Flex>
+      <Notification ref={notificationRef} />
     </Box>
   )
 }
