@@ -15,6 +15,7 @@ export default function UserSideSnippet() {
   const { state, dispatch } = useStore()
   const [contributes, setContributes] = useState(0)
   const [projectCount, setProjectCount] = useState(0)
+  const [activeTab, setActiveTab] = useState('Account')
 
   //-----------connect to wallet ---------------------
   let connectedWallet = ''
@@ -64,42 +65,96 @@ export default function UserSideSnippet() {
 
   return (
     <Box color={'white'} padding={'5%'}>
-      <Text mb="20px" fontSize={'25px'} fontWeight={'bold'}>
-        Your Account Details
-      </Text>
-
-      <Text>
-        Wallet address:{' '}
-        {state.connectedWallet && state.connectedWallet.walletAddress}
-      </Text>
-      <Text mt="10px">Project Backed : {projectCount}</Text>
-      <Text mt="10px">Amount Contributed : {contributes}</Text>
-
-      <Flex mt="10px">
-        <Text>You have earned:</Text>
-        <Text ml={'5px'} color={'blue.400'}>
-          {state.referralCount * 50}WFD
+      <Flex mb="20px" fontSize={'18px'} fontWeight={'bold'}>
+        <Text
+          mr={'10px'}
+          p={'10px 20px'}
+          cursor={'pointer'}
+          borderRadius={'10px'}
+          onClick={() => setActiveTab('Account')}
+          color={activeTab === 'Account' ? '#4299E1' : 'white'}
+          border={
+            activeTab === 'Account' ? '3px solid #4299E1' : '3px solid white'
+          }
+        >
+          MY ACCOUNT
+        </Text>
+        <Text
+          mr={'10px'}
+          p={'10px 20px'}
+          cursor={'pointer'}
+          borderRadius={'10px'}
+          onClick={() => setActiveTab('Prefund')}
+          color={activeTab === 'Prefund' ? '#4299E1' : 'white'}
+          border={
+            activeTab === 'Prefund' ? '3px solid #4299E1' : '3px solid white'
+          }
+        >
+          MY PREFUND
+        </Text>
+        <Text
+          mr={'10px'}
+          p={'10px 20px'}
+          cursor={'pointer'}
+          borderRadius={'10px'}
+          onClick={() => setActiveTab('Invite')}
+          color={activeTab === 'Invite' ? '#4299E1' : 'white'}
+          border={
+            activeTab === 'Invite' ? '3px solid #4299E1' : '3px solid white'
+          }
+        >
+          INVITE BACKER
+        </Text>
+        <Text
+          mr={'10px'}
+          p={'10px 20px'}
+          cursor={'pointer'}
+          borderRadius={'10px'}
+          onClick={() => setActiveTab('Wallet')}
+          color={activeTab === 'Wallet' ? '#4299E1' : 'white'}
+          border={
+            activeTab === 'Wallet' ? '3px solid #4299E1' : '3px solid white'
+          }
+        >
+          WALLET ADDRESS
         </Text>
       </Flex>
 
-      <Text mt="50px" fontSize={'25px'} fontWeight={'bold'}>
-        Your Account Details
-      </Text>
-      <Text mt={'10px'}>
-        Earn WFD and other Bonuses for Referring a Backer. Your Link is:
-      </Text>
-      <Link to={state.referralLink} mt="10px">
-        <Text color={'blue.400'}>{state.referralLink}</Text>
-      </Link>
+      {activeTab === 'Wallet' && (
+        <>
+          <Text fontWeight={'bold'}>Wallet address</Text>
+          <Text>
+            {state.connectedWallet && state.connectedWallet.walletAddress}
+          </Text>
+        </>
+      )}
 
-      <Flex mt={'20px'}>
-        <Button variant="outline" width={'200px'} mr={3}>
-          Cancel
-        </Button>
-        <Button colorScheme="blue" width={'200px'}>
-          Save
-        </Button>
-      </Flex>
+      {activeTab === 'Account' && (
+        <>
+          <Text mt="10px">Project Backed : {projectCount}</Text>
+          <Text mt="10px">Amount Contributed : {contributes}</Text>
+        </>
+      )}
+
+      {activeTab === 'Prefund' && (
+        <Flex mt="10px">
+          <Text>You have earned:</Text>
+          <Text ml={'5px'} color={'#4299E1'}>
+            {state.referralCount * 50}WFD
+          </Text>
+        </Flex>
+      )}
+
+      {activeTab === 'Invite' && (
+        <>
+          <Text mt={'10px'}>
+            Earn WFD and other Bonuses for Referring a Backer. Your Link is:
+          </Text>
+          <Link to={state.referralLink} mt="10px">
+            <Text color={'#4299E1'}>{state.referralLink}</Text>
+          </Link>
+        </>
+      )}
     </Box>
   )
 }
