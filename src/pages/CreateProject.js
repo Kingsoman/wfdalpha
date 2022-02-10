@@ -102,7 +102,7 @@ export default function CreateProject() {
 
     if (communityData == '') {
       notificationRef.current.showNotification(
-        'There is no any community member!',
+        'There are no community members!',
         'error',
         4000,
       )
@@ -111,7 +111,7 @@ export default function CreateProject() {
 
     if (title.length == 0) {
       notificationRef.current.showNotification(
-        'Please fill project name!',
+        'Please fill in project name!',
         'error',
         4000,
       )
@@ -120,7 +120,7 @@ export default function CreateProject() {
 
     if (parseInt(collectedAmount) < 6) {
       notificationRef.current.showNotification(
-        'Collected money at least 6 UST',
+        'Collected money must be at least 6 UST',
         'error',
         4000,
       )
@@ -131,7 +131,7 @@ export default function CreateProject() {
     for (let i = 0; i < milestoneTitle.length; i++) {
       if (milestoneTitle[i] == '') {
         notificationRef.current.showNotification(
-          'Please fill milestone title!',
+          'Please fill in milestone title!',
           'error',
           4000,
         )
@@ -139,7 +139,7 @@ export default function CreateProject() {
       }
       if (milestoneStartdate[i] == '') {
         notificationRef.current.showNotification(
-          'Please fill milestone Start Date!',
+          'Please fill in milestone Start Date!',
           'error',
           4000,
         )
@@ -147,7 +147,7 @@ export default function CreateProject() {
       }
       if (milestoneEnddate[i] == '') {
         notificationRef.current.showNotification(
-          'Please fill milestone End Date!',
+          'Please fill in milestone End Date!',
           'error',
           4000,
         )
@@ -155,7 +155,7 @@ export default function CreateProject() {
       }
       if (parseInt(milestoneAmount[i]) < 6) {
         notificationRef.current.showNotification(
-          'Collected money at least 6 UST',
+          'Collected money must be at least 6 UST',
           'error',
           4000,
         )
@@ -165,7 +165,7 @@ export default function CreateProject() {
     }
     if (total_release != parseInt(collectedAmount)) {
       notificationRef.current.showNotification(
-        'milestone total amount should equal to collected amount',
+        'Milestone total amount must equal collected amount',
         'error',
         4000,
       )
@@ -230,7 +230,7 @@ export default function CreateProject() {
         .then((data) => {
           realWhitepaper = data.data;
           notificationRef.current.showNotification(
-            'Whitepaper upload Success',
+            'Whitepaper upload success',
             'success',
             1000,
           )
@@ -238,7 +238,7 @@ export default function CreateProject() {
         .catch((e) => {
           console.log('Error:' + e)
           notificationRef.current.showNotification(
-            'upload whitepaper failed',
+            'Whitepaper upload failed',
             'error',
             1000,
           )
@@ -265,7 +265,7 @@ export default function CreateProject() {
         .then((data) => {
           realLogo = data.data
           notificationRef.current.showNotification(
-            data.data + 'Logo upload Success',
+            data.data + 'Logo upload success',
             'success',
             1000,
           )
@@ -273,7 +273,7 @@ export default function CreateProject() {
         .catch((e) => {
           console.log('Error:' + e)
           notificationRef.current.showNotification(
-            'upload logo failed',
+            'Logo upload failed',
             'error',
             1000,
           )
@@ -397,7 +397,7 @@ export default function CreateProject() {
             notificationRef={notificationRef}
           />
           <CustomSelect
-            typeText =  "Chain"
+            typeText =  "Blockchain"
             type = {ecosystem}
             setType = {setEcosystem}
             options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
@@ -451,7 +451,7 @@ export default function CreateProject() {
             setType = {setServiceWefund}
           />
           <CustomSimpleNumberInput
-            typeText = '% for Charitty'
+            typeText = '% for Charity'
             type = {serviceCharity}
             setType= {setServiceCharity}
           />
@@ -468,7 +468,7 @@ export default function CreateProject() {
             />
           </Flex>
           <Website
-            typeText = "Project Website"
+            typeText = "Project website"
             type = {website}
             setType = {setWebsite}
           />

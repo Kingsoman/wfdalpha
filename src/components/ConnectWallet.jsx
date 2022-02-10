@@ -153,7 +153,7 @@ export default function ConnectWallet() {
   }
 
   async function confirmReferral(){
-    let referralLink = 'http://www.wefund.app/?referral=' + encrypt3DES(connectedWallet.walletAddress, "wefundkeyreferral");
+    let referralLink = 'https://wefund.app/?referral=' + encrypt3DES(connectedWallet.walletAddress, "wefundkeyreferral");
     dispatch({ type: 'setReferralLink', message: referralLink })
 
     let queryString, urlParams, referral_code
