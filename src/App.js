@@ -3,7 +3,7 @@ import { Root } from 'react-static'
 import { Router } from '@reach/router'
 import './styles/base.scss'
 import { Head } from 'react-static'
-
+import ReactGA from 'react-ga'
 let bootstrap = {}
 if (typeof document !== 'undefined') {
   bootstrap = require('bootstrap')
@@ -37,6 +37,13 @@ import Dashboard from 'pages/Dashboard'
 import NotFound from 'pages/NotFound'
 
 export default class App extends Component {
+  setGA = () => {
+    ReactGA.initialize('UA-219919867-1');
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  };
+  componentDidMount(){
+    this.setGA();
+  }
   render() {
     return (
       <Suspense
@@ -84,6 +91,7 @@ export default class App extends Component {
               property="og:description"
               content="WeFund is decentralized crowdfunding for the crypto-startup project industry and beyond, implemented for real-life use cases. The vision of WeFund is to become the connector of the blockchain ecosystem that exists on the market. to fulfill this vision, WeFund's initial development stage would be in the Terra ecosystem and will continue to use another ecosystem such as Solana, Ethereum, Cardano, etc in the near future!"
             />
+            <meta name="keywords" content="WeFund, Funding, Crowdfunding, Democratic Crowdfunding, DeFi, Decentralized, Terramoney, Terra, Launchpad, Multi Chain Launchpad" />
             <meta name="twitter:card" content="summary" />
             <meta name="twitter:site" content="WeFund" />
             <meta
@@ -95,6 +103,7 @@ export default class App extends Component {
               content="WeFund is decentralized crowdfunding for the crypto-startup project industry and beyond, implemented for real-life use cases. The vision of WeFund is to become the connector of the blockchain ecosystem that exists on the market. to fulfill this vision, WeFund's initial development stage would be in the Terra ecosystem and will continue to use another ecosystem such as Solana, Ethereum, Cardano, etc in the near future"
             />
             <meta name="twitter:image" content="/favicon.png" />
+            
           </Head>
           <StoreProvider>
             <ChakraProvider resetCSS theme={theme}>
