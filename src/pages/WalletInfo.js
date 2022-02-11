@@ -109,56 +109,81 @@ export default function UserSideSnippet() {
 
   return (
     <Box color={'white'} padding={'5%'}>
-      <Flex mb="20px" fontSize={'18px'} fontWeight={'bold'}>
+      <Flex
+        mb="20px"
+        fontSize={'18px'}
+        fontWeight={'bold'}
+        justify={{ base: 'space-between', lg: 'flex-start' }}
+      >
         <Text
-          mr={'10px'}
-          p={'10px 20px'}
           cursor={'pointer'}
-          borderRadius={'10px'}
+          textAlign={'center'}
+          mr={{ base: '5px', lg: '10px' }}
+          p={{ base: '5px', lg: '10px 20px' }}
+          fontSize={{ base: '12px', lg: '20' }}
           onClick={() => setActiveTab('Account')}
+          borderRadius={{ base: '5px', lg: '10px' }}
           color={activeTab === 'Account' ? '#4299E1' : 'white'}
-          border={
-            activeTab === 'Account' ? '3px solid #4299E1' : '3px solid white'
-          }
+          border={{
+            base:
+              activeTab === 'Account' ? '1px solid #4299E1' : '1px solid white',
+            lg:
+              activeTab === 'Account' ? '3px solid #4299E1' : '3px solid white',
+          }}
         >
           MY ACCOUNT
         </Text>
         <Text
-          mr={'10px'}
-          p={'10px 20px'}
           cursor={'pointer'}
-          borderRadius={'10px'}
+          textAlign={'center'}
+          mr={{ base: '5px', lg: '10px' }}
+          p={{ base: '5px', lg: '10px 20px' }}
+          fontSize={{ base: '12px', lg: '20' }}
           onClick={() => setActiveTab('Prefund')}
+          borderRadius={{ base: '5px', lg: '10px' }}
           color={activeTab === 'Prefund' ? '#4299E1' : 'white'}
-          border={
-            activeTab === 'Prefund' ? '3px solid #4299E1' : '3px solid white'
-          }
+          border={{
+            base:
+              activeTab === 'Prefund' ? '1px solid #4299E1' : '1px solid white',
+            lg:
+              activeTab === 'Prefund' ? '3px solid #4299E1' : '3px solid white',
+          }}
         >
           MY PREFUND
         </Text>
         <Text
-          mr={'10px'}
-          p={'10px 20px'}
           cursor={'pointer'}
-          borderRadius={'10px'}
+          textAlign={'center'}
+          mr={{ base: '5px', lg: '10px' }}
+          p={{ base: '5px', lg: '10px 20px' }}
+          fontSize={{ base: '12px', lg: '20' }}
           onClick={() => setActiveTab('Invite')}
+          borderRadius={{ base: '5px', lg: '10px' }}
           color={activeTab === 'Invite' ? '#4299E1' : 'white'}
-          border={
-            activeTab === 'Invite' ? '3px solid #4299E1' : '3px solid white'
-          }
+          border={{
+            base:
+              activeTab === 'Invite' ? '1px solid #4299E1' : '1px solid white',
+            lg:
+              activeTab === 'Invite' ? '3px solid #4299E1' : '3px solid white',
+          }}
         >
           INVITE BACKER
         </Text>
         <Text
-          mr={'10px'}
-          p={'10px 20px'}
           cursor={'pointer'}
-          borderRadius={'10px'}
+          textAlign={'center'}
+          mr={{ base: '5px', lg: '10px' }}
+          p={{ base: '5px', lg: '10px 20px' }}
+          fontSize={{ base: '12px', lg: '20' }}
           onClick={() => setActiveTab('Wallet')}
+          borderRadius={{ base: '5px', lg: '10px' }}
           color={activeTab === 'Wallet' ? '#4299E1' : 'white'}
-          border={
-            activeTab === 'Wallet' ? '3px solid #4299E1' : '3px solid white'
-          }
+          border={{
+            base:
+              activeTab === 'Wallet' ? '1px solid #4299E1' : '1px solid white',
+            lg:
+              activeTab === 'Wallet' ? '3px solid #4299E1' : '3px solid white',
+          }}
         >
           WALLET ADDRESS
         </Text>
@@ -200,7 +225,11 @@ export default function UserSideSnippet() {
         </>
       )}
 
-      <Text mt="50px" fontSize={'25px'} fontWeight={'bold'}>
+      <Text
+        mt="50px"
+        fontWeight={'bold'}
+        fontSize={{ base: '15px', lg: '25px' }}
+      >
         Register to community member
       </Text>
 
