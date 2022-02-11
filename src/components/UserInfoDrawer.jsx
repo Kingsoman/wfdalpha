@@ -110,11 +110,11 @@ export default function UserSideSnippet() {
           <DrawerBody>
             <Box>
               <Text>
-                Wallet address :{' '}
+                Wallet address: {' '}
                 {state.connectedWallet && state.connectedWallet.walletAddress}
               </Text>
-              <Text mt="20px">Project Backed : {projectCount}</Text>
-              <Text mt="20px">Amount Contributed : {contributes}</Text>
+              <Text mt="20px">Projects backed: {projectCount}</Text>
+              <Text mt="20px">Amount contributed: {contributes}</Text>
             </Box>
             <Box mt="20px">
               <Text>You have earned&nbsp;</Text>
@@ -122,7 +122,7 @@ export default function UserSideSnippet() {
             </Box>
             <Box mt="20px">
               <Text>
-                Earn WFD and other Bonuses for Referring a Backer. Your Link is
+                Earn WFD and other bonuses for referring project backers. Your referral link is
               </Text>
               <Text color={'blue.400'}>{state.referralLink}</Text>
             </Box>

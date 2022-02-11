@@ -80,7 +80,7 @@ export default function UserSideSnippet() {
       connectedWallet,
       state.lcd_client,
       msg,
-      'Add Community success',
+      'Add community success',
       notificationRef,
     )
   }
@@ -102,7 +102,7 @@ export default function UserSideSnippet() {
       connectedWallet,
       state.lcd_client,
       msg,
-      'Remove Community success',
+      'Remove community success',
       notificationRef,
     )
   }
@@ -200,8 +200,8 @@ export default function UserSideSnippet() {
 
       {activeTab === 'Account' && (
         <>
-          <Text mt="10px">Project Backed : {projectCount}</Text>
-          <Text mt="10px">Amount Contributed : {contributes}</Text>
+          <Text mt="10px">Projects backed: {projectCount}</Text>
+          <Text mt="10px">Amount contributed: {contributes}</Text>
         </>
       )}
 
@@ -217,7 +217,7 @@ export default function UserSideSnippet() {
       {activeTab === 'Invite' && (
         <>
           <Text mt={'10px'}>
-            Earn WFD and other Bonuses for Referring a Backer. Your Link is:
+            Earn WFD and other bonuses for referring project backers. Your referral link is:
           </Text>
           <Link to={state.referralLink} mt="10px">
             <Text color={'#4299E1'}>{state.referralLink}</Text>

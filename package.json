@@ -44,6 +44,7 @@
         "react-custom-scrollbars": "^4.2.1",
         "react-dom": "^16.14.0",
         "react-file-viewer": "^1.2.1",
+        "react-ga": "^3.3.0",
         "react-google-charts": "^4.0.0",
         "react-google-recaptcha": "^2.1.0",
         "react-hot-loader": "^4.13.0",

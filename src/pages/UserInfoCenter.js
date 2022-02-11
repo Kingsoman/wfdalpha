@@ -1225,7 +1225,7 @@ export default function ProjectDetail() {
             <ModalHeader>Refer a Backer</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-                <Text>Earn WFD and other Bonuses for Referring a Backer. Your Link is</Text>
+                <Text>Earn WFD and other bonuses for referring project backers. Your referral link is</Text>
                 <Text color={'blue.400'}>Link</Text>
             </ModalBody>
             <ModalFooter>
