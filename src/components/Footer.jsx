@@ -128,7 +128,7 @@ export default function Newfooter() {
             mr={{ lg: '10px', base: '0px' }}
             h={{ lg: '45px', base: '40px' }}
             fontFamily="Sk-Modernist-Regular"
-            placeholder="Enter email Address"
+            placeholder="Enter email address"
             w={{ lg: '250px', base: '100%' }}
             fontSize={{ lg: '16px', base: '12px' }}
             style={{ border: '2px solid #503E6D' }}

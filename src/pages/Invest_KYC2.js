@@ -125,7 +125,7 @@ export default function InvestKYC2() {
 
             <Flex mt="83px" justify="center" align="center" direction="column">
               <Flex mt="25px" direction="row">
-                {/* <Input type="checkbox"  h='55px' bg='#FFFFFF0D' borderColor="#FFFFFF33" placeholder="Type here" focusBorderColor="purple.800" rounded="md"  onChange={(e)=>{}} /> */}
+                {/* <Input type="checkbox"  h='55px' bg='#FFFFFF0D' borderColor="#FFFFFF33" focusBorderColor="purple.800" rounded="md"  onChange={(e)=>{}} /> */}
                 <InputTransition
                   unitid="conditioncheck"
                   selected={false}

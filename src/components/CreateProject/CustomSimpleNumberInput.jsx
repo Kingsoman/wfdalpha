@@ -43,7 +43,6 @@ export default function CustomNumberInput({typeText, type, setType, notification
           style={{ border: '0', background: 'transparent' }}
           type="text"
           h="55px"
-          placeholder="Type here"
           focusBorderColor="purple.800"
           rounded="md"
           value={type}

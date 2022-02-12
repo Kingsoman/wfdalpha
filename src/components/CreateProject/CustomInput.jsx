@@ -46,7 +46,6 @@ export default function CustomInput({typeText, type, setType}) {
             h="55px"
             rounded="md"
             value={type}
-            placeholder="Type here"
             onChange={(e) => onChangeType(e)}
           />
         </InputGroup>

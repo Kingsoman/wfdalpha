@@ -33,7 +33,7 @@ export default function Website({typeText, type, setType}) {
           <InputLeftAddon
             h="55px"
             style={{ background: 'transparent', border: '0' }}
-            children="http://"
+            children="https://"
             color="white"
             rounded="md"
           />
@@ -41,7 +41,6 @@ export default function Website({typeText, type, setType}) {
             type="text"
             h="55px"
             style={{ background: 'transparent', border: '0' }}
-            placeholder="Type here"
             rounded="md"
             value={type}
             onChange={(e) => {

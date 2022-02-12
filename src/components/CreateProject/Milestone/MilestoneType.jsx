@@ -55,7 +55,6 @@ export default function MilestoneType({
             style={{ background: 'transparent', border: '0' }}
             type="email"
             h="55px"
-            placeholder="Type here"
             focusBorderColor="purple.800"
             rounded="md"
             value={milestoneType[index]}

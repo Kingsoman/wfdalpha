@@ -230,7 +230,7 @@ export default function UserSideSnippet() {
         fontWeight={'bold'}
         fontSize={{ base: '15px', lg: '25px' }}
       >
-        Register to community member
+        Register to become a community member
       </Text>
 
       <Flex mt={'20px'}>

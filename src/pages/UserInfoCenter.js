@@ -1209,10 +1209,10 @@ export default function ProjectDetail() {
                 <Button colorScheme='grey' mr={3} onClick={onVoteBoxClose}>
                   Close
                 </Button>
-                <Button colorScheme='blue' mr={3} >
+                <Button colorScheme='blue' mr={3}>
                   Vote Yes
                 </Button>
-                <Button colorScheme='red' mr={3} >
+                <Button colorScheme='red' mr={3}>
                   Vote No
                 </Button>
             </ModalFooter>
@@ -1236,6 +1236,5 @@ export default function ProjectDetail() {
           </ModalContent>
       </Modal>
     </ChakraProvider>
-    
   )
 }

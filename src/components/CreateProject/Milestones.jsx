@@ -46,16 +46,13 @@ export default function Milestones({
       style={{ fontFamily: 'PilatExtended-Bold' }}
     >
       <Text fontSize={{ base: '25px', md: '25px' }}>
-        Create&nbsp;
+        Create Project&nbsp;
       </Text>
       <Text
         fontSize={{ base: '25px', md: '25px' }}
         color="#4790f5"
       >
         Milestones
-      </Text>
-      <Text fontSize={{ base: '25px', md: '25px' }}>
-        &nbsp;for the Project
       </Text>
     </Flex>
     {milestoneTitle.map((item, index) => {
@@ -66,7 +63,7 @@ export default function Milestones({
             color="#4790f5"
             mb = '30px'
           >
-            Milestone - {index+1}
+            Milestone { index + 1 }
           </Text>
           <MilestoneTitle 
             index={index}
@@ -130,7 +127,7 @@ export default function Milestones({
                 align="center"
                 onClick = {()=> onCancelMilestone()}
               >
-                Cancel Milestone - {index+1}
+                Cancel Milestone { index + 1 }
               </Box>
             </ButtonBackTransition>
           </Flex>

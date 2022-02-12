@@ -22,7 +22,6 @@ import {
 } from '../components/Util'
 import Notification from '../components/Notification'
 import PageLayout from '../components/PageLayout'
-
 import Payment from '../components/CreateProject/Payment'
 import CustomInput from '../components/CreateProject/CustomInput'
 import CustomTextarea from '../components/CreateProject/CustomTextarea'
@@ -32,8 +31,7 @@ import CustomSelect from '../components/CreateProject/CustomSelect'
 import CustomEmailInput from '../components/CreateProject/CustomEmailInput'
 import CustomUpload from '../components/CreateProject/CustomUpload'
 import Website from '../components/CreateProject/Website'
-
-import Milestons from '../components/CreateProject/Milestones'
+import Milestones from '../components/CreateProject/Milestones'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -397,7 +395,7 @@ export default function CreateProject() {
             notificationRef={notificationRef}
           />
           <CustomSelect
-            typeText =  "Blockchain"
+            typeText = "Blockchain"
             type = {ecosystem}
             setType = {setEcosystem}
             options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
@@ -408,7 +406,7 @@ export default function CreateProject() {
             setType={setTokenName} 
           />
           <CustomSimpleNumberInput
-            typeText = "Price set at Seed"
+            typeText = "Price set at Seed Sale"
             type={priceSeed} 
             setType={setPriceSeed}
             notificationRef={notificationRef}
@@ -455,12 +453,13 @@ export default function CreateProject() {
             type = {serviceCharity}
             setType= {setServiceCharity}
           />
-          <Flex direction='row' >
+          <Flex direction='row'>
             <CustomUpload
               typeText = 'Signature'
               type = {signature}
               setType = {setSignature}
             />
+            &nbsp;
             <CustomUpload
               typeText = 'Whitepaper'
               type = {whitepaper}
@@ -472,7 +471,7 @@ export default function CreateProject() {
             type = {website}
             setType = {setWebsite}
           />
-          <Milestons
+          <Milestones
             milestoneTitle = {milestoneTitle}
             setMilestoneTitle = {setMilestoneTitle}
             milestoneTitleLen = {milestoneTitleLen}
@@ -492,7 +491,6 @@ export default function CreateProject() {
             onCancelMilestone = {onCancelMilestone}
             notificationRef={notificationRef}
           />
-          
           <Flex
             w="100%"
             mt="50px"
@@ -516,7 +514,7 @@ export default function CreateProject() {
                 align="center"
                 onClick={onNewMilestone}
               >
-                Add New Milestone
+                Add Milestone
               </Box>
             </ButtonBackTransition>
           </Flex>
@@ -542,7 +540,7 @@ export default function CreateProject() {
         </Box>
       </Flex>
       <Footer />
-      <Notification  ref={notificationRef}/>
+      <Notification ref={notificationRef}/>
     </PageLayout>
   )
 }

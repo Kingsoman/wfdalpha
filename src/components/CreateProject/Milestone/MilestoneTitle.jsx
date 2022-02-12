@@ -62,7 +62,6 @@ export default function MilestoneTitle({
             h="55px"
             rounded="md"
             value={milestoneTitle[index]}
-            placeholder="Type here"
             onChange={(e) => onChangeMilestoneTitle(e, index)}
           />
         </InputGroup>

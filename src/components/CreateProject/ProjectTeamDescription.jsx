@@ -44,7 +44,6 @@ export default function ProjectTeamDescription({
           onChange={(e) => {
             onChangePrjTeamDescription(e)
           }}
-          placeholder="Type here"
           size="sm"
           rounded="md"
           h='175px'

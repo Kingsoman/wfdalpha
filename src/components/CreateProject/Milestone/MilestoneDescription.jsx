@@ -55,7 +55,6 @@ export default function MilestoneDescription({
           style={{ background: 'transparent', border: '0' }}
           value={milestoneDescription[index]}
           onChange={(e) => onChangeMilestoneDescription(e, index)}
-          placeholder="Type here"
           size="sm"
           rounded="md"
           h='175px'

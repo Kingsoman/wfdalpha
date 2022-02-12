@@ -181,10 +181,10 @@ export default function BackProject() {
             width='300px' height='55px' rounded='md' mb='42px'
           >      
             <InputGroup size="sm" style={{border:'0', background: 'rgba(255, 255, 255, 0.05)'}}>
-              <Input type="text"  h='55px' style={{border:'0', background:'transparent',  paddingLeft:'25px'}} placeholder="Type here" focusBorderColor="purple.800" rounded="md"  value={backAmount} 
+              <Input type="text"  h='55px' style={{border:'0', background:'transparent',  paddingLeft:'25px'}} focusBorderColor="purple.800" rounded="md" value={backAmount} 
               onChange={(e)=>changeAmount(e)}/>
               <InputRightElement w='60px'  h='55px' pointerEvents='none' children={<Text>UST</Text>} 
-              />          
+              />
             </InputGroup>
           </InputTransition>
                 <Text mb='20px' textAlign={'left'}>WFD Fees</Text>
@@ -194,13 +194,12 @@ export default function BackProject() {
             width='300px' height='55px' rounded='md'
           >      
             <InputGroup size="sm" style={{border:'0', background:'rgba(255, 255, 255, 0.05)'}}>
-              <Input type="text"  h='55px' style={{border:'0', background:'transparent', paddingLeft:'25px'}} placeholder="Type here" focusBorderColor="purple.800" rounded="md"  value={wfdAmount}
+              <Input type="text"  h='55px' style={{border:'0', background:'transparent', paddingLeft:'25px'}} focusBorderColor="purple.800" rounded="md" value={wfdAmount}
               onChange={(e)=>{}} />
               <InputRightElement w='60px'  h='55px' pointerEvents='none' children={<Text>WFD</Text>} 
-              />          
+              />
             </InputGroup>
           </InputTransition>
-
           <Flex mt='25px' direction="row">
             <InputTransition 
               unitid='conditioncheck'
@@ -212,7 +211,6 @@ export default function BackProject() {
               <IoCheckmark width='24px' height='24px' color='#FE8600'></IoCheckmark>
               }
             </InputTransition>
-
             <Text ml='10px' fontSize='14px' fontWeight='400'>I agree with all conditions of this project and WeFund</Text>
           </Flex>
           </Flex>

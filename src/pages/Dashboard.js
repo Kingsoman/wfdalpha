@@ -263,7 +263,6 @@ console.log(communityData);
                             h="55px"
                             rounded="md"
                             value={wallet}
-                            placeholder="Type here"
                             onChange={(e)=>setWallet(e.target.value)}
                           />
                         </InputTransition>
@@ -335,7 +334,6 @@ console.log(communityData);
                           h="30px"
                           rounded="md"
                           value={wallet}
-                          placeholder="Type here"
                           fontSize='13px'
                           onChange={(e)=>setWallet(e.target.value)}
                         />

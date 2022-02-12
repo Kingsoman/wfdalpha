@@ -40,7 +40,6 @@ export default function CustomTextarea({typeText, type, setType}) {
             onChangeType(e)
           }}
           rounded="md"
-          placeholder="Type here"
           size="sm"
           h="175px"
         />
