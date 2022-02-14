@@ -14,7 +14,7 @@ import {
 } from '../ImageTransition'
 
 
-export default function CustomNumberInput({typeText, type, setType, notificationRef}) 
+export default function CustomNumberInput({typeText, type, setType, notificationRef, style}) 
 {
   function onChangeAmount(e) {
     // if (
@@ -28,7 +28,7 @@ export default function CustomNumberInput({typeText, type, setType, notification
   }
 
   return (
-    <Box mt ="40px">
+    <Box mt ="40px" style={style}>
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
       </Flex>
@@ -43,9 +43,11 @@ export default function CustomNumberInput({typeText, type, setType, notification
           style={{ border: '0', background: 'transparent' }}
           type="text"
           h="55px"
+          placeholder='Input number only'
           focusBorderColor="purple.800"
           rounded="md"
           value={type}
+          size="sm"
           onChange={(e) => {
             onChangeAmount(e)
           }}
@@ -54,3 +56,4 @@ export default function CustomNumberInput({typeText, type, setType, notification
     </Box>
   )
 }
+

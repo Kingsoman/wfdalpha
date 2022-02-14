@@ -20,8 +20,6 @@ export default function MilestoneTitle({
   index, 
   milestoneTitle,
   setMilestoneTitle,
-  milestoneTitleLen,
-  setMilestoneTitleLen,
 }) 
 {
   function onChangeMilestoneTitle(e, index){
@@ -30,10 +28,6 @@ export default function MilestoneTitle({
       ar[index] = e.target.value;
       setMilestoneTitle(ar);
     }
-
-    let ar=[...milestoneTitleLen];
-    ar[index] = e.target.value.length;
-    setMilestoneTitleLen(ar);
   }
 
   return (
@@ -41,7 +35,7 @@ export default function MilestoneTitle({
       <Flex justify="space-between">
         <Text mb="20px">Milestone Title</Text>
         <Text fontSize="15px" opacity="0.5">
-          {milestoneTitleLen[index]}/100 words
+          {milestoneTitle[index]?.length}/100 words
         </Text>
       </Flex>
       <InputTransition

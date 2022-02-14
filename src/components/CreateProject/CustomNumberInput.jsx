@@ -14,21 +14,21 @@ import {
 } from '../ImageTransition'
 
 
-export default function CustomNumberInput({typeText, type, setType, notificationRef}) 
+export default function CustomNumberInput({typeText, type, setType, notificationRef, style}) 
 {
   function onChangeAmount(e) {
-    if (
-      e.target.value != '' &&
-      e.target.value != parseInt(e.target.value).toString()
-    ) {
-      notificationRef?.current.showNotification('Please input number only', 'error', 4000)
-      return
-    }
+    // if (
+    //   e.target.value != '' &&
+    //   e.target.value != parseInt(e.target.value).toString()
+    // ) {
+    //   notificationRef?.current.showNotification('Please input number only', 'error', 4000)
+    //   return
+    // }
     setType(e.target.value)
   }
 
   return (
-    <Box mt ="40px">
+    <Box mt ="40px" style = {style}>
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
       </Flex>
@@ -69,11 +69,8 @@ export default function CustomNumberInput({typeText, type, setType, notification
             h="55px"
             w="140px"
             rounded="md"
-            fontSize="16px"
+            fontSize="12px"
             value="($)UST"
-            // onChange={(e) => {
-            //   setPrjChain(e.target.value)
-            // }}
           >
             <option style={{ backgroundColor: '#1B0645' }}>
               ($)UST

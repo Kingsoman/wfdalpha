@@ -15,31 +15,32 @@ import{
   isNull,
 } from '../../Util'
 
-export default function MilestoneDescription({
-  index, 
-  milestoneDescription,
-  setMilestoneDescription,
+export default function TeamMemberDescription({
+  typeText,
+  index,
+  type,
+  setType,
 }) 
 {
-  function onChangeMilestoneDescription(e, index){
+  function onChangeType(e, index){
     if (e.target.value.length < 5000) {
-      let ar=[...milestoneDescription];
+      let ar=[...type];
       ar[index] = e.target.value;
-      setMilestoneDescription(ar); 
+      setType(ar); 
     }
   }
 
   return (
-    <Box mt="40px">
+    <Box mt="10px">
       <Flex justify="space-between">
-        <Text mb="20px">Milestone Description</Text>
+        <Text mb="20px">{typeText}</Text>
         <Text fontSize="15px" opacity="0.5">
-          {milestoneDescription[index]?.length}/5000 words
+          {type[index]?.length}/5000 words
         </Text>
       </Flex>
       <InputTransition
-        unitid={`milestonedescription${index}`}
-        selected={isNull(milestoneDescription[index]) ? false : true}
+        unitid={`typeText${index}`}
+        selected={isNull(type[index]) ? false : true}
         width="100%"
         height="175px"
         rounded="md"
@@ -47,8 +48,8 @@ export default function MilestoneDescription({
       >
         <Textarea
           style={{ background: 'transparent', border: '0' }}
-          value={milestoneDescription[index]}
-          onChange={(e) => onChangeMilestoneDescription(e, index)}
+          value={type[index]}
+          onChange={(e) => onChangeType(e, index)}
           size="sm"
           rounded="md"
           h='175px'

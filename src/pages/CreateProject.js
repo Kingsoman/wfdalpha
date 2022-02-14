@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { MsgExecuteContract, WasmAPI } from '@terra-money/terra.js'
 import {
-  Img,
+  Input,
   Box,
   Flex,
   HStack
@@ -30,8 +30,10 @@ import CustomSimpleNumberInput from '../components/CreateProject/CustomSimpleNum
 import CustomSelect from '../components/CreateProject/CustomSelect'
 import CustomEmailInput from '../components/CreateProject/CustomEmailInput'
 import CustomUpload from '../components/CreateProject/CustomUpload'
+import VestingInput from '../components/CreateProject/VestingInput'
 import Website from '../components/CreateProject/Website'
 import Milestones from '../components/CreateProject/Milestones'
+import TeamMembers from '../components/CreateProject/TeamMembers'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -49,12 +51,30 @@ export default function CreateProject() {
   const [company, setCompany] = useState('');
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [collectedAmount, setCollectedAmount] = useState('')
   const [ecosystem, setEcosystem] = useState('Terra')
   const [tokenName, setTokenName] = useState('')
+  const [collectedAmount, setCollectedAmount] = useState('')
+
+  const [teammemberDescription, setTeammemberDescription] = useState([''])
+  const [teammemberLinkedin, setTeammemberLinkedin] = useState([''])
+  const [teammemberRole, setTeammemberRole] = useState([''])
+
   const [priceSeed, setPriceSeed] = useState('')
   const [pricePresale, setPricePresale] = useState('')
   const [priceIDO, setPriceIDO] = useState('')
+  const [amountSeed, setAmountSeed] = useState('')
+  const [amountPresale, setAmountPresale] = useState('')
+  const [amountIDO, setAmountIDO] = useState('')
+  const [unlockSeed, setUnlockSeed] = useState('')
+  const [monthSeed, setMonthSeed] = useState('')
+  const [afterSeed, setAfterSeed] = useState('')
+  const [unlockPresale, setUnlockPresale] = useState('')
+  const [monthPresale, setMonthPresale] = useState('')
+  const [afterPresale, setAfterPresale] = useState('')
+  const [unlockIDO, setUnlockIDO] = useState('')
+  const [monthIDO, setMonthIDO] = useState('')
+  const [afterIDO, setAfterIDO] = useState('')
+
   const [country, setCountry] = useState('')
   const [cofounderName, setCofounderName] = useState('')
   const [signature, setSignature] = useState('')
@@ -71,8 +91,6 @@ export default function CreateProject() {
   const [milestoneStartdate, setMilestoneStartdate] = useState([''])
   const [milestoneEnddate, setMilestoneEnddate] = useState([''])
 
-  const [milestoneTitleLen, setMilestoneTitleLen] = useState([0])
-  const [milestoneDescriptionLen, setMilestoneDescriptionLen] = useState([0])
   //---------------wallet connect-------------------------------------
   let connectedWallet = ''
 
@@ -348,17 +366,7 @@ export default function CreateProject() {
     await Sleep(2000)
     await FetchData(api, notificationRef, state, dispatch, true)
   }
-  function onNewMilestone() {
-    let ar = [...milestoneTitle]
-    ar.push('')
-    setMilestoneTitle(ar)
-  }
-  function onCancelMilestone() {
-    if (milestoneTitle.length <= 1) return
-    let ar = [...milestoneTitle]
-    ar.pop()
-    setMilestoneTitle(ar)
-  }
+
   return (
     <PageLayout title="Create Your Project" subTitle1="Create a" subTitle2="New Project">
       <Flex width="100%" justify="center" mb={'150px'} zIndex={'1'} mt = '-30px'>
@@ -383,87 +391,164 @@ export default function CreateProject() {
             type={title} 
             setType={setTitle} 
           />
-          <CustomTextarea 
-            typeText = "Project Description" 
-            type = {description} 
-            setType = {setDescription} 
+          <TeamMembers
+            description = {teammemberDescription}
+            setDescription = {setTeammemberDescription}
+            role = {teammemberRole}
+            setRole = {setTeammemberRole}
+            linkedin = {teammemberLinkedin}
+            setLinedin = {setTeammemberLinkedin}
           />
-          <CustomNumberInput
-            typeText = "Amount Required"
-            type = {collectedAmount}
-            setType = {setCollectedAmount}
-            notificationRef={notificationRef}
+          <Flex direction="row">
+            <CustomNumberInput
+              typeText = "Amount Required"
+              type = {collectedAmount}
+              setType = {setCollectedAmount}
+              notificationRef={notificationRef}
+              style = {{width: '30%'}}
+            />
+            <CustomSelect
+              typeText = "Blockchain"
+              type = {ecosystem}
+              setType = {setEcosystem}
+              options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
+              style = {{width: '30%', marginLeft: "30px"}}
+            />
+            <CustomInput
+              typeText = "Token Name"
+              type={tokenName} 
+              setType={setTokenName}
+              style = {{width: '30%', marginLeft: "30px"}}
+            />
+          </Flex>
+          
+          <Flex direction="row">
+            <CustomSimpleNumberInput
+              typeText = "Price set at Seed Sale"
+              type={priceSeed} 
+              setType={setPriceSeed}
+              notificationRef={notificationRef}
+              style={{width:'50%'}}
+            />
+            <CustomSimpleNumberInput
+              typeText = "Token Amount at Seed Sale"
+              type={amountSeed} 
+              setType={setAmountSeed}
+              notificationRef={notificationRef}
+              style={{width:'50%', marginLeft: "30px"}}
+            />
+          </Flex>
+          <VestingInput
+            unlock={unlockSeed}
+            setUnlock={setUnlockSeed}
+            month={monthSeed}
+            setMonth={setMonthSeed}
+            after={afterSeed}
+            setAfter={setAfterSeed}
           />
-          <CustomSelect
-            typeText = "Blockchain"
-            type = {ecosystem}
-            setType = {setEcosystem}
-            options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
+          
+          <Flex direction='row'>
+            <CustomSimpleNumberInput
+              typeText = "Price set at Presale"
+              type={pricePresale} 
+              setType={setPricePresale}
+              notificationRef={notificationRef}
+              style={{width:'50%'}}
+            />
+            <CustomSimpleNumberInput
+              typeText = "Token Amount at Presale"
+              type={amountPresale} 
+              setType={setAmountPresale}
+              notificationRef={notificationRef}
+              style={{width:'50%', marginLeft: "30px"}}
+            />
+          </Flex>
+          <VestingInput
+            unlock={unlockPresale}
+            setUnlock={setUnlockPresale}
+            month={monthPresale}
+            setMonth={setMonthPresale}
+            after={afterPresale}
+            setAfter={setAfterPresale}
           />
-          <CustomInput
-            typeText = "Token Name"
-            type={tokenName} 
-            setType={setTokenName} 
+          <Flex direction="row">
+            <CustomSimpleNumberInput
+              typeText = "Price set at IDO"
+              type={priceIDO} 
+              setType={setPriceIDO}
+              notificationRef={notificationRef}
+              style={{width:'50%'}}
+            />
+            <CustomSimpleNumberInput
+              typeText = "Token Amount at IDO"
+              type={amountIDO} 
+              setType={setAmountIDO}
+              notificationRef={notificationRef}
+              style={{width:'50%', marginLeft: "30px"}}
+            />
+          </Flex>
+          <VestingInput
+            unlock={unlockIDO}
+            setUnlock={setUnlockIDO}
+            month={monthIDO}
+            setMonth={setMonthIDO}
+            after={afterIDO}
+            setAfter={setAfterIDO}
           />
-          <CustomSimpleNumberInput
-            typeText = "Price set at Seed Sale"
-            type={priceSeed} 
-            setType={setPriceSeed}
-            notificationRef={notificationRef}
-          />
-          <CustomSimpleNumberInput
-            typeText = "Price set at Presale"
-            type={pricePresale} 
-            setType={setPricePresale}
-            notificationRef={notificationRef}
-          />
-          <CustomSimpleNumberInput
-            typeText = "Price set at IDO"
-            type={priceIDO} 
-            setType={setPriceIDO}
-            notificationRef={notificationRef}
-          />
-          <CustomInput
-            typeText = "Country"
-            type={country} 
-            setType={setCountry} 
-          />
-          <CustomInput
-            typeText = "Founder Name"
-            type={cofounderName} 
-            setType={setCofounderName} 
-          />
-          <CustomInput
-            typeText = "Address"
-            type={address} 
-            setType={setAddress} 
-          />
-          <CustomEmailInput
-            typeText = "Email"
-            type = {email}
-            setType = {setEmail}
-          />
-          <CustomSimpleNumberInput
-            typeText = "% for WeFund Service"
-            type = {serviceWefund}
-            setType = {setServiceWefund}
-          />
-          <CustomSimpleNumberInput
-            typeText = '% for Charity'
-            type = {serviceCharity}
-            setType= {setServiceCharity}
-          />
+          <Flex direction="row">
+            <CustomInput
+              typeText = "Country"
+              type={country} 
+              setType={setCountry}
+              style={{width:'50%'}} 
+            />
+            <CustomInput
+              typeText = "Founder Name"
+              type={cofounderName} 
+              setType={setCofounderName}
+              style={{width:'50%', marginLeft:'30px'}} 
+            />
+          </Flex>
+          <Flex direction="row">
+            <CustomInput
+              typeText = "Address"
+              type={address} 
+              setType={setAddress}
+              style={{width:'50%'}}
+            />
+            <CustomEmailInput
+              typeText = "Email"
+              type = {email}
+              setType = {setEmail}
+              style={{width:'50%', marginLeft:'30px'}}
+            />
+          </Flex>
+          <Flex direction="row">
+            <CustomSimpleNumberInput
+              typeText = "% for WeFund Service"
+              type = {serviceWefund}
+              setType = {setServiceWefund}
+              style = {{width:'50%'}}
+            />
+            <CustomSimpleNumberInput
+              typeText = '% for Charity'
+              type = {serviceCharity}
+              setType= {setServiceCharity}
+              style = {{width:'50%', marginLeft:'30px'}}
+            />
+          </Flex>
           <Flex direction='row'>
             <CustomUpload
               typeText = 'Signature'
               type = {signature}
               setType = {setSignature}
+              style = {{width:'50%'}}
             />
-            &nbsp;
             <CustomUpload
               typeText = 'Whitepaper'
               type = {whitepaper}
               setType = {setWhitepaper}
+              style = {{width:'50%', marginLeft:'30px'}}
             />
           </Flex>
           <Website
@@ -474,50 +559,19 @@ export default function CreateProject() {
           <Milestones
             milestoneTitle = {milestoneTitle}
             setMilestoneTitle = {setMilestoneTitle}
-            milestoneTitleLen = {milestoneTitleLen}
-            setMilestoneTitleLen = {setMilestoneTitleLen}
             milestoneType = {milestoneType}
             setMilestoneType = {setMilestoneType}
             milestoneAmount = {milestoneAmount}
             setMilestoneAmount = {setMilestoneAmount}
             milestoneDescription = {milestoneDescription}
             setMilestoneDescription = {setMilestoneDescription}
-            milestoneDescriptionLen = {milestoneDescriptionLen}
-            setMilestoneDescriptionLen = {setMilestoneDescriptionLen}
             milestoneStartdate = {milestoneStartdate}
             setMilestoneStartdate = {setMilestoneStartdate}
             milestoneEnddate = {milestoneEnddate}
             setMilestoneEnddate = {setMilestoneEnddate}
-            onCancelMilestone = {onCancelMilestone}
             notificationRef={notificationRef}
           />
-          <Flex
-            w="100%"
-            mt="50px"
-            pt="30px"
-            pb="30px"
-            mb="50px"
-            justify="center"
-            borderBottom={'1px solid rgba(255, 255, 255, 0.3)'}
-          >
-            <ButtonBackTransition
-              unitid="AddNewMilestone"
-              selected={false}
-              width="250px"
-              height="45px"
-              rounded="33px"
-            >
-              <Box
-                variant="solid"
-                color="white"
-                justify="center"
-                align="center"
-                onClick={onNewMilestone}
-              >
-                Add Milestone
-              </Box>
-            </ButtonBackTransition>
-          </Flex>
+          
           <Flex w="100%" mt="30px" justify="center" mb="30px">
             <ButtonTransition
               unitid="submit"

@@ -19,29 +19,34 @@ import MilestoneDate from './Milestone/MilestoneDate'
 export default function Milestones({
   milestoneTitle,
   setMilestoneTitle,
-  milestoneTitleLen,
-  setMilestoneTitleLen,
   milestoneType,
   setMilestoneType,
   milestoneAmount,
   setMilestoneAmount,
   milestoneDescription,
   setMilestoneDescription,
-  milestoneDescriptionLen,
-  setMilestoneDescriptionLen,
   milestoneStartdate,
   setMilestoneStartdate,
   milestoneEnddate,
   setMilestoneEnddate,
-  onCancelMilestone,
   notificationRef
 }) 
 {
+  function onNewMilestone() {
+    let ar = [...milestoneTitle]
+    ar.push('')
+    setMilestoneTitle(ar)
+  }
+  function onCancelMilestone() {
+    if (milestoneTitle.length <= 1) return
+    let ar = [...milestoneTitle]
+    ar.pop()
+    setMilestoneTitle(ar)
+  }
   return (
     <>
     <Flex
       mt="100px"
-      mb="20px"
       justify="center"
       style={{ fontFamily: 'PilatExtended-Bold' }}
     >
@@ -57,11 +62,11 @@ export default function Milestones({
     </Flex>
     {milestoneTitle.map((item, index) => {
       return (
-        <Flex direction='column' key={index}>
+        <Flex direction='column' key={index} mt='30px'>
           <Text
             fontSize={{ base: '25px', md: '25px' }}
             color="#4790f5"
-            mb = '30px'
+            mb = '10px'
           >
             Milestone { index + 1 }
           </Text>
@@ -69,10 +74,8 @@ export default function Milestones({
             index={index}
             milestoneTitle={milestoneTitle}
             setMilestoneTitle={setMilestoneTitle}
-            milestoneTitleLen={milestoneTitleLen}
-            setMilestoneTitleLen={setMilestoneTitleLen}
           />
-          <Flex direction="row" mt="40px" justify="space-between">
+          <Flex direction="row" mt="30px" justify="space-between">
             <MilestoneType
               index={index}
               milestoneType={milestoneType}
@@ -89,10 +92,8 @@ export default function Milestones({
             index={index}
             milestoneDescription = {milestoneDescription}
             setMilestoneDescription = {setMilestoneDescription}
-            milestoneDescriptionLen = {milestoneDescriptionLen}
-            setMilestoneDescriptionLen = {setMilestoneDescriptionLen}
           />
-          <Flex direction="row" mt="40px" justify="space-between">
+          <Flex direction="row" mt="30px" mb='30px' justify="space-between">
             <MilestoneDate
               index={index}
               milestoneDate={milestoneStartdate}
@@ -106,35 +107,56 @@ export default function Milestones({
               extra="End"
             />
           </Flex>
-          <Flex 
-            w="100%" 
-            mt="50px"
-            pb="50px" 
-            justify="space-between"
-            borderBottom={'1px solid rgba(255, 255, 255, 0.3)'}
-          >
-            <ButtonBackTransition
-              unitid={`milestonecancel${index}`}
-              selected={false}
-              width="250px"
-              height="45px"
-              rounded="33px"
-            >
-              <Box
-                variant="solid"
-                color="white"
-                justify="center"
-                align="center"
-                onClick = {()=> onCancelMilestone()}
-              >
-                Cancel Milestone { index + 1 }
-              </Box>
-            </ButtonBackTransition>
-          </Flex>
-          {/* -----------------submit----------------- */}
         </Flex>
       )
     })}
+
+    <Flex
+      w="100%"
+      mt="30px"
+      pt="30px"
+      pb="30px"
+      mb="50px"
+      justify="center"
+      borderBottom={'1px solid rgba(255, 255, 255, 0.3)'}
+    >
+      <ButtonBackTransition
+        unitid="AddNewMilestone"
+        selected={false}
+        width="250px"
+        height="45px"
+        rounded="33px"
+      >
+        <Box
+          variant="solid"
+          color="white"
+          justify="center"
+          align="center"
+          onClick={onNewMilestone}
+        >
+          Add Milestone
+        </Box>
+      </ButtonBackTransition>
+
+      <ButtonBackTransition
+        unitid="CancelMilestone"
+        selected={false}
+        width="250px"
+        height="45px"
+        rounded="33px"
+        ml = '30px'
+      >
+        <Box
+          variant="solid"
+          color="white"
+          justify="center"
+          align="center"
+          onClick={onCancelMilestone}
+        >
+          Cancel Milestone {milestoneTitle.length}
+        </Box>
+      </ButtonBackTransition>
+    </Flex>
     </>
   )
 };

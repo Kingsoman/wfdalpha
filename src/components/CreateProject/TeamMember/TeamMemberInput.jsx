@@ -1,20 +1,33 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {
+  Box,
   Flex,
   Text,
   InputGroup,
   Input,
-  Box,
 } from '@chakra-ui/react'
 
 import {
   InputTransition,
-} from '../ImageTransition'
+} from '../../ImageTransition'
 
-export default function CustomInput({typeText, type, setType, style}) {
-  function onChangeType(e) {
+import{
+  isNull,
+} from '../../Util'
+
+export default function TeamMemberInput({
+  index, 
+  typeText,
+  type,
+  setType,
+  style
+}) 
+{
+  function onChangeType(e, index){
     if (e.target.value.length < 100) {
-      setType(e.target.value)
+      let ar=[...type];
+      ar[index] = e.target.value;
+      setType(ar);
     }
   }
 
@@ -23,12 +36,12 @@ export default function CustomInput({typeText, type, setType, style}) {
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
         <Text fontSize="15px" opacity="0.5">
-          {type?.length}/100 words
+          {type[index]?.length}/100 words
         </Text>
       </Flex>
       <InputTransition
-        unitid={"inputtransition" + typeText}
-        selected={type == '' ? false : true}
+        unitid={`${typeText}${index}`}
+        selected={isNull(type[index]) ? false : true}
         width="100%"
         height="55px"
         rounded="md"
@@ -43,11 +56,11 @@ export default function CustomInput({typeText, type, setType, style}) {
             type="text"
             h="55px"
             rounded="md"
-            value={type}
-            onChange={(e) => onChangeType(e)}
+            value={type[index]}
+            onChange={(e) => onChangeType(e, index)}
           />
         </InputGroup>
       </InputTransition>
     </Box>
   )
-}
+};

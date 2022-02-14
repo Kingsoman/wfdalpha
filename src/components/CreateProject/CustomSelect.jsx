@@ -10,10 +10,10 @@ import {
   InputTransition,
 } from '../ImageTransition'
 
-export default function CustomSelect({typeText, type, setType, options}) 
+export default function CustomSelect({typeText, type, setType, options, style}) 
 {
   return (
-    <Box mt="40px">
+    <Box mt="40px" style={style}>
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
       </Flex>

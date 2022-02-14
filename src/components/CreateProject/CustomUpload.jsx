@@ -11,7 +11,7 @@ import {
 import { IoCloudUploadOutline, IoCheckbox } from 'react-icons/io5';
 import {isNull} from '../Util'
 
-export default function CustomUpload({typeText, type, setType}) 
+export default function CustomUpload({typeText, type, setType, style}) 
 {
   function openUpload() {
     if (typeof document !== 'undefined') {
@@ -24,12 +24,12 @@ export default function CustomUpload({typeText, type, setType})
   }
 
   return (
-    <Box mt='30px' w="48%">
+    <Box mt='30px' style={style}>
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
       </Flex>
       {isNull(type) && (
-        <InputGroup size="sm">
+        <InputGroup size="sm" w='100%'>
           <InputLeftElement
             h="55px"
             pointerEvents="none"
@@ -56,7 +56,7 @@ export default function CustomUpload({typeText, type, setType})
         </InputGroup>
       )}
       {!isNull(type) && (
-        <InputGroup size="sm">
+        <InputGroup size="sm" w = '100%'>
           <InputLeftElement
             h="55px"
             pointerEvents="none"
