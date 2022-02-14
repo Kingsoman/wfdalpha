@@ -4,6 +4,7 @@ import {
   Input,
   Box,
   Flex,
+  Spacer,
   HStack
 } from '@chakra-ui/react'
 import {
@@ -22,6 +23,7 @@ import {
 } from '../components/Util'
 import Notification from '../components/Notification'
 import PageLayout from '../components/PageLayout'
+
 import Payment from '../components/CreateProject/Payment'
 import CustomInput from '../components/CreateProject/CustomInput'
 import CustomTextarea from '../components/CreateProject/CustomTextarea'
@@ -32,6 +34,7 @@ import CustomEmailInput from '../components/CreateProject/CustomEmailInput'
 import CustomUpload from '../components/CreateProject/CustomUpload'
 import VestingInput from '../components/CreateProject/VestingInput'
 import Website from '../components/CreateProject/Website'
+
 import Milestones from '../components/CreateProject/Milestones'
 import TeamMembers from '../components/CreateProject/TeamMembers'
 
@@ -83,6 +86,7 @@ export default function CreateProject() {
   const [serviceWefund, setServiceWefund] = useState(5)
   const [serviceCharity, setServiceCharity] = useState(0)
   const [website, setWebsite] = useState('')
+  const [proffesionallink, setProfesisonalLink] = useState('')
 
   const [milestoneTitle, setMilestoneTitle] = useState([''])
   const [milestoneType, setMilestoneType] = useState([''])
@@ -371,7 +375,7 @@ export default function CreateProject() {
     <PageLayout title="Create Your Project" subTitle1="Create a" subTitle2="New Project">
       <Flex width="100%" justify="center" mb={'150px'} zIndex={'1'} mt = '-30px'>
         <Box
-          w = '900px'
+          w = {{base:'sm',sm:'md',md:'2xl',lg:'2xl',xl:'3xl'}}
           background = 'rgba(255, 255, 255, 0.05)'
           border = '1.5px solid rgba(255, 255, 255, 0.15)'
           borderTopColor =  'transparent'
@@ -555,6 +559,11 @@ export default function CreateProject() {
             typeText = "Project website"
             type = {website}
             setType = {setWebsite}
+          />
+          <Website
+            typeText = "Linkedin or Related Link"
+            type = {proffesionallink}
+            setType = {setProfesisonalLink}
           />
           <Milestones
             milestoneTitle = {milestoneTitle}
