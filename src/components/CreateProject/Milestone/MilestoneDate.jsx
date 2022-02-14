@@ -30,15 +30,16 @@ export default function MilestoneDate({
   }
 
   return (
-    <Box w="48%">
+    <Box w="100%">
       <Flex justify="space-between">
-        <Text mb="20px">Milestone Duration</Text>
+        <Text mb="20px" pl="5%">Milestone Duration</Text>
       </Flex>
       <InputTransition
         unitid={`milestone${extra}date${index}`}
-        width="100%"
+        width="95%"
         height="55px"
         rounded="md"
+        mb="20px"
         selected={isNull(milestoneDate[index]) ? false : true}
       >
         <InputGroup

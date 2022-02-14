@@ -59,13 +59,13 @@ export default function PageLayout(props) {
             style={{fontFamily:'PilatExtended-Bold'}}
             >
             <Text 
-            fontSize={{base:'25px',md:'25px',lg:'40px'}} 
+            fontSize={{base:'20px',md:'25px',lg:'40px'}} 
             color='#4790f5'
             >
               {props.subTitle1}
             </Text>
             <Text 
-              fontSize={{base:'25px',md:'25px',lg:'40px'}}
+              fontSize={{base:'20px',md:'25px',lg:'40px'}}
             >
               &nbsp;{props.subTitle2}
             </Text>

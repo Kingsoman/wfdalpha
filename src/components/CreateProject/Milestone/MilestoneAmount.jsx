@@ -40,7 +40,7 @@ export default function MilestoneAmount({
   }
 
   return (
-    <Box ml="24px" w="100%">
+    <Box ml={{base:"0px", md:"20px"}}  mt={{base:"40px", md:"0px"}} w="100%">
       <Flex justify="space-between">
         <Text mb="20px">Amount Required</Text>
       </Flex>
@@ -59,6 +59,7 @@ export default function MilestoneAmount({
             style={{ border: '0', background: 'transparent' }}
             type="text"
             h="55px"
+            placeholder="Type here"
             focusBorderColor="purple.800"
             rounded="md"
             value={milestoneAmount[index]}

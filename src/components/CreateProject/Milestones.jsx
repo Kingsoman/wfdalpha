@@ -3,6 +3,7 @@ import {
   Flex,
   Text,
   Box,
+  Spacer
 } from '@chakra-ui/react'
 
 import {
@@ -45,25 +46,28 @@ export default function Milestones({
       justify="center"
       style={{ fontFamily: 'PilatExtended-Bold' }}
     >
-      <Text fontSize={{ base: '25px', md: '25px' }}>
-        Create Project&nbsp;
+      <Text fontSize={{ base: '12px', md: '21px', lg: '25px' }}>
+        Create&nbsp;
       </Text>
       <Text
-        fontSize={{ base: '25px', md: '25px' }}
+        fontSize={{ base: '12px', md: '21px', lg: '25px' }}
         color="#4790f5"
       >
         Milestones
+      </Text>
+      <Text fontSize={{ base: '12px', md: '21px', lg: '25px' }}>
+        &nbsp;for the Project
       </Text>
     </Flex>
     {milestoneTitle.map((item, index) => {
       return (
         <Flex direction='column' key={index}>
           <Text
-            fontSize={{ base: '25px', md: '25px' }}
+            fontSize={{ base: '14px', md: '21px', lg: '25px' }}
             color="#4790f5"
             mb = '30px'
           >
-            Milestone { index + 1 }
+            Milestone - {index+1}
           </Text>
           <MilestoneTitle 
             index={index}
@@ -72,7 +76,7 @@ export default function Milestones({
             milestoneTitleLen={milestoneTitleLen}
             setMilestoneTitleLen={setMilestoneTitleLen}
           />
-          <Flex direction="row" mt="40px" justify="space-between">
+          <Flex direction={{ base: 'column', md: 'row', lg: 'row' }} mt="40px">
             <MilestoneType
               index={index}
               milestoneType={milestoneType}
@@ -92,13 +96,14 @@ export default function Milestones({
             milestoneDescriptionLen = {milestoneDescriptionLen}
             setMilestoneDescriptionLen = {setMilestoneDescriptionLen}
           />
-          <Flex direction="row" mt="40px" justify="space-between">
+          <Flex direction={{ base: 'column', md: 'row', lg: 'row' }} mt="40px" justify={'space-between'}>
             <MilestoneDate
               index={index}
               milestoneDate={milestoneStartdate}
               setMilestoneDate={setMilestoneStartdate}
               extra="Start"
             />
+            <Spacer />
             <MilestoneDate
               index={index}
               milestoneDate={milestoneEnddate}
