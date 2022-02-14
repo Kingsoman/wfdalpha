@@ -5,7 +5,7 @@ import {
   Box,
   Flex,
   Spacer,
-  HStack
+  Stack
 } from '@chakra-ui/react'
 import {
   ButtonBackTransition,
@@ -403,45 +403,53 @@ export default function CreateProject() {
             linkedin = {teammemberLinkedin}
             setLinedin = {setTeammemberLinkedin}
           />
-          <Flex direction="row">
+          <Stack 
+            mt = '30px'
+            direction={{base:'column', md:'column', lg:'row'}}
+            spacing='30px'
+          >
             <CustomNumberInput
               typeText = "Amount Required"
               type = {collectedAmount}
               setType = {setCollectedAmount}
               notificationRef={notificationRef}
-              style = {{width: '30%'}}
+              w = {{base:'100%', md:'30%', lg:'30%'}}
             />
             <CustomSelect
               typeText = "Blockchain"
               type = {ecosystem}
               setType = {setEcosystem}
               options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
-              style = {{width: '30%', marginLeft: "30px"}}
+              w = {{base:'100%', md:'30%', lg:'30%'}}
             />
             <CustomInput
               typeText = "Token Name"
               type={tokenName} 
               setType={setTokenName}
-              style = {{width: '30%', marginLeft: "30px"}}
+              w = {{base:'100%', md:'30%', lg:'30%'}}
             />
-          </Flex>
+          </Stack>
           
-          <Flex direction="row">
+          <Stack 
+            mt = '30px' 
+            direction={{base:'column', md:'row', lg:'row'}} 
+            spacing='30px'
+          >
             <CustomSimpleNumberInput
               typeText = "Price set at Seed Sale"
               type={priceSeed} 
               setType={setPriceSeed}
               notificationRef={notificationRef}
-              style={{width:'50%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
             <CustomSimpleNumberInput
               typeText = "Token Amount at Seed Sale"
               type={amountSeed} 
               setType={setAmountSeed}
               notificationRef={notificationRef}
-              style={{width:'50%', marginLeft: "30px"}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
-          </Flex>
+          </Stack>
           <VestingInput
             unlock={unlockSeed}
             setUnlock={setUnlockSeed}
@@ -451,22 +459,26 @@ export default function CreateProject() {
             setAfter={setAfterSeed}
           />
           
-          <Flex direction='row'>
+          <Stack 
+            mt = '30px' 
+            direction={{base:'column', md:'row', lg:'row'}} 
+            spacing='30px'
+          >
             <CustomSimpleNumberInput
               typeText = "Price set at Presale"
               type={pricePresale} 
               setType={setPricePresale}
               notificationRef={notificationRef}
-              style={{width:'50%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
             <CustomSimpleNumberInput
               typeText = "Token Amount at Presale"
               type={amountPresale} 
               setType={setAmountPresale}
               notificationRef={notificationRef}
-              style={{width:'50%', marginLeft: "30px"}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
-          </Flex>
+          </Stack>
           <VestingInput
             unlock={unlockPresale}
             setUnlock={setUnlockPresale}
@@ -475,22 +487,26 @@ export default function CreateProject() {
             after={afterPresale}
             setAfter={setAfterPresale}
           />
-          <Flex direction="row">
+          <Stack 
+            mt = '30px' 
+            direction={{base:'column', md:'row', lg:'row'}} 
+            spacing='30px'
+          >
             <CustomSimpleNumberInput
               typeText = "Price set at IDO"
               type={priceIDO} 
               setType={setPriceIDO}
               notificationRef={notificationRef}
-              style={{width:'50%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
             <CustomSimpleNumberInput
               typeText = "Token Amount at IDO"
               type={amountIDO} 
               setType={setAmountIDO}
               notificationRef={notificationRef}
-              style={{width:'50%', marginLeft: "30px"}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
-          </Flex>
+          </Stack>
           <VestingInput
             unlock={unlockIDO}
             setUnlock={setUnlockIDO}
@@ -499,62 +515,78 @@ export default function CreateProject() {
             after={afterIDO}
             setAfter={setAfterIDO}
           />
-          <Flex direction="row">
+          <Stack 
+            mt = '30px' 
+            direction={{base:'column', md:'row', lg:'row'}} 
+            spacing='30px'
+          >
             <CustomInput
               typeText = "Country"
               type={country} 
               setType={setCountry}
-              style={{width:'50%'}} 
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
             <CustomInput
               typeText = "Founder Name"
               type={cofounderName} 
               setType={setCofounderName}
-              style={{width:'50%', marginLeft:'30px'}} 
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
-          </Flex>
-          <Flex direction="row">
+          </Stack>
+          <Stack 
+            mt = '30px' 
+            direction={{base:'column', md:'row', lg:'row'}} 
+            spacing='30px'
+          >
             <CustomInput
               typeText = "Address"
               type={address} 
               setType={setAddress}
-              style={{width:'50%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
             <CustomEmailInput
               typeText = "Email"
               type = {email}
               setType = {setEmail}
-              style={{width:'50%', marginLeft:'30px'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
-          </Flex>
-          <Flex direction="row">
+          </Stack>
+          <Stack 
+            mt = '30px' 
+            direction={{base:'column', md:'row', lg:'row'}} 
+            spacing='30px'
+          >
             <CustomSimpleNumberInput
               typeText = "% for WeFund Service"
               type = {serviceWefund}
               setType = {setServiceWefund}
-              style = {{width:'50%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
             <CustomSimpleNumberInput
               typeText = '% for Charity'
               type = {serviceCharity}
               setType= {setServiceCharity}
-              style = {{width:'50%', marginLeft:'30px'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
-          </Flex>
-          <Flex direction='row'>
+          </Stack>
+          <Stack 
+            mt = '30px' 
+            direction={{base:'column', md:'row', lg:'row'}} 
+            spacing='30px'
+          >
             <CustomUpload
               typeText = 'Signature'
               type = {signature}
               setType = {setSignature}
-              style = {{width:'50%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
             <CustomUpload
               typeText = 'Whitepaper'
               type = {whitepaper}
               setType = {setWhitepaper}
-              style = {{width:'50%', marginLeft:'30px'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
-          </Flex>
+          </Stack>
           <Website
             typeText = "Project website"
             type = {website}

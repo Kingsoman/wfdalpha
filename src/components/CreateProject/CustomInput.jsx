@@ -11,7 +11,7 @@ import {
   InputTransition,
 } from '../ImageTransition'
 
-export default function CustomInput({typeText, type, setType, style}) {
+export default function CustomInput({typeText, type, setType, w}) {
   function onChangeType(e) {
     if (e.target.value.length < 100) {
       setType(e.target.value)
@@ -19,7 +19,7 @@ export default function CustomInput({typeText, type, setType, style}) {
   }
 
   return (
-    <Box mt="40px" style={style}>
+    <Box w={w}>
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
         <Text fontSize="15px" opacity="0.5">

@@ -13,7 +13,7 @@ export default function PageLayout(props) {
       <Flex
         color={'white'}
         width={'100%'}
-        fontSize={'18px'}
+        fontSize={{base:'14px', md:'15px', lg:'16px'}}
         justify={'center'}
         fontWeight={'500'}
         alignItems={'center'}

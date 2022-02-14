@@ -20,7 +20,7 @@ export default function TeamMemberInput({
   typeText,
   type,
   setType,
-  style
+  w
 }) 
 {
   function onChangeType(e, index){
@@ -32,7 +32,7 @@ export default function TeamMemberInput({
   }
 
   return (
-    <Box mt="40px" style={style}>
+    <Box w={w}>
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
         <Text fontSize="15px" opacity="0.5">

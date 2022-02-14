@@ -14,7 +14,7 @@ import {
 } from '../ImageTransition'
 
 
-export default function CustomNumberInput({typeText, type, setType, notificationRef, style}) 
+export default function CustomNumberInput({typeText, type, setType, notificationRef, w}) 
 {
   function onChangeAmount(e) {
     // if (
@@ -28,7 +28,7 @@ export default function CustomNumberInput({typeText, type, setType, notification
   }
 
   return (
-    <Box mt ="40px" style = {style}>
+    <Box w={w}>
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
       </Flex>

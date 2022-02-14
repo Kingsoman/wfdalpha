@@ -3,6 +3,7 @@ import {
   Flex,
   Text,
   Box,
+  Stack
 } from '@chakra-ui/react'
 
 import {
@@ -61,22 +62,27 @@ export default function TeamMembers({
             type = {description}
             setType = {setDescription}
           />
-          <Flex direction="row" mb='30px'>
+          <Stack 
+            direction={{base:'column', md: 'row', lg:"row"}} 
+            mb='30px'
+            spacing='30px'
+            mt = '30px'
+          >
             <TeamMemberInput 
               index = {index}
               typeText= 'Role'
               type = {role}
               setType = {setRole}
-              style = {{width:'30%'}}
+              w={{base:'100%', md: '30%', lg:'30%'}}
             />
             <TeamMemberInput 
               index = {index}
               typeText= 'Linkedin Link'
               type = {linkedin}
               setType = {setLinedin}
-              style = {{width: '70%', marginLeft:'30px'}}
+              w={{base:'100%', md: '70%', lg:'70%'}}
             />
-          </Flex>
+          </Stack>
           {/* -----------------submit----------------- */}
         </Flex>
       )
@@ -89,6 +95,7 @@ export default function TeamMembers({
       mb="50px"
       justify="center"
       borderBottom={'1px solid rgba(255, 255, 255, 0.3)'}
+      fontSize={{base:'14px', md:'15px', lg:'16px'}}
     >
       <ButtonBackTransition
         unitid="AddNewMilestone"
