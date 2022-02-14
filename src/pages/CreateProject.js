@@ -34,7 +34,7 @@ import CustomEmailInput from '../components/CreateProject/CustomEmailInput'
 import CustomUpload from '../components/CreateProject/CustomUpload'
 import Website from '../components/CreateProject/Website'
 
-import Milestons from '../components/CreateProject/Milestones'
+import Milestones from '../components/CreateProject/Milestones'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -487,7 +487,7 @@ export default function CreateProject() {
             type = {proffesionallink}
             setType = {setProfesisonalLink}
           />
-          <Milestons
+          <Milestones
             milestoneTitle = {milestoneTitle}
             setMilestoneTitle = {setMilestoneTitle}
             milestoneTitleLen = {milestoneTitleLen}
