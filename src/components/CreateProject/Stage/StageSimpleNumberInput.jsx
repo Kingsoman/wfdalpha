@@ -11,20 +11,20 @@ import {
 
 import {
   InputTransition,
-} from '../ImageTransition'
+} from '../../ImageTransition'
+import {
+  isNull
+} from '../../Util';
 
-
-export default function CustomSimpleNumberInput({typeText, type, setType, notificationRef, w}) 
+export default function StageSimpleNumberInput({index, typeText, type, setType, notificationRef, w}) 
 {
   function onChangeAmount(e) {
-    // if (
-    //   e.target.value != '' &&
-    //   e.target.value != parseInt(e.target.value).toString()
-    // ) {
-    //   notificationRef?.current.showNotification('Please input number only', 'error', 4000)
-    //   return
-    // }
-    setType(e.target.value)
+    if (e.target.value.length < 5000) {
+      let ar=[...type];
+      ar[index] = e.target.value;
+      setType(ar); 
+
+    }
   }
 
   return (
@@ -34,7 +34,7 @@ export default function CustomSimpleNumberInput({typeText, type, setType, notifi
       </Flex>
       <InputTransition
         unitid={"projectamount" + typeText}
-        selected={type == '' ? false : true}
+        selected={isNull(type[index]) ? false : true}
         width="100%"
         height="55px"
         rounded="md"
@@ -46,7 +46,7 @@ export default function CustomSimpleNumberInput({typeText, type, setType, notifi
           placeholder='Input number only'
           focusBorderColor="purple.800"
           rounded="md"
-          value={type}
+          value={type[index]}
           size="sm"
           onChange={(e) => {
             onChangeAmount(e)

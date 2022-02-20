@@ -32,11 +32,12 @@ import CustomSimpleNumberInput from '../components/CreateProject/CustomSimpleNum
 import CustomSelect from '../components/CreateProject/CustomSelect'
 import CustomEmailInput from '../components/CreateProject/CustomEmailInput'
 import CustomUpload from '../components/CreateProject/CustomUpload'
-import VestingInput from '../components/CreateProject/VestingInput'
+import VestingInput from '../components/CreateProject/Stage/VestingInput'
 import Website from '../components/CreateProject/Website'
 
-import Milestones from '../components/CreateProject/Milestones'
-import TeamMembers from '../components/CreateProject/TeamMembers'
+import Milestones from '../components/CreateProject/Milestone/Milestones'
+import TeamMembers from '../components/CreateProject/TeamMember/TeamMembers'
+import Stages from '../components/CreateProject/Stage/Stages'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -62,21 +63,11 @@ export default function CreateProject() {
   const [teammemberLinkedin, setTeammemberLinkedin] = useState([''])
   const [teammemberRole, setTeammemberRole] = useState([''])
 
-  const [priceSeed, setPriceSeed] = useState('')
-  const [pricePresale, setPricePresale] = useState('')
-  const [priceIDO, setPriceIDO] = useState('')
-  const [amountSeed, setAmountSeed] = useState('')
-  const [amountPresale, setAmountPresale] = useState('')
-  const [amountIDO, setAmountIDO] = useState('')
-  const [unlockSeed, setUnlockSeed] = useState('')
-  const [monthSeed, setMonthSeed] = useState('')
-  const [afterSeed, setAfterSeed] = useState('')
-  const [unlockPresale, setUnlockPresale] = useState('')
-  const [monthPresale, setMonthPresale] = useState('')
-  const [afterPresale, setAfterPresale] = useState('')
-  const [unlockIDO, setUnlockIDO] = useState('')
-  const [monthIDO, setMonthIDO] = useState('')
-  const [afterIDO, setAfterIDO] = useState('')
+  const [stagePrice, setStagePrice] = useState([''])
+  const [stageAmount, setStageAmount] = useState([''])
+  const [stageVestingSoon, setStageVestingSoon] = useState([''])
+  const [stageVestingAfter, setStageVestingAfter] = useState([''])
+  const [stageVestingPeriod, setStageVestingPeriod] = useState([''])
 
   const [country, setCountry] = useState('')
   const [cofounderName, setCofounderName] = useState('')
@@ -315,6 +306,15 @@ export default function CreateProject() {
     let realWhitepaer = await uploadWhitepaper();
     let realLogo = await uploadLogo();
     //---------------execute contract----------------------------------
+    let project_teammembers = []
+    for (let i = 0; i < milestoneTitle.length; i++) {
+      let teammember = {
+        teammember_description: getVal(teammemberDescription[i]),
+        teammember_linkedin: getVal(teammemberLinkedin[i]),
+        teammember_role: getVal(teammemberRole[i]),
+      }
+      project_teammembers.push(teammember);
+    }
 
     let project_milestones = []
     for (let i = 0; i < milestoneTitle.length; i++) {
@@ -350,6 +350,7 @@ export default function CreateProject() {
         project_website: website,
         project_email: email,
         project_milestones: project_milestones,
+        project_teammembers: project_teammembers,
       },
     }
 
@@ -430,90 +431,18 @@ export default function CreateProject() {
             />
           </Stack>
           
-          <Stack 
-            mt = '30px' 
-            direction={{base:'column', md:'row', lg:'row'}} 
-            spacing='30px'
-          >
-            <CustomSimpleNumberInput
-              typeText = "Price set at Seed Sale"
-              type={priceSeed} 
-              setType={setPriceSeed}
-              notificationRef={notificationRef}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
-            />
-            <CustomSimpleNumberInput
-              typeText = "Token Amount at Seed Sale"
-              type={amountSeed} 
-              setType={setAmountSeed}
-              notificationRef={notificationRef}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
-            />
-          </Stack>
-          <VestingInput
-            unlock={unlockSeed}
-            setUnlock={setUnlockSeed}
-            month={monthSeed}
-            setMonth={setMonthSeed}
-            after={afterSeed}
-            setAfter={setAfterSeed}
-          />
-          
-          <Stack 
-            mt = '30px' 
-            direction={{base:'column', md:'row', lg:'row'}} 
-            spacing='30px'
-          >
-            <CustomSimpleNumberInput
-              typeText = "Price set at Presale"
-              type={pricePresale} 
-              setType={setPricePresale}
-              notificationRef={notificationRef}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
-            />
-            <CustomSimpleNumberInput
-              typeText = "Token Amount at Presale"
-              type={amountPresale} 
-              setType={setAmountPresale}
-              notificationRef={notificationRef}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
-            />
-          </Stack>
-          <VestingInput
-            unlock={unlockPresale}
-            setUnlock={setUnlockPresale}
-            month={monthPresale}
-            setMonth={setMonthPresale}
-            after={afterPresale}
-            setAfter={setAfterPresale}
-          />
-          <Stack 
-            mt = '30px' 
-            direction={{base:'column', md:'row', lg:'row'}} 
-            spacing='30px'
-          >
-            <CustomSimpleNumberInput
-              typeText = "Price set at IDO"
-              type={priceIDO} 
-              setType={setPriceIDO}
-              notificationRef={notificationRef}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
-            />
-            <CustomSimpleNumberInput
-              typeText = "Token Amount at IDO"
-              type={amountIDO} 
-              setType={setAmountIDO}
-              notificationRef={notificationRef}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
-            />
-          </Stack>
-          <VestingInput
-            unlock={unlockIDO}
-            setUnlock={setUnlockIDO}
-            month={monthIDO}
-            setMonth={setMonthIDO}
-            after={afterIDO}
-            setAfter={setAfterIDO}
+          <Stages
+            stages = {['Seed', 'Presale', 'IDO']}
+            stagePrice = {stagePrice}
+            setStagePrice = {setStagePrice}
+            stageAmount = {stageAmount}
+            setStageAmount = {setStageAmount} 
+            stageVestingSoon = {stageVestingSoon}
+            setStageVestingSoon = {setStageVestingSoon}
+            stageVestingAfter = {stageVestingAfter}
+            setStageVestingAfter = {setStageVestingAfter}
+            stageVestingPeriod = {stageVestingPeriod}
+            setStageVestingPeriod = {setStageVestingPeriod}
           />
           <Stack 
             mt = '30px' 

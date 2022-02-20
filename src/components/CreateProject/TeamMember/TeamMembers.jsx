@@ -9,10 +9,10 @@ import {
 import {
   ImageTransition,
   ButtonBackTransition
-} from '../ImageTransition'
+} from '../../ImageTransition'
 
-import TeamMemberDescription from './TeamMember/TeamMemberDescription'
-import TeamMemberInput from './TeamMember/TeamMemberInput'
+import TeamMemberDescription from './TeamMemberDescription'
+import TeamMemberInput from './TeamMemberInput'
 
 export default function TeamMembers({
   description,

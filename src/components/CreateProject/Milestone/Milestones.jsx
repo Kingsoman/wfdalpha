@@ -9,13 +9,13 @@ import {
 import {
   ImageTransition,
   ButtonBackTransition
-} from '../ImageTransition'
+} from '../../ImageTransition'
 
-import MilestoneTitle from './Milestone/MilestoneTitle'
-import MilestoneType from './Milestone/MilestoneType'
-import MilestoneAmount from './Milestone/MilestoneAmount'
-import MilestoneDescription from './Milestone/MilestoneDescription'
-import MilestoneDate from './Milestone/MilestoneDate'
+import MilestoneTitle from './MilestoneTitle'
+import MilestoneType from './MilestoneType'
+import MilestoneAmount from './MilestoneAmount'
+import MilestoneDescription from './MilestoneDescription'
+import MilestoneDate from './MilestoneDate'
 
 export default function Milestones({
   milestoneTitle,

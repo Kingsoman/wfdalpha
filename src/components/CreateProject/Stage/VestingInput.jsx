@@ -10,16 +10,41 @@ import {
 
 import {
   InputTransition,
-} from '../ImageTransition'
+} from '../../ImageTransition'
 
-export default function VestingINput({typeText, unlock, setUnlock, month, setMonth, after, setAfter}) {
+import {
+  isNull
+} from '../../Util'
+
+export default function VestingINput({typeText, index, soon, setSoon, period, setPeriod, after, setAfter}) {
+  function onChangeSoon(e) {
+    if (e.target.value.length < 5000) {
+      let ar=[...soon];
+      ar[index] = e.target.value;
+      setSoon(ar); 
+    }
+  }
+  function onChangePeriod(e) {
+    if (e.target.value.length < 5000) {
+      let ar=[...period];
+      ar[index] = e.target.value;
+      setPeriod(ar); 
+    }
+  }
+  function onChangeAfter(e) {
+    if (e.target.value.length < 5000) {
+      let ar=[...after];
+      ar[index] = e.target.value;
+      setAfter(ar); 
+    }
+  }
   return (
     <Box mt="40px" fontSize={{base:'12px', md:'13px', lg:'14px'}}>
       <Stack direction={{base:'column', md:'colum', lg:"row"}}>
         <HStack>
           <InputTransition
             unitid={"inputtransitionunlock" + typeText}
-            selected={unlock == '' ? false : true}
+            selected={isNull(soon[index]) ? false : true}
             width="30px"
             height="30px"
             rounded="md"
@@ -29,9 +54,9 @@ export default function VestingINput({typeText, unlock, setUnlock, month, setMon
               type="text"
               h="30px"
               rounded="md"
-              value={unlock}
+              value={soon[index]}
               padding='4px'
-              onChange={(e) => setUnlock(e.target.value)}
+              onChange={(e) => onChangeSoon(e)}
             />
           </InputTransition>
           <Text>% unlock at TGE, then monthly unlock over&nbsp;</Text>
@@ -39,7 +64,7 @@ export default function VestingINput({typeText, unlock, setUnlock, month, setMon
         <HStack>
           <InputTransition
             unitid={"inputtransitionmonth" + typeText}
-            selected={month == '' ? false : true}
+            selected={isNull(period[index])? false : true}
             width="30px"
             height="30px"
             rounded="md"
@@ -49,9 +74,9 @@ export default function VestingINput({typeText, unlock, setUnlock, month, setMon
               type="text"
               h="30px"
               rounded="md"
-              value={month}
+              value={period[index]}
               padding='4px'
-              onChange={(e) => setMonth(e.target.value)}
+              onChange={(e) => onChangePeriod(e)}
             />
           </InputTransition>
           <Text>month, starting from &nbsp;</Text>
@@ -59,7 +84,7 @@ export default function VestingINput({typeText, unlock, setUnlock, month, setMon
         <HStack>
           <InputTransition
             unitid={"inputtransitionafter" + typeText}
-            selected={after == '' ? false : true}
+            selected={isNull(after[index]) ? false : true}
             width="30px"
             height="30px"
             rounded="md"
@@ -69,9 +94,9 @@ export default function VestingINput({typeText, unlock, setUnlock, month, setMon
               type="text"
               h="30px"
               rounded="md"
-              value={after}
+              value={after[index]}
               padding='4px'
-              onChange={(e) => setAfter(e.target.value)}
+              onChange={(e) => onChangeAfter(e)}
             />
           </InputTransition>
           <Text>month after TGE</Text>
