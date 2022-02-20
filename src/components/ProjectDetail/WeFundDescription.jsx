@@ -11,7 +11,6 @@ export default function WeFundDescription({ data })
       flexDirection="column"
       background={'rgba(255, 255, 255, 0.05)'}
       border={'1.5px solid rgba(255, 255, 255, 0.15)'}
-      style={{ fontFamily: 'PilatExtended-Bold' }}
       fontSize={{base:'15px',md:'15px', lg:'18px'}}
     >
       <chakra.h2
@@ -19,6 +18,8 @@ export default function WeFundDescription({ data })
         fontWeight="bold"
         marginBottom={'20px'}
         color={'rgba(255, 255, 255, 1)'}
+        mt='20px'
+        style={{ fontFamily: 'PilatExtended-Bold' }}
       >
         Introduction
       </chakra.h2>
@@ -50,7 +51,6 @@ export default function WeFundDescription({ data })
       <chakra.p
         marginBottom={'20px'}
         color={'rgba(255, 255, 255, 0.5)'}
-        w={'90%'}
       >
         {data.project_description}
       </chakra.p>

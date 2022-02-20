@@ -8,7 +8,6 @@ export default function ProjectMileStones({ data, onOpen })
     <Flex
       px={'45px'}
       py={'45px'}
-      width={'80%'}
       borderRadius="25px"
       justify='center' 
       align='center' 

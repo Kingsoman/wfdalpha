@@ -219,43 +219,42 @@ export default function ProjectDetail() {
         }}
       >
         <VStack
-          width="100%"
+          w = '100%'
           justify="center"
-          alignItems={'center'}
-          pl={'10px'}
-          pr={'10px'}
-          zIndex={'1'}
-          mt={'100px'}
+          alignItems= 'center'
+          zIndex= '1'
+          mt= '100px'
+          mb= '100px'
         >
-          <Flex
-            alignContent={'center'}
-            direction={{ base: 'column', md: 'column', lg: 'row' }}
-            pl={'10px'}
-            pr={'10px'}
-          >
-            <VStack  width={{base:'xs',sm:'md',md:'2xl',lg:'2xl', xl:'3xl'}} >
-              <ProjectTitle data={oneprojectData} />
-              <ProjectStatusButtons 
-                data={oneprojectData}
-                WefundApprove = {WefundApprove}
-                CommunityVote = {CommunityVote}
-                onNext = {onNext}
-                MilestoneVote = {MilestoneVote}
-              />
-              <ProjectMainButtons
+          <VStack w={{base:'90%', md:'80%', lg:'80%'}} > 
+            <Flex
+              alignContent={'center'}
+              direction={{ base: 'column', md: 'column', lg: 'row' }}
+            >
+              <VStack>
+                <ProjectTitle data={oneprojectData} />
+                <ProjectStatusButtons 
+                  data={oneprojectData}
+                  WefundApprove = {WefundApprove}
+                  CommunityVote = {CommunityVote}
+                  onNext = {onNext}
+                  MilestoneVote = {MilestoneVote}
+                />
+                <ProjectMainButtons
+                  data = {oneprojectData}
+                  onNext = {onNext}
+                />
+              </VStack>
+              <ProjectInformations
                 data = {oneprojectData}
-                onNext = {onNext}
+                totalBackedMoney = {totalBackedMoney}
+                totalBackedPercent = {totalBackedPercent}
               />
-            </VStack>
-            <ProjectInformations
-              data = {oneprojectData}
-              totalBackedMoney = {totalBackedMoney}
-              totalBackedPercent = {totalBackedPercent}
-            />
-          </Flex>
-          <WeFundDescription data = {oneprojectData} />
-          <ProjectTeamDescription data = {oneprojectData} />
-          <ProjectMileStones data = {oneprojectData} onOpen = {onOpen} />
+            </Flex>
+            <WeFundDescription data = {oneprojectData} />
+            <ProjectTeamDescription data = {oneprojectData} />
+            <ProjectMileStones data = {oneprojectData} onOpen = {onOpen} />
+          </VStack>
         </VStack>
 
         <Footer />

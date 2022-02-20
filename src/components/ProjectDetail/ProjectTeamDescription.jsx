@@ -5,11 +5,9 @@ export default function ProjectTeamDescription({ data })
 {
   return (
     <Flex
-      mt="40px"
+      pt="40px"
       as={Stack}
       mb={'50px'}
-      width={'80%'}
-      paddingTop={'35px'}
     >
       <Text
         mb={'20px'}
@@ -17,7 +15,7 @@ export default function ProjectTeamDescription({ data })
         fontWeight={'900'}
         lineHeight={'36px'}
         fontFamily="PilatExtended-Heavy"
-        textAlign={{base:'center'}}
+        textAlign={{base:'center', lg:'left'}}
       >
         The Project{' '}
         <span style={{ color: '#00A3FF' }} mb="25px">
@@ -30,24 +28,22 @@ export default function ProjectTeamDescription({ data })
         boxSizing="border-box"
         borderRadius="10px"
         mt={'30px'}
+        fontSize={{base:'16px', md:'16px', lg:'18px'}}
       >
         <Box
           px={'45px'}
-          paddingTop={'35px'}
-          paddingBottom={'35px'}
+          paddingTop={'10px'}
+          paddingBottom={'10px'}
         >
           <Text fontSize={'18px'} fontWeight={'bold'}>
             WeFund Core Team
           </Text>
-          <br />
-          <Text color={'rgba(255, 255, 255, 0.54)'}></Text>
         </Box>
         {/* ------------About the Founder/Who wrote this/Short desc------------ */}
         <HStack
           borderTop={'1.5px solid rgba(255, 255, 255, 0.15)'}
           spacing={10}
-          paddingLeft={'45px'}
-          paddingRight={'45px'}
+          px={{base:'10px', md:'10px', lg:'20px'}}
           paddingTop={'35px'}
           paddingBottom={'35px'}
         >

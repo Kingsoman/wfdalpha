@@ -18,7 +18,9 @@ export default function ProjectTitle({data})
           lg: 'flex-start',
         }}
       >
-        <Text fontSize="40px" fontWeight={'900'}>
+        <Text fontSize="40px" fontWeight={'900'}
+          textAlign={{base:'center', lg:'left'}}
+        >
           {data.project_title}
         </Text>
       </Flex>

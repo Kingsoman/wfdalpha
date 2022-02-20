@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { Flex, Text, Image, Select } from '@chakra-ui/react'
-import { ButtonBackTransition } from '../components/ImageTransition'
+import { ButtonBackTransition } from '../ImageTransition'
 
 export default function Aboutone() {
   const [selectedLang, setSelectedlang] = useState('/media/Litepaper_Wefund.pdf') //default value
