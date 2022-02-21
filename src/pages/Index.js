@@ -3,6 +3,8 @@ import { ChakraProvider } from '@chakra-ui/react'
 import theme from '../theme'
 
 import Particles from 'react-tsparticles'
+
+import Team from '../components/Team'
 import Hero from '../components/Hero'
 import About from '../components/about'
 import Splash from '../components/Splash'
@@ -82,6 +84,7 @@ export default () => {
             <Particles options={options} style={styles} />
             <About />
             <OurMissions />
+            <Team />
             <Industry />
             <RoadMap />
             <Partners />
