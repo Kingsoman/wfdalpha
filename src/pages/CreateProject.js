@@ -1,12 +1,11 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { MsgExecuteContract, WasmAPI } from '@terra-money/terra.js'
 import {
-  Input,
   Box,
   Flex,
-  Spacer,
   Stack
 } from '@chakra-ui/react'
+import { navigate } from '@reach/router'
 import {
   ButtonBackTransition,
   ButtonTransition,
@@ -32,7 +31,6 @@ import CustomSimpleNumberInput from '../components/CreateProject/CustomSimpleNum
 import CustomSelect from '../components/CreateProject/CustomSelect'
 import CustomEmailInput from '../components/CreateProject/CustomEmailInput'
 import CustomUpload from '../components/CreateProject/CustomUpload'
-import VestingInput from '../components/CreateProject/Stage/VestingInput'
 import Website from '../components/CreateProject/Website'
 
 import Milestones from '../components/CreateProject/Milestone/Milestones'
@@ -92,7 +90,11 @@ export default function CreateProject() {
   if (typeof document !== 'undefined') {
     connectedWallet = useConnectedWallet()
   }
-
+  useEffect(() => {
+    CheckNetwork(connectedWallet, notificationRef, state);
+    connectedWallet = state.connectedWallet;
+  }, [state.connectedWallet])
+  
   //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
@@ -369,6 +371,8 @@ export default function CreateProject() {
     )
     await Sleep(2000)
     await FetchData(api, notificationRef, state, dispatch, true)
+
+    navigate('/explorer');
   }
 
   return (
