@@ -528,7 +528,7 @@ export default function CreateProject() {
             setType = {setWebsite}
           />
           <Website
-            typeText = "LinkedIn or Related Link"
+            typeText = "LinkedIn or similar"
             type = {proffesionallink}
             setType = {setProfesisonalLink}
           />

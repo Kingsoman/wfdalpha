@@ -43,7 +43,7 @@ export default function CustomSimpleNumberInput({typeText, type, setType, notifi
           style={{ border: '0', background: 'transparent' }}
           type="text"
           h="55px"
-          placeholder='Input number only'
+          placeholder='Numbers only'
           focusBorderColor="purple.800"
           rounded="md"
           value={type}

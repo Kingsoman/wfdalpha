@@ -77,7 +77,7 @@ export default function TeamMembers({
             />
             <TeamMemberInput
               index = {index}
-              typeText= 'LinkedIn Link'
+              typeText= 'LinkedIn or similar'
               type = {linkedin}
               setType = {setLinedin}
               w={{base:'100%', md: '70%', lg:'70%'}}
