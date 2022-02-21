@@ -38,7 +38,7 @@ export default function TeamMembers({
   return (
     <>
     <Flex
-      mt="100px"
+      mt="50px"
       justify="center"
       style={{ fontFamily: 'PilatExtended-Bold' }}
     >

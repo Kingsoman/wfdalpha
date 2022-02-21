@@ -12,6 +12,7 @@ export default function WeFundDescription({ data })
       background={'rgba(255, 255, 255, 0.05)'}
       border={'1.5px solid rgba(255, 255, 255, 0.15)'}
       fontSize={{base:'15px',md:'15px', lg:'18px'}}
+      w='100%'
     >
       <chakra.h2
         fontSize={'22px'}
@@ -24,7 +25,7 @@ export default function WeFundDescription({ data })
         Introduction
       </chakra.h2>
       {/* ------------Description of Project------------ */}
-      <chakra.p
+      {/* <chakra.p
         marginBottom={'20px'}
         color={'rgba(255, 255, 255, 0.5)'}
       >
@@ -47,7 +48,7 @@ export default function WeFundDescription({ data })
         color={'rgba(255, 255, 255, 0.5)'}
       >
         Project funds managed exclusively on Terra's Anchor protocol using smart contracts and following project milestones.
-      </chakra.p>
+      </chakra.p> */}
       <chakra.p
         marginBottom={'20px'}
         color={'rgba(255, 255, 255, 0.5)'}

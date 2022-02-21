@@ -193,9 +193,9 @@ export default function CreateProject() {
     formData.append('address', address);
     formData.append('description', description);
     formData.append('ecosystem', ecosystem);
-    formData.append('priceSeed', priceSeed);
-    formData.append('pricePresale', pricePresale);
-    formData.append('priceIDO', priceIDO);
+    formData.append('priceSeed', stagePrice[0]);
+    formData.append('pricePresale', stagePrice[1]);
+    formData.append('priceIDO', stagePrice[2]);
     formData.append('cofounderName', cofounderName);
     formData.append('country', country);
     formData.append('email', email);
@@ -307,7 +307,7 @@ export default function CreateProject() {
     let realLogo = await uploadLogo();
     //---------------execute contract----------------------------------
     let project_teammembers = []
-    for (let i = 0; i < milestoneTitle.length; i++) {
+    for (let i = 0; i < teammemberDescription.length; i++) {
       let teammember = {
         teammember_description: getVal(teammemberDescription[i]),
         teammember_linkedin: getVal(teammemberLinkedin[i]),
@@ -389,12 +389,20 @@ export default function CreateProject() {
           <CustomInput
             typeText = "Company Name"
             type={company} 
-            setType={setCompany} 
+            setType={setCompany}
+            mt='30px'
           />
           <CustomInput
             typeText = "Project Title"
             type={title} 
-            setType={setTitle} 
+            setType={setTitle}
+            mt='30px'
+          />
+          <CustomTextarea
+            typeText = "Project Description"
+            type={description} 
+            setType={setDescription}
+            mt='30px'
           />
           <TeamMembers
             description = {teammemberDescription}
