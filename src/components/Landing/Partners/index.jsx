@@ -43,10 +43,6 @@ export default function Partners() {
             img="/media/partners/Moggie.jpg"
           />
           <Partner
-            link="https://www.pinecone.community/"
-            img="/media/partners/pinecone.png"
-          />
-          <Partner
             link="https://terraspaces.org/"
             img="/media/partners/terraspace.jpg"
           />
