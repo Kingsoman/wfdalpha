@@ -2,15 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
 import Particles from 'react-tsparticles'
 
-import Team from '../components/Landing/Team'
-import Hero from '../components/Hero'
-import About from '../components/about'
-import Splash from '../components/Splash'
 import AOS from 'aos'
 import 'aos/dist/aos.css' // You can also use <link> for styles
 
 import theme from '../theme'
 import Footer from '../components/Footer'
+import Team from '../components/Landing/Team'
 import Hero from '../components/Landing/Hero'
 import About from '../components/Landing/about'
 import Splash from '../components/Landing/Splash'
