@@ -64,6 +64,10 @@ export default function Team() {
                   width={'25px'}
                   height={'25px'}
                   src="/linkedin.png"
+                  onClick={() => {
+                    window.location.href = projectItem.link
+                  }}
+                  cursor={'pointer'}
                   background={'white'}
                   borderRadius={'6px'}
                 />
@@ -80,6 +84,7 @@ export default function Team() {
 const PROJECT_ITEMS = [
   {
     name: 'Andrea Bello',
+    link: 'https://www.linkedin.com/in/bello-andrea-380572b4/',
     logos: [
       '/Team_Companies/GE.png',
       '/Team_Companies/ABB.png',
@@ -92,6 +97,7 @@ const PROJECT_ITEMS = [
   },
   {
     name: 'Austin Taylor',
+    link: 'https://www.linkedin.com/in/austintaylor19/',
     description:
       'Investment Manager at Pegasus Tech Ventures Business Analyst at Harman International Revenue Management Analyst at Holland America Line',
     imgsrc: '/Team/wfd-austin.jpg',
@@ -103,6 +109,7 @@ const PROJECT_ITEMS = [
   },
   {
     name: 'Ika Afifah',
+    link: 'https://www.linkedin.com/in/ika-nur-afifah/',
     description:
       'Tencent > Tencent Music Entertainment > responsible in partnership and handling clients, Bigo > agency management specialist > handling client, Waves > as manager of Indonesia,  helped co founders to get $1.2M in pre seed funding',
     imgsrc: '/Team/wfd-ika.jpg',
@@ -115,6 +122,7 @@ const PROJECT_ITEMS = [
   },
   {
     name: 'Jason Galvin',
+    link: 'https://www.linkedin.com/in/jasongalvin/',
     description: 'Senior Software Engineer at GoPro',
     imgsrc: '/Team/wfd-jason.jpg',
     logos: ['/Team_Companies/GoPro.jpeg'],
