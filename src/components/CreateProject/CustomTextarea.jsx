@@ -11,9 +11,7 @@ import {
 } from '../ImageTransition'
 
 export default function CustomTextarea({typeText, type, setType}) {
-  const [nameLen, setNameLen] = useState(0);
   function onChangeType(e) {
-    setNameLen(e.target.value.length)
     if (e.target.value.length < 3000) setType(e.target.value)
   }
 
@@ -22,11 +20,11 @@ export default function CustomTextarea({typeText, type, setType}) {
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
         <Text fontSize="15px" opacity="0.5">
-          {nameLen}/3000 words
+          {type?.length}/3000 words
         </Text>
       </Flex>
       <InputTransition
-        unitid="projectdescription"
+        unitid={"projectdescription" + typeText}
         selected={type == '' ? false : true}
         width="100%"
         height="175px"

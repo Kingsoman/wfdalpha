@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image, Flex, Text, Box } from '@chakra-ui/react'
-import { ButtonTransition } from '../components/ImageTransition'
+import { ButtonTransition } from '../ImageTransition'
 
 export default function Industry() {
   return (

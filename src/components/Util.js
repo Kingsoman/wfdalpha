@@ -157,19 +157,23 @@ export function AddExtraInfo(state, projectData, communityData){
 export function CheckNetwork(connectedWallet, notificationRef, state)
 {
   //----------verify connection--------------------------------
+console.log(notificationRef);
   if (connectedWallet == '' || typeof connectedWallet == 'undefined') {
-    notificationRef.current.showNotification('Please connect wallet first!', 'error', 6000)
+    notificationRef?.current?.showNotification('Please connect wallet first!', 'error', 6000)
     console.log("Please connect wallet first!");
     return false;
   }
+  else{
+    notificationRef?.current?.hideNotification();
+  }
 
   if (state.net == 'mainnet' && connectedWallet.network.name == 'testnet') {
-    notificationRef.current.showNotification('Please switch to mainnet!', 'error', 4000);
+    notificationRef?.current?.showNotification('Please switch to mainnet!', 'error', 4000);
     console.log("Please switch to mainnet!");
     return false;
   }
   if (state.net == 'testnet' && connectedWallet.network.name == 'mainnet') {
-    notificationRef.current.showNotification('Please switch to testnet!', 'error', 4000);
+    notificationRef?.current?.showNotification('Please switch to testnet!', 'error', 4000);
     console.log("Please switch to testnet!");
     return false;
   }
@@ -244,8 +248,8 @@ export async function FetchData(api, notificationRef, state, dispatch, force = f
     }else{
       //----------fake--------------------------
       let fakeone = GetOneProject(projectData, state.wefundID);
-      fakeone.project_collected = 60000;
-      fakeone.communitybacked_amount = 19200*10**6;
+      fakeone.project_collected = 600000;
+      fakeone.communitybacked_amount = 192000*10**6;
       projectData[GetProjectIndex(projectData, state.wefundID)] = fakeone;
       //------------------------------------
 

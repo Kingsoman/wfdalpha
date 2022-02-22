@@ -12,10 +12,10 @@ import {
   InputTransition,
 } from '../ImageTransition'
 
-export default function CustomEmail({typeText, type, setType}) {
+export default function CustomEmail({typeText, type, setType, w}) {
 
   return (
-    <Box mt='30px' w="100%">
+    <Box w={w}>
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
       </Flex>

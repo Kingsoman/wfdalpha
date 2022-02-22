@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { MsgExecuteContract, WasmAPI } from '@terra-money/terra.js'
 import {
-  Img,
   Box,
   Flex,
-  HStack
+  Stack
 } from '@chakra-ui/react'
+import { navigate } from '@reach/router'
 import {
   ButtonBackTransition,
   ButtonTransition,
@@ -22,6 +22,7 @@ import {
 } from '../components/Util'
 import Notification from '../components/Notification'
 import PageLayout from '../components/PageLayout'
+
 import Payment from '../components/CreateProject/Payment'
 import CustomInput from '../components/CreateProject/CustomInput'
 import CustomTextarea from '../components/CreateProject/CustomTextarea'
@@ -31,7 +32,10 @@ import CustomSelect from '../components/CreateProject/CustomSelect'
 import CustomEmailInput from '../components/CreateProject/CustomEmailInput'
 import CustomUpload from '../components/CreateProject/CustomUpload'
 import Website from '../components/CreateProject/Website'
-import Milestones from '../components/CreateProject/Milestones'
+
+import Milestones from '../components/CreateProject/Milestone/Milestones'
+import TeamMembers from '../components/CreateProject/TeamMember/TeamMembers'
+import Stages from '../components/CreateProject/Stage/Stages'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -49,12 +53,20 @@ export default function CreateProject() {
   const [company, setCompany] = useState('');
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [collectedAmount, setCollectedAmount] = useState('')
   const [ecosystem, setEcosystem] = useState('Terra')
   const [tokenName, setTokenName] = useState('')
-  const [priceSeed, setPriceSeed] = useState('')
-  const [pricePresale, setPricePresale] = useState('')
-  const [priceIDO, setPriceIDO] = useState('')
+  const [collectedAmount, setCollectedAmount] = useState('')
+
+  const [teammemberDescription, setTeammemberDescription] = useState([''])
+  const [teammemberLinkedin, setTeammemberLinkedin] = useState([''])
+  const [teammemberRole, setTeammemberRole] = useState([''])
+
+  const [stagePrice, setStagePrice] = useState([''])
+  const [stageAmount, setStageAmount] = useState([''])
+  const [stageVestingSoon, setStageVestingSoon] = useState([''])
+  const [stageVestingAfter, setStageVestingAfter] = useState([''])
+  const [stageVestingPeriod, setStageVestingPeriod] = useState([''])
+
   const [country, setCountry] = useState('')
   const [cofounderName, setCofounderName] = useState('')
   const [signature, setSignature] = useState('')
@@ -63,6 +75,7 @@ export default function CreateProject() {
   const [serviceWefund, setServiceWefund] = useState(5)
   const [serviceCharity, setServiceCharity] = useState(0)
   const [website, setWebsite] = useState('')
+  const [proffesionallink, setProfesisonalLink] = useState('')
 
   const [milestoneTitle, setMilestoneTitle] = useState([''])
   const [milestoneType, setMilestoneType] = useState([''])
@@ -71,15 +84,17 @@ export default function CreateProject() {
   const [milestoneStartdate, setMilestoneStartdate] = useState([''])
   const [milestoneEnddate, setMilestoneEnddate] = useState([''])
 
-  const [milestoneTitleLen, setMilestoneTitleLen] = useState([0])
-  const [milestoneDescriptionLen, setMilestoneDescriptionLen] = useState([0])
   //---------------wallet connect-------------------------------------
   let connectedWallet = ''
 
   if (typeof document !== 'undefined') {
     connectedWallet = useConnectedWallet()
   }
-
+  useEffect(() => {
+    CheckNetwork(connectedWallet, notificationRef, state);
+    connectedWallet = state.connectedWallet;
+  }, [state.connectedWallet])
+  
   //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
@@ -180,13 +195,12 @@ export default function CreateProject() {
     formData.append('address', address);
     formData.append('description', description);
     formData.append('ecosystem', ecosystem);
-    formData.append('priceSeed', priceSeed);
-    formData.append('pricePresale', pricePresale);
-    formData.append('priceIDO', priceIDO);
+    formData.append('priceSeed', stagePrice[0]);
+    formData.append('pricePresale', stagePrice[1]);
+    formData.append('priceIDO', stagePrice[2]);
     formData.append('cofounderName', cofounderName);
     formData.append('country', country);
     formData.append('email', email);
-
     formData.append('file', signature);
 
     const requestOptions = {
@@ -293,6 +307,15 @@ export default function CreateProject() {
     let realWhitepaer = await uploadWhitepaper();
     let realLogo = await uploadLogo();
     //---------------execute contract----------------------------------
+    let project_teammembers = []
+    for (let i = 0; i < teammemberDescription.length; i++) {
+      let teammember = {
+        teammember_description: getVal(teammemberDescription[i]),
+        teammember_linkedin: getVal(teammemberLinkedin[i]),
+        teammember_role: getVal(teammemberRole[i]),
+      }
+      project_teammembers.push(teammember);
+    }
 
     let project_milestones = []
     for (let i = 0; i < milestoneTitle.length; i++) {
@@ -328,6 +351,7 @@ export default function CreateProject() {
         project_website: website,
         project_email: email,
         project_milestones: project_milestones,
+        project_teammembers: project_teammembers,
       },
     }
 
@@ -347,23 +371,15 @@ export default function CreateProject() {
     )
     await Sleep(2000)
     await FetchData(api, notificationRef, state, dispatch, true)
+
+    navigate('/explorer');
   }
-  function onNewMilestone() {
-    let ar = [...milestoneTitle]
-    ar.push('')
-    setMilestoneTitle(ar)
-  }
-  function onCancelMilestone() {
-    if (milestoneTitle.length <= 1) return
-    let ar = [...milestoneTitle]
-    ar.pop()
-    setMilestoneTitle(ar)
-  }
+
   return (
     <PageLayout title="Create Your Project" subTitle1="Create a" subTitle2="New Project">
       <Flex width="100%" justify="center" mb={'150px'} zIndex={'1'} mt = '-30px'>
         <Box
-          w = '900px'
+          w = {{base:'sm',sm:'md',md:'2xl',lg:'2xl',xl:'3xl'}}
           background = 'rgba(255, 255, 255, 0.05)'
           border = '1.5px solid rgba(255, 255, 255, 0.15)'
           borderTopColor =  'transparent'
@@ -376,148 +392,165 @@ export default function CreateProject() {
           <CustomInput
             typeText = "Company Name"
             type={company} 
-            setType={setCompany} 
+            setType={setCompany}
+            mt='30px'
           />
           <CustomInput
             typeText = "Project Title"
             type={title} 
-            setType={setTitle} 
+            setType={setTitle}
+            mt='30px'
           />
-          <CustomTextarea 
-            typeText = "Project Description" 
-            type = {description} 
-            setType = {setDescription} 
+          <CustomTextarea
+            typeText = "Project Description"
+            type={description} 
+            setType={setDescription}
+            mt='30px'
           />
-          <CustomNumberInput
-            typeText = "Amount Required"
-            type = {collectedAmount}
-            setType = {setCollectedAmount}
-            notificationRef={notificationRef}
+          <TeamMembers
+            description = {teammemberDescription}
+            setDescription = {setTeammemberDescription}
+            role = {teammemberRole}
+            setRole = {setTeammemberRole}
+            linkedin = {teammemberLinkedin}
+            setLinedin = {setTeammemberLinkedin}
           />
-          <CustomSelect
-            typeText = "Blockchain"
-            type = {ecosystem}
-            setType = {setEcosystem}
-            options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
+          <Stack 
+            mt = '30px'
+            direction={{base:'column', md:'column', lg:'row'}}
+            spacing='30px'
+          >
+            <CustomNumberInput
+              typeText = "Amount Required"
+              type = {collectedAmount}
+              setType = {setCollectedAmount}
+              notificationRef={notificationRef}
+              w = {{base:'100%', md:'30%', lg:'30%'}}
+            />
+            <CustomSelect
+              typeText = "Blockchain"
+              type = {ecosystem}
+              setType = {setEcosystem}
+              options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
+              w = {{base:'100%', md:'30%', lg:'30%'}}
+            />
+            <CustomInput
+              typeText = "Token Name"
+              type={tokenName} 
+              setType={setTokenName}
+              w = {{base:'100%', md:'30%', lg:'30%'}}
+            />
+          </Stack>
+          <Stages
+            stages = {['Seed', 'Presale', 'IDO']}
+            stagePrice = {stagePrice}
+            setStagePrice = {setStagePrice}
+            stageAmount = {stageAmount}
+            setStageAmount = {setStageAmount} 
+            stageVestingSoon = {stageVestingSoon}
+            setStageVestingSoon = {setStageVestingSoon}
+            stageVestingAfter = {stageVestingAfter}
+            setStageVestingAfter = {setStageVestingAfter}
+            stageVestingPeriod = {stageVestingPeriod}
+            setStageVestingPeriod = {setStageVestingPeriod}
           />
-          <CustomInput
-            typeText = "Token Name"
-            type={tokenName} 
-            setType={setTokenName} 
-          />
-          <CustomSimpleNumberInput
-            typeText = "Price set at Seed Sale"
-            type={priceSeed} 
-            setType={setPriceSeed}
-            notificationRef={notificationRef}
-          />
-          <CustomSimpleNumberInput
-            typeText = "Price set at Presale"
-            type={pricePresale} 
-            setType={setPricePresale}
-            notificationRef={notificationRef}
-          />
-          <CustomSimpleNumberInput
-            typeText = "Price set at IDO"
-            type={priceIDO} 
-            setType={setPriceIDO}
-            notificationRef={notificationRef}
-          />
-          <CustomInput
-            typeText = "Country"
-            type={country} 
-            setType={setCountry} 
-          />
-          <CustomInput
-            typeText = "Founder Name"
-            type={cofounderName} 
-            setType={setCofounderName} 
-          />
-          <CustomInput
-            typeText = "Address"
-            type={address} 
-            setType={setAddress} 
-          />
-          <CustomEmailInput
-            typeText = "Email"
-            type = {email}
-            setType = {setEmail}
-          />
-          <CustomSimpleNumberInput
-            typeText = "% for WeFund Service"
-            type = {serviceWefund}
-            setType = {setServiceWefund}
-          />
-          <CustomSimpleNumberInput
-            typeText = '% for Charity'
-            type = {serviceCharity}
-            setType= {setServiceCharity}
-          />
-          <Flex direction='row'>
+          <Stack
+            mt = '30px'
+            direction={{base:'column', md:'row', lg:'row'}}
+            spacing='30px'
+          >
+            <CustomInput
+              typeText = "Country"
+              type={country} 
+              setType={setCountry}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
+            />
+            <CustomInput
+              typeText = "Founder Name"
+              type={cofounderName} 
+              setType={setCofounderName}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
+            />
+          </Stack>
+          <Stack
+            mt = '30px' 
+            direction={{base:'column', md:'row', lg:'row'}} 
+            spacing='30px'
+          >
+            <CustomInput
+              typeText = "Address"
+              type={address} 
+              setType={setAddress}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
+            />
+            <CustomEmailInput
+              typeText = "Email"
+              type = {email}
+              setType = {setEmail}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
+            />
+          </Stack>
+          <Stack 
+            mt = '30px' 
+            direction={{base:'column', md:'row', lg:'row'}} 
+            spacing='30px'
+          >
+            <CustomSimpleNumberInput
+              typeText = "% for WeFund Service"
+              type = {serviceWefund}
+              setType = {setServiceWefund}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
+            />
+            <CustomSimpleNumberInput
+              typeText = '% for Charity'
+              type = {serviceCharity}
+              setType= {setServiceCharity}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
+            />
+          </Stack>
+          <Stack 
+            mt = '30px' 
+            direction={{base:'column', md:'row', lg:'row'}} 
+            spacing='30px'
+          >
             <CustomUpload
               typeText = 'Signature'
               type = {signature}
               setType = {setSignature}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
-            &nbsp;
             <CustomUpload
               typeText = 'Whitepaper'
               type = {whitepaper}
               setType = {setWhitepaper}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
-          </Flex>
+          </Stack>
           <Website
             typeText = "Project website"
             type = {website}
             setType = {setWebsite}
           />
+          <Website
+            typeText = "LinkedIn or similar"
+            type = {proffesionallink}
+            setType = {setProfesisonalLink}
+          />
           <Milestones
             milestoneTitle = {milestoneTitle}
             setMilestoneTitle = {setMilestoneTitle}
-            milestoneTitleLen = {milestoneTitleLen}
-            setMilestoneTitleLen = {setMilestoneTitleLen}
             milestoneType = {milestoneType}
             setMilestoneType = {setMilestoneType}
             milestoneAmount = {milestoneAmount}
             setMilestoneAmount = {setMilestoneAmount}
             milestoneDescription = {milestoneDescription}
             setMilestoneDescription = {setMilestoneDescription}
-            milestoneDescriptionLen = {milestoneDescriptionLen}
-            setMilestoneDescriptionLen = {setMilestoneDescriptionLen}
             milestoneStartdate = {milestoneStartdate}
             setMilestoneStartdate = {setMilestoneStartdate}
             milestoneEnddate = {milestoneEnddate}
             setMilestoneEnddate = {setMilestoneEnddate}
-            onCancelMilestone = {onCancelMilestone}
             notificationRef={notificationRef}
           />
-          <Flex
-            w="100%"
-            mt="50px"
-            pt="30px"
-            pb="30px"
-            mb="50px"
-            justify="center"
-            borderBottom={'1px solid rgba(255, 255, 255, 0.3)'}
-          >
-            <ButtonBackTransition
-              unitid="AddNewMilestone"
-              selected={false}
-              width="250px"
-              height="45px"
-              rounded="33px"
-            >
-              <Box
-                variant="solid"
-                color="white"
-                justify="center"
-                align="center"
-                onClick={onNewMilestone}
-              >
-                Add Milestone
-              </Box>
-            </ButtonBackTransition>
-          </Flex>
           <Flex w="100%" mt="30px" justify="center" mb="30px">
             <ButtonTransition
               unitid="submit"

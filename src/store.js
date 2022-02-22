@@ -7,11 +7,11 @@ const initialState = {
   // net: 'testnet',
   net: 'mainnet',
 
-  // WEFundContractAddress: "terra1qe7p8nh3yrhkzp0u6f3ug25pavwky5uendhxcz", //testnet v2.1
+  // WEFundContractAddress: "terra1ayerd6dma6ajpwl38w6qre0me7ntzl0c3facwu", //testnet v2.3
   // WEFundContractAddress: "terra1ca88767e6ganwq2zehtcpv7ef6z32ell26ts3r", //testnet v2.2
-  // WEFundContractAddress: "terra1qcm9957c2gyghkaqgsk0h5mw6xf6ym4xdu7kmu", //mainnet v2.1
-  WEFundContractAddress: 'terra1prfeefv02cfxl0zc6aaut9zlc7elygnt66rq2x', //mainnet v2.2
-
+  // WEFundContractAddress: 'terra1prfeefv02cfxl0zc6aaut9zlc7elygnt66rq2x', //mainnet v2.2
+	WEFundContractAddress: 'terra1fv5syzr26rzuuycff4dzy0fvash59u53tvjdr6', //mainnet v2.3
+  
   presale: true,
   referralCount: 0,
   referralLink: '',

@@ -1,51 +1,45 @@
-import React from 'react'
+import React,{ useRef, useState, useEffect, forwardRef, useCallback } from 'react'
 import {
   Box,
   Flex,
-  Text,
-  Img,
-  Icon,
-  Image,
   HStack,
   VStack,
-  chakra,
-  Button,
-  ChakraProvider,
-  CircularProgress,
-  CircularProgressLabel,
+  ChakraProvider
 } from '@chakra-ui/react'
 import {
   Sleep,
   FetchData,
   EstimateSend,
   CheckNetwork,
-  isBackerWallet,
-  isWefundWallet,
   GetProjectStatus,
-  isCommunityWallet,
 } from '../components/Util'
-import {
-  MdOutlinePlace,
-  MdOutlineCategory,
-  MdOutlineAccountBalanceWallet,
-} from 'react-icons/md'
-import {
-  ImageTransition,
-  ButtonTransition,
-  ButtonBackTransition,
-  ButtonOrangeBackTransition,
-} from '../components/ImageTransition'
+
 import theme from '../theme'
 import { useStore } from '../store'
 import Footer from '../components/Footer'
-import Pagination from '@choc-ui/paginator'
-import Tabs from '../components/Explore/Tabs'
-import { BsArrowUpRight } from 'react-icons/bs'
+
 import { Link, useNavigate } from '@reach/router'
 import CoverHeader from '../components/CoverHeader'
 import Notification from '../components/Notification'
 import { WasmAPI, MsgExecuteContract } from '@terra-money/terra.js'
-import { useRef, useState, useEffect, forwardRef, useCallback } from 'react'
+
+import ProjectCount from '../components/ProjectExplorer/ProjectCount'
+import Tabs from '../components/ProjectExplorer/Tabs'
+import Logo from '../components/ProjectExplorer/Logo'
+import StatusButtons from '../components/ProjectExplorer/StatusButtons'
+import Title from '../components/ProjectExplorer/Title'
+import Description from '../components/ProjectExplorer/Description'
+import ExtraInfos from '../components/ProjectExplorer/ExtraInfos'
+import Informations from '../components/ProjectExplorer/Informations'
+import MainButtons from '../components/ProjectExplorer/MainButtons'
+import ProjectPaginator from '../components/ProjectExplorer/ProjectPaginator'
+import CircularProgresses from '../components/ProjectExplorer/CircularProgresses'
+
+import MobileLogo from '../components/ProjectExplorer/Mobile/Logo'
+import MobileTitle from '../components/ProjectExplorer/Mobile/Title'
+import MobileStatusButtons from '../components/ProjectExplorer/Mobile/StatusButtons'
+import MobileInformations from '../components/ProjectExplorer/Mobile/Informations'
+import MobileMainButtons from '../components/ProjectExplorer/Mobile/MainButtons'
 
 let useConnectedWallet = {}
 if (typeof document !== 'undefined') {
@@ -109,27 +103,6 @@ export default function ExplorerProject() {
   const [current, setCurrent] = useState(1)
   const pageSize = 3
 
-  const Prev = forwardRef((props, ref) => (
-    <Button ref={ref} {...props}>
-      Prev
-    </Button>
-  ))
-
-  const Next = forwardRef((props, ref) => (
-    <Button ref={ref} {...props}>
-      Next
-    </Button>
-  ))
-
-  const itemRender = (_, type) => {
-    if (type === 'prev') {
-      return Prev
-    }
-    if (type === 'next') {
-      return Next
-    }
-  }
-
   function onChangePaginator(page) {
     if (state.activeProjectData == '') {
       setPostProjectData('')
@@ -144,10 +117,7 @@ export default function ExplorerProject() {
     connectedWallet = useConnectedWallet()
   }
 
-  //------------notification setting---------------------------------
   const notificationRef = useRef()
-
-  //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
@@ -251,37 +221,6 @@ export default function ExplorerProject() {
     fetchContractQuery()
   }, [activeTab])
 
-  const CircularProgresses = ({ value, sz }) => {
-    const released = value?.releasedPercent
-    const vote = value?.communityVotedPercent
-    const backer = value?.backer_backedPercent
-    const community = value?.community_backedPercent
-    return (
-      <>
-        {activeTab == 'CommuntyApproval' && (
-          <CircularProgress value={vote} size={sz} color="blue.600">
-            <CircularProgressLabel>{vote}%</CircularProgressLabel>
-          </CircularProgress>
-        )}
-        {activeTab == 'MileStoneFundraising' && (
-          <>
-            <CircularProgress value={community} size={sz} color="blue.600">
-              <CircularProgressLabel>{community}%</CircularProgressLabel>
-            </CircularProgress>
-            <CircularProgress value={backer} size={sz} color="blue.600">
-              <CircularProgressLabel>{backer}%</CircularProgressLabel>
-            </CircularProgress>
-          </>
-        )}
-        {activeTab == 'MileStoneDelivery' && (
-          <CircularProgress value={released} size={sz} color="blue.600">
-            <CircularProgressLabel>{released}%</CircularProgressLabel>
-          </CircularProgress>
-        )}
-      </>
-    )
-  }
-
   return (
     <ChakraProvider resetCSS theme={theme}>
       <Flex
@@ -301,18 +240,6 @@ export default function ExplorerProject() {
           text1={'Explore'}
           text2={'Projects'}
         />
-
-        <Text
-          color="rgba(255, 255, 255, 0.84)"
-          fontSize={{ base: '14px', md: '18px' }}
-        >
-          Project Status:
-          {activeTab === 'WeFundApproval' && ' Under WeFund Approval'}
-          {activeTab === 'CommuntyApproval' && ' Under CommunitApproval'}
-          {activeTab === 'MileStoneFundraising' && ' Milestone Fundrasing'}
-          {activeTab === 'MileStoneDelivery' && ' Milestone Delivery'}
-          {activeTab === 'ProjectComplete' && ' Project Completed'}
-        </Text>
 
         <Tabs activeTab={activeTab} onChangeActivetab={onChangeActivetab} />
 
@@ -339,383 +266,51 @@ export default function ExplorerProject() {
                     flexDirection={'column'}
                     display={{ base: 'none', md: 'flex', lg: 'flex' }}
                   >
-                    {/* ------------------project list---------- */}
-                    <Flex w="100%" my={'26px'} justifyContent={'space-between'}>
-                      <Text fontSize={{ base: '15px', lg: '20px' }}>
-                        Projects Incubated
-                      </Text>
-
-                      <Text fontSize={{ base: '15px', lg: '20px' }}>
-                        {state.projectData.length} Project
-                        {state.projectData.length === 1 ? '' : 's'}
-                      </Text>
-                    </Flex>
-
-                    {/* ------------------project snippet detail---------- */}
-                    {postProjectData != '' &&
-                      postProjectData.map((e, index) => (
-                        <Box
-                          w="100%"
-                          key={index}
-                          shadow="lg"
-                          overflow="hidden"
-                          boxSizing="border-box"
-                          borderTop="1px solid rgba(255, 255, 255, 0.1)"
-                        >
-                          <HStack w="100%">
-                            <Flex
-                              m="6px"
-                              p="10px"
-                              width="40%"
-                              bg="#FFFFFF"
-                              height="270px"
-                              align="center"
-                              justify="center"
-                              maxWidth={'270px'}
-                              borderRadius={'2xl'}
-                              boxShadow={'0px 4px 4px rgba(0, 0, 0, 0.25)'}
-                            >
-                              <object
-                                data="/logo.png"
-                                type="image/png"
-                                style={{ width: '80%' }}
-                              >
-                                <Img
-                                  w={'100%'}
-                                  objectFit={'contain'}
-                                  src={`${state.request}/download?filename=${e.project_logo}`}
-                                />
-                              </object>
+                    <ProjectCount />
+                    {postProjectData != '' && postProjectData.map((e, index) => (
+                      <Box
+                        w="100%"
+                        key={index}
+                        shadow="lg"
+                        overflow="hidden"
+                        boxSizing="border-box"
+                        borderTop="1px solid rgba(255, 255, 255, 0.1)"
+                      >
+                        <HStack w="100%">
+                          <Logo data={e} />
+                          <Box py={4} px={2} w="100%">
+                            <Flex justify={'space-between'} mb={'20px'}>
+                              <Title activeTab={activeTab} data = {e} />
+                              <StatusButtons
+                                index = {index}
+                                data={e}
+                                activeTab = {activeTab}
+                                WefundApprove = {WefundApprove}
+                                CommunityVote = {CommunityVote}
+                                MilestoneVote = {MilestoneVote}
+                              />
                             </Flex>
 
-                            <Box py={4} px={2} w="100%">
-                              <Flex justify={'space-between'} mb={'20px'}>
-                                <Box>
-                                  <chakra.h1
-                                    mb={'15px'}
-                                    color="white"
-                                    fontSize="lg"
-                                    fontWeight="bold"
-                                  >
-                                    {activeTab === 'WeFundApproval' &&
-                                      'Project Status: Under WeFund Approval'}
-                                    {activeTab === 'CommuntyApproval' &&
-                                      'Project Status: Under CommunitApproval'}
-                                    {activeTab === 'MileStoneFundraising' &&
-                                      'Project Status: Milestone Fundrasing'}
-                                    {activeTab === 'MileStoneDelivery' &&
-                                      'Project Status: Milestone Delivery'}
-                                    {activeTab === 'ProjectComplete' &&
-                                      'Project Status: Project Completed'}
-                                  </chakra.h1>
-                                  <chakra.h1
-                                    color="white"
-                                    fontSize="lg"
-                                    fontWeight="bold"
-                                  >
-                                    {e.project_title}
-                                  </chakra.h1>
-                                </Box>
-                                {activeTab === 'WeFundApproval' &&
-                                  isWefundWallet(state) && (
-                                    <Flex w={'330px'} justify={'space-between'}>
-                                      <ButtonTransition
-                                        unitid={'Approve' + index}
-                                        selected={false}
-                                        width="150px"
-                                        height="45px"
-                                        rounded="33px"
-                                        onClick={() =>
-                                          WefundApprove(e.project_id)
-                                        }
-                                      >
-                                        <Text
-                                          fontSize={{
-                                            base: '14px',
-                                            lg: '16px',
-                                          }}
-                                        >
-                                          Approve Project
-                                        </Text>
-                                      </ButtonTransition>
-                                    </Flex>
-                                  )}
-                                {activeTab === 'CommuntyApproval' &&
-                                  isCommunityWallet(state, e.project_id) && (
-                                    <Flex w={'330px'} justify={'space-between'}>
-                                      <ButtonTransition
-                                        unitid={'visit' + index}
-                                        width="150px"
-                                        height="45px"
-                                        fontSize={{ base: '14px', lg: '16px' }}
-                                        selected={false}
-                                        rounded="33px"
-                                        onClick={() =>
-                                          CommunityVote(
-                                            e.project_id,
-                                            true,
-                                            e.leftTime,
-                                          )
-                                        }
-                                      >
-                                        <Text
-                                          fontSize={{
-                                            base: '14px',
-                                            lg: '16px',
-                                          }}
-                                        >
-                                          Vote Yes
-                                        </Text>
-                                      </ButtonTransition>
-
-                                      <ButtonTransition
-                                        unitid={'view' + index}
-                                        selected={false}
-                                        width="150px"
-                                        height="45px"
-                                        fontSize={{ base: '14px', lg: '16px' }}
-                                        rounded="33px"
-                                        onClick={() =>
-                                          CommunityVote(
-                                            e.project_id,
-                                            false,
-                                            e.leftTime,
-                                          )
-                                        }
-                                      >
-                                        <Text
-                                          fontSize={{
-                                            base: '14px',
-                                            lg: '16px',
-                                          }}
-                                        >
-                                          Vote No
-                                        </Text>
-                                      </ButtonTransition>
-                                    </Flex>
-                                  )}
-                                {activeTab === 'MileStoneFundraising' && (
-                                  <ButtonTransition
-                                    mb="10px"
-                                    rounded="33px"
-                                    selected={false}
-                                    unitid={'visit' + index}
-                                    width="150px"
-                                    height="45px"
-                                    fontSize={{ base: '14px', lg: '16px' }}
-                                    onClick={() => {
-                                      navigate(
-                                        '/invest_step1?project_id=' +
-                                          e.project_id,
-                                      )
-                                    }}
-                                  >
-                                    <Text
-                                      fontSize={{
-                                        base: '14px',
-                                        lg: '16px',
-                                      }}
-                                    >
-                                      Back Project
-                                    </Text>
-                                  </ButtonTransition>
-                                )}
-                                {activeTab === 'MileStoneDelivery' &&
-                                  isBackerWallet(state, e.project_id) && (
-                                    <Flex w={'330px'} justify={'space-between'}>
-                                      <ButtonTransition
-                                        unitid={'milestonevoteyes' + index}
-                                        width="150px"
-                                        height="45px"
-                                        fontSize={{ base: '14px', lg: '16px' }}
-                                        selected={false}
-                                        rounded="33px"
-                                        onClick={() =>
-                                          MilestoneVote(e.project_id, true)
-                                        }
-                                      >
-                                        <Text
-                                          fontSize={{
-                                            base: '14px',
-                                            lg: '16px',
-                                          }}
-                                        >
-                                          Vote Yes
-                                        </Text>
-                                      </ButtonTransition>
-
-                                      <ButtonTransition
-                                        unitid={'milestonevoteno' + index}
-                                        selected={false}
-                                        width="150px"
-                                        height="45px"
-                                        fontSize={{ base: '14px', lg: '16px' }}
-                                        rounded="33px"
-                                        onClick={() =>
-                                          MilestoneVote(e.project_id, false)
-                                        }
-                                      >
-                                        <Text
-                                          fontSize={{
-                                            base: '14px',
-                                            lg: '16px',
-                                          }}
-                                        >
-                                          Vote No
-                                        </Text>
-                                      </ButtonTransition>
-                                    </Flex>
-                                  )}
-                              </Flex>
-
-                              <Flex
-                                align="self-start"
-                                justifyContent={'space-between'}
-                              >
-                                <Flex flexDirection={'column'} w="60%">
-                                  <chakra.p
-                                    py={2}
-                                    fontSize="15px"
-                                    color={'gray.400'}
-                                  >
-                                    Date -{' '}
-                                    <span style={{ color: '#FE8600' }}>
-                                      {e.project_createddate}
-                                    </span>
-                                  </chakra.p>
-
-                                  <chakra.p py={2} color={'gray.400'}>
-                                    {e.project_description.substr(0, 250)}
-                                  </chakra.p>
-                                </Flex>
-                                <CircularProgresses
-                                  value={e}
-                                  sz={{
-                                    base: '80px',
-                                    md: '120px',
-                                    lg: '150px',
-                                  }}
-                                />
-                              </Flex>
-                              {activeTab === 'CommuntyApproval' && (
-                                <HStack>
-                                  <chakra.p
-                                    py={2}
-                                    w="600px"
-                                    color={'gray.400'}
-                                    paddingTop={'55px'}
-                                    paddingRight={'20px'}
-                                  >
-                                    Community Voting will be finished in{' '}
-                                    {e.leftTime} minutes
-                                  </chakra.p>
-                                </HStack>
-                              )}
-                              {activeTab === 'MileStoneDelivery' && (
-                                <HStack>
-                                  <chakra.p
-                                    py={2}
-                                    w="600px"
-                                    color={'gray.400'}
-                                    paddingTop={'55px'}
-                                    paddingRight={'20px'}
-                                  >
-                                    Project Milestone step -{' '}
-                                    {parseInt(e.project_milestonestep) + 1}
-                                  </chakra.p>
-                                </HStack>
-                              )}
-                              <HStack justify="space-between" mt={'10px'}>
-                                <Flex alignItems="center" color={'gray.400'}>
-                                  <Icon
-                                    as={MdOutlineCategory}
-                                    h={6}
-                                    w={6}
-                                    mr={1}
-                                  />
-                                  <chakra.h1 px={1} fontSize="sm">
-                                    {e.project_ecosystem}
-                                  </chakra.h1>
-                                </Flex>
-                                <Flex alignItems="center" color={'gray.400'}>
-                                  <Icon
-                                    as={MdOutlinePlace}
-                                    h={6}
-                                    w={6}
-                                    mr={1}
-                                  />
-                                  <chakra.h1 px={1} fontSize="sm">
-                                    {/* {e.project_category} */}
-                                  </chakra.h1>
-                                </Flex>
-                                <Flex alignItems="center" color={'gray.400'}>
-                                  <Icon
-                                    as={MdOutlineAccountBalanceWallet}
-                                    h={6}
-                                    w={6}
-                                    mr={1}
-                                  />
-                                  <chakra.h1 px={1} fontSize="sm">
-                                    ${e.project_collected}
-                                    <span style={{ color: '#00A3FF' }}>
-                                      {' '}
-                                      Fundraising Amount
-                                    </span>
-                                  </chakra.h1>
-                                </Flex>
-
-                                <Flex w={'305px'} justify={'space-between'}>
-                                  <ButtonBackTransition
-                                    unitid={'visit' + index}
-                                    width="150px"
-                                    height="45px"
-                                    selected={false}
-                                    rounded="33px"
-                                  >
-                                    <Flex
-                                      color="white"
-                                      align="center"
-                                      justify="center"
-                                      fontSize={{ base: '14px', lg: '16px' }}
-                                      onClick={() =>
-                                        window.open(
-                                          e.project_website,
-                                          '_blank',
-                                          'noopener,noreferrer',
-                                        )
-                                      }
-                                    >
-                                      Visit Website
-                                      <Icon
-                                        ml={'5px'}
-                                        as={BsArrowUpRight}
-                                        h={{ base: 3, lg: 4 }}
-                                        w={{ base: 3, lg: 4 }}
-                                      />
-                                    </Flex>
-                                  </ButtonBackTransition>
-
-                                  <ButtonOrangeBackTransition
-                                    unitid={'view' + index}
-                                    selected={false}
-                                    width="150px"
-                                    height="45px"
-                                    rounded="33px"
-                                  >
-                                    <Link
-                                      to={`/detail?project_id=${e.project_id}`}
-                                      fontSize={{ base: '14px', lg: '16px' }}
-                                      color="white"
-                                    >
-                                      View Project
-                                    </Link>
-                                  </ButtonOrangeBackTransition>
-                                </Flex>
-                              </HStack>
-                            </Box>
-                          </HStack>
-                        </Box>
-                      ))}
+                            <Flex
+                              align="self-start"
+                              justifyContent={'space-between'}
+                            >
+                              <Description data={e} />
+                              <CircularProgresses
+                                activeTab = {activeTab}
+                                data={e}
+                                sz={{ base: '80px', md: '120px', lg: '150px'}}
+                              />
+                            </Flex>
+                            <ExtraInfos activeTab={activeTab} data={e} />
+                            <HStack justify="space-between" mt={'10px'}>
+                              <Informations data={e}/>
+                              <MainButtons index = {index} data={e}/>
+                            </HStack>
+                          </Box>
+                        </HStack>
+                      </Box>
+                    ))}
                   </Flex>
 
                   {/* ------------------project mobile---------- */}
@@ -724,22 +319,8 @@ export default function ExplorerProject() {
                     flexDirection="column"
                     display={{ base: 'flex', md: 'none', lg: 'none' }}
                   >
-                    <Flex
-                      w="100%"
-                      my="26px"
-                      pb="10px"
-                      direction="row"
-                      justifyContent={'space-between'}
-                      borderBottom="1px solid rgba(255, 255, 255, 0.1)"
-                    >
-                      <Text fontSize={'15px'}>Projects Incubated</Text>
-                      <Text fontSize="15px">
-                        {state.projectData.length} Project
-                        {state.projectData.length === 1 ? '' : 's'}
-                      </Text>
-                    </Flex>
+                    <ProjectCount />
 
-                    {/* ------------------project snippet detail---------- */}
                     <Flex
                       w={'100%'}
                       shadow="lg"
@@ -747,323 +328,57 @@ export default function ExplorerProject() {
                       direction={'column'}
                       boxSizing="border-box"
                     >
-                      {postProjectData != '' &&
-                        postProjectData.map((e, index) => (
+                      {postProjectData != '' && postProjectData.map((e, index) => (
+                        <Flex
+                          width={'100%'}
+                          alignSelf={'center'}
+                          direction={'column'}
+                          mb="20px"
+                          key={index}
+                          align="center"
+                        >
                           <Flex
-                            width={'100%'}
-                            alignSelf={'center'}
+                            width={'90%'}
+                            justify={'center'}
                             direction={'column'}
-                            mb="20px"
-                            key={index}
-                            align="center"
+                            alignSelf={'center'}
                           >
-                            {/* ------------------project image---------- */}
+                            <MobileLogo data={e} />
+                            <MobileTitle data={e} />
                             <Flex
-                              width={'90%'}
-                              justify={'center'}
-                              direction={'column'}
-                              alignSelf={'center'}
+                              py={2}
+                              w="100%"
+                              alignItems={'center'}
+                              flexDirection={'column'}
+                              justify={'space-between'}
                             >
-                              <Flex
-                                mx="6px"
-                                p="10px"
-                                width="100%"
-                                bg="#FFFFFF"
-                                height="200px"
-                                align="center"
-                                justify="center"
-                                borderRadius={'2xl'}
-                                boxShadow={'0px 4px 4px rgba(0, 0, 0, 0.25)'}
-                              >
-                                <object
-                                  data="/logo.png"
-                                  type="image/png"
-                                  style={{ width: '40%' }}
-                                >
-                                  <Image
-                                    w="100%"
-                                    objectFit="contain"
-                                    src={`${state.request}/download?filename=${e.project_logo}`}
-                                  />
-                                </object>
-                              </Flex>
-                              {/* ------------------project Detail---------- */}
-                              <Flex
-                                py={2}
-                                w="100%"
-                                fontSize="15px"
-                                alignItems={'center'}
-                                justify={'space-between'}
-                              >
-                                <Text color="white" fontWeight="bold">
-                                  {e.project_title}
-                                </Text>
-                                <Text color={'gray.400'}>
-                                  Date -{' '}
-                                  <span style={{ color: '#FE8600' }}>
-                                    {e.project_createddate}
-                                  </span>
-                                </Text>
-                              </Flex>
-
-                              {/* ------------------project synopsis---------- */}
-                              <Text color={'gray.400'} fontSize="15px">
-                                {e.project_description.substr(0, 300)}
-                              </Text>
-
-                              <Flex
-                                py={2}
-                                w="100%"
-                                alignItems={'center'}
-                                flexDirection={'column'}
-                                justify={'space-between'}
-                              >
-                                <Flex
-                                  justify={'space-between'}
-                                  alignItems="center"
-                                  color={'gray.400'}
-                                  w="100%"
-                                >
-                                  <Flex alignItems={'center'}>
-                                    <Icon as={MdOutlineCategory} h={6} w={6} />
-                                    <chakra.h1 fontSize="sm" ml={1}>
-                                      {e.project_ecosystem}
-                                    </chakra.h1>
-                                  </Flex>
-                                  <Flex alignItems={'center'}>
-                                    <Icon as={MdOutlinePlace} h={6} w={6} />
-                                    <chakra.h1 fontSize="sm" ml={1}>
-                                      {/* {e.project_category} */}
-                                    </chakra.h1>
-                                  </Flex>
-                                </Flex>
-
-                                <Flex py={2} w="100%" justify="flex-start">
-                                  <Icon
-                                    as={MdOutlineAccountBalanceWallet}
-                                    h={6}
-                                    w={6}
-                                  />
-                                  <chakra.h1 fontSize="sm" ml={1}>
-                                    ${e.project_collected}
-                                    <span style={{ color: '#00A3FF' }}>
-                                      {' '}
-                                      Fundraising Amount
-                                    </span>
-                                  </chakra.h1>
-                                </Flex>
-
-                                {activeTab === 'CommuntyApproval' && (
-                                  <Text py={2} color={'gray.400'}>
-                                    Community Voting will be finished in{' '}
-                                    {e.leftTime} minutes
-                                  </Text>
-                                )}
-                                {activeTab === 'MileStoneDelivery' && (
-                                  <Text py={2} color={'gray.400'}>
-                                    Project Milestone step -{' '}
-                                    {parseInt(e.project_milestonestep) + 1}
-                                  </Text>
-                                )}
-                                {activeTab === 'WeFundApproval' &&
-                                  isWefundWallet(state) && (
-                                    <Flex justify={'center'}>
-                                      <ButtonTransition
-                                        unitid={'Approve' + index}
-                                        selected={false}
-                                        width="180px"
-                                        height="40px"
-                                        rounded="30px"
-                                        onClick={() => {
-                                          WefundApprove(e.project_id)
-                                        }}
-                                      >
-                                        <Text fontSize={'15px'}>
-                                          Approve Project
-                                        </Text>
-                                      </ButtonTransition>
-                                    </Flex>
-                                  )}
-                                {activeTab === 'CommuntyApproval' &&
-                                  isCommunityWallet(state, e.project_id) && (
-                                    <Flex justify={'space-between'}>
-                                      <ButtonTransition
-                                        unitid={'visit' + index}
-                                        width="120px"
-                                        height="40px"
-                                        selected={false}
-                                        rounded="30px"
-                                        onClick={() =>
-                                          CommunityVote(
-                                            e.project_id,
-                                            true,
-                                            e.leftTime,
-                                          )
-                                        }
-                                      >
-                                        <Text fontSize={'15px'}>Vote Yes</Text>
-                                      </ButtonTransition>
-
-                                      <ButtonTransition
-                                        unitid={'view' + index}
-                                        selected={false}
-                                        width="120px"
-                                        height="40px"
-                                        rounded="30px"
-                                        onClick={() =>
-                                          CommunityVote(
-                                            e.project_id,
-                                            false,
-                                            e.leftTime,
-                                          )
-                                        }
-                                      >
-                                        <Text fontSize={'15px'}>Vote No</Text>
-                                      </ButtonTransition>
-                                    </Flex>
-                                  )}
-                                {activeTab === 'MileStoneFundraising' && (
-                                  <ButtonTransition
-                                    unitid={'visit' + index}
-                                    width="180px"
-                                    height="40px"
-                                    selected={false}
-                                    rounded="30px"
-                                    mb="10px"
-                                    onClick={() =>
-                                      navigate(
-                                        `/back?project_id=${e.project_id}`,
-                                      )
-                                    }
-                                  >
-                                    <Text fontSize={'15px'}>Back Project</Text>
-                                  </ButtonTransition>
-                                )}
-                                {activeTab === 'MileStoneDelivery' &&
-                                  isBackerWallet(state, e.project_id) && (
-                                    <Flex justify={'space-between'}>
-                                      <ButtonTransition
-                                        unitid={'milestonevoteyes' + index}
-                                        width="120px"
-                                        height="40px"
-                                        selected={false}
-                                        rounded="30px"
-                                        onClick={() =>
-                                          MilestoneVote(e.project_id, true)
-                                        }
-                                      >
-                                        <Text fontSize={'15px'}>Vote Yes</Text>
-                                      </ButtonTransition>
-
-                                      <ButtonTransition
-                                        unitid={'milestonevoteno' + index}
-                                        selected={false}
-                                        width="120px"
-                                        height="40px"
-                                        rounded="30px"
-                                        onClick={() =>
-                                          MilestoneVote(e.project_id, false)
-                                        }
-                                      >
-                                        <Text fontSize={'15px'}>Vote No</Text>
-                                      </ButtonTransition>
-                                    </Flex>
-                                  )}
-                              </Flex>
-                            </Flex>
-
-                            <Flex alignSelf={'center'} marginTop={'20px'}>
-                              <CircularProgresses value={e} sz="120px" />
-                            </Flex>
-                            {/* ------------------project buttons---------- */}
-                            <Flex
-                              my={'25px'}
-                              direction={{ base: 'column', lg: 'row' }}
-                            >
-                              <HStack style={{ spacing: 10 }}>
-                                <Flex>
-                                  <ImageTransition
-                                    unitid={'visit' + index}
-                                    border1="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-                                    background1="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-                                    border2="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-                                    background2="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
-                                    border3="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-                                    background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
-                                    selected={false}
-                                    width="150px"
-                                    height="40px"
-                                    rounded="33px"
-                                  >
-                                    <a href={e.project_website}>
-                                      <Flex justify="center" align="center">
-                                        <Text fontSize={'15px'}>
-                                          Visit Website
-                                        </Text>
-                                        <Icon
-                                          as={BsArrowUpRight}
-                                          h={3}
-                                          w={3}
-                                          ml={1}
-                                        />
-                                      </Flex>
-                                    </a>
-                                  </ImageTransition>
-                                </Flex>
-                                <Flex>
-                                  <ImageTransition
-                                    unitid={'view' + index}
-                                    border1="linear-gradient(180deg, #FE8600 0%, #F83E00 100%)"
-                                    background1="linear-gradient(180deg, #FE8600 0%, #F83E00  100%)"
-                                    border2="linear-gradient(180deg, #FE8600 0%, #F83E00 100%)"
-                                    background2="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
-                                    border3="linear-gradient(180deg, #FE8600 0%, #F83E00 100%)"
-                                    background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
-                                    selected={false}
-                                    width="150px"
-                                    height="40px"
-                                    rounded="33px"
-                                  >
-                                    <Link
-                                      to={`/detail?project_id=${e.project_id}`}
-                                    >
-                                      <Box
-                                        justify="center"
-                                        fontSize={'15px'}
-                                        align="center"
-                                      >
-                                        View Project
-                                      </Box>
-                                    </Link>
-                                  </ImageTransition>
-                                </Flex>
-                              </HStack>
+                              <MobileInformations data={e}/>
+                              <MobileStatusButtons 
+                                index = {index}
+                                data={e}
+                                activeTab = {activeTab}
+                                WefundApprove = {WefundApprove}
+                                CommunityVote = {CommunityVote}
+                                MilestoneVote = {MilestoneVote}
+                              />
                             </Flex>
                           </Flex>
-                        ))}
+
+                          <Flex alignSelf={'center'} marginTop={'20px'}>
+                            <CircularProgresses value={e} sz="120px" />
+                          </Flex>
+
+                          <MobileMainButtons index = {index} data={e} />
+                        </Flex>
+                      ))}
                     </Flex>
                   </Flex>
                 </Flex>
-                <Flex
-                  p={50}
-                  w="100%"
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  <Pagination
-                    bg="linear-gradient(180deg, #FE8600 21.43%, #F83E00 147.62%)"
-                    current={current}
-                    onChange={(page) => onChangePaginator(page)}
-                    pageSize={pageSize}
-                    total={
-                      state.activeProjectData == ''
-                        ? 0
-                        : state.activeProjectData.length
-                    }
-                    itemRender={itemRender}
-                    paginationProps={{ display: 'flex' }}
-                  />
-                </Flex>
+                <ProjectPaginator 
+                  current = {current}
+                  pagesize = {pageSize}
+                  onChangePaginator = {onChangePaginator}
+                />
               </VStack>
             </Flex>
           </Box>

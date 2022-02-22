@@ -11,21 +11,19 @@ import {
   InputTransition,
 } from '../ImageTransition'
 
-export default function CustomInput({typeText, type, setType}) {
-  const [nameLen, setNameLen] = useState(0)
+export default function CustomInput({typeText, type, setType, w, mt}) {
   function onChangeType(e) {
-    setNameLen(e.target.value.length)
     if (e.target.value.length < 100) {
       setType(e.target.value)
     }
   }
 
   return (
-    <Box mt="40px">
+    <Box w={w} mt={mt}>
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
         <Text fontSize="15px" opacity="0.5">
-          {nameLen}/100 words
+          {type?.length}/100 words
         </Text>
       </Flex>
       <InputTransition

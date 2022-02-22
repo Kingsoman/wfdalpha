@@ -3,6 +3,8 @@ import {
   Flex,
   Text,
   Select,
+  InputLeftElement,
+  Input,
   Box,
 } from '@chakra-ui/react';
 
@@ -10,13 +12,14 @@ import {
   InputTransition,
 } from '../ImageTransition'
 
-export default function CustomSelect({typeText, type, setType, options}) 
+export default function CustomSelect({typeText, type, setType, options, w}) 
 {
   return (
-    <Box mt="40px">
+    <Box w={w}>
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
       </Flex>
+
       <InputTransition
         unitid={"selectinputtransition" + typeText}
         selected={type == '' ? false : true}

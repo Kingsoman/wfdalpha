@@ -3,9 +3,7 @@ import { ChakraProvider, Image, Flex, Box, Text, VStack, HStack } from '@chakra-
 import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import {
   useWallet,
-  WalletStatus,
   useConnectedWallet,
-  ConnectType,
 } from '@terra-money/wallet-provider'
 import { Wallet, CaretRight, Power, Check } from 'phosphor-react'
 import numeral from 'numeral'
@@ -127,9 +125,6 @@ export default function ConnectWallet() {
       setScrolled(false)
     }
   }
-
-  //------------notification setting---------------------------------
-  const notificationRef = useRef();
 
   //--------------for referral-----------------------------
   const crypto = require('crypto');

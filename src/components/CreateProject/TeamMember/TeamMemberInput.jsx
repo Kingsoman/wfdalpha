@@ -5,7 +5,6 @@ import {
   Text,
   InputGroup,
   Input,
-  TextArea
 } from '@chakra-ui/react'
 
 import {
@@ -16,31 +15,33 @@ import{
   isNull,
 } from '../../Util'
 
-export default function MilestoneTitle({
+export default function TeamMemberInput({
   index, 
-  milestoneTitle,
-  setMilestoneTitle,
+  typeText,
+  type,
+  setType,
+  w
 }) 
 {
-  function onChangeMilestoneTitle(e, index){
+  function onChangeType(e, index){
     if (e.target.value.length < 100) {
-      let ar=[...milestoneTitle];
+      let ar=[...type];
       ar[index] = e.target.value;
-      setMilestoneTitle(ar);
+      setType(ar);
     }
   }
 
   return (
-    <Box mt="40px">
+    <Box w={w}>
       <Flex justify="space-between">
-        <Text mb="20px">Milestone Title</Text>
+        <Text mb="20px">{typeText}</Text>
         <Text fontSize="15px" opacity="0.5">
-          {milestoneTitle[index]?.length}/100 words
+          {type[index]?.length}/100 words
         </Text>
       </Flex>
       <InputTransition
-        unitid="projectname"
-        selected={isNull(milestoneTitle[index]) ? false : true}
+        unitid={`${typeText}${index}`}
+        selected={isNull(type[index]) ? false : true}
         width="100%"
         height="55px"
         rounded="md"
@@ -55,8 +56,8 @@ export default function MilestoneTitle({
             type="text"
             h="55px"
             rounded="md"
-            value={milestoneTitle[index]}
-            onChange={(e) => onChangeMilestoneTitle(e, index)}
+            value={type[index]}
+            onChange={(e) => onChangeType(e, index)}
           />
         </InputGroup>
       </InputTransition>
