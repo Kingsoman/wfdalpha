@@ -334,7 +334,9 @@ body {
   font-family: 'PilatExtended-Bold';
 }
 #missionList {
-  width: 70em;
+  max-width: 70em;
+  padding-left: 10px;
+  padding-right: 10px;
   flex-wrap: wrap;
   flex-direction: row;
 }
@@ -488,7 +490,9 @@ body {
 }
 
 #aboutFirstSection {
-  width: 70em;
+  max-width: 70em;
+  padding-left: 10px;
+  padding-right: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
