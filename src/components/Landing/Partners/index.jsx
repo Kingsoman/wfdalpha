@@ -24,11 +24,11 @@ export default function Partners() {
         </Text>
         <SimpleGrid spacing="5" align="center" columns={{ base: 1, md: 2 }}>
           <Partner
-            link="https://www.terra.money/"
+            link="https://terra.money/"
             img="/media/partners/terra.png"
           />
           <Partner
-            link="https://www.anchorprotocol.com/"
+            link="https://anchorprotocol.com/"
             img="/media/partners/ANC.png"
           />
         </SimpleGrid>
@@ -48,11 +48,11 @@ export default function Partners() {
           textAlign={'center'}
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
-          Project Partner under Fellowship Incubation
+          Project Partners under Fellowship Incubation
         </Text>
         <SimpleGrid spacing="5" align="center" columns={{ base: 1, md: 3 }}>
           <Partner
-            link="https://www.youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA"
+            link="https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA"
             img="/media/partners/pandai.png"
           />
           <Partner
@@ -92,7 +92,7 @@ export default function Partners() {
           textAlign={'center'}
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
-          Launchpad Partner
+          Launchpad Partners
         </Text>
         <SimpleGrid spacing="5" align="center" columns={{ base: 1, md: 3 }}>
           <Partner
@@ -124,7 +124,7 @@ export default function Partners() {
           textAlign={'center'}
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
-          Media Partner
+          Media Partners
         </Text>
         <SimpleGrid spacing="5" align="center" columns={{ base: 1, md: 4 }}>
           <Partner
@@ -168,11 +168,11 @@ export default function Partners() {
         </Text>
         <SimpleGrid spacing="5" align="center" columns={{ base: 1, md: 4 }}>
           <Partner
-            link="https://www.thejakartapost.com/front-row/2022/02/14/wefund-to-bring-forth-open-democratized-crowdfunding.html"
+            link="https://thejakartapost.com/front-row/2022/02/14/wefund-to-bring-forth-open-democratized-crowdfunding.html"
             img="/media/partners/Jakpost.png"
           />
           <Partner
-            link="https://www.cnnindonesia.com/teknologi/20220218213931-303-761215/wefund-manfaatkan-blockchain-terra-untuk-crowdfunding"
+            link="https://cnnindonesia.com/teknologi/20220218213931-303-761215/wefund-manfaatkan-blockchain-terra-untuk-crowdfunding"
             img="/media/partners/CNN_Indonesia.png"
           />
           <Partner
