@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
 import Particles from 'react-tsparticles'
+
 import AOS from 'aos'
 import 'aos/dist/aos.css' // You can also use <link> for styles
 
 import theme from '../theme'
+import Footer from '../components/Footer'
+import Team from '../components/Landing/Team'
 import Hero from '../components/Landing/Hero'
 import About from '../components/Landing/about'
 import Splash from '../components/Landing/Splash'
@@ -12,9 +15,8 @@ import RoadMap from '../components/Landing/Roadmap'
 import Industry from '../components/Landing/Industry'
 import Partners from '../components/Landing/Partners'
 import OurMissions from '../components/Landing/OurMissions'
-import Footer from '../components/Footer'
-import { Container } from '../components/Container'
 
+import { Container } from '../components/Container'
 
 export default () => {
   const [isSplash, setSplash] = useState(true)
@@ -82,6 +84,7 @@ export default () => {
             <Particles options={options} style={styles} />
             <About />
             <OurMissions />
+            <Team />
             <Industry />
             <RoadMap />
             <Partners />

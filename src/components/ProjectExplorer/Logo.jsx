@@ -19,7 +19,7 @@ export default function Logo({ data })
       boxShadow={'0px 4px 4px rgba(0, 0, 0, 0.25)'}
     >
       <object
-        data="/logo.png"
+        data="/media/logo.png"
         type="image/png"
         style={{ width: '80%' }}
       >
