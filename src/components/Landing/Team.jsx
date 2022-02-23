@@ -63,7 +63,7 @@ export default function Team() {
                 <Image
                   width={'25px'}
                   height={'25px'}
-                  src="/linkedin.png"
+                  src="/media/linkedin.png"
                   onClick={() => {
                     window.location.href = projectItem.link
                   }}
@@ -86,25 +86,25 @@ const PROJECT_ITEMS = [
     name: 'Andrea Bello',
     link: 'https://www.linkedin.com/in/bello-andrea-380572b4/',
     logos: [
-      '/Team_Companies/GE.png',
-      '/Team_Companies/ABB.png',
-      '/Team_Companies/AXA.png',
-      '/Team_Companies/Zurich.png',
+      '/media/Team_Companies/GE.png',
+      '/media/Team_Companies/ABB.png',
+      '/media/Team_Companies/AXA.png',
+      '/media/Team_Companies/Zurich.png',
     ],
     description:
       'CEO of Mosquito Solution/ Bello Service / Hotel Lanca Funds Manager in Axa and Zurich Soft Developer on ABB, Ing. Maggia and General Electric',
-    imgsrc: '/Team/wfd-andrea.jpg',
+    imgsrc: '/media/Team/wfd-andrea.jpg',
   },
   {
     name: 'Austin Taylor',
     link: 'https://www.linkedin.com/in/austintaylor19/',
     description:
       'Investment Manager at Pegasus Tech Ventures Business Analyst at Harman International Revenue Management Analyst at Holland America Line',
-    imgsrc: '/Team/wfd-austin.jpg',
+    imgsrc: '/media/Team/wfd-austin.jpg',
     logos: [
-      '/Team_Companies/pegasus.png',
-      '/Team_Companies/Harman.png',
-      '/Team_Companies/Holland.jpeg',
+      '/media/Team_Companies/pegasus.png',
+      '/media/Team_Companies/Harman.png',
+      '/media/Team_Companies/Holland.jpeg',
     ],
   },
   {
@@ -112,19 +112,19 @@ const PROJECT_ITEMS = [
     link: 'https://www.linkedin.com/in/ika-nur-afifah/',
     description:
       'Tencent > Tencent Music Entertainment > responsible in partnership and handling clients, Bigo > agency management specialist > handling client, Waves > as manager of Indonesia,  helped co founders to get $1.2M in pre seed funding',
-    imgsrc: '/Team/wfd-ika.jpg',
+    imgsrc: '/media/Team/wfd-ika.jpg',
     logos: [
-      '/Team_Companies/waves.jpeg',
-      '/Team_Companies/TME.png',
-      '/Team_Companies/Tencent.jpeg',
-      '/Team_Companies/Bigo.jpeg',
+      '/media/Team_Companies/waves.jpeg',
+      '/media/Team_Companies/TME.png',
+      '/media/Team_Companies/Tencent.jpeg',
+      '/media/Team_Companies/Bigo.jpeg',
     ],
   },
   {
     name: 'Jason Galvin',
     link: 'https://www.linkedin.com/in/jasongalvin/',
     description: 'Senior Software Engineer at GoPro',
-    imgsrc: '/Team/wfd-jason.jpg',
-    logos: ['/Team_Companies/GoPro.jpeg'],
+    imgsrc: '/media/Team/wfd-jason.jpg',
+    logos: ['/media/Team_Companies/GoPro.jpeg'],
   },
 ]

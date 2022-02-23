@@ -49,7 +49,7 @@ export default function Payment({isUST, setIsUST}) {
             mb="20px"
             boxSize="20px"
             objectFit="cover"
-            src={isUST ? '/group_dot.svg' : '/group_undot.svg'}
+            src={isUST ? '/media/group_dot.svg' : '/media/group_undot.svg'}
             alt="UST Avatar"
           />
         </ImageTransition>
@@ -85,7 +85,7 @@ export default function Payment({isUST, setIsUST}) {
             mt="15px"
             boxSize="20px"
             objectFit="cover"
-            src={isUST ? '/group_undot.svg' : '/group_dot.svg'}
+            src={isUST ? '/media/group_undot.svg' : '/media/group_dot.svg'}
             alt="UST Avatar"
           />
         </ImageTransition>
