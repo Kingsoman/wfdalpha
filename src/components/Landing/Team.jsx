@@ -97,7 +97,7 @@ const PROJECT_ITEMS = [
       '/media/Team_Companies/zurich.png',
     ],
     description:
-      'CEO of Mosquito Solution/ Bello Service / Hotel Lanca Funds Manager in Axa and Zurich Soft Developer on ABB, Ing. Maggia and General Electric',
+      'CEO of Mosquito Solution / Bello Service / Hotel Lanca Funds Manager in Axa and Zurich Soft Developer on ABB, Ing. Maggia and General Electric',
     imgsrc: '/media/Team/wfd-andrea.jpg',
   },
   {
