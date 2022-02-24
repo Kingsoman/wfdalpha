@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Flex, Text } from '@chakra-ui/react'
+import { Image, Flex, Text, Link } from '@chakra-ui/react'
 
 export default function Team() {
   return (
@@ -24,7 +24,6 @@ export default function Team() {
             <Text>Team</Text>
           </Flex>
         </Flex>
-
         <Flex id="missionList">
           {PROJECT_ITEMS.map((projectItem, index) => (
             <Flex
@@ -45,7 +44,7 @@ export default function Team() {
                 objectFit="contain"
                 width={'100%'}
               />
-              <Flex my={'20px'} justify={'space-around'}>
+              <Flex my="20px" height="40px" justify={'space-around'}>
                 {projectItem.logos?.map((e) => (
                   <Image
                     src={e}
@@ -56,21 +55,26 @@ export default function Team() {
                   />
                 ))}
               </Flex>
-              <Flex w="100%" alignItems={'center'} justify={'space-between'}>
-                <Text fontSize={'18px'} fontFamily={'PilatExtended-Regular'}>
+              <Flex w="100%" mt="12px" alignItems="center" justify="space-between">
+                <Text fontSize={'18px'} fontFamily={'PilatExtended-Bold'}>
                   {projectItem.name}
                 </Text>
-                <Image
-                  width={'25px'}
-                  height={'25px'}
-                  src="/media/linkedin.png"
-                  onClick={() => {
-                    window.location.href = projectItem.link
-                  }}
-                  cursor={'pointer'}
-                  background={'white'}
-                  borderRadius={'6px'}
-                />
+                <Link href={projectItem.link} isExternal>
+                  <Image
+                    width='25px'
+                    height='25px'
+                    src='/media/linkedin.png'
+                    cursor='pointer'
+                    background='white'
+                    borderRadius='6px'
+                    border='0'
+                  />
+                </Link>
+              </Flex>
+              <Flex w="100%" alignItems={'center'} justify={'space-between'}>
+                <Text fontSize={'18px'} fontFamily={'PilatExtended-Regular'}>
+                  {projectItem.role}
+                </Text>
               </Flex>
               <Text className="missionDesc">{projectItem.description}</Text>
             </Flex>
@@ -84,20 +88,36 @@ export default function Team() {
 const PROJECT_ITEMS = [
   {
     name: 'Andrea Bello',
-    link: 'https://www.linkedin.com/in/bello-andrea-380572b4/',
+    role: 'CEO and Co-Founder',
+    link: 'https://linkedin.com/in/bello-andrea-380572b4/',
     logos: [
       '/media/Team_Companies/GE.png',
       '/media/Team_Companies/ABB.png',
       '/media/Team_Companies/AXA.png',
-      '/media/Team_Companies/Zurich.png',
+      '/media/Team_Companies/zurich.png',
     ],
     description:
       'CEO of Mosquito Solution/ Bello Service / Hotel Lanca Funds Manager in Axa and Zurich Soft Developer on ABB, Ing. Maggia and General Electric',
     imgsrc: '/media/Team/wfd-andrea.jpg',
   },
   {
+    name: 'Ika Afifah',
+    role: 'CMO and Co-Founder',
+    link: 'https://linkedin.com/in/ika-nur-afifah/',
+    description:
+      'Tencent > Tencent Music Entertainment > Responsible for partnerships and handling clients, Bigo > Agency Management Specialist > handling clients, Waves > Manager of Indonesia, helped co-founders raise $1.2M in pre-seed funding',
+    imgsrc: '/media/Team/wfd-ika.jpg',
+    logos: [
+      '/media/Team_Companies/waves.jpeg',
+      '/media/Team_Companies/TME.png',
+      '/media/Team_Companies/Tencent.jpeg',
+      '/media/Team_Companies/Bigo.jpeg',
+    ],
+  },
+  {
     name: 'Austin Taylor',
-    link: 'https://www.linkedin.com/in/austintaylor19/',
+    role: 'CCO',
+    link: 'https://linkedin.com/in/austintaylor19/',
     description:
       'Investment Manager at Pegasus Tech Ventures Business Analyst at Harman International Revenue Management Analyst at Holland America Line',
     imgsrc: '/media/Team/wfd-austin.jpg',
@@ -108,23 +128,16 @@ const PROJECT_ITEMS = [
     ],
   },
   {
-    name: 'Ika Afifah',
-    link: 'https://www.linkedin.com/in/ika-nur-afifah/',
-    description:
-      'Tencent > Tencent Music Entertainment > responsible in partnership and handling clients, Bigo > agency management specialist > handling client, Waves > as manager of Indonesia,  helped co founders to get $1.2M in pre seed funding',
-    imgsrc: '/media/Team/wfd-ika.jpg',
-    logos: [
-      '/media/Team_Companies/waves.jpeg',
-      '/media/Team_Companies/TME.png',
-      '/media/Team_Companies/Tencent.jpeg',
-      '/media/Team_Companies/Bigo.jpeg',
-    ],
-  },
-  {
     name: 'Jason Galvin',
-    link: 'https://www.linkedin.com/in/jasongalvin/',
-    description: 'Senior Software Engineer at GoPro',
+    role: 'Co-CTO and Advisor',
+    link: 'https://linkedin.com/in/jasongalvin/',
+    description: 'Senior Software Engineer with 20 years experience in Silicon Valley at GoPro, General Things, Provident Funding, BearingPoint, RealNames, etc.',
     imgsrc: '/media/Team/wfd-jason.jpg',
-    logos: ['/media/Team_Companies/GoPro.jpeg'],
+    logos: [
+      '/media/Team_Companies/GoPro.jpeg',
+      '/media/Team_Companies/GeneralThings.png',
+      '/media/Team_Companies/ProvidentFunding.jpg',
+      '/media/Team_Companies/BearingPoint.jpg',
+    ],
   },
 ]
