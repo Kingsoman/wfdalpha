@@ -31,7 +31,7 @@ export default function PDFTemplate({presale, project_id, notificationRef})
 {
   const {state, dispatch} = useStore();
   const isWeFund = state.wefundID == project_id;
-  const [src, setSrc] = useState("/media/PDFTemplate_presale.pdf");
+  const [src, setSrc] = useState("/PDFTemplate_presale.pdf");
 
   //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
@@ -53,7 +53,7 @@ console.log(projectData);
     if(!isWeFund)
       fetchData();
     else{
-      setSrc(presale === true? "/media/PDFTemplate_presale.pdf" : "/media/PDFTemplate.pdf");
+      setSrc(presale === true? "/PDFTemplate_presale.pdf" : "/PDFTemplate.pdf");
     }
   }, [])
 
