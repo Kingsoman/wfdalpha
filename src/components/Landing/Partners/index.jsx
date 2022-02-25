@@ -129,7 +129,7 @@ export default function Partners() {
         <SimpleGrid spacing="5" align="center" columns={{ base: 1, md: 4 }}>
           <Partner
             link="https://terraspaces.org/"
-            img="/media/partners/terraspace.jpg"
+            img="/media/partners/terraspace.png"
           />
           <Partner
             link="https://twitter.com/cryptodiviners/"
@@ -137,7 +137,7 @@ export default function Partners() {
           />
           <Partner
             link="https://twitter.com/PejuangCryptoID"
-            img="/media/partners/pejuangcrypto.jpg"
+            img="/media/partners/pejuangcrypto.png"
           />
           <Partner
             link="https://www.portalkripto.com/"
