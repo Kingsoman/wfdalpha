@@ -37,14 +37,15 @@ export default function Team() {
                 objectFit="contain"
                 width={'100%'}
               />
-              <Flex my="20px" height="40px" justify={'space-around'}>
-                {projectItem.logos?.map((e) => (
+              <Flex my="20px" height="40px" justify="space-around">
+                {projectItem.logos?.map((e, i) => (
                   <Image
                     src={e}
-                    width={'40px'}
+                    key={i}
+                    width="40px"
                     objectFit="contain"
-                    background={'white'}
-                    borderRadius={'3px'}
+                    background="white"
+                    borderRadius="3px"
                   />
                 ))}
               </Flex>
