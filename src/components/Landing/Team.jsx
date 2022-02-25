@@ -27,17 +27,10 @@ export default function Team() {
         <Flex id="missionList">
           {PROJECT_ITEMS.map((projectItem, index) => (
             <Flex
-              p="10px"
               key={index}
-              zIndex={'5'}
-              position="relative"
-              borderRadius="10px"
+              className="teamCard"
               data-aos="zoom-in-up"
-              flexDirection="column"
-              className="missionCard"
-              my={{ base: '1%', lg: '2em' }}
-              width={{ base: '100%', md: '45%', lg: '30%' }}
-              background={'linear-gradient(45deg, #360847, #18075b)'}
+              width={{ base: '100%', md: '45%', lg: '24%' }}
             >
               <Image
                 src={projectItem.imgsrc}
@@ -55,27 +48,25 @@ export default function Team() {
                   />
                 ))}
               </Flex>
-              <Flex w="100%" mt="12px" alignItems="center" justify="space-between">
+              <Flex w="100%" alignItems="center" justify="space-between">
                 <Text fontSize={'18px'} fontFamily={'PilatExtended-Bold'}>
                   {projectItem.name}
                 </Text>
                 <Link href={projectItem.link} isExternal>
                   <Image
-                    width='25px'
-                    height='25px'
-                    src='/media/linkedin.png'
-                    cursor='pointer'
-                    background='white'
-                    borderRadius='6px'
-                    border='0'
+                    width="25px"
+                    height="25px"
+                    src="/media/linkedin.png"
+                    cursor="pointer"
+                    background="white"
+                    borderRadius="6px"
+                    border="0"
                   />
                 </Link>
               </Flex>
-              <Flex w="100%" alignItems={'center'} justify={'space-between'}>
-                <Text fontSize={'18px'} fontFamily={'PilatExtended-Regular'}>
-                  {projectItem.role}
-                </Text>
-              </Flex>
+              <Text fontSize={'13px'} fontFamily={'PilatExtended-Regular'}>
+                {projectItem.role}
+              </Text>
               <Text className="missionDesc">{projectItem.description}</Text>
             </Flex>
           ))}
@@ -131,7 +122,8 @@ const PROJECT_ITEMS = [
     name: 'Jason Galvin',
     role: 'Co-CTO and Advisor',
     link: 'https://linkedin.com/in/jasongalvin/',
-    description: 'Senior Software Engineer with 20 years experience in Silicon Valley at GoPro, General Things, Provident Funding, BearingPoint, RealNames, etc.',
+    description:
+      'Senior Software Engineer with 20 years experience in Silicon Valley at GoPro, General Things, Provident Funding, BearingPoint, RealNames, etc.',
     imgsrc: '/media/Team/wfd-jason.jpg',
     logos: [
       '/media/Team_Companies/GoPro.jpeg',
