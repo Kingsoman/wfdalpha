@@ -163,11 +163,11 @@ export default function Roadmap() {
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V2</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem>Community registration system</ListItem>
-              <ListItem>Community project approval by voting power</ListItem>
-              <ListItem>Project creation with milestone system</ListItem>
-              <ListItem>Multi-stage fundraising</ListItem>
-              <ListItem>Milestone funds released with backers approval through voting power</ListItem>
+              <ListItem  color={"green.300"}>Community registration system</ListItem>
+              <ListItem  color={"green.300"}>Community project approval by voting power</ListItem>
+              <ListItem  color={"green.300"}>Project creation with milestone system</ListItem>
+              <ListItem  color={"green.300"}>Multi-stage fundraising</ListItem>
+              <ListItem  color={"green.300"}>Milestone funds released with backers approval through voting power</ListItem>
               <ListItem>Customer service</ListItem>
             </UnorderedList>
           </Flex>
@@ -198,8 +198,8 @@ export default function Roadmap() {
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Documentation</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem>Release Whitepaper 2.0</ListItem>
-              <ListItem>Update Litepaper</ListItem>
+              <ListItem  color={"green.300"}>Release Whitepaper 2.0</ListItem>
+              <ListItem  color={"green.300"}>Update Litepaper</ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
@@ -210,9 +210,9 @@ export default function Roadmap() {
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V3</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem>Set up community allocation</ListItem>
-              <ListItem>Set up WeFund holder allocation</ListItem>
-              <ListItem>Set up staking mechanism</ListItem>
+              <ListItem  color={"green.300"}>Set up community allocation</ListItem>
+              <ListItem  color={"green.300"}>Set up WeFund holder allocation</ListItem>
+              <ListItem  color={"green.300"}>Set up staking mechanism</ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
