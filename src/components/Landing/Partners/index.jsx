@@ -50,7 +50,7 @@ export default function Partners() {
         >
           Project Partners under Fellowship Incubation
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 1, md: 3 }}>
+        <SimpleGrid spacing="5" align="center" columns={{ base: 1,  sm:2, md: 3 }}>
           <Partner
             link="https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA"
             img="/media/partners/pandai.png"
@@ -94,7 +94,7 @@ export default function Partners() {
         >
           Launchpad Partners
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 1, md: 3 }}>
+        <SimpleGrid spacing="5" align="center" columns={{ base: 1,  sm:2, md: 3 }}>
           <Partner
             link="https://kommunitas.net/"
             img="/media/partners/Kommunitas.png"
@@ -126,10 +126,10 @@ export default function Partners() {
         >
           Media Partners
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 1, md: 4 }}>
+        <SimpleGrid spacing="5" align="center" columns={{ base: 1, sm:2, md: 5 }}>
           <Partner
             link="https://terraspaces.org/"
-            img="/media/partners/terraspace.jpg"
+            img="/media/partners/terraspace.png"
           />
           <Partner
             link="https://twitter.com/cryptodiviners/"
@@ -137,7 +137,7 @@ export default function Partners() {
           />
           <Partner
             link="https://twitter.com/PejuangCryptoID"
-            img="/media/partners/pejuangcrypto.jpg"
+            img="/media/partners/pejuangcrypto.png"
           />
           <Partner
             link="https://www.portalkripto.com/"
@@ -147,6 +147,7 @@ export default function Partners() {
             link="https://twitter.com/CryptoNews_Indo"
             img="/media/partners/cryptonews.png"
           />
+          
         </SimpleGrid>
       </Box>
       <Box
@@ -166,7 +167,7 @@ export default function Partners() {
         >
           Featured on
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 1, md: 4 }}>
+        <SimpleGrid spacing="5" align="center" columns={{ base: 2, sm: 2, md: 5 }}>
           <Partner
             link="https://thejakartapost.com/front-row/2022/02/14/wefund-to-bring-forth-open-democratized-crowdfunding.html"
             img="/media/partners/Jakpost.png"
@@ -178,6 +179,46 @@ export default function Partners() {
           <Partner
             link="https://cryptodaily.io/wefund-project-overview/"
             img="/media/partners/Cryptodaily.png"
+          />
+          <Partner
+            link="https://www.youtube.com/watch?v=srwWRK86ZTk"
+            img="/media/partners/lunatic.png"
+          />
+          <Partner
+            link="https://twitter.com/ETH_Daily/status/1462292597200719875"
+            img="/media/partners/ethdaily.png"
+          />
+          <Partner
+            link="https://twitter.com/bsc_daily/status/1465644599855124489"
+            img="/media/partners/bscdaily.png"
+          />
+          <Partner
+            link="https://twitter.com/PolygonDaily/status/1483137329175068672"
+            img="/media/partners/polygondaily.png"
+          />
+          <Partner
+            link="https://twitter.com/TerraLUNADaily/status/1461214295656517641"
+            img="/media/partners/terradaily.png"
+          />
+          <Partner
+            link="https://twitter.com/tyranoanalytics"
+            img="/media/partners/tyrano.jpg"
+          />
+          <Partner
+            link="https://twitter.com/solana_daily/status/1460133912861048841"
+            img="/media/partners/solanadaily.jpg"
+          />
+          <Partner
+            link="https://twitter.com/cardano_daily"
+            img="/media/partners/cardanodaily.png"
+          />
+          <Partner
+            link="https://twitter.com/bullcryptonews1/"
+            img="/media/partners/bull.jpg"
+          />
+          <Partner
+            link="https://twitter.com/"
+            img="/media/partners/fantom.jpg"
           />
         </SimpleGrid>
       </Box>
