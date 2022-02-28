@@ -29,23 +29,23 @@ export default function Stages({
     {stages.map((item, index) => {
       return (
         <Flex direction='column' key={index}>
-          <Stack 
-            mt = '30px' 
-            direction={{base:'column', md:'row', lg:'row'}} 
+          <Stack
+            mt = '30px'
+            direction={{base:'column', md:'row', lg:'row'}}
             spacing='30px'
           >
             <StageSimpleNumberInput
               index = {index}
               typeText = {`Price set at ${item}`}
-              type={stagePrice} 
+              type={stagePrice}
               setType={setStagePrice}
               notificationRef={notificationRef}
               w = {{base:'100%', md:'50%', lg:'50%'}}
             />
             <StageSimpleNumberInput
               index = {index}
-              typeText = {`Token Amount at ${item}`}
-              type={stageAmount} 
+              typeText = {`Token amount at ${item}`}
+              type={stageAmount}
               setType={setStageAmount}
               notificationRef={notificationRef}
               w = {{base:'100%', md:'50%', lg:'50%'}}

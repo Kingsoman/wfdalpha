@@ -202,7 +202,6 @@ export default function CreateProject() {
     formData.append('cofounderName', cofounderName);
     formData.append('country', country);
     formData.append('email', email);
-
     formData.append('file', signature);
 
     const requestOptions = {
@@ -457,7 +456,6 @@ export default function CreateProject() {
               w = {{base:'100%', md:'30%', lg:'30%'}}
             />
           </Stack>
-          
           <Stages
             stages = {stages}
             stagePrice = {stagePrice}
@@ -471,9 +469,9 @@ export default function CreateProject() {
             stageVestingPeriod = {stageVestingPeriod}
             setStageVestingPeriod = {setStageVestingPeriod}
           />
-          <Stack 
-            mt = '30px' 
-            direction={{base:'column', md:'row', lg:'row'}} 
+          <Stack
+            mt = '30px'
+            direction={{base:'column', md:'row', lg:'row'}}
             spacing='30px'
           >
             <CustomInput
@@ -489,7 +487,7 @@ export default function CreateProject() {
               w = {{base:'100%', md:'50%', lg:'50%'}}
             />
           </Stack>
-          <Stack 
+          <Stack
             mt = '30px' 
             direction={{base:'column', md:'row', lg:'row'}} 
             spacing='30px'
@@ -549,7 +547,7 @@ export default function CreateProject() {
             setType = {setWebsite}
           />
           <Website
-            typeText = "Linkedin or Related Link"
+            typeText = "LinkedIn or similar"
             type = {proffesionallink}
             setType = {setProfesisonalLink}
           />
@@ -568,7 +566,6 @@ export default function CreateProject() {
             setMilestoneEnddate = {setMilestoneEnddate}
             notificationRef={notificationRef}
           />
-          
           <Flex w="100%" mt="30px" justify="center" mb="30px">
             <ButtonTransition
               unitid="submit"

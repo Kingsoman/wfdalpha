@@ -221,7 +221,7 @@ export default function Faqs() {
                 </Flex>
                 <Image
                   width={'20%'}
-                  src={'/Faqs/Q8.svg'}
+                  src={'/media/Faqs/Q8.svg'}
                   objectFit={'contain'}
                   borderBottomRightRadius={'15px'}
                   display={{ lg: 'flex', base: 'none' }}
@@ -229,7 +229,6 @@ export default function Faqs() {
               </Flex>
             )}
           </Flex>
-
           <Flex
             bg={'#250E42'}
             width={'100%'}
@@ -291,7 +290,7 @@ export default function Faqs() {
                 </Flex>
                 <Image
                   width={'20%'}
-                  src={'/Faqs/Q12.svg'}
+                  src={'/media/Faqs/Q12.svg'}
                   objectFit={'contain'}
                   borderBottomRightRadius={'15px'}
                   display={{ lg: 'flex', base: 'none' }}
@@ -300,7 +299,6 @@ export default function Faqs() {
             )}
           </Flex>
         </Flex>
-
         <Text
           fontWeight={'light'}
           textAlign={'center'}
@@ -338,7 +336,7 @@ export default function Faqs() {
           data-aos="zoom-in-up"
           borderRadius={'20px'}
           width={{ lg: '50%', base: '95%' }}
-          src="/Faqs/website-wefund-pics.png"
+          src="/media/Faqs/website-wefund-pics.png"
         />
       </Flex>
       <Footer />
@@ -349,14 +347,14 @@ export default function Faqs() {
 const faqData = [
   {
     ques: 'What is WeFund and the story behind the idea?',
-    img: '/Faqs/Q1.svg',
+    img: '/media/Faqs/Q1.svg',
     ans: [
       "WeFund is a cross-chain crowdfunding platform to create a space for backers and creators to raise the necessary resources for the realization of the project via the means of backers. At the moment only using Terra and operating as a crowdfunding platform, however, it will expand to include multiple chains and provide a full incubation service to increase the chance of success of the projects on our platform. The founder's vision was to create a community that everyone could participate. There was a hackathon that the founders participated as Fan$quad, however, there was a decision made to rebrand the name to include more industries to reach a larger audience and community.",
     ],
   },
   {
     ques: 'Who are the team and their experience with crypto projects?',
-    img: '/Faqs/Q2.jpg',
+    img: '/media/Faqs/Q2.jpg',
     ans: [
       'Ika (Co-Founder & CMO) helped raise $10 million dollars for Gamesta, crypto & NFT trading platform startup, as the CMO and is now focused 100% on WeFund.',
       "Andrea (Co-Founder, CEO, & Co-CTO), similar to Ika, played a big role in the initial development of Gamesta's $10 million raise. He is highly skilled & versatile in back-end development.",
@@ -367,14 +365,14 @@ const faqData = [
   },
   {
     ques: 'What makes WeFund unique?',
-    img: '/Faqs/Q3.svg',
+    img: '/media/Faqs/Q3.svg',
     ans: [
       'We are building WeFund to be a full 360-degree service for project support and guidance after funding has been completed. It will be crowdfunding & incubation. We will be able to Implement various industries and projects Crypto & Real-World projects - a bridge between blockchain & real-world projects. In our roadmap, we plan to make this a cross-chain platform and provide in-house funding for projects from the revenue we generate.',
     ],
   },
   {
     ques: 'What are the benefits for project proposers & project backers?',
-    img: '/Faqs/Q4.svg',
+    img: '/media/Faqs/Q4.svg',
     ans: [
       'Proposers: Can reach a big community and generate awareness for their projects. Full service from the WeFund team and our experts to help with the fundraising and scale the project.',
       'Backers: Money returned if fundraising goals are not met. Yield from Anchor protocol. Can easily find new and exciting projects. No minimum or maximum amounts for very early-stage projects. Everyone is able to be an investor.',
@@ -382,28 +380,28 @@ const faqData = [
   },
   {
     ques: 'What are the $WFD token use cases, distribution, and how to buy/get it?',
-    img: '/Faqs/Q5.svg',
+    img: '/media/Faqs/Q5.svg',
     ans: [
       'If you use $WFD on the platform there is a 0% transaction fee. If the project proposer uses $WFD to fund the project there will be prioritized placement on the platform. Those projects will get more exposure and staking rewards. Increased value from its deflationary token system. Can be used as an ad payment on our platform if project proposers want more exposure.',
     ],
   },
   {
     ques: 'How do you approach your marketing to increase WeFund users in the future?',
-    img: '/Faqs/Q6.svg',
+    img: '/media/Faqs/Q6.svg',
     ans: [
       'Our approach is to build and maintain community relationships through social media and strategic partnerships such as Kommunitas. Kommunitas, like WeFund, is a multichain platform ensuring resources can come from multiple ecosystems. Kommunitas will complement the offering of WeFund by providing access to easier IDO and incubation for projects that have completed a funding round, looking to take the next step towards launching their project while using the resources they have more effectively.',
     ],
   },
   {
     ques: 'WWhat is the WeFund roadmap?',
-    img: '/Faqs/Q7.svg',
+    img: '/media/Faqs/Q7.svg',
     ans: [
       'At the moment we are raising a seed round for initial development and to ensure the talent we have will deliver a strong platform & operation. 3% of our revenue for Seed investors will be equally distributed by the amount each investor invested. This month we will have our platform launch and start our pre-sale. Our pre-sale is 10% of our token allocation. Then we will have an offering in May.',
     ],
   },
   {
-    ques: 'What is WeFund’s revenue model?',
-    img: '/Faqs/Q9.svg',
+    ques: 'What is WeFund\'s revenue model?',
+    img: '/media/Faqs/Q9.svg',
     ans: [
       '1% transaction fee (if not using $WFD)',
       'Revenue from users paying us for prioritized placement on our platform (ads)',
@@ -412,7 +410,7 @@ const faqData = [
   },
   {
     ques: "As crypto users we don't want to lose our assets to some scam projects that run away and disappear with our money so why should we invest in your project as a long-term investment?",
-    img: '/Faqs/Q10.svg',
+    img: '/media/Faqs/Q10.svg',
     ans: [
       'We will have the platform running before the offering, unlike other projects that raise money before any product/platform is launched with the exception of our Seed round, which is the amount we need to have a strong talent for our initial development & launch',
       'We have a deflationary token system that is designed to increase token value over time.',
@@ -421,7 +419,7 @@ const faqData = [
   },
   {
     ques: 'Is your project only open to a certain audience (elite investors, Professional players), or is it open to medium and small fund investors, traditional players?',
-    img: '/Faqs/Q11.svg',
+    img: '/media/Faqs/Q11.svg',
     ans: [
       'No, we are open to any investor. Being community-driven is a big part of our philosophy and we want to ensure that everyone has the ability to take part regardless of being an independent, large, or small investor.',
     ],

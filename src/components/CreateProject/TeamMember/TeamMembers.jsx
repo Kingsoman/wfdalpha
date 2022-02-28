@@ -54,30 +54,30 @@ export default function TeamMembers({
             color="#4790f5"
             mb = '10px'
           >
-            TeamMember { index + 1 }
+            Team Member { index + 1 }
           </Text>
-          <TeamMemberDescription 
+          <TeamMemberDescription
             index = {index}
             typeText= 'Description'
             type = {description}
             setType = {setDescription}
           />
-          <Stack 
+          <Stack
             direction={{base:'column', md: 'row', lg:"row"}} 
             mb='30px'
             spacing='30px'
             mt = '30px'
           >
-            <TeamMemberInput 
+            <TeamMemberInput
               index = {index}
               typeText= 'Role'
               type = {role}
               setType = {setRole}
               w={{base:'100%', md: '30%', lg:'30%'}}
             />
-            <TeamMemberInput 
+            <TeamMemberInput
               index = {index}
-              typeText= 'Linkedin Link'
+              typeText= 'LinkedIn or similar'
               type = {linkedin}
               setType = {setLinedin}
               w={{base:'100%', md: '70%', lg:'70%'}}
@@ -111,10 +111,9 @@ export default function TeamMembers({
           align="center"
           onClick={onNewTeamMember}
         >
-          Add TeamMember
+          Add Team Member
         </Box>
       </ButtonBackTransition>
-
       <ButtonBackTransition
         unitid="CancelMilestone"
         selected={false}
@@ -130,7 +129,7 @@ export default function TeamMembers({
           align="center"
           onClick={onCancelTeamMember}
         >
-          Cancel TeamMember {description.length}
+          Cancel Team Member {description.length}
         </Box>
       </ButtonBackTransition>
     </Flex>
