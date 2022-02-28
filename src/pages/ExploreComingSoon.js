@@ -162,7 +162,7 @@ export default function ExplorerProject() {
     await EstimateSend(
       connectedWallet,
       state.lcd_client,
-      msg,
+      [msg],
       'WeFund Approve success',
       notificationRef,
     )
@@ -185,7 +185,7 @@ export default function ExplorerProject() {
     await EstimateSend(
       connectedWallet,
       state.lcd_client,
-      msg,
+      [msg],
       'Community vote success',
       notificationRef,
     )
@@ -208,7 +208,7 @@ export default function ExplorerProject() {
     EstimateSend(
       connectedWallet,
       state.lcd_client,
-      msg,
+      [msg],
       'Milestone vote success',
       notificationRef,
     )
@@ -216,6 +216,39 @@ export default function ExplorerProject() {
     fetchContractQuery(true)
   }
 
+  async function NextFundraisingStage(project_id, curStage){
+    if (CheckNetwork(connectedWallet, notificationRef, state) == false)
+      return false
+    let wallet = connectedWallet.walletAddress;
+
+    let stage = '';
+    switch(curStage.toLowerCase()){
+      case 'seed':
+        stage = 'Presale'; break;
+      case 'presale':
+        stage = 'IDO'; break;
+      default:
+        return;
+    }
+console.log(stage);
+    let FundraisingMsg = { set_fundraising_stage: { project_id, stage } }
+
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      wallet,
+      wefundContractAddress,
+      FundraisingMsg,
+    )
+    EstimateSend(
+      connectedWallet,
+      state.lcd_client,
+      [msg],
+      'Set Fundraising stage success',
+      notificationRef,
+    )
+    await Sleep(2000)
+    fetchContractQuery(true)
+  }
   //---------initialize fetching---------------------
   useEffect(() => {
     fetchContractQuery()
@@ -279,7 +312,7 @@ export default function ExplorerProject() {
                         <HStack w="100%">
                           <Logo data={e} />
                           <Box py={4} px={2} w="100%">
-                            <Flex justify={'space-between'} mb={'20px'}>
+                            <Flex justify={'space-between'} mb={'20px'} alignItems='center'>
                               <Title activeTab={activeTab} data = {e} />
                               <StatusButtons
                                 index = {index}
@@ -288,6 +321,7 @@ export default function ExplorerProject() {
                                 WefundApprove = {WefundApprove}
                                 CommunityVote = {CommunityVote}
                                 MilestoneVote = {MilestoneVote}
+                                NextFundraisingStage = {NextFundraisingStage}
                               />
                             </Flex>
 

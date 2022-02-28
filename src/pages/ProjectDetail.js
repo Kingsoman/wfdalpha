@@ -159,7 +159,7 @@ export default function ProjectDetail() {
       wefundContractAddress,
       WefundApproveMsg,
     )
-    EstimateSend(connectedWallet, state.lcd_client, msg, "WeFund Approve success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, [msg], "WeFund Approve success", notificationRef);
   }
   //-----------Community Vote----------------
   function CommunityVote(project_id, voted, leftTime){
@@ -184,7 +184,7 @@ export default function ProjectDetail() {
       wefundContractAddress,
       CommunityVoteMsg,
     )
-    EstimateSend(connectedWallet, state.lcd_client, msg, "Community vote success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, [msg], "Community vote success", notificationRef);
   }
   function MilestoneVote(project_id, voted){
     if(CheckNetwork(connectedWallet, notificationRef, state) == false)
@@ -204,7 +204,7 @@ export default function ProjectDetail() {
       wefundContractAddress,
       MilestoneVoteMsg,
     )
-    EstimateSend(connectedWallet, state.lcd_client, msg, "Milestone vote success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, [msg], "Milestone vote success", notificationRef);
   }
     //--Pop Ups for Projects
   const { isOpen: isVoteBoxOpen, onOpen: onVoteBoxOpen, onClose: onVoteBoxClose  } = useDisclosure()

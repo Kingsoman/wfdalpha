@@ -105,7 +105,7 @@ console.log(communityData);
       wefundContractAddress,
       CommunityMsg,
     )
-    EstimateSend(connectedWallet, state.lcd_client, msg, "Add Community success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, [msg], "Add Community success", notificationRef);
   }
 
   function removeCommunityMember(wallet){
@@ -121,7 +121,7 @@ console.log(communityData);
       wefundContractAddress,
       CommunityMsg,
     )
-    EstimateSend(connectedWallet, state.lcd_client, msg, "Remove Community success", notificationRef);
+    EstimateSend(connectedWallet, state.lcd_client, [msg], "Remove Community success", notificationRef);
   }
   
   //---------initialize fetching---------------------

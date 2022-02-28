@@ -3,14 +3,21 @@ import { LCDClient } from '@terra-money/terra.js'
 
 const StoreContext = createContext()
 
-const initialState = {
-  // net: 'testnet',
-  net: 'mainnet',
+// vesting
+// terra18w3kjp23gf6w98fhfd8w8h74c8urs3gppfzxt5
 
-  // WEFundContractAddress: "terra1ayerd6dma6ajpwl38w6qre0me7ntzl0c3facwu", //testnet v2.3
-  // WEFundContractAddress: "terra1ca88767e6ganwq2zehtcpv7ef6z32ell26ts3r", //testnet v2.2
-  // WEFundContractAddress: 'terra1prfeefv02cfxl0zc6aaut9zlc7elygnt66rq2x', //mainnet v2.2
-	WEFundContractAddress: 'terra1fv5syzr26rzuuycff4dzy0fvash59u53tvjdr6', //mainnet v2.3
+// Fundraising
+// terra1vzzsvansrcml0dzp774cz8m0vdyrhg9l55zx7c
+
+//  WFD
+// terra1pkytkcanua4uazlpekve7qyhg2c5xwwjr4429d
+
+const initialState = {
+  net: 'testnet',
+  // net: 'mainnet',
+
+  WEFundContractAddress: "terra1gyhpv64wqnzq8m9j29u7085qxg3m30xszmz2tm", //testnet v2.3
+	// WEFundContractAddress: 'terra1fv5syzr26rzuuycff4dzy0fvash59u53tvjdr6', //mainnet v2.3
   
   presale: true,
   referralCount: 0,
@@ -27,14 +34,14 @@ const initialState = {
   config: {},
   ustBalance: 0,
   contractBalance: {},
-  // lcd_client: new LCDClient({ //testnet
-  //     URL: 'https://bombay-lcd.terra.dev/',
-  //     chainID: 'bombay-12',
-  // }),
-  lcd_client: new LCDClient({ //mainnet
-    URL: 'https://lcd.terra.dev',
-    chainID: 'columbus-4',
+  lcd_client: new LCDClient({ //testnet
+      URL: 'https://bombay-lcd.terra.dev/',
+      chainID: 'bombay-12',
   }),
+  // lcd_client: new LCDClient({ //mainnet
+  //   URL: 'https://lcd.terra.dev',
+  //   chainID: 'columbus-4',
+  // }),
   investAmount: '0',
   investWfdamount: '',
   investName: '',

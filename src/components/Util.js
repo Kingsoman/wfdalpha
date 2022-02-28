@@ -1,8 +1,8 @@
 import { Fee, MsgExecuteContract, WasmAPI, LCDClient} from '@terra-money/terra.js'
 
-export async function EstimateSend(connectedWallet, lcd, msg, message, notificationRef, memo='')
+export async function EstimateSend(connectedWallet, lcd, msgs, message, notificationRef, memo='')
 {
-console.log(msg);
+console.log(msgs);
   const obj = new Fee(10_000, { uusd: 4500})
   let accountInfo;
   let abort = false;
@@ -22,7 +22,7 @@ console.log(msg);
 console.log(accountInfo);
   let txOptions = 
   {
-    msgs: [msg],
+    msgs: msgs,
     memo: memo,
     gasPrices: obj.gasPrices(),
     gasAdjustment: 1.7,
@@ -52,7 +52,7 @@ console.log(accountInfo);
 
   await connectedWallet
   .post({
-    msgs: [msg],
+    msgs: msgs,
     fee: rawFee,
     gasPrices: obj.gasPrices(),
     gasAdjustment: 1.7,
@@ -76,21 +76,22 @@ console.log(accountInfo);
   return true;
 }
 export function GetProjectStatusString(mode){
-  let projectstatus = 0;
-  switch(mode){
-    case '0':
+  let projectstatus = "Error";
+
+  switch(parseInt(mode)){
+    case 0:
       projectstatus = 'WeFundApproval';
       break;
-    case '1':
+    case 1:
       projectstatus = 'CommuntyApproval';
       break;
-    case '2':
+    case 2:
       projectstatus = 'Fundraising';
       break;
-    case '3':
+    case 3:
       projectstatus = 'MileStoneDelivery';
       break;
-    case '4':
+    case 4:
       projectstatus = 'ProjectComplete';
       break;
   }
@@ -157,7 +158,6 @@ export function AddExtraInfo(state, projectData, communityData){
 export function CheckNetwork(connectedWallet, notificationRef, state)
 {
   //----------verify connection--------------------------------
-console.log(notificationRef);
   if (connectedWallet == '' || typeof connectedWallet == 'undefined') {
     notificationRef?.current?.showNotification('Please connect wallet first!', 'error', 6000)
     console.log("Please connect wallet first!");
@@ -288,6 +288,16 @@ export function isCommunityWallet(state, project_id){
 
   return false;
 }
+export function isCreatorWallet(state, project_id){
+  let one = GetOneProject(state.projectData, project_id)
+  if(one == '')
+    return false;
+
+  if(one.creator_wallet == state.connectedWallet.walletAddress )
+      return true;
+
+  return false;
+}
 export function isBackerWallet(state, project_id){
   let one = GetOneProject(state.projectData, project_id)
   if(one == '')
@@ -336,4 +346,10 @@ export function isNull(val){
 }
 export function getVal(val){
   return isNull(val)? '' : val;
+}
+export function getInteger(val){
+  return isNull(val)? "0": parseInt(val).toString();
+}
+export function getMultiplyInteger(val){
+  return isNull(val)? "0": parseInt(parseFloat(val) * 100).toString();
 }

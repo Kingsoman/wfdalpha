@@ -141,7 +141,7 @@ export default function BackProject() {
       {uusd: amount}
     )
 
-    EstimateSend(connectedWallet, lcd, msg, "Back to Project Success", notificationRef);
+    EstimateSend(connectedWallet, lcd, [msg], "Back to Project Success", notificationRef);
   }
 
   return (

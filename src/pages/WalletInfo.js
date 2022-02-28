@@ -79,7 +79,7 @@ export default function UserSideSnippet() {
     EstimateSend(
       connectedWallet,
       state.lcd_client,
-      msg,
+      [msg],
       'Add community success',
       notificationRef,
     )
@@ -101,7 +101,7 @@ export default function UserSideSnippet() {
     EstimateSend(
       connectedWallet,
       state.lcd_client,
-      msg,
+      [msg],
       'Remove community success',
       notificationRef,
     )

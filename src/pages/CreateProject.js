@@ -18,7 +18,9 @@ import {
   FetchData, 
   Sleep,
   isNull,
-  getVal
+  getVal,
+  getMultiplyInteger,
+  getInteger
 } from '../components/Util'
 import Notification from '../components/Notification'
 import PageLayout from '../components/PageLayout'
@@ -55,6 +57,8 @@ export default function CreateProject() {
   const [description, setDescription] = useState('')
   const [ecosystem, setEcosystem] = useState('Terra')
   const [tokenName, setTokenName] = useState('')
+  const [tokenAddress, setTokenAddress] = useState('')
+
   const [collectedAmount, setCollectedAmount] = useState('')
 
   const [teammemberDescription, setTeammemberDescription] = useState([''])
@@ -319,16 +323,18 @@ export default function CreateProject() {
     }
 
     let vesting = []
+    let distribution_token_amount = 0;
     for (let i = 0; i < stages.length; i++){
       let stage = {
         stage: stages[i],
-        stage_price: getVal(stagePrice[i]),
-        stage_amount: getVal(stageAmount[i]),
-        stage_soon: getVal(stageVestingSoon[i]),
-        stage_after: getVal(stageVestingAfter[i]),
-        stage_period: getVal(stageVestingPeriod[i]),
+        stage_price: getMultiplyInteger(stagePrice[i]),
+        stage_amount: getInteger(stageAmount[i]),
+        stage_soon: getInteger(stageVestingSoon[i]),
+        stage_after: getInteger(stageVestingAfter[i]),
+        stage_period: getInteger(stageVestingPeriod[i]),
       }
       vesting.push(stage);
+      distribution_token_amount += parseInt(getInteger(stageAmount[i]));
     }
 
     let project_milestones = []
@@ -367,27 +373,49 @@ export default function CreateProject() {
         project_milestones: project_milestones,
         project_teammembers: project_teammembers,
         vesting: vesting,
+        token_addr: tokenAddress
       },
     }
 
     let wefundContractAddress = state.WEFundContractAddress
 
-    let msg = new MsgExecuteContract(
+    let add_msg = new MsgExecuteContract(
       connectedWallet.walletAddress,
       wefundContractAddress,
       AddProjectMsg,
     )
-    await EstimateSend(
+    let msgs = [add_msg];
+
+    if(tokenAddress != ""){
+      let ApproveMsg = {
+        increase_allowance: {
+          spender: wefundContractAddress,
+          amount: distribution_token_amount.toString()
+        }
+      }
+
+      let approve_msg = new MsgExecuteContract(
+        connectedWallet.walletAddress,
+        tokenAddress,
+        ApproveMsg,
+      )
+      msgs.push(approve_msg);
+    }
+
+    let res = await EstimateSend(
       connectedWallet,
       state.lcd_client,
-      msg,
+      msgs,
       'Create Project success',
       notificationRef,
     )
-    await Sleep(2000)
-    await FetchData(api, notificationRef, state, dispatch, true)
+console.log(res);
+    if(res == true){
+      await Sleep(2000)
+      await FetchData(api, notificationRef, state, dispatch, true)
 
-    navigate('/explorer');
+      navigate('/explorer');
+    }
   }
 
   return (
@@ -440,20 +468,32 @@ export default function CreateProject() {
               type = {collectedAmount}
               setType = {setCollectedAmount}
               notificationRef={notificationRef}
-              w = {{base:'100%', md:'30%', lg:'30%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
             <CustomSelect
               typeText = "Blockchain"
               type = {ecosystem}
               setType = {setEcosystem}
               options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
-              w = {{base:'100%', md:'30%', lg:'30%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
+          </Stack>
+          <Stack 
+            mt = '30px'
+            direction={{base:'column', md:'column', lg:'row'}}
+            spacing='30px'
+          >
             <CustomInput
               typeText = "Token Name"
               type={tokenName} 
               setType={setTokenName}
-              w = {{base:'100%', md:'30%', lg:'30%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
+            />
+            <CustomInput
+              typeText = "Token Address"
+              type={tokenAddress} 
+              setType={setTokenAddress}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
           </Stack>
           <Stages

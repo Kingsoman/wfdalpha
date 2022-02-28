@@ -230,7 +230,7 @@ console.log(oneprojectData);
         { uusd: amount }
       );
       let memo = state.presale? "Presale" : "Private sale";
-      let res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Invest success ", notificationRef, memo);
+      let res = await EstimateSend(connectedWallet, state.lcd_client, [msg], "Invest success ", notificationRef, memo);
       if(res == true)
         navigate('/invest_step4?project_id=' + project_id);
     }
@@ -285,7 +285,7 @@ console.log(oneprojectData);
       {uusd: amount}
     );
 
-    return await EstimateSend(connectedWallet, state.lcd_client, msg, "Back to Project Success", notificationRef);
+    return await EstimateSend(connectedWallet, state.lcd_client, [msg], "Back to Project Success", notificationRef);
   }
   const OtherChainWallet = () => {
     return(
