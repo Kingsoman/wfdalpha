@@ -61,6 +61,7 @@ export default function CreateProject() {
   const [teammemberLinkedin, setTeammemberLinkedin] = useState([''])
   const [teammemberRole, setTeammemberRole] = useState([''])
 
+  const stages = ['Seed', 'Presale', 'IDO']
   const [stagePrice, setStagePrice] = useState([''])
   const [stageAmount, setStageAmount] = useState([''])
   const [stageVestingSoon, setStageVestingSoon] = useState([''])
@@ -318,6 +319,19 @@ export default function CreateProject() {
       project_teammembers.push(teammember);
     }
 
+    let vesting = []
+    for (let i = 0; i < stages.length; i++){
+      let stage = {
+        stage: stages[i],
+        stage_price: getVal(stagePrice[i]),
+        stage_amount: getVal(stageAmount[i]),
+        stage_soon: getVal(stageVestingSoon[i]),
+        stage_after: getVal(stageVestingAfter[i]),
+        stage_period: getVal(stageVestingPeriod[i]),
+      }
+      vesting.push(stage);
+    }
+
     let project_milestones = []
     for (let i = 0; i < milestoneTitle.length; i++) {
       let milestone = {
@@ -353,6 +367,7 @@ export default function CreateProject() {
         project_email: email,
         project_milestones: project_milestones,
         project_teammembers: project_teammembers,
+        vesting: vesting,
       },
     }
 
@@ -444,7 +459,7 @@ export default function CreateProject() {
           </Stack>
           
           <Stages
-            stages = {['Seed', 'Presale', 'IDO']}
+            stages = {stages}
             stagePrice = {stagePrice}
             setStagePrice = {setStagePrice}
             stageAmount = {stageAmount}

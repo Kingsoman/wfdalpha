@@ -89,7 +89,7 @@ export default function StatusButtons({
           </ButtonTransition>
         </Flex>
       )}
-      {activeTab === 'MileStoneFundraising' && (
+      {activeTab === 'Fundraising' && (
         <ButtonTransition
           unitid={'visit' + index}
           width="180px"

@@ -99,7 +99,7 @@ export default function StatusButtons({
           </ButtonTransition>
         </Flex>
       )}
-      {activeTab === 'MileStoneFundraising' && (
+      {activeTab === 'Fundraising' && (
         <ButtonTransition
           mb="10px"
           rounded="33px"

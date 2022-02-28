@@ -26,31 +26,31 @@ export default function Tabs({ activeTab, onChangeActivetab }) {
         <Tab
           activeTab={activeTab}
           value={'WeFundApproval'}
-          lable={'WeFund Approval'}
+          label={'WeFund Approval'}
           onChangeActivetab={onChangeActivetab}
         />
         <Tab
           activeTab={activeTab}
           value={'CommuntyApproval'}
-          lable={'Communty Approval'}
+          label={'Communty Approval'}
           onChangeActivetab={onChangeActivetab}
         />
         <Tab
           activeTab={activeTab}
-          value={'MileStoneFundraising'}
-          lable={'Milestone Fundraising'}
+          value={'Fundraising'}
+          label={'Fundraising'}
           onChangeActivetab={onChangeActivetab}
         />
         <Tab
           activeTab={activeTab}
           value={'MileStoneDelivery'}
-          lable={'Milestone Delivery'}
+          label={'Milestone Delivery'}
           onChangeActivetab={onChangeActivetab}
         />
         <Tab
           activeTab={activeTab}
           value={'ProjectComplete'}
-          lable={'Project Complete'}
+          label={'Project Complete'}
           onChangeActivetab={onChangeActivetab}
         />
       </Flex>

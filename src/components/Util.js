@@ -85,7 +85,7 @@ export function GetProjectStatusString(mode){
       projectstatus = 'CommuntyApproval';
       break;
     case '2':
-      projectstatus = 'MileStoneFundraising';
+      projectstatus = 'Fundraising';
       break;
     case '3':
       projectstatus = 'MileStoneDelivery';
@@ -105,7 +105,7 @@ export function GetProjectStatus(mode){
     case 'CommuntyApproval':
       projectstatus = 1;
       break;
-    case 'MileStoneFundraising':
+    case 'Fundraising':
       projectstatus = 2;
       break;
     case 'MileStoneDelivery':
