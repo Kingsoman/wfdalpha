@@ -81,7 +81,7 @@ export default () => {
         ) : (
           <>
             <Hero />
-            <Particles options={options} style={styles} />
+            {/* <Particles options={options} style={styles} /> */}
             <About />
             <OurMissions />
             <Team />
