@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Flex, Text, Link } from '@chakra-ui/react'
+import { Image, Flex, Text, Link, Spacer } from '@chakra-ui/react'
 
 export default function Team() {
   return (
@@ -49,14 +49,20 @@ export default function Team() {
                   />
                 ))}
               </Flex>
-              <Flex w="100%" alignItems="center" justify="space-between">
-                <Text fontSize={'18px'} fontFamily={'PilatExtended-Bold'}>
-                  {projectItem.name}
-                </Text>
-                <Link href={projectItem.link} isExternal>
+              <Flex w="100%">
+                <div>
+                  <Text fontSize={'18px'} fontFamily={'PilatExtended-Bold'}>
+                    {projectItem.name}
+                  </Text>
+                  <Text fontSize={'13px'} fontFamily={'PilatExtended-Regular'}>
+                    {projectItem.role}
+                  </Text>
+                </div>
+                <Spacer />
+                <Link href={projectItem.link} mt="5px" isExternal>
                   <Image
-                    width="25px"
-                    height="25px"
+                    width="40px"
+                    height="40px"
                     src="/media/linkedin.png"
                     cursor="pointer"
                     background="white"
@@ -65,10 +71,6 @@ export default function Team() {
                   />
                 </Link>
               </Flex>
-              <Text fontSize={'13px'} fontFamily={'PilatExtended-Regular'}>
-                {projectItem.role}
-              </Text>
-              <Text className="missionDesc">{projectItem.description}</Text>
             </Flex>
           ))}
         </Flex>
@@ -88,16 +90,12 @@ const PROJECT_ITEMS = [
       '/media/Team_Companies/AXA.png',
       '/media/Team_Companies/zurich.png',
     ],
-    description:
-      'CEO of Mosquito Solution / Bello Service / Hotel Lanca Funds Manager in Axa and Zurich Soft Developer on ABB, Ing. Maggia and General Electric',
     imgsrc: '/media/Team/wfd-andrea.jpg',
   },
   {
     name: 'Ika Afifah',
     role: 'CMO and Co-Founder',
     link: 'https://linkedin.com/in/ika-nur-afifah/',
-    description:
-      'Tencent > Tencent Music Entertainment > Responsible for partnerships and handling clients, Bigo > Agency Management Specialist > handling clients, Waves > Manager of Indonesia, helped co-founders raise $1.2M in pre-seed funding',
     imgsrc: '/media/Team/wfd-ika.jpg',
     logos: [
       '/media/Team_Companies/waves.jpeg',
@@ -110,8 +108,6 @@ const PROJECT_ITEMS = [
     name: 'Austin Taylor',
     role: 'CCO',
     link: 'https://linkedin.com/in/austintaylor19/',
-    description:
-      'Investment Manager at Pegasus Tech Ventures Business Analyst at Harman International Revenue Management Analyst at Holland America Line',
     imgsrc: '/media/Team/wfd-austin.jpg',
     logos: [
       '/media/Team_Companies/pegasus.png',
@@ -123,8 +119,6 @@ const PROJECT_ITEMS = [
     name: 'Jason Galvin',
     role: 'Co-CTO and Advisor',
     link: 'https://linkedin.com/in/jasongalvin/',
-    description:
-      'Senior Software Engineer with 20 years experience in Silicon Valley at GoPro, General Things, Provident Funding, BearingPoint, RealNames, etc.',
     imgsrc: '/media/Team/wfd-jason.jpg',
     logos: [
       '/media/Team_Companies/GoPro.jpeg',

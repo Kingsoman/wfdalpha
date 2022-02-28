@@ -47,9 +47,11 @@ export default function Aboutone() {
                     background="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
                     color="white" mt="10px">
               <option value='/media/Litepaper_WeFund_2_1.pdf' style={{ backgroundColor: '#1B0645' }}>English</option>
+              <option value='/media/Litepaper_WeFund_2.1_French.pdf' style={{ backgroundColor: '#1B0645' }}>French</option>
               <option value='/media/Litepaper_Wefund_ID.pdf' style={{ backgroundColor: '#1B0645' }}>Indonesian</option>
               <option value='/media/Litepaper_Wefund_ITA.pdf' style={{ backgroundColor: '#1B0645' }}>Italian</option>
               <option value='/media/Litepaper_Wefund_KOR.pdf' style={{ backgroundColor: '#1B0645' }}>Korean</option>
+              <option value='/media/Litepaper_WeFund_2.1_Swahili.pdf' style={{ backgroundColor: '#1B0645' }}>Swahili</option>
             </Select>
             <a href={selectedLang}>
               <Flex w="100%" mt="30px" id="displayNoneInMobile">
