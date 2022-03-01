@@ -52,6 +52,7 @@ export default function Hero() {
       <Carousel
         autoPlay
         width={'100vw'}
+        showArrows={false}
         showStatus={false}
         showThumbs={false}
         infiniteLoop={true}
