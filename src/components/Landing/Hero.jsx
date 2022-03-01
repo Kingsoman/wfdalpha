@@ -7,14 +7,12 @@ export default function Hero() {
   const [index, setIndex] = useState(0)
 
   function openLink() {
+    let url = ''
     if (index === 0) {
-      window.location.href =
-        'https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA'
-    } else if (index === 1) {
-      window.location.href = 'https://www.portalkripto.com/'
-    } else if (index === 2) {
-      window.location.href = 'https://www.lynxverse.io/'
-    }
+      url = 'https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA'
+    } else if (index === 1) url = 'https://www.portalkripto.com/'
+    else if (index === 2) url = 'https://www.lynxverse.io/'
+    window.open(url, '_blank')
   }
 
   return (
