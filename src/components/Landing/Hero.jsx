@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Image, Flex, Text } from '@chakra-ui/react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 
 export default function Hero() {
+  const [index, setIndex] = useState(0)
+
+  function openLink() {
+    if (index === 0) {
+      window.location.href =
+        'https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA'
+    } else if (index === 1) {
+      window.location.href = 'https://www.portalkripto.com/'
+    } else if (index === 2) {
+      window.location.href = 'https://www.lynxverse.io/'
+    }
+  }
+
   return (
     <Flex id="heroSection" direction="column">
       <Image
@@ -26,114 +39,90 @@ export default function Hero() {
         id="stageBg"
       />
 
-      <Carousel width={'100vw'} infiniteLoop={true}>
+      {/* Carousel Slider */}
+      <Flex
+        zIndex={3}
+        width="50vw"
+        cursor="pointer"
+        onClick={openLink}
+        position="absolute"
+        top={{ base: '50px', md: '70px', lg: '100px' }}
+        height={{ base: '10em', md: '15em', lg: '20em' }}
+      ></Flex>
+      <Carousel
+        autoPlay
+        width={'100vw'}
+        showStatus={false}
+        showThumbs={false}
+        infiniteLoop={true}
+        onChange={(i) => setIndex(i)}
+      >
         <Flex
+          height={{ base: '14em', md: '20em', lg: '25em' }}
           justifyContent={'center'}
           flexDirection={'column'}
           alignItems={'center'}
-          height={{ base: '14em', md: '20em', lg: '25em' }}
+          position={'relative'}
           w={'100%'}
         >
-          <Image
-            mb={'20px'}
-            zIndex="5px"
-            width={{ base: '30px', lg: '50px' }}
-            height={{ base: '15px', lg: '25px' }}
-            position="relative"
-            data-aos="fade-down"
-            objectFit={'contain'}
-            src="/media/horizontallogo.svg"
-          />
+          <Logo />
           <Image
             zIndex="5px"
             width={'20em'}
-            height={{ base: '5em', md: '10em', lg: '15em' }}
+            cursor={'pointer'}
             position="relative"
             data-aos="fade-down"
             objectFit={'contain'}
             src="/media/partners/pandai.png"
+            height={{ base: '5em', md: '10em', lg: '15em' }}
           />
-          <Text
-            fontFamily={'PilatExtended-Bold'}
-            fontSize={{ base: '12px', md: '16px', lg: '20px' }}
-            mt={'20px'}
-          >
-            Coming Soon..
-          </Text>
+          <Coming />
         </Flex>
         <Flex
+          height={{ base: '14em', md: '20em', lg: '25em' }}
           justifyContent={'center'}
           flexDirection={'column'}
           alignItems={'center'}
-          height={{ base: '14em', md: '20em', lg: '25em' }}
           w={'100%'}
         >
-          <Image
-            mb={'20px'}
-            zIndex="5px"
-            width={{ base: '30px', lg: '50px' }}
-            height={{ base: '15px', lg: '25px' }}
-            position="relative"
-            data-aos="fade-down"
-            objectFit={'contain'}
-            src="/media/horizontallogo.svg"
-          />
+          <Logo />
           <Flex
             height={{ base: '5em', md: '10em', lg: '15em' }}
-            justify="center"
             alignItems={'center'}
+            justify="center"
           >
             <Image
               zIndex="5px"
               width={'20em'}
-              height={{ base: '2em', md: '4em', lg: '6em' }}
+              cursor={'pointer'}
               position="relative"
               data-aos="fade-down"
               objectFit={'contain'}
               src="/media/partners/Portalkripto.png"
+              height={{ base: '2em', md: '4em', lg: '6em' }}
             />
           </Flex>
-          <Text
-            fontFamily={'PilatExtended-Bold'}
-            fontSize={{ base: '12px', md: '16px', lg: '20px' }}
-            mt={'20px'}
-          >
-            Coming Soon..
-          </Text>
+          <Coming />
         </Flex>
         <Flex
+          height={{ base: '14em', md: '20em', lg: '25em' }}
           justifyContent={'center'}
           flexDirection={'column'}
           alignItems={'center'}
-          height={{ base: '14em', md: '20em', lg: '25em' }}
           w={'100%'}
         >
-          <Image
-            mb={'20px'}
-            zIndex="5px"
-            width={{ base: '30px', lg: '50px' }}
-            height={{ base: '15px', lg: '25px' }}
-            position="relative"
-            data-aos="fade-down"
-            objectFit={'contain'}
-            src="/media/horizontallogo.svg"
-          />
+          <Logo />
           <Image
             zIndex="5px"
             width={'20em'}
-            height={{ base: '5em', md: '10em', lg: '15em' }}
+            cursor={'pointer'}
             data-aos="fade-down"
             position={'relative'}
             objectFit={'contain'}
             src="/media/partners/lynx-dark.png"
+            height={{ base: '5em', md: '10em', lg: '15em' }}
           />
-          <Text
-            fontFamily={'PilatExtended-Bold'}
-            fontSize={{ base: '12px', md: '16px', lg: '20px' }}
-            mt={'20px'}
-          >
-            Coming Soon..
-          </Text>
+          <Coming />
         </Flex>
       </Carousel>
 
@@ -153,5 +142,32 @@ export default function Hero() {
         </a>
       </Flex>
     </Flex>
+  )
+}
+
+function Coming() {
+  return (
+    <Text
+      fontSize={{ base: '12px', md: '16px', lg: '20px' }}
+      fontFamily={'PilatExtended-Bold'}
+      mt={'20px'}
+    >
+      Coming Soon..
+    </Text>
+  )
+}
+
+function Logo() {
+  return (
+    <Image
+      mb={'20px'}
+      zIndex="5px"
+      position="relative"
+      data-aos="fade-down"
+      objectFit={'contain'}
+      src="/media/horizontallogo.svg"
+      width={{ base: '30px', lg: '50px' }}
+      height={{ base: '15px', lg: '25px' }}
+    />
   )
 }
