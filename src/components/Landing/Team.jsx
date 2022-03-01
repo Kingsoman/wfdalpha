@@ -98,7 +98,7 @@ const PROJECT_ITEMS = [
     link: 'https://linkedin.com/in/ika-nur-afifah/',
     imgsrc: '/media/Team/wfd-ika.jpg',
     logos: [
-      '/media/Team_Companies/waves.jpeg',
+      '/media/Team_Companies/waves.png',
       '/media/Team_Companies/TME.png',
       '/media/Team_Companies/Tencent.jpeg',
       '/media/Team_Companies/Bigo.jpeg',

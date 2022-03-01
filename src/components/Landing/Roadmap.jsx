@@ -1,5 +1,5 @@
-import { Flex, Image, Text, UnorderedList, ListItem } from '@chakra-ui/react'
 import React from 'react'
+import { Flex, Image, Text, UnorderedList, ListItem } from '@chakra-ui/react'
 
 export default function Roadmap() {
   return (
