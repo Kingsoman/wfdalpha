@@ -1,19 +1,10 @@
 import React, { useState } from 'react'
-import { Image, Flex, Text } from '@chakra-ui/react'
+import { Image, Flex, Text, Link } from '@chakra-ui/react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 
 export default function Hero() {
   const [index, setIndex] = useState(0)
-
-  function openLink() {
-    let url = ''
-    if (index === 0) {
-      url = 'https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA'
-    } else if (index === 1) url = 'https://www.portalkripto.com/'
-    else if (index === 2) url = 'https://www.lynxverse.io/'
-    window.open(url, '_blank')
-  }
 
   return (
     <Flex id="heroSection" direction="column">
@@ -33,15 +24,6 @@ export default function Hero() {
         position="relative"
         id="stageBg"
       />
-      {/* Carousel Slider */}
-      <Flex
-        width="50vw"
-        cursor="pointer"
-        onClick={openLink}
-        position="absolute"
-        top={{ base: '50px', md: '70px', lg: '100px' }}
-        height={{ base: '10em', md: '15em', lg: '20em' }}
-      ></Flex>
       <Carousel
         autoPlay
         width="100vw"
@@ -57,18 +39,19 @@ export default function Hero() {
           flexDirection="column"
           alignItems="center"
           position="relative"
-          w="100%"
         >
           <Logo />
-          <Image
-            width="20em"
-            cursor="pointer"
-            position="relative"
-            data-aos="fade-down"
-            objectFit="contain"
-            src="/media/partners/pandai.png"
-            height={{ base: '5em', md: '10em', lg: '15em' }}
-          />
+          <Link href="https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA" isExternal>
+            <Image
+              width="20em"
+              cursor="pointer"
+              position="relative"
+              data-aos="fade-down"
+              objectFit="contain"
+              src="/media/partners/pandai.png"
+              height={{ base: '5em', md: '10em', lg: '15em' }}
+            />
+          </Link>
           <Coming />
         </Flex>
         <Flex
@@ -76,7 +59,6 @@ export default function Hero() {
           justifyContent="center"
           flexDirection="column"
           alignItems="center"
-          w="100%"
         >
           <Logo />
           <Flex
@@ -84,15 +66,17 @@ export default function Hero() {
             alignItems="center"
             justify="center"
           >
-            <Image
-              width="20em"
-              cursor="pointer"
-              position="relative"
-              data-aos="fade-down"
-              objectFit="contain"
-              src="/media/partners/Portalkripto.png"
-              height={{ base: '2em', md: '4em', lg: '6em' }}
-            />
+            <Link href="https://portalkripto.com/" isExternal>
+              <Image
+                width="20em"
+                cursor="pointer"
+                position="relative"
+                data-aos="fade-down"
+                objectFit="contain"
+                src="/media/partners/Portalkripto.png"
+                height={{ base: '2em', md: '4em', lg: '6em' }}
+              />
+            </Link>
           </Flex>
           <Coming />
         </Flex>
@@ -101,18 +85,19 @@ export default function Hero() {
           justifyContent="center"
           flexDirection="column"
           alignItems="center"
-          w="100%"
         >
           <Logo />
-          <Image
-            width="20em"
-            cursor="pointer"
-            data-aos="fade-down"
-            position="relative"
-            objectFit="contain"
-            src="/media/partners/lynx-dark.png"
-            height={{ base: '5em', md: '10em', lg: '15em' }}
-          />
+          <Link href="https://lynxverse.io/" isExternal>
+            <Image
+              width="20em"
+              cursor="pointer"
+              data-aos="fade-down"
+              position="relative"
+              objectFit="contain"
+              src="/media/partners/lynx-dark.png"
+              height={{ base: '5em', md: '10em', lg: '15em' }}
+            />
+          </Link>
           <Coming />
         </Flex>
       </Carousel>
