@@ -19,27 +19,22 @@ export default function Hero() {
     <Flex id="heroSection" direction="column">
       <Image
         src="/media/cloud.svg"
-        pos={'absolute'}
-        width={'100%'}
+        pos="absolute"
+        width="100%"
         top={{ base: '0', md: '0', lg: '-100px' }}
-        zIndex="5px"
       />
       <Image
         src="/media/stars.svg"
         position="relative"
-        zIndex="5px"
         id="starsBg"
       />
       <Image
         src="/media/stage.png"
         position="relative"
-        zIndex="5px"
         id="stageBg"
       />
-
       {/* Carousel Slider */}
       <Flex
-        zIndex={3}
         width="50vw"
         cursor="pointer"
         onClick={openLink}
@@ -49,7 +44,7 @@ export default function Hero() {
       ></Flex>
       <Carousel
         autoPlay
-        width={'100vw'}
+        width="100vw"
         showArrows={false}
         showStatus={false}
         showThumbs={false}
@@ -58,20 +53,19 @@ export default function Hero() {
       >
         <Flex
           height={{ base: '14em', md: '20em', lg: '25em' }}
-          justifyContent={'center'}
-          flexDirection={'column'}
-          alignItems={'center'}
-          position={'relative'}
-          w={'100%'}
+          justifyContent="center"
+          flexDirection="column"
+          alignItems="center"
+          position="relative"
+          w="100%"
         >
           <Logo />
           <Image
-            zIndex="5px"
-            width={'20em'}
-            cursor={'pointer'}
+            width="20em"
+            cursor="pointer"
             position="relative"
             data-aos="fade-down"
-            objectFit={'contain'}
+            objectFit="contain"
             src="/media/partners/pandai.png"
             height={{ base: '5em', md: '10em', lg: '15em' }}
           />
@@ -79,24 +73,23 @@ export default function Hero() {
         </Flex>
         <Flex
           height={{ base: '14em', md: '20em', lg: '25em' }}
-          justifyContent={'center'}
-          flexDirection={'column'}
-          alignItems={'center'}
-          w={'100%'}
+          justifyContent="center"
+          flexDirection="column"
+          alignItems="center"
+          w="100%"
         >
           <Logo />
           <Flex
             height={{ base: '5em', md: '10em', lg: '15em' }}
-            alignItems={'center'}
+            alignItems="center"
             justify="center"
           >
             <Image
-              zIndex="5px"
-              width={'20em'}
-              cursor={'pointer'}
+              width="20em"
+              cursor="pointer"
               position="relative"
               data-aos="fade-down"
-              objectFit={'contain'}
+              objectFit="contain"
               src="/media/partners/Portalkripto.png"
               height={{ base: '2em', md: '4em', lg: '6em' }}
             />
@@ -105,26 +98,24 @@ export default function Hero() {
         </Flex>
         <Flex
           height={{ base: '14em', md: '20em', lg: '25em' }}
-          justifyContent={'center'}
-          flexDirection={'column'}
-          alignItems={'center'}
-          w={'100%'}
+          justifyContent="center"
+          flexDirection="column"
+          alignItems="center"
+          w="100%"
         >
           <Logo />
           <Image
-            zIndex="5px"
-            width={'20em'}
-            cursor={'pointer'}
+            width="20em"
+            cursor="pointer"
             data-aos="fade-down"
-            position={'relative'}
-            objectFit={'contain'}
+            position="relative"
+            objectFit="contain"
             src="/media/partners/lynx-dark.png"
             height={{ base: '5em', md: '10em', lg: '15em' }}
           />
           <Coming />
         </Flex>
       </Carousel>
-
       <Text id="heroHeading" data-aos="fade-up">
         Community
         <br />
@@ -134,7 +125,6 @@ export default function Hero() {
         <br />
         Incubator
       </Text>
-
       <Flex id="ArrowDownButton" data-aos="flip-up">
         <a href="#aboutSection">
           <Image src="/media/ArrowDown.png" id="ArrowDownButtonImage" />
@@ -148,10 +138,10 @@ function Coming() {
   return (
     <Text
       fontSize={{ base: '12px', md: '16px', lg: '20px' }}
-      fontFamily={'PilatExtended-Bold'}
-      mt={'20px'}
+      fontFamily="PilatExtended-Bold"
+      mt="20px"
     >
-      Coming Soon..
+      Coming Soon
     </Text>
   )
 }
@@ -159,11 +149,10 @@ function Coming() {
 function Logo() {
   return (
     <Image
-      mb={'20px'}
-      zIndex="5px"
+      mb="20px"
       position="relative"
       data-aos="fade-down"
-      objectFit={'contain'}
+      objectFit="contain"
       src="/media/horizontallogo.svg"
       width={{ base: '30px', lg: '50px' }}
       height={{ base: '15px', lg: '25px' }}
