@@ -241,7 +241,7 @@ export async function FetchData(api, notificationRef, state, dispatch, force = f
           },
       }
     )
-    
+console.log(force);    
     if(projectData == ''){
       if(notificationRef)
       notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
@@ -352,4 +352,8 @@ export function getInteger(val){
 }
 export function getMultiplyInteger(val){
   return isNull(val)? "0": parseInt(parseFloat(val) * 100).toString();
+}
+export function getSeconds(val){
+  let month = 60 * 60 * 24 * 30;
+  return getInteger(val) * month;
 }

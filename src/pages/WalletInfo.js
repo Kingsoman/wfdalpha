@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { MsgExecuteContract, WasmAPI } from '@terra-money/terra.js'
 import { Link } from '@reach/router'
-import { Box, Flex, Text, Button } from '@chakra-ui/react'
+import { Box, Flex, Text, Button, HStack } from '@chakra-ui/react'
 import { FetchData, EstimateSend } from '../components/Util'
 import Notification from '../components/Notification'
 import { useStore } from '../store'
@@ -17,6 +17,8 @@ export default function UserSideSnippet() {
   const [contributes, setContributes] = useState(0)
   const [projectCount, setProjectCount] = useState(0)
   const [activeTab, setActiveTab] = useState('Account')
+  const [tokens, setTokens] = useState([])
+
   const notificationRef = useRef()
 
   //-----------connect to wallet ---------------------
@@ -32,15 +34,17 @@ export default function UserSideSnippet() {
 
       let projectCount = 0
       let totalbacked = 0
-
+      let tokens = [];
+console.log(state.connectedWallet);
+console.log(connectedWallet);
       for (let i = 0; i < projectData.length; i++) {
         let one = projectData[i]
         for (let j = 0; j < one.backer_states.length; j++) {
           if (
             one.backer_states[j].backer_wallet == connectedWallet.walletAddress
           ) {
-            projectCount++
-            totalbacked += one.backer_states[i].ust_amount
+            projectCount++;
+            totalbacked += one.backer_states[j].ust_amount.amount;
           }
         }
         for (let j = 0; j < one.communitybacker_states.length; j++) {
@@ -48,20 +52,57 @@ export default function UserSideSnippet() {
             one.communitybacker_states[j].backer_wallet ==
             connectedWallet.walletAddress
           ) {
-            projectCount++
-            totalbacked += one.backer_states[i].ust_amount
+            projectCount++;
+            totalbacked += one.communitybacker_states[j].ust_amount.amount;
           }
         }
+
+        if(one.project_id != state.wefundID && one.token_addr != ''){
+          let userInfo = await api.contractQuery(
+            state.VestingContractAddress,
+            {
+              get_user_info: {
+                project_id: one.project_id,
+                wallet: connectedWallet.walletAddress
+              }
+            }
+          )
+console.log(userInfo)
+          let pending = await api.contractQuery(
+            state.VestingContractAddress,
+            {
+              get_pending_tokens: {
+                project_id: one.project_id,
+                wallet: connectedWallet.walletAddress
+              }
+            }
+          )
+          
+          let tokenInfo = await api.contractQuery(
+            one.token_addr,
+            {
+              token_info: {}
+            }
+          )
+
+          tokens.push({
+            project_id: one.project_id,
+            symbol: tokenInfo.symbol,
+            amount: userInfo.total_amount - userInfo.released_amount,
+            pendingAmount: pending,
+          })
+        }
       }
-      setProjectCount(projectCount)
-      setContributes(totalbacked / 10 ** 6)
+      setProjectCount(projectCount);
+      setContributes(totalbacked / 10 ** 6);
+      setTokens(tokens);
     } catch (e) {
       console.log(e)
     }
   }
   useEffect(() => {
     fetchContractQuery()
-  }, [])
+  }, [connectedWallet])
 
   function addCommunityMember() {
     let CommunityMsg = {
@@ -107,6 +148,27 @@ export default function UserSideSnippet() {
     )
   }
 
+  function claim(project_id){
+    let claimMsg = {
+      claim_pending_tokens: {
+        project_id: project_id
+      }
+    }
+
+    let vestingContract = state.VestingContractAddress
+    let msg = new MsgExecuteContract(
+      connectedWallet.walletAddress,
+      vestingContract,
+      claimMsg,
+    )
+    EstimateSend(
+      connectedWallet,
+      state.lcd_client,
+      [msg],
+      'Claim pending tokens',
+      notificationRef,
+    )
+  }
   return (
     <Box color={'white'} padding={'5%'}>
       <Flex
@@ -193,7 +255,7 @@ export default function UserSideSnippet() {
         <>
           <Text fontWeight={'bold'}>Wallet address</Text>
           <Text>
-            {state.connectedWallet && state.connectedWallet.walletAddress}
+            {state.connectedWallet?.walletAddress}
           </Text>
         </>
       )}
@@ -202,6 +264,14 @@ export default function UserSideSnippet() {
         <>
           <Text mt="10px">Projects backed: {projectCount}</Text>
           <Text mt="10px">Amount contributed: {contributes}</Text>
+          {tokens.map((item, index)=>{
+            return(
+              <HStack spacing='10px' mt='10px'>
+                <Text mt='10px'>{item.pendingAmount} of {item.amount}&nbsp;{item.symbol} tokens </Text>
+                <Button color="red" onClick={() => claim(item.project_id)}>Claim</Button>
+              </HStack>
+            )
+          })}
         </>
       )}
 

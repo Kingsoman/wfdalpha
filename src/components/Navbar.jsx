@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Text,
@@ -9,6 +9,7 @@ import {
   HStack,
   ChakraProvider,
 } from '@chakra-ui/react'
+import { LCDClient } from '@terra-money/terra.js'
 import theme from '../theme'
 import '../styles/Navbar.css'
 import { Link } from '@reach/router'
@@ -16,8 +17,64 @@ import ConnectWallet from './ConnectWallet'
 import { RiAccountPinBoxFill } from 'react-icons/ri'
 import { Container } from '../components/Container'
 import { ButtonBackTransition } from '../components/ImageTransition'
+import { useStore } from '../store'
 
 export default function Navbar() {
+  const [nextNetwork, setNextNetwork] = useState('Test');
+  const {state, dispatch} = useStore();
+
+  useEffect(()=>{
+    if(state.net == 'testnet')
+      setNextNetwork("mainnet")
+    else
+      setNextNetwork("testnet")
+  }, [])
+
+  function switchNetwork(){
+    if(state.net == 'testnet'){
+      dispatch({
+        type: 'setNet',
+        message: "mainnet"
+      })
+      dispatch({
+        type: 'setLcdClient',
+        message: new LCDClient({ //mainnet
+                        URL: 'https://lcd.terra.dev',
+                        chainID: 'columbus-4',
+                      })
+      })
+      dispatch({
+        type: 'setWefundContract',
+        message: "terra1fv5syzr26rzuuycff4dzy0fvash59u53tvjdr6"
+      })
+      dispatch({
+        type: 'setVestingContract',
+        message: ""
+      })
+      setNextNetwork("testnet")
+    } else {
+      dispatch({
+        type: 'setNet',
+        message: "testnet"
+      })
+      dispatch({
+        type: 'setLcdClient',
+        message: new LCDClient({ //mainnet
+                        URL: 'https://bombay-lcd.terra.dev/',
+                        chainID: 'bombay-12',
+                      })
+      })
+      dispatch({
+        type: 'setWefundContract',
+        message: "terra16n9af2cd5rf03w9v88zp4ua6zsk4k803zvh5fe"
+      })
+      dispatch({
+        type: 'setVestingContract',
+        message: "terra1qwcjgf7p3383z45fy2wd6gthrpcst032uekgdr"
+      })
+      setNextNetwork("mainnet");
+    }
+  }
   return (
     <ChakraProvider resetCSS theme={theme}>
       <Container>
@@ -44,6 +101,9 @@ export default function Navbar() {
                 <Flex ml="10px" border="1px solid rgba(255,255,255, 0.2)" />
               </Flex>
               <DesktopNav />
+              <div onClick={switchNetwork} style={{cursor:"pointer"}}>
+                Switch to {nextNetwork}
+              </div>
             </Flex>
             <Flex mr="20px" align="center" justify="center" w="40%" h="100%">
               <ButtonBackTransition
@@ -71,6 +131,7 @@ export default function Navbar() {
               <Link to="walletInfo">
                 <Icon as={RiAccountPinBoxFill} fontSize={'45px'} />
               </Link>
+
             </Flex>
           </Flex>
         </VStack>

@@ -103,7 +103,7 @@ export default function StatusButtons({
       )}
       {activeTab === 'Fundraising' && (
         <>
-        <Text>Seed phase</Text>
+        <Text>{data.fundraising_stage} phase</Text>
         {isCreatorWallet(state, data.project_id) && (
           <ButtonTransition
             mb="10px"

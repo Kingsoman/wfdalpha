@@ -32,7 +32,8 @@ export default function ConnectWallet() {
       type: 'setConnectedWallet',
       message: connectedWallet,
     })
-
+console.log(connectedWallet);
+console.log("dispatch setConnected");
     return new LCDClient({
       URL: connectedWallet.network.lcd,
       chainID: connectedWallet.network.chainID,
@@ -52,7 +53,7 @@ export default function ConnectWallet() {
   }
 
   async function contactBalance() {
-    if (connectedWallet && connectedWallet.walletAddress && lcd) 
+    if (connectedWallet?.walletAddress && lcd) 
     {
       dispatch({ type: 'setWallet', message: connectedWallet })
 

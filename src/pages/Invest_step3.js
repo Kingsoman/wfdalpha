@@ -270,10 +270,12 @@ console.log(oneprojectData);
     let wefundContractAddress = state.WEFundContractAddress;
     let BackProjectMsg = {
         back2_project: {
+          project_id: `${project_id}`,
           backer_wallet: connectedWallet.walletAddress,
+          fundraising_stage: oneprojectData.fundraising_stage,
+          token_amount: `${state.investWfdamount}`,
           otherchain: chain,
           otherchain_wallet: walletAddress,
-          project_id: `${project_id}`
         },
     }
 

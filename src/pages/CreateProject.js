@@ -20,7 +20,8 @@ import {
   isNull,
   getVal,
   getMultiplyInteger,
-  getInteger
+  getInteger,
+  getSeconds
 } from '../components/Util'
 import Notification from '../components/Notification'
 import PageLayout from '../components/PageLayout'
@@ -329,9 +330,9 @@ export default function CreateProject() {
         stage: stages[i],
         stage_price: getMultiplyInteger(stagePrice[i]),
         stage_amount: getInteger(stageAmount[i]),
-        stage_soon: getInteger(stageVestingSoon[i]),
-        stage_after: getInteger(stageVestingAfter[i]),
-        stage_period: getInteger(stageVestingPeriod[i]),
+        stage_soon: "20",//getInteger(stageVestingSoon[i]),
+        stage_after: "60",//getSeconds(stageVestingAfter[i]),
+        stage_period: "1800"//getSeconds(stageVestingPeriod[i]),
       }
       vesting.push(stage);
       distribution_token_amount += parseInt(getInteger(stageAmount[i]));
@@ -387,6 +388,13 @@ export default function CreateProject() {
     let msgs = [add_msg];
 
     if(tokenAddress != ""){
+      let token_info = await api.contractQuery(
+        tokenAddress,
+        {
+          token_info: {},
+        }
+      )
+      distribution_token_amount = distribution_token_amount * (10**token_info.decimals);
       let ApproveMsg = {
         increase_allowance: {
           spender: wefundContractAddress,

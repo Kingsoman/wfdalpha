@@ -1,10 +1,12 @@
 import React from 'react'
 import { Flex, Text } from '@chakra-ui/react'
+import { Link, navigate } from '@reach/router'
 
 import {
   isWefundWallet,
   isCommunityWallet,
   isBackerWallet, 
+  isCreatorWallet, 
   }  from '../../Util'
 
 import { ButtonTransition } from '../../ImageTransition'
@@ -16,7 +18,8 @@ export default function StatusButtons({
   activeTab,
   WefundApprove,
   CommunityVote,
-  MilestoneVote
+  MilestoneVote,
+  NextFundraisingStage
 }) 
 {
   const { state, dispatch } = useStore()
@@ -90,6 +93,24 @@ export default function StatusButtons({
         </Flex>
       )}
       {activeTab === 'Fundraising' && (
+        <>
+        <Text>{data.fundraising_stage} phase</Text>
+        {isCreatorWallet(state, data.project_id) && (
+          <ButtonTransition
+            mb="10px"
+            rounded="30px"
+            selected={false}
+            unitid={'next stage' + index}
+            width="180px"
+            height="40px"
+            fontSize={{ base: '14px', lg: '16px' }}
+            onClick={() => {NextFundraisingStage(data.project_id, data.fundraising_stage)}}
+          >
+            <Text fontSize={{ base: '14px', lg: '16px' }} >
+              Next Stage
+            </Text>
+          </ButtonTransition>
+        )}
         <ButtonTransition
           unitid={'visit' + index}
           width="180px"
@@ -105,6 +126,7 @@ export default function StatusButtons({
         >
           <Text fontSize={'15px'}>Back Project</Text>
         </ButtonTransition>
+        </>
       )}
       {activeTab === 'MileStoneDelivery' && isBackerWallet(state, data.project_id) && (
         <Flex justify={'space-between'}>

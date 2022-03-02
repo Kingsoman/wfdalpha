@@ -3,12 +3,6 @@ import { LCDClient } from '@terra-money/terra.js'
 
 const StoreContext = createContext()
 
-// vesting
-// terra18w3kjp23gf6w98fhfd8w8h74c8urs3gppfzxt5
-
-// Fundraising
-// terra1vzzsvansrcml0dzp774cz8m0vdyrhg9l55zx7c
-
 //  WFD
 // terra1pkytkcanua4uazlpekve7qyhg2c5xwwjr4429d
 
@@ -16,9 +10,11 @@ const initialState = {
   net: 'testnet',
   // net: 'mainnet',
 
-  WEFundContractAddress: "terra1gyhpv64wqnzq8m9j29u7085qxg3m30xszmz2tm", //testnet v2.3
+  WEFundContractAddress: "terra16n9af2cd5rf03w9v88zp4ua6zsk4k803zvh5fe", //testnet v2.3
 	// WEFundContractAddress: 'terra1fv5syzr26rzuuycff4dzy0fvash59u53tvjdr6', //mainnet v2.3
   
+  VestingContractAddress: "terra15tpq4hvvl0mmr72n290m3lzl4nm4kz5w0np804", //testnet
+
   presale: true,
   referralCount: 0,
   referralLink: '',
@@ -27,7 +23,7 @@ const initialState = {
   oneprojectData: '',
   communityData: '',
   configData: '',
-  connectedWallet: '',
+  connectedWallet: [],
   timer: '',
   wallet: {},
   allNativeCoins: [],
@@ -59,6 +55,14 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'setNet':
+      return { ...state, net: action.message }
+    case 'setLcdClient':
+      return { ...state, lcd_client: action.message }
+    case 'setWefundContract':
+      return { ...state, WEFundContractAddress: action.message }
+    case 'setVestingContract':
+      return { ...state, VestingContractAddress: action.message }
     case 'setPresale':
       return { ...state, presale: action.message }
     case 'setReferralCount':

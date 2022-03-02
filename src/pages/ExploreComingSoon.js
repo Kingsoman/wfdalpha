@@ -394,6 +394,7 @@ console.log(stage);
                                 WefundApprove = {WefundApprove}
                                 CommunityVote = {CommunityVote}
                                 MilestoneVote = {MilestoneVote}
+                                NextFundraisingStage = {NextFundraisingStage}
                               />
                             </Flex>
                           </Flex>
