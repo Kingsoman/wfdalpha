@@ -23,7 +23,13 @@ export default function ConnectWallet() {
 
   const lcd = useMemo(() => {
     if (!connectedWallet) {
-      setConnected(false)
+      setConnected(false);
+      dispatch({
+        type: 'setConnectedWallet',
+        message: '',
+      })
+console.log(connectedWallet);
+console.log("dispatch setUnConnected");
       return null
     }
     setConnected(true)

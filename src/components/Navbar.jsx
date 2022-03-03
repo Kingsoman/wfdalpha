@@ -93,7 +93,7 @@ export default function Navbar() {
       type: 'setActiveProjectData',
       message: ''
     })
-    // navigate("/");
+    navigate("/");
   }
   const SwitchButton = () => {
     return(

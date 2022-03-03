@@ -40,12 +40,6 @@ import Milestones from '../components/CreateProject/Milestone/Milestones'
 import TeamMembers from '../components/CreateProject/TeamMember/TeamMembers'
 import Stages from '../components/CreateProject/Stage/Stages'
 
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-  useConnectedWallet =
-    require('@terra-money/wallet-provider').useConnectedWallet
-}
-
 export default function CreateProject() {
   const { state, dispatch } = useStore()
   const [isUST, setIsUST] = useState(true)
@@ -90,15 +84,8 @@ export default function CreateProject() {
   const [milestoneStartdate, setMilestoneStartdate] = useState([''])
   const [milestoneEnddate, setMilestoneEnddate] = useState([''])
 
-  //---------------wallet connect-------------------------------------
-  let connectedWallet = ''
-
-  if (typeof document !== 'undefined') {
-    connectedWallet = useConnectedWallet()
-  }
   useEffect(() => {
-    CheckNetwork(connectedWallet, notificationRef, state);
-    connectedWallet = state.connectedWallet;
+    CheckNetwork(state.connectedWallet, notificationRef, state);
   }, [state.connectedWallet])
   
   //----------init api, lcd-------------------------
@@ -109,7 +96,7 @@ export default function CreateProject() {
 
   //---------------create project---------------------------------
   const checkInvalidation = async () => {
-    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false;
   
     let { projectData, communityData, configData } = await FetchData(
@@ -359,7 +346,7 @@ export default function CreateProject() {
 
     let AddProjectMsg = {
       add_project: {
-        creator_wallet: connectedWallet.walletAddress,
+        creator_wallet: state.connectedWallet.walletAddress,
         project_company: company,
         project_title: title,
         project_description: description,
@@ -381,7 +368,7 @@ export default function CreateProject() {
     let wefundContractAddress = state.WEFundContractAddress
 
     let add_msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       AddProjectMsg,
     )
@@ -403,7 +390,7 @@ export default function CreateProject() {
       }
 
       let approve_msg = new MsgExecuteContract(
-        connectedWallet.walletAddress,
+        state.connectedWallet.walletAddress,
         tokenAddress,
         ApproveMsg,
       )
@@ -411,7 +398,7 @@ export default function CreateProject() {
     }
 
     let res = await EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
       msgs,
       'Create Project success',

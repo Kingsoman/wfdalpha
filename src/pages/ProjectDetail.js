@@ -33,12 +33,6 @@ import {
   ParseParam,
   }  from '../components/Util'
 
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-  useConnectedWallet =
-    require('@terra-money/wallet-provider').useConnectedWallet
-}
-
 export default function ProjectDetail() {
   const { state, dispatch } = useStore()
   const [oneprojectData, setOneprojectData] = useState('');
@@ -49,12 +43,6 @@ export default function ProjectDetail() {
 
   //------------parse URL for project id----------------------------
   let project_id = ParseParam();
-
-  //------------connect wallet ---------------------------------
-  let connectedWallet = ''
-  if (typeof document !== 'undefined') {
-    connectedWallet = useConnectedWallet()
-  }
 
   //------------init api, lcd ----------------------------------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
@@ -138,11 +126,11 @@ export default function ProjectDetail() {
 
   useEffect(() => {
     fetchContractQuery()
-  }, [connectedWallet])
+  }, [state.connectedWallet])
 
 //------------Wefund Approve-----------------
   function WefundApprove(project_id){
-    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false;
 
     let deadline = Date.now() + 1000*60*60*24*15; //for 15days
@@ -155,15 +143,15 @@ export default function ProjectDetail() {
 
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       WefundApproveMsg,
     )
-    EstimateSend(connectedWallet, state.lcd_client, [msg], "WeFund Approve success", notificationRef);
+    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "WeFund Approve success", notificationRef);
   }
   //-----------Community Vote----------------
   function CommunityVote(project_id, voted, leftTime){
-    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false;
 
     if(leftTime <= 0){
@@ -173,38 +161,38 @@ export default function ProjectDetail() {
     let CommunityVoteMsg = {
       set_community_vote: {
         project_id: project_id,
-        wallet: connectedWallet.walletAddress,
+        wallet: state.connectedWallet.walletAddress,
         voted: voted
       },
     }
 
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       CommunityVoteMsg,
     )
-    EstimateSend(connectedWallet, state.lcd_client, [msg], "Community vote success", notificationRef);
+    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Community vote success", notificationRef);
   }
   function MilestoneVote(project_id, voted){
-    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false;
 
     let MilestoneVoteMsg = {
       set_milestone_vote: {
         project_id: project_id,
-        wallet: connectedWallet.walletAddress,
+        wallet: state.connectedWallet.walletAddress,
         voted: voted
       },
     }
 
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       MilestoneVoteMsg,
     )
-    EstimateSend(connectedWallet, state.lcd_client, [msg], "Milestone vote success", notificationRef);
+    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Milestone vote success", notificationRef);
   }
     //--Pop Ups for Projects
   const { isOpen: isVoteBoxOpen, onOpen: onVoteBoxOpen, onClose: onVoteBoxClose  } = useDisclosure()

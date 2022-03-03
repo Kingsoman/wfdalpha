@@ -10,12 +10,6 @@ import { useStore } from '../store'
 import Notification from '../components/Notification'
 import { EstimateSend, CheckNetwork, FetchData, isCommunityWallet, GetOneProject } from '../components/Util'
 
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-    useConnectedWallet =
-        require('@terra-money/wallet-provider').useConnectedWallet
-}
-
 export default function BackProject() {
   const { state, dispatch } = useStore();
   const [condition, setCondition] = useState(false);
@@ -30,11 +24,6 @@ export default function BackProject() {
     queryString = window.location.search;
     urlParams = new URLSearchParams(queryString);
     project_id = urlParams.get('project_id')
-  }
-//-----------connect wallet---------------------------
-  let connectedWallet = ''
-  if (typeof document !== 'undefined') {
-      connectedWallet = useConnectedWallet()
   }
 
   //----------init api, lcd-------------------------
@@ -80,12 +69,12 @@ export default function BackProject() {
 
   useEffect(() => {
     fetchContractQuery()
-  }, [connectedWallet])
+  }, [state.connectedWallet])
   
 //---------------------back project-----------------------------
   async function backProject()
   {
-    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false;
 
     if(backAmount != parseInt(backAmount).toString()){
@@ -128,20 +117,20 @@ export default function BackProject() {
     let wefundContractAddress = state.WEFundContractAddress;
     let BackProjectMsg = {
         back2_project: {
-          backer_wallet: connectedWallet.walletAddress,
+          backer_wallet: state.connectedWallet.walletAddress,
           project_id: `${_project_id}`
         },
     }
 
     let amount = parseInt(backAmount * 1000000 * 105 / 100);
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       BackProjectMsg,
       {uusd: amount}
     )
 
-    EstimateSend(connectedWallet, lcd, [msg], "Back to Project Success", notificationRef);
+    EstimateSend(state.connectedWallet, lcd, [msg], "Back to Project Success", notificationRef);
   }
 
   return (

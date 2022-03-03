@@ -264,8 +264,10 @@ console.log(projectData);
   return {projectData, communityData, configData};
 }
 export function GetOneProject(projectData, project_id){
+  if(projectData == '')
+    return '';
   const isProject = (element) => element.project_id == project_id;
-  const index = projectData.findIndex(isProject);
+  const index = projectData?.findIndex(isProject);
   if(index == -1)
     return '';
   return projectData[index];

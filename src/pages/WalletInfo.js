@@ -6,12 +6,6 @@ import { FetchData, EstimateSend } from '../components/Util'
 import Notification from '../components/Notification'
 import { useStore } from '../store'
 
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-  useConnectedWallet =
-    require('@terra-money/wallet-provider').useConnectedWallet
-}
-
 export default function UserSideSnippet() {
   const { state, dispatch } = useStore()
   const [contributes, setContributes] = useState(0)
@@ -20,12 +14,6 @@ export default function UserSideSnippet() {
   const [tokens, setTokens] = useState([])
 
   const notificationRef = useRef()
-
-  //-----------connect to wallet ---------------------
-  let connectedWallet = ''
-  if (typeof document !== 'undefined') {
-    connectedWallet = useConnectedWallet()
-  }
 
   async function fetchContractQuery() {
     try {
@@ -36,12 +24,12 @@ export default function UserSideSnippet() {
       let totalbacked = 0
       let tokens = [];
 console.log(state.connectedWallet);
-console.log(connectedWallet);
+
       for (let i = 0; i < projectData.length; i++) {
         let one = projectData[i]
         for (let j = 0; j < one.backer_states.length; j++) {
           if (
-            one.backer_states[j].backer_wallet == connectedWallet.walletAddress
+            one.backer_states[j].backer_wallet == state.connectedWallet.walletAddress
           ) {
             projectCount++;
             totalbacked += one.backer_states[j].ust_amount.amount;
@@ -50,7 +38,7 @@ console.log(connectedWallet);
         for (let j = 0; j < one.communitybacker_states.length; j++) {
           if (
             one.communitybacker_states[j].backer_wallet ==
-            connectedWallet.walletAddress
+            state.connectedWallet.walletAddress
           ) {
             projectCount++;
             totalbacked += one.communitybacker_states[j].ust_amount.amount;
@@ -63,7 +51,7 @@ console.log(connectedWallet);
             {
               get_user_info: {
                 project_id: one.project_id,
-                wallet: connectedWallet.walletAddress
+                wallet: state.connectedWallet.walletAddress
               }
             }
           )
@@ -73,7 +61,7 @@ console.log(userInfo)
             {
               get_pending_tokens: {
                 project_id: one.project_id,
-                wallet: connectedWallet.walletAddress
+                wallet: state.connectedWallet.walletAddress
               }
             }
           )
@@ -102,23 +90,23 @@ console.log(userInfo)
   }
   useEffect(() => {
     fetchContractQuery()
-  }, [connectedWallet])
+  }, [state.connectedWallet])
 
   function addCommunityMember() {
     let CommunityMsg = {
       add_communitymember: {
-        wallet: connectedWallet.walletAddress,
+        wallet: state.connectedWallet.walletAddress,
       },
     }
 
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       CommunityMsg,
     )
     EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
       [msg],
       'Add community success',
@@ -129,18 +117,18 @@ console.log(userInfo)
   function removeCommunityMember() {
     let CommunityMsg = {
       remove_communitymember: {
-        wallet: connectedWallet.walletAddress,
+        wallet: state.connectedWallet.walletAddress,
       },
     }
 
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       CommunityMsg,
     )
     EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
       [msg],
       'Remove community success',
@@ -157,12 +145,12 @@ console.log(userInfo)
 
     let vestingContract = state.VestingContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       vestingContract,
       claimMsg,
     )
     EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
       [msg],
       'Claim pending tokens',

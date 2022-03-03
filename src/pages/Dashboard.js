@@ -25,12 +25,6 @@ import Footer from '../components/Footer'
 import Notification from '../components/Notification'
 import {EstimateSend, FetchData} from '../components/Util'
 
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-  useConnectedWallet =
-    require('@terra-money/wallet-provider').useConnectedWallet
-}
-
 export default function ExplorerProject() {
   const { state, dispatch } = useStore()
   const [wallet, setWallet] = useState('');
@@ -67,11 +61,6 @@ export default function ExplorerProject() {
     setPostCommunityData(state.communityData.slice(offset, offset+pageSize));
   }
 
-  //-----------connect to wallet ---------------------
-  let connectedWallet = ''
-  if (typeof document !== 'undefined') {
-    connectedWallet = useConnectedWallet()
-  }
   //------------notification setting---------------------------------
   const notificationRef = useRef();
 

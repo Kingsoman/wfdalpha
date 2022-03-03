@@ -41,12 +41,6 @@ import MobileStatusButtons from '../components/ProjectExplorer/Mobile/StatusButt
 import MobileInformations from '../components/ProjectExplorer/Mobile/Informations'
 import MobileMainButtons from '../components/ProjectExplorer/Mobile/MainButtons'
 
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-  useConnectedWallet =
-    require('@terra-money/wallet-provider').useConnectedWallet
-}
-
 export default function ExplorerProject() {
   const navigate = useNavigate()
   const { state, dispatch } = useStore()
@@ -112,10 +106,6 @@ export default function ExplorerProject() {
     setPostProjectData(state.activeProjectData.slice(offset, offset + pageSize))
   }
   //-----------connect to wallet ---------------------
-  let connectedWallet = ''
-  if (typeof document !== 'undefined') {
-    connectedWallet = useConnectedWallet()
-  }
 
   const notificationRef = useRef()
   const api = new WasmAPI(state.lcd_client.apiRequester)
@@ -146,11 +136,11 @@ export default function ExplorerProject() {
 
   //------------Wefund Approve-----------------
   async function WefundApprove(project_id) {
-    if (CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false
     let deadline = Date.now() + 1000 * 60 * 60 * 24 * 15 //for 15days
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       state.WEFundContractAddress,
       { 
         wefund_approve: { 
@@ -160,7 +150,7 @@ export default function ExplorerProject() {
       }
     )
     await EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
       [msg],
       'WeFund Approve success',
@@ -172,18 +162,18 @@ export default function ExplorerProject() {
 
   //-----------Community Vote----------------
   async function CommunityVote(project_id, voted, leftTime) {
-    if (CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false
     if (leftTime <= 0) {
       notificationRef.current.showNotification('Time is expired', 'error', 4000)
       return
     }
-    let wallet = connectedWallet.walletAddress
+    let wallet = state.connectedWallet.walletAddress
     let msg = new MsgExecuteContract(wallet, state.WEFundContractAddress, {
       set_community_vote: { project_id, wallet, voted },
     })
     await EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
       [msg],
       'Community vote success',
@@ -194,9 +184,9 @@ export default function ExplorerProject() {
   }
 
   async function MilestoneVote(project_id, voted) {
-    if (CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false
-    let wallet = connectedWallet.walletAddress
+    let wallet = state.connectedWallet.walletAddress
     let MilestoneVoteMsg = { set_milestone_vote: { project_id, wallet, voted } }
 
     let wefundContractAddress = state.WEFundContractAddress
@@ -206,7 +196,7 @@ export default function ExplorerProject() {
       MilestoneVoteMsg,
     )
     EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
       [msg],
       'Milestone vote success',
@@ -217,9 +207,9 @@ export default function ExplorerProject() {
   }
 
   async function NextFundraisingStage(project_id, curStage){
-    if (CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false
-    let wallet = connectedWallet.walletAddress;
+    let wallet = state.connectedWallet.walletAddress;
 
     let stage = '';
     switch(curStage.toLowerCase()){
@@ -230,7 +220,7 @@ export default function ExplorerProject() {
       default:
         return;
     }
-console.log(stage);
+
     let FundraisingMsg = { set_fundraising_stage: { project_id, stage } }
 
     let wefundContractAddress = state.WEFundContractAddress
@@ -240,7 +230,7 @@ console.log(stage);
       FundraisingMsg,
     )
     EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
       [msg],
       'Set Fundraising stage success',
