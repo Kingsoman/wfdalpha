@@ -255,7 +255,7 @@ console.log(force);
 
       projectData = AddExtraInfo(state, projectData, communityData);
       dispatch({
-        type: 'setProjectdata',
+        type: 'setProjectData',
         message: projectData,
       })  
     }

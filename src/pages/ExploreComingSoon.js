@@ -252,7 +252,7 @@ console.log(stage);
   //---------initialize fetching---------------------
   useEffect(() => {
     fetchContractQuery()
-  }, [activeTab])
+  }, [activeTab, state.net])
 
   return (
     <ChakraProvider resetCSS theme={theme}>
