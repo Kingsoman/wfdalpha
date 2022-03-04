@@ -17,7 +17,7 @@ import ConnectWallet from './ConnectWallet'
 import { RiAccountPinBoxFill } from 'react-icons/ri'
 import { Container } from '../components/Container'
 import { ButtonBackTransition } from '../components/ImageTransition'
-import { useStore } from '../store'
+import { useStore, WEFUND_MAIN, WEFUND_TEST, VESTING_MAIN, VESTING_TEST } from '../store'
 import { FetchData } from './Util'
 export default function Navbar() {
   const [nextNetwork, setNextNetwork] = useState('Test');
@@ -39,7 +39,8 @@ export default function Navbar() {
       })
       lcdClient = new LCDClient({ //mainnet
         URL: 'https://lcd.terra.dev',
-        chainID: 'columbus-4',
+        chainID: 'columbus-5',
+        gasPrices: { uusd: 0.45 },
       })
       dispatch({
         type: 'setLcdClient',
@@ -47,11 +48,11 @@ export default function Navbar() {
       })
       dispatch({
         type: 'setWefundContract',
-        message: "terra1j0yx7nrxuyt6vrhtagdn4z8z8qy3ch7aglj32k"
+        message: WEFUND_MAIN
       })
       dispatch({
         type: 'setVestingContract',
-        message: "terra1lc80529cg7lm2eyzjvax3p60jwst6u4v7yswza"
+        message: VESTING_MAIN
       })
       setNextNetwork("testnet")
     } else {
@@ -59,9 +60,10 @@ export default function Navbar() {
         type: 'setNet',
         message: "testnet"
       })
-      lcdClient = new LCDClient({ //mainnet
+      lcdClient = new LCDClient({ //testnet
         URL: 'https://bombay-lcd.terra.dev/',
         chainID: 'bombay-12',
+        gasPrices: { uusd: 0.45 },
       })
       dispatch({
         type: 'setLcdClient',
@@ -69,11 +71,11 @@ export default function Navbar() {
       })
       dispatch({
         type: 'setWefundContract',
-        message: "terra16n9af2cd5rf03w9v88zp4ua6zsk4k803zvh5fe"
+        message: WEFUND_TEST
       })
       dispatch({
         type: 'setVestingContract',
-        message: "terra15tpq4hvvl0mmr72n290m3lzl4nm4kz5w0np804"
+        message: VESTING_TEST
       })
       setNextNetwork("mainnet");
     }
@@ -119,11 +121,7 @@ export default function Navbar() {
             <Flex w="50%" h="100%" align="center" justify="space-between">
               <Flex ml="90px">
                 <Link className="navbar-brand" to="/">
-                  <Image
-                    alt="Wefund"
-                    src="/media/WeFund-Logos-only.png"
-                    h="30px"
-                  />
+                  <Image alt="WeFund" src="/media/WeFund-Logos-only.png" h="30px" />
                 </Link>
                 <Flex ml="10px" border="1px solid rgba(255,255,255, 0.2)" />
               </Flex>
@@ -149,7 +147,6 @@ export default function Navbar() {
                   </Box>
                 </Link>
               </ButtonBackTransition>
-
               <Flex w="197px" ml="20px" mr={'10px'}>
                 <ConnectWallet />
               </Flex>
@@ -173,11 +170,7 @@ export default function Navbar() {
           >
             <Flex ml="30px" align="center">
               <Link className="navbar-brand" to="/">
-                <Image
-                  alt="Wefund"
-                  src="/media/WeFund-Logos-only.png"
-                  h="25px"
-                />
+                <Image alt="WeFund" src="/media/WeFund-Logos-only.png" h="25px" />
               </Link>
               <SwitchButton/>
             </Flex>
@@ -258,10 +251,10 @@ const NAV_ITEMS = [
   //    label: 'Contact',
   //    href: '#',
   //  },
-  {
-    label: 'Blog',
-    href: '/blog',
-  },
+  // {
+  //   label: 'Blog',
+  //   href: '/blog',
+  // },
   // {
   //   label: 'FAQ',
   //   href: 'faq',

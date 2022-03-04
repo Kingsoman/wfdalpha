@@ -60,7 +60,7 @@ export default function CreateProject() {
   const [teammemberLinkedin, setTeammemberLinkedin] = useState([''])
   const [teammemberRole, setTeammemberRole] = useState([''])
 
-  const stages = ['Seed', 'Presale', 'IDO']
+  const [stageTitle, setStageTitle] = useState(['Seed'])
   const [stagePrice, setStagePrice] = useState([''])
   const [stageAmount, setStageAmount] = useState([''])
   const [stageVestingSoon, setStageVestingSoon] = useState([''])
@@ -288,6 +288,9 @@ export default function CreateProject() {
   }
 
   async function createProject() {
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+      return false;
+
     if(await checkInvalidation() == false)
       return false;
 
@@ -312,9 +315,9 @@ export default function CreateProject() {
 
     let vesting = []
     let distribution_token_amount = 0;
-    for (let i = 0; i < stages.length; i++){
+    for (let i = 0; i < stageTitle.length; i++){
       let stage = {
-        stage: stages[i],
+        stage_title: stageTitle[i],
         stage_price: getMultiplyInteger(stagePrice[i]),
         stage_amount: getInteger(stageAmount[i]),
         stage_soon: "20",//getInteger(stageVestingSoon[i]),
@@ -492,7 +495,8 @@ console.log(res);
             />
           </Stack>
           <Stages
-            stages = {stages}
+            stageTitle = {stageTitle}
+            setStageTitle = {setStageTitle}
             stagePrice = {stagePrice}
             setStagePrice = {setStagePrice}
             stageAmount = {stageAmount}

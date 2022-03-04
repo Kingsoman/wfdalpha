@@ -45,6 +45,7 @@ export default function CustomInput({typeText, type, setType, w, mt}) {
             rounded="md"
             value={type}
             onChange={(e) => onChangeType(e)}
+            // readOnly=
           />
         </InputGroup>
       </InputTransition>

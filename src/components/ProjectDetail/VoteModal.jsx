@@ -16,14 +16,13 @@ import { useStore } from '../../store'
 export default function VoteModal({
   data,
   onClose,
-  isVoteBoxOpen,
-  onVoteBoxClose,
+  isOpen,
   MilestoneVote
 }) 
 {
   const { state, dispatch } = useStore()
   return (
-    <Modal onClose={onVoteBoxClose} isOpen={isVoteBoxOpen} isCentered>
+    <Modal onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Vote for Each Milestone of the Project</ModalHeader>
@@ -42,7 +41,7 @@ export default function VoteModal({
           </Text>
         </ModalBody>
         <ModalFooter>
-            <Button colorScheme='grey' mr={3} onClick={onVoteBoxClose}>
+            <Button colorScheme='grey' mr={3} onClick={onClose}>
               Close
             </Button>
             <Button colorScheme='blue' mr={3}

@@ -39,6 +39,7 @@ export default function ProjectDetail() {
   const [totalBackedMoney, setTotalBackedMoney] = useState(0)
   const [totalBackedPercent, setTotalBackedPercent] = useState(0)
   const { isOpen, onOpen, onClose } = useDisclosure()
+
   const navigate = useNavigate()
 
   //------------parse URL for project id----------------------------
@@ -195,7 +196,6 @@ export default function ProjectDetail() {
     EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Milestone vote success", notificationRef);
   }
     //--Pop Ups for Projects
-  const { isOpen: isVoteBoxOpen, onOpen: onVoteBoxOpen, onClose: onVoteBoxClose  } = useDisclosure()
 
   return (
     <ChakraProvider resetCSS theme={theme}>
@@ -251,8 +251,7 @@ export default function ProjectDetail() {
       <VoteModal 
         data = {oneprojectData}
         onClose = {onClose}
-        isVoteBoxOpen = {isVoteBoxOpen}
-        onVoteBoxClose = {onVoteBoxClose}
+        isOpen = {isOpen}
         MilestoneVote = {MilestoneVote}
       />
     </ChakraProvider>

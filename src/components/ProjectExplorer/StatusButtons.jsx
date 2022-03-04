@@ -6,8 +6,9 @@ import {
   isWefundWallet,
   isCommunityWallet,
   isBackerWallet,
-  isCreatorWallet, 
-  }  from '../Util'
+  isCreatorWallet,
+  getStageTitle,
+} from '../Util'
 
 import { ButtonTransition } from '../ImageTransition'
 import { useStore } from '../../store'
@@ -20,8 +21,7 @@ export default function StatusButtons({
   CommunityVote,
   MilestoneVote,
   NextFundraisingStage,
-}) 
-{
+}) {
   const { state, dispatch } = useStore()
   return (
     <>
@@ -103,42 +103,42 @@ export default function StatusButtons({
       )}
       {activeTab === 'Fundraising' && (
         <>
-        <Text>{data.fundraising_stage} phase</Text>
-        {isCreatorWallet(state, data.project_id) && (
+          <Text>{getStageTitle(data)} phase</Text>
+          {isCreatorWallet(state, data.project_id) && (
+            <ButtonTransition
+              mb="10px"
+              rounded="33px"
+              selected={false}
+              unitid={'next stage' + index}
+              width="150px"
+              height="45px"
+              fontSize={{ base: '14px', lg: '16px' }}
+              onClick={() => { NextFundraisingStage(data.project_id, data.fundraising_stage) }}
+            >
+              <Text fontSize={{ base: '14px', lg: '16px' }} >
+                Next Stage
+              </Text>
+            </ButtonTransition>
+          )}
           <ButtonTransition
             mb="10px"
             rounded="33px"
             selected={false}
-            unitid={'next stage' + index}
+            unitid={'visit' + index}
             width="150px"
             height="45px"
             fontSize={{ base: '14px', lg: '16px' }}
-            onClick={() => {NextFundraisingStage(data.project_id, data.fundraising_stage)}}
+            onClick={() => {
+              navigate(
+                '/invest_step1?project_id=' +
+                data.project_id,
+              )
+            }}
           >
             <Text fontSize={{ base: '14px', lg: '16px' }} >
-              Next Stage
+              Back Project
             </Text>
           </ButtonTransition>
-        )}
-        <ButtonTransition
-          mb="10px"
-          rounded="33px"
-          selected={false}
-          unitid={'visit' + index}
-          width="150px"
-          height="45px"
-          fontSize={{ base: '14px', lg: '16px' }}
-          onClick={() => {
-            navigate(
-              '/invest_step1?project_id=' +
-                data.project_id,
-            )
-          }}
-        >
-          <Text fontSize={{ base: '14px', lg: '16px' }} >
-            Back Project
-          </Text>
-        </ButtonTransition>
         </>
       )}
       {activeTab === 'MileStoneDelivery' && isBackerWallet(state, data.project_id) && (

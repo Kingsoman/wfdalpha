@@ -73,7 +73,7 @@ export default function ProjectInformations({ data, totalBackedMoney, totalBacke
             fontFamily={'Pilat-Extended'}
             fontWeight={'700'}
             fontSize={'18px'}>
-            {data.backer_states && data.backer_states.length}
+            {data.backer_states?.length}
           </Text>
         </Flex>
       </HStack>

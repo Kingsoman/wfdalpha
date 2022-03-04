@@ -1,4 +1,4 @@
-import React,{ useRef, useState, useEffect, forwardRef, useCallback } from 'react'
+import React, { useRef, useState, useEffect, forwardRef, useCallback } from 'react'
 import {
   Box,
   Flex,
@@ -12,6 +12,7 @@ import {
   EstimateSend,
   CheckNetwork,
   GetProjectStatus,
+  GetOneProject
 } from '../components/Util'
 
 import theme from '../theme'
@@ -76,8 +77,8 @@ export default function ExplorerProject() {
       for (let i = 0; i < postRef.current.length; i++) {
         postRef.current[i].leftTime = parseInt(
           (parseInt(postRef.current[i].community_vote_deadline) - Date.now()) /
-            1000 /
-            60,
+          1000 /
+          60,
         ) //for minutes
       }
       setPostProjectData(postRef.current)
@@ -142,11 +143,11 @@ export default function ExplorerProject() {
     let msg = new MsgExecuteContract(
       state.connectedWallet.walletAddress,
       state.WEFundContractAddress,
-      { 
-        wefund_approve: { 
-          project_id: project_id, 
-          deadline: `${deadline}` 
-        } 
+      {
+        wefund_approve: {
+          project_id: project_id,
+          deadline: `${deadline}`
+        }
       }
     )
     await EstimateSend(
@@ -206,26 +207,26 @@ export default function ExplorerProject() {
     fetchContractQuery(true)
   }
 
-  async function NextFundraisingStage(project_id, curStage){
+  async function NextFundraisingStage(project_id, curStage) {
     if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
-      return false
-    let wallet = state.connectedWallet.walletAddress;
+      return false;
 
-    let stage = '';
-    switch(curStage.toLowerCase()){
-      case 'seed':
-        stage = 'Presale'; break;
-      case 'presale':
-        stage = 'IDO'; break;
-      default:
-        return;
-    }
+    let { projectData } = await FetchData(api, notificationRef, state, dispatch)
 
+    let stage = parseInt(curStage);
+    let data = GetOneProject(projectData, project_id);
+console.log(data)
+    if (stage < data.vesting.length - 1)
+      stage = stage + 1;
+    else
+      return false;
+
+    stage = stage.toString();
     let FundraisingMsg = { set_fundraising_stage: { project_id, stage } }
 
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      wallet,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       FundraisingMsg,
     )
@@ -303,15 +304,15 @@ export default function ExplorerProject() {
                           <Logo data={e} />
                           <Box py={4} px={2} w="100%">
                             <Flex justify={'space-between'} mb={'20px'} alignItems='center'>
-                              <Title activeTab={activeTab} data = {e} />
+                              <Title activeTab={activeTab} data={e} />
                               <StatusButtons
-                                index = {index}
+                                index={index}
                                 data={e}
-                                activeTab = {activeTab}
-                                WefundApprove = {WefundApprove}
-                                CommunityVote = {CommunityVote}
-                                MilestoneVote = {MilestoneVote}
-                                NextFundraisingStage = {NextFundraisingStage}
+                                activeTab={activeTab}
+                                WefundApprove={WefundApprove}
+                                CommunityVote={CommunityVote}
+                                MilestoneVote={MilestoneVote}
+                                NextFundraisingStage={NextFundraisingStage}
                               />
                             </Flex>
 
@@ -321,15 +322,15 @@ export default function ExplorerProject() {
                             >
                               <Description data={e} />
                               <CircularProgresses
-                                activeTab = {activeTab}
+                                activeTab={activeTab}
                                 data={e}
-                                sz={{ base: '80px', md: '120px', lg: '150px'}}
+                                sz={{ base: '80px', md: '120px', lg: '150px' }}
                               />
                             </Flex>
                             <ExtraInfos activeTab={activeTab} data={e} />
                             <HStack justify="space-between" mt={'10px'}>
-                              <Informations data={e}/>
-                              <MainButtons index = {index} data={e}/>
+                              <Informations data={e} />
+                              <MainButtons index={index} data={e} />
                             </HStack>
                           </Box>
                         </HStack>
@@ -376,15 +377,15 @@ export default function ExplorerProject() {
                               flexDirection={'column'}
                               justify={'space-between'}
                             >
-                              <MobileInformations data={e}/>
-                              <MobileStatusButtons 
-                                index = {index}
+                              <MobileInformations data={e} />
+                              <MobileStatusButtons
+                                index={index}
                                 data={e}
-                                activeTab = {activeTab}
-                                WefundApprove = {WefundApprove}
-                                CommunityVote = {CommunityVote}
-                                MilestoneVote = {MilestoneVote}
-                                NextFundraisingStage = {NextFundraisingStage}
+                                activeTab={activeTab}
+                                WefundApprove={WefundApprove}
+                                CommunityVote={CommunityVote}
+                                MilestoneVote={MilestoneVote}
+                                NextFundraisingStage={NextFundraisingStage}
                               />
                             </Flex>
                           </Flex>
@@ -393,16 +394,16 @@ export default function ExplorerProject() {
                             <CircularProgresses value={e} sz="120px" />
                           </Flex>
 
-                          <MobileMainButtons index = {index} data={e} />
+                          <MobileMainButtons index={index} data={e} />
                         </Flex>
                       ))}
                     </Flex>
                   </Flex>
                 </Flex>
-                <ProjectPaginator 
-                  current = {current}
-                  pagesize = {pageSize}
-                  onChangePaginator = {onChangePaginator}
+                <ProjectPaginator
+                  current={current}
+                  pagesize={pageSize}
+                  onChangePaginator={onChangePaginator}
                 />
               </VStack>
             </Flex>

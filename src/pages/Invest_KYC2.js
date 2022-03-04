@@ -101,7 +101,7 @@ export default function InvestKYC2() {
                 fontWeight={'300'}
                 fontFamily={'Pilat Extended'}
               >
-                Lets Get You Verified
+                Let's Get You Verified
               </Text>
               <Text
                 fontSize="16px"
@@ -118,7 +118,7 @@ export default function InvestKYC2() {
                 identification
                 <br />
                 <br />
-                Wefund also require you to confirm your acceptance of your
+                WeFund also requires you to confirm your acceptance of your
                 personal data handling by us
               </Text>
             </Flex>

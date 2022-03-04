@@ -25,7 +25,7 @@ import Footer from '../components/Footer'
 import Notification from '../components/Notification'
 import {EstimateSend, FetchData} from '../components/Util'
 
-export default function ExplorerProject() {
+export default function Dashboard() {
   const { state, dispatch } = useStore()
   const [wallet, setWallet] = useState('');
   //-------------paginator------------------------------
@@ -90,11 +90,11 @@ console.log(communityData);
   
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       CommunityMsg,
     )
-    EstimateSend(connectedWallet, state.lcd_client, [msg], "Add Community success", notificationRef);
+    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Add Community success", notificationRef);
   }
 
   function removeCommunityMember(wallet){
@@ -106,17 +106,17 @@ console.log(communityData);
   
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       CommunityMsg,
     )
-    EstimateSend(connectedWallet, state.lcd_client, [msg], "Remove Community success", notificationRef);
+    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Remove Community success", notificationRef);
   }
   
   //---------initialize fetching---------------------
   useEffect(() => {
     fetchContractQuery();
-  }, [connectedWallet])
+  }, [state.connectedWallet])
 
   return (
     <ChakraProvider resetCSS theme={theme}>

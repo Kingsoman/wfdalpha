@@ -7,15 +7,30 @@ const StoreContext = createContext()
 //  terra1pkytkcanua4uazlpekve7qyhg2c5xwwjr4429d //testnet
 //  terra1nppndpgfusn7p8nd5d9fqy47xejg0x55jjxe2y //mainnet
 
+export const WEFUND_MAIN = "terra15aa92np7epcx8nmkzvhtphws2g0mmfvllj2tyd";
+export const VESTING_MAIN = "terra1clufns3djy7fye5k3sq3m4y3777e85jw5v2ygk";
+
+export const WEFUND_TEST = "terra13jfz3q9km63uyz3ak86hgw0d9ltkrysl26rekn";
+export const VESTING_TEST = "terra1055p3nlct3pg4xr2gxkvmec9d055wwfy56gf07";
+
 const initialState = {
-  net: 'testnet',
-  // net: 'mainnet',
+  net: 'mainnet',
+  WEFundContractAddress: WEFUND_MAIN, //mainnet v2.3
+  VestingContractAddress: VESTING_MAIN, //mainnet
+  lcd_client: new LCDClient({ //mainnet
+    URL: 'https://lcd.terra.dev',
+    chainID: 'columbus-5',
+    gasPrices: { uusd: 0.45 },
+  }),
 
-  WEFundContractAddress: "terra16n9af2cd5rf03w9v88zp4ua6zsk4k803zvh5fe", //testnet v2.3
-	// WEFundContractAddress: 'terra1j0yx7nrxuyt6vrhtagdn4z8z8qy3ch7aglj32k', //mainnet v2.3
-
-  VestingContractAddress: "terra15tpq4hvvl0mmr72n290m3lzl4nm4kz5w0np804", //testnet
-  // VestingContractAddress: "terra1lc80529cg7lm2eyzjvax3p60jwst6u4v7yswza", //mainnet
+  // net: 'testnet',
+  // WEFundContractAddress: WEFUND_TEST, //testnet v2.3
+  // VestingContractAddress: VESTING_TEST, //testnet
+  // lcd_client: new LCDClient({ //testnet
+  //   URL: 'https://bombay-lcd.terra.dev/',
+  //   chainID: 'bombay-12',
+  //   gasPrices: { uusd: 0.45 },
+  // }),
 
   presale: true,
   referralCount: 0,
@@ -31,14 +46,7 @@ const initialState = {
   config: {},
   ustBalance: 0,
   contractBalance: {},
-  lcd_client: new LCDClient({ //testnet
-      URL: 'https://bombay-lcd.terra.dev/',
-      chainID: 'bombay-12',
-  }),
-  // lcd_client: new LCDClient({ //mainnet
-  //   URL: 'https://lcd.terra.dev',
-  //   chainID: 'columbus-4',
-  // }),
+
   investAmount: '0',
   investWfdamount: '',
   investName: '',
@@ -87,7 +95,7 @@ const reducer = (state, action) => {
     case 'setInvestDate':
       return { ...state, investDate: action.message }
     case 'setInvestWfdAmount':
-      return { ...state, investWfdamount: action.message}
+      return { ...state, investWfdamount: action.message }
     case 'setDocxfile':
       return { ...state, docxFile: action.message }
     case 'setPdffile':

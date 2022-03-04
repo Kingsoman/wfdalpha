@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { MsgExecuteContract, WasmAPI } from '@terra-money/terra.js'
 import { Link } from '@reach/router'
 import { Box, Flex, Text, Button, HStack } from '@chakra-ui/react'
-import { FetchData, EstimateSend } from '../components/Util'
+import { FetchData, EstimateSend, CheckNetwork } from '../components/Util'
 import Notification from '../components/Notification'
 import { useStore } from '../store'
 
@@ -14,16 +14,16 @@ export default function UserSideSnippet() {
   const [tokens, setTokens] = useState([])
 
   const notificationRef = useRef()
+  const api = new WasmAPI(state.lcd_client.apiRequester)
 
   async function fetchContractQuery() {
     try {
-      const api = new WasmAPI(state.lcd_client.apiRequester)
       let { projectData } = await FetchData(api, null, state, dispatch)
 
       let projectCount = 0
       let totalbacked = 0
       let tokens = [];
-console.log(state.connectedWallet);
+      console.log(state.connectedWallet);
 
       for (let i = 0; i < projectData.length; i++) {
         let one = projectData[i]
@@ -45,7 +45,7 @@ console.log(state.connectedWallet);
           }
         }
 
-        if(one.project_id != state.wefundID && one.token_addr != ''){
+        if (one.project_id != state.wefundID && one.token_addr != '') {
           let userInfo = await api.contractQuery(
             state.VestingContractAddress,
             {
@@ -55,7 +55,7 @@ console.log(state.connectedWallet);
               }
             }
           )
-console.log(userInfo)
+          console.log(userInfo)
           let pending = await api.contractQuery(
             state.VestingContractAddress,
             {
@@ -65,7 +65,7 @@ console.log(userInfo)
               }
             }
           )
-          
+
           let tokenInfo = await api.contractQuery(
             one.token_addr,
             {
@@ -92,7 +92,19 @@ console.log(userInfo)
     fetchContractQuery()
   }, [state.connectedWallet])
 
-  function addCommunityMember() {
+  async function addCommunityMember() {
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+      return false;
+
+    let { communityData } = await FetchData(api, null, state, dispatch)
+
+    for (let i = 0; i < communityData.length; i++) {
+      if (communityData[i] == state.connectedWallet.walletAddress) {
+        notificationRef.current.showNotification("Already Registered", "success", 4000)
+        return;
+      }
+    }
+
     let CommunityMsg = {
       add_communitymember: {
         wallet: state.connectedWallet.walletAddress,
@@ -115,6 +127,9 @@ console.log(userInfo)
   }
 
   function removeCommunityMember() {
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+      return false;
+
     let CommunityMsg = {
       remove_communitymember: {
         wallet: state.connectedWallet.walletAddress,
@@ -136,7 +151,10 @@ console.log(userInfo)
     )
   }
 
-  function claim(project_id){
+  function claim(project_id) {
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+      return false;
+
     let claimMsg = {
       claim_pending_tokens: {
         project_id: project_id
@@ -252,8 +270,8 @@ console.log(userInfo)
         <>
           <Text mt="10px">Projects backed: {projectCount}</Text>
           <Text mt="10px">Amount contributed: {contributes}</Text>
-          {tokens.map((item, index)=>{
-            return(
+          {tokens.map((item, index) => {
+            return (
               <HStack spacing='10px' mt='10px'>
                 <Text mt='10px'>{item.pendingAmount} of {item.amount}&nbsp;{item.symbol} tokens </Text>
                 <Button color="red" onClick={() => claim(item.project_id)}>Claim</Button>
