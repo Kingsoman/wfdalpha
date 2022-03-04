@@ -205,8 +205,8 @@ export default function InvestKYC6() {
                 mt={'15px'}
                 mb={'15px'}
               >
-                Your Identity is verified and now you can invest and hop onboard
-                Wefund
+                Your identity is verified and now you can invest and hop onboard
+                WeFund
               </Text>
 
               <Flex direction={'column'}>
