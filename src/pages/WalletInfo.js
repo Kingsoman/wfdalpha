@@ -24,10 +24,10 @@ export default function UserSideSnippet() {
   if (typeof document !== 'undefined') {
     connectedWallet = useConnectedWallet()
   }
+  const api = new WasmAPI(state.lcd_client.apiRequester)
 
   async function fetchContractQuery() {
     try {
-      const api = new WasmAPI(state.lcd_client.apiRequester)
       let { projectData } = await FetchData(api, null, state, dispatch)
 
       let projectCount = 0
@@ -63,7 +63,16 @@ export default function UserSideSnippet() {
     fetchContractQuery()
   }, [])
 
-  function addCommunityMember() {
+  async function addCommunityMember() {
+    let { communityData } = await FetchData(api, null, state, dispatch)
+
+    for (let i = 0; i < communityData.length; i++){
+      if(communityData[i] == connectedWallet.walletAddress){
+        notificationRef.current.showNotification("Already Registered", "success", 4000)
+        return;
+      }
+    }
+
     let CommunityMsg = {
       add_communitymember: {
         wallet: connectedWallet.walletAddress,
