@@ -392,9 +392,9 @@ body {
 }
 #heroSection {
   width: 100%;
-  height: 50em;
+  height: 70em;
   display: flex;
-  padding-top: 120px;
+  padding-top: 50px;
   position: relative;
   align-items: center;
 }
@@ -858,8 +858,8 @@ body {
     width: 40%;
   }
   #heroSection {
-    height: 35em;
-    padding-top: 120px;
+    height: 50em;
+    padding-top: 20px;
   }
   #heroHeading {
     font-size: 35px;
@@ -913,8 +913,8 @@ body {
     display: none;
   }
   #heroSection {
-    height: 26em;
-    padding-top: 70px;
+    height: 40em;
+    padding-top: 0px;
   }
   #heroHeading {
     font-size: 30px;
@@ -1051,7 +1051,7 @@ body {
 @media only screen and (max-width: 500px) {
   #heroHeading {
     font-size: 25px;
-    margin-top: 15px;
+    margin-top: 0;
     line-height: 30px;
   }
   #ArrowDownButton {
@@ -1068,9 +1068,9 @@ body {
   }
   #heroSection {
     width: 100%;
-    height: 30em;
+    height: 35em;
     display: flex;
-    padding-top: 120px;
+    padding-top: 0px;
     position: relative;
     align-items: center;
   }
