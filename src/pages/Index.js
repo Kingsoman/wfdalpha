@@ -15,7 +15,7 @@ import RoadMap from '../components/Landing/Roadmap'
 import Industry from '../components/Landing/Industry'
 import Partners from '../components/Landing/Partners'
 import OurMissions from '../components/Landing/OurMissions'
-
+import UpcomingProject from '../components/Landing/ComingSoonCarousel'
 import { Container } from '../components/Container'
 
 export default () => {
@@ -87,6 +87,7 @@ export default () => {
             <Team />
             <Industry />
             <RoadMap />
+            <UpcomingProject />
             <Partners />
             <Footer />
           </>

@@ -7,7 +7,7 @@ export default function Partners() {
     <Box as="section" p="10" mb={'28'} zIndex={'5'} position={'relative'}>
       <Box
         mx="auto"
-        maxW="3xl"
+        maxW={{ base: "xl", md: "md", xl: "xl" }}
         alignSelf={'center'}
         alignContent={'center'}
         px={{ base: '6', md: '8' }}
@@ -22,7 +22,7 @@ export default function Partners() {
         >
           Powered by
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 1, md: 2 }}>
+        <SimpleGrid spacing="5" align="center" columns={{ base: 1, sm: 2, md: 2 }}>
           <Partner
             link="https://terra.money/"
             img="/media/partners/terra.png"
@@ -35,7 +35,7 @@ export default function Partners() {
       </Box>
       <Box
         mx="auto"
-        maxW="5xl"
+        maxW={{ base: "xl", xl: "3xl" }}
         alignSelf={'center'}
         alignContent={'center'}
         px={{ base: '6', md: '8' }}
@@ -48,7 +48,7 @@ export default function Partners() {
           textAlign={'center'}
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
-          Project Partners under Fellowship Incubation
+          Project under Fellowship Incubation
         </Text>
         <SimpleGrid spacing="5" align="center" columns={{ base: 1,  sm:2, md: 3 }}>
           <Partner
@@ -79,7 +79,7 @@ export default function Partners() {
       </Box>
       <Box
         mx="auto"
-        maxW="5xl"
+        maxW={{ base: "xl", xl: "3xl" }}
         alignSelf={'center'}
         alignContent={'center'}
         px={{ base: '6', md: '8' }}
@@ -111,7 +111,7 @@ export default function Partners() {
       </Box>
       <Box
         mx="auto"
-        maxW="7xl"
+        maxW={{ base: "xl", md:"4xl",xl: "7xl" }}
         alignSelf={'center'}
         alignContent={'center'}
         px={{ base: '6', md: '8' }}
@@ -126,7 +126,7 @@ export default function Partners() {
         >
           Media Partners
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 1, sm:2, md: 5 }}>
+        <SimpleGrid spacing="5" align="center" columns={{ base: 1, sm:2, md: 3, lg: 5 }}>
           <Partner
             link="https://terraspaces.org/"
             img="/media/partners/terraspace.png"
@@ -152,7 +152,7 @@ export default function Partners() {
       </Box>
       <Box
         mx="auto"
-        maxW="7xl"
+        maxW={{ base: "xl", md:"4xl",xl: "7xl" }}
         alignSelf={'center'}
         alignContent={'center'}
         px={{ base: '6', md: '8' }}
@@ -167,7 +167,7 @@ export default function Partners() {
         >
           Featured on
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 2, sm: 2, md: 5 }}>
+        <SimpleGrid spacing="5" align="center" columns={{ base: 2, sm: 2, md: 3, lg: 5 }}>
           <Partner
             link="https://thejakartapost.com/front-row/2022/02/14/wefund-to-bring-forth-open-democratized-crowdfunding.html"
             img="/media/partners/Jakpost.png"
