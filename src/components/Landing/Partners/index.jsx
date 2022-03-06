@@ -4,20 +4,20 @@ import { Box, SimpleGrid, Text } from '@chakra-ui/react'
 
 export default function Partners() {
   return (
-    <Box as="section" p="10" mb={'28'} zIndex={'5'} position={'relative'}>
+    <Box as="section" p="10" mb="28" zIndex="5" position="relative">
       <Box
         mx="auto"
         maxW={{ base: "xl", md: "md", xl: "xl" }}
-        alignSelf={'center'}
-        alignContent={'center'}
+        alignSelf="center"
+        alignContent="center"
         px={{ base: '6', md: '8' }}
       >
         <Text
-          mt={'35px'}
-          mb={'35px'}
+          mt="35px"
+          mb="35px"
           fontSize={{ base: "24px", md: "36px" }}
-          color={'white'}
-          textAlign={'center'}
+          color="white"
+          textAlign="center"
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Powered by
@@ -36,21 +36,21 @@ export default function Partners() {
       <Box
         mx="auto"
         maxW={{ base: "xl", xl: "3xl" }}
-        alignSelf={'center'}
-        alignContent={'center'}
+        alignSelf="center"
+        alignContent="center"
         px={{ base: '6', md: '8' }}
       >
         <Text
-          mt={'35px'}
-          mb={'35px'}
+          mt="35px"
+          mb="35px"
           fontSize={{ base: "24px", md: "36px" }}
-          color={'white'}
-          textAlign={'center'}
+          color="white"
+          textAlign="center"
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
-          Project under Fellowship Incubation
+          Projects under Fellowship Incubation
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 1,  sm:2, md: 3 }}>
+        <SimpleGrid spacing="5" align="center" columns={{ base: 1, sm:2, md: 3 }}>
           <Partner
             link="https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA"
             img="/media/partners/pandai.png"
@@ -80,16 +80,16 @@ export default function Partners() {
       <Box
         mx="auto"
         maxW={{ base: "xl", xl: "3xl" }}
-        alignSelf={'center'}
-        alignContent={'center'}
+        alignSelf="center"
+        alignContent="center"
         px={{ base: '6', md: '8' }}
       >
         <Text
-          mt={'35px'}
-          mb={'35px'}
+          mt="35px"
+          mb="35px"
           fontSize={{ base: "24px", md: "36px" }}
-          color={'white'}
-          textAlign={'center'}
+          color="white"
+          textAlign="center"
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Launchpad Partners
@@ -112,16 +112,16 @@ export default function Partners() {
       <Box
         mx="auto"
         maxW={{ base: "xl", md:"4xl",xl: "7xl" }}
-        alignSelf={'center'}
-        alignContent={'center'}
+        alignSelf="center"
+        alignContent="center"
         px={{ base: '6', md: '8' }}
       >
         <Text
-          mt={'35px'}
-          mb={'35px'}
+          mt="35px"
+          mb="35px"
           fontSize={{ base: "24px", md: "36px" }}
-          color={'white'}
-          textAlign={'center'}
+          color="white"
+          textAlign="center"
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Media Partners
@@ -147,22 +147,21 @@ export default function Partners() {
             link="https://twitter.com/CryptoNews_Indo"
             img="/media/partners/cryptonews.png"
           />
-          
         </SimpleGrid>
       </Box>
       <Box
         mx="auto"
         maxW={{ base: "xl", md:"4xl",xl: "7xl" }}
-        alignSelf={'center'}
-        alignContent={'center'}
+        alignSelf="center"
+        alignContent="center"
         px={{ base: '6', md: '8' }}
       >
         <Text
-          mt={'35px'}
-          mb={'35px'}
+          mt="35px"
+          mb="35px"
           fontSize={{ base: "24px", md: "36px" }}
-          color={'white'}
-          textAlign={'center'}
+          color="white"
+          textAlign="center"
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Featured on

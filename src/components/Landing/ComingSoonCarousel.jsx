@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, Flex, Text, Link } from '@chakra-ui/react'
+import { Image, Flex, Text, Link, Box } from '@chakra-ui/react'
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 
@@ -8,32 +8,31 @@ export default function UpcomingProject() {
 
   return (
     <Flex 
-        direction="column" 
-        bg={'rgba(255, 255, 255, 0.05)'}
-        pt={'25px'}
-        pb={'25px'}
+      direction="column"
+      bg="rgba(255, 255, 255, 0.05)"
+      pt="25px"
+      pb="25px"
     >
-        <Flex
-            data-aos="fade-down"
-            direction="column"
-            textAlign="center"
-            fontFamily="Sk-Modernist-Regular"
-        >
+      <Flex
+        data-aos="fade-down"
+        direction="column"
+        textAlign="center"
+        fontFamily="Sk-Modernist-Regular"
+      >
         <Text id="aboutUsPageLable">Upcoming Projects</Text>
         <Flex id="headingIndustry">
-            <Text>Soon to Launch on </Text>
-            <Text color="#00A3FF">WeFund&nbsp;</Text>
+          <Box as="span">Soon to Launch on <Box as="span" color="#00A3FF">WeFund</Box></Box>
         </Flex>
-        </Flex>
-        <Carousel
-            autoPlay
-            width="100vw"
-            showArrows={false}
-            showStatus={false}
-            showThumbs={false}
-            infiniteLoop={true}
-            onChange={(i) => setIndex(i)}
-        >
+      </Flex>
+      <Carousel
+        autoPlay
+        width="100vw"
+        showArrows={false}
+        showStatus={false}
+        showThumbs={false}
+        infiniteLoop={true}
+        onChange={(i) => setIndex(i)}
+      >
         <Flex
           height={{ base: '14em', md: '20em', lg: '25em' }}
           justifyContent="center"
@@ -99,4 +98,3 @@ export default function UpcomingProject() {
     </Flex>
   )
 }
-
