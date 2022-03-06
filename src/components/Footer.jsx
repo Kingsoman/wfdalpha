@@ -93,9 +93,9 @@ const PagesLinks = () => (
     <Link href="/invest_step0" mr="20px">
       Invest In WeFund
     </Link>
-    {/* <Link href="/blog" mr="20px">
+    <Link href="/blog" mr="20px">
       Blog
-    </Link> */}
+    </Link> 
     {/* <Link href="faq" mr="20px">
       FAQ
     </Link> */}
