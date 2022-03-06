@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { Link } from '@reach/router'
+import ConnectWallet from './ConnectWallet'
 import {
   Box,
   Text,
@@ -9,104 +11,22 @@ import {
   HStack,
   ChakraProvider,
 } from '@chakra-ui/react'
-import { LCDClient, WasmAPI } from '@terra-money/terra.js'
 import theme from '../theme'
 import '../styles/Navbar.css'
-import { Link, navigate } from '@reach/router'
-import ConnectWallet from './ConnectWallet'
 import { RiAccountPinBoxFill } from 'react-icons/ri'
 import { Container } from '../components/Container'
 import { ButtonBackTransition } from '../components/ImageTransition'
-import { useStore, WEFUND_MAIN, WEFUND_TEST, VESTING_MAIN, VESTING_TEST } from '../store'
-import { FetchData } from './Util'
+import { useStore } from '../store'
+
 export default function Navbar() {
-  const [nextNetwork, setNextNetwork] = useState('Test');
   const {state, dispatch} = useStore();
 
-  useEffect(()=>{
-    if(state.net == 'testnet')
-      setNextNetwork("mainnet")
-    else
-      setNextNetwork("testnet")
-  }, [])
-
-  function switchNetwork(){
-    let lcdClient;
-    if(state.net == 'testnet'){
-      dispatch({
-        type: 'setNet',
-        message: "mainnet"
-      })
-      lcdClient = new LCDClient({ //mainnet
-        URL: 'https://lcd.terra.dev',
-        chainID: 'columbus-5',
-        gasPrices: { uusd: 0.45 },
-      })
-      dispatch({
-        type: 'setLcdClient',
-        message: lcdClient
-      })
-      dispatch({
-        type: 'setWefundContract',
-        message: WEFUND_MAIN
-      })
-      dispatch({
-        type: 'setVestingContract',
-        message: VESTING_MAIN
-      })
-      setNextNetwork("testnet")
-    } else {
-      dispatch({
-        type: 'setNet',
-        message: "testnet"
-      })
-      lcdClient = new LCDClient({ //testnet
-        URL: 'https://bombay-lcd.terra.dev/',
-        chainID: 'bombay-12',
-        gasPrices: { uusd: 0.45 },
-      })
-      dispatch({
-        type: 'setLcdClient',
-        message: lcdClient
-      })
-      dispatch({
-        type: 'setWefundContract',
-        message: WEFUND_TEST
-      })
-      dispatch({
-        type: 'setVestingContract',
-        message: VESTING_TEST
-      })
-      setNextNetwork("mainnet");
-    }
-    dispatch({
-      type: 'setProjectData',
-      message: ''
-    })
-    dispatch({
-      type: 'setConfigData',
-      message: ''
-    })
-    dispatch({
-      type: 'setCommunityData',
-      message: ''
-    })
-    dispatch({
-      type: 'setActiveProjectData',
-      message: ''
-    })
-    navigate("/");
-  }
-  const SwitchButton = () => {
-    return(
-      <div onClick={switchNetwork} style={{cursor:"pointer", border:'1px solid red', padding:'1px'}}>
-        Switch to {nextNetwork}
-      </div>
-    )
-  }
   return (
     <ChakraProvider resetCSS theme={theme}>
       <Container>
+        {state.net == 'testnet' &&
+        <Flex w='100%' h='30px' background="yellow" justify='center' color="red">Testnet</Flex>
+        }
         <VStack display={{ base: 'none', md: 'none', lg: 'block' }}>
           <Flex
             direction="row"
@@ -118,7 +38,7 @@ export default function Navbar() {
             backdropFilter="blur(54px)"
             borderBottom="2px solid rgba(255, 255, 255, 0.103)"
           >
-            <Flex w="50%" h="100%" align="center" justify="space-between">
+            <Flex w="40%" h="100%" align="center" justify="space-between">
               <Flex ml="90px">
                 <Link className="navbar-brand" to="/">
                   <Image alt="WeFund" src="/media/WeFund-Logos-only.png" h="30px" />
@@ -126,7 +46,6 @@ export default function Navbar() {
                 <Flex ml="10px" border="1px solid rgba(255,255,255, 0.2)" />
               </Flex>
               <DesktopNav />
-              <SwitchButton />
             </Flex>
             <Flex mr="20px" align="center" justify="center" w="40%" h="100%">
               <ButtonBackTransition
@@ -172,7 +91,6 @@ export default function Navbar() {
               <Link className="navbar-brand" to="/">
                 <Image alt="WeFund" src="/media/WeFund-Logos-only.png" h="25px" />
               </Link>
-              <SwitchButton/>
             </Flex>
             <HStack>
               <Flex mr="10px" className="dropdown2">

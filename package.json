@@ -29,6 +29,7 @@
         "axios": "^0.21.1",
         "babel-plugin-transform-remove-console": "^6.9.4",
         "bootstrap": "^5.0.2",
+        "eslint-plugin-react-hooks": "^4.3.0",
         "formidable": "^2.0.1",
         "framer-motion": "4",
         "js-file-download": "^0.4.1",
