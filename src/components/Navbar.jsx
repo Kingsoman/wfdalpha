@@ -24,9 +24,6 @@ export default function Navbar() {
   return (
     <ChakraProvider resetCSS theme={theme}>
       <Container>
-        {state.net == 'testnet' &&
-        <Flex w='100%' h='30px' background="yellow" justify='center' color="red">Testnet</Flex>
-        }
         <VStack display={{ base: 'none', md: 'none', lg: 'block' }}>
           <Flex
             direction="row"
@@ -120,6 +117,9 @@ export default function Navbar() {
             </HStack>
           </Flex>
         </VStack>
+        {state.net == 'testnet' &&
+        <Flex w='100%' h='30px' background="yellow" justify='center' color="red">Testnet</Flex>
+        }
       </Container>
     </ChakraProvider>
   )
