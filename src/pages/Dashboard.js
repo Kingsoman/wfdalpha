@@ -18,7 +18,7 @@ import { InputTransition, ButtonTransition, } from '../components/ImageTransitio
 import PageLayout from '../components/PageLayout'
 import Footer from '../components/Footer'
 import Notification from '../components/Notification'
-import { EstimateSend, FetchData } from '../components/Util'
+import { EstimateSend, FetchData, Set2Mainnet, Set2Testnet } from '../components/Util'
 
 export default function Dashboard() {
   const { state, dispatch } = useStore()
@@ -64,7 +64,7 @@ export default function Dashboard() {
   async function fetchContractQuery() {
     try {
       let { projectData, communityData, configData } = await FetchData(api, notificationRef, state, dispatch);
-      console.log(communityData);
+
       //-----------------initialize--------------------------
       setCurrent(1);
       setPostCommunityData(communityData.slice(0, pageSize));
@@ -116,55 +116,14 @@ export default function Dashboard() {
       setNextNetwork("mainnet")
     else
       setNextNetwork("testnet")
-  }, [])
+  }, [state.net])
 
   function switchNetwork() {
-    let lcdClient;
     if (state.net == 'testnet') {
-      dispatch({
-        type: 'setNet',
-        message: "mainnet"
-      })
-      lcdClient = new LCDClient({ //mainnet
-        URL: 'https://lcd.terra.dev',
-        chainID: 'columbus-5',
-        gasPrices: { uusd: 0.45 },
-      })
-      dispatch({
-        type: 'setLcdClient',
-        message: lcdClient
-      })
-      dispatch({
-        type: 'setWefundContract',
-        message: WEFUND_MAIN
-      })
-      dispatch({
-        type: 'setVestingContract',
-        message: VESTING_MAIN
-      })
+      Set2Mainnet(state, dispatch);
       setNextNetwork("testnet")
     } else {
-      dispatch({
-        type: 'setNet',
-        message: "testnet"
-      })
-      lcdClient = new LCDClient({ //testnet
-        URL: 'https://bombay-lcd.terra.dev/',
-        chainID: 'bombay-12',
-        gasPrices: { uusd: 0.45 },
-      })
-      dispatch({
-        type: 'setLcdClient',
-        message: lcdClient
-      })
-      dispatch({
-        type: 'setWefundContract',
-        message: WEFUND_TEST
-      })
-      dispatch({
-        type: 'setVestingContract',
-        message: VESTING_TEST
-      })
+      Set2Testnet(state, dispatch)
       setNextNetwork("mainnet");
     }
     dispatch({

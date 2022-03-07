@@ -28,8 +28,7 @@ export default function ConnectWallet() {
         type: 'setConnectedWallet',
         message: '',
       })
-console.log(connectedWallet);
-console.log("dispatch setUnConnected");
+
       return null
     }
     setConnected(true)
@@ -38,8 +37,7 @@ console.log("dispatch setUnConnected");
       type: 'setConnectedWallet',
       message: connectedWallet,
     })
-console.log(connectedWallet);
-console.log("dispatch setConnected");
+
     return new LCDClient({
       URL: connectedWallet.network.lcd,
       chainID: connectedWallet.network.chainID,

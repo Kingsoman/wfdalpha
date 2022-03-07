@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useReducer } from 'react'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import { LCDClient } from '@terra-money/terra.js'
+import { Set2Mainnet, Set2Testnet } from './components/Util';
 
 const StoreContext = createContext()
 
@@ -129,6 +130,17 @@ const reducer = (state, action) => {
 
 export const StoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  useEffect(()=>{
+    let net = window.localStorage.getItem('net') || "mainnet";
+    if( net == "testnet" ){
+      Set2Testnet(state, dispatch);
+    }
+    else{
+      Set2Mainnet(state, dispatch);
+    }
+  }, []);
+
   return (
     <StoreContext.Provider value={{ state, dispatch }}>
       {children}

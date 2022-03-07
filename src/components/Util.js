@@ -1,6 +1,7 @@
 import { Fee, MsgExecuteContract, WasmAPI, LCDClient } from '@terra-money/terra.js'
 import { useStore } from '../store'
 import React, { useRef, useState, useEffect, forwardRef, useCallback } from 'react'
+import { WEFUND_MAIN, WEFUND_TEST, VESTING_MAIN, VESTING_TEST } from '../store'
 
 export async function EstimateSend(connectedWallet, lcd, msgs, message, notificationRef, memo = '') {
 console.log(msgs);
@@ -362,4 +363,58 @@ export function getStageTitle(data)
 {
   let index = parseInt(data.fundraising_stage);
   return data.vesting[index].stage_title;
+}
+
+export function Set2Mainnet(state, dispatch)
+{
+  window.localStorage.setItem('net', "mainnet");
+console.log("set to mainnet")
+  dispatch({
+    type: 'setNet',
+    message: "mainnet"
+  })
+  let lcdClient = new LCDClient({ //mainnet
+    URL: 'https://lcd.terra.dev',
+    chainID: 'columbus-5',
+    gasPrices: { uusd: 0.45 },
+  })
+  dispatch({
+    type: 'setLcdClient',
+    message: lcdClient
+  })
+  dispatch({
+    type: 'setWefundContract',
+    message: WEFUND_MAIN
+  })
+  dispatch({
+    type: 'setVestingContract',
+    message: VESTING_MAIN
+  })
+}
+
+export function Set2Testnet(state, dispatch)
+{
+  window.localStorage.setItem('net', "testnet");
+console.log("set to testnet");
+  dispatch({
+    type: 'setNet',
+    message: "testnet"
+  })
+  let lcdClient = new LCDClient({ //testnet
+    URL: 'https://bombay-lcd.terra.dev/',
+    chainID: 'bombay-12',
+    gasPrices: { uusd: 0.45 },
+  })
+  dispatch({
+    type: 'setLcdClient',
+    message: lcdClient
+  })
+  dispatch({
+    type: 'setWefundContract',
+    message: WEFUND_TEST
+  })
+  dispatch({
+    type: 'setVestingContract',
+    message: VESTING_TEST
+  })  
 }
