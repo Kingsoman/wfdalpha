@@ -17,7 +17,7 @@ export default function CircularProgresses({ activeTab, data, sz })
           <CircularProgressLabel>{vote}%</CircularProgressLabel>
         </CircularProgress>
       )}
-      {activeTab == 'MileStoneFundraising' && (
+      {activeTab == 'Fundraising' && (
         <>
           <CircularProgress value={community} size={sz} color="blue.600">
             <CircularProgressLabel>{community}%</CircularProgressLabel>

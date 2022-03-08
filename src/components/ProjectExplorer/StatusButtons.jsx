@@ -5,8 +5,10 @@ import { Link, navigate } from '@reach/router'
 import {
   isWefundWallet,
   isCommunityWallet,
-  isBackerWallet, 
-  }  from '../Util'
+  isBackerWallet,
+  isCreatorWallet,
+  getStageTitle,
+} from '../Util'
 
 import { ButtonTransition } from '../ImageTransition'
 import { useStore } from '../../store'
@@ -17,9 +19,9 @@ export default function StatusButtons({
   activeTab,
   WefundApprove,
   CommunityVote,
-  MilestoneVote
-}) 
-{
+  MilestoneVote,
+  NextFundraisingStage,
+}) {
   const { state, dispatch } = useStore()
   return (
     <>
@@ -99,31 +101,45 @@ export default function StatusButtons({
           </ButtonTransition>
         </Flex>
       )}
-      {activeTab === 'MileStoneFundraising' && (
-        <ButtonTransition
-          mb="10px"
-          rounded="33px"
-          selected={false}
-          unitid={'visit' + index}
-          width="150px"
-          height="45px"
-          fontSize={{ base: '14px', lg: '16px' }}
-          onClick={() => {
-            navigate(
-              '/invest_step1?project_id=' +
+      {activeTab === 'Fundraising' && (
+        <>
+          <Text>{getStageTitle(data)} phase</Text>
+          {isCreatorWallet(state, data.project_id) && (
+            <ButtonTransition
+              mb="10px"
+              rounded="33px"
+              selected={false}
+              unitid={'next stage' + index}
+              width="150px"
+              height="45px"
+              fontSize={{ base: '14px', lg: '16px' }}
+              onClick={() => { NextFundraisingStage(data.project_id, data.fundraising_stage) }}
+            >
+              <Text fontSize={{ base: '14px', lg: '16px' }} >
+                Next Stage
+              </Text>
+            </ButtonTransition>
+          )}
+          <ButtonTransition
+            mb="10px"
+            rounded="33px"
+            selected={false}
+            unitid={'visit' + index}
+            width="150px"
+            height="45px"
+            fontSize={{ base: '14px', lg: '16px' }}
+            onClick={() => {
+              navigate(
+                '/invest_step1?project_id=' +
                 data.project_id,
-            )
-          }}
-        >
-          <Text
-            fontSize={{
-              base: '14px',
-              lg: '16px',
+              )
             }}
           >
-            Back Project
-          </Text>
-        </ButtonTransition>
+            <Text fontSize={{ base: '14px', lg: '16px' }} >
+              Back Project
+            </Text>
+          </ButtonTransition>
+        </>
       )}
       {activeTab === 'MileStoneDelivery' && isBackerWallet(state, data.project_id) && (
         <Flex w={'330px'} justify={'space-between'}>

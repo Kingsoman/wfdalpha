@@ -1,40 +1,53 @@
-import React, { createContext, useContext, useReducer } from 'react'
+import React, { createContext, useContext, useEffect, useReducer } from 'react'
 import { LCDClient } from '@terra-money/terra.js'
+import { Set2Mainnet, Set2Testnet } from './components/Util';
 
 const StoreContext = createContext()
 
-const initialState = {
-  // net: 'testnet',
-  net: 'mainnet',
+//  WFD
+//  terra1pkytkcanua4uazlpekve7qyhg2c5xwwjr4429d //testnet
+//  terra1nppndpgfusn7p8nd5d9fqy47xejg0x55jjxe2y //mainnet
 
-  // WEFundContractAddress: "terra1ayerd6dma6ajpwl38w6qre0me7ntzl0c3facwu", //testnet v2.3
-  // WEFundContractAddress: "terra1ca88767e6ganwq2zehtcpv7ef6z32ell26ts3r", //testnet v2.2
-  // WEFundContractAddress: 'terra1prfeefv02cfxl0zc6aaut9zlc7elygnt66rq2x', //mainnet v2.2
-	WEFundContractAddress: 'terra1fv5syzr26rzuuycff4dzy0fvash59u53tvjdr6', //mainnet v2.3
-  
+export const WEFUND_MAIN = "terra15aa92np7epcx8nmkzvhtphws2g0mmfvllj2tyd";
+export const VESTING_MAIN = "terra1clufns3djy7fye5k3sq3m4y3777e85jw5v2ygk";
+
+export const WEFUND_TEST = "terra13jfz3q9km63uyz3ak86hgw0d9ltkrysl26rekn";
+export const VESTING_TEST = "terra1055p3nlct3pg4xr2gxkvmec9d055wwfy56gf07";
+
+const initialState = {
+  net: 'mainnet',
+  WEFundContractAddress: WEFUND_MAIN, //mainnet v2.3
+  VestingContractAddress: VESTING_MAIN, //mainnet
+  lcd_client: new LCDClient({ //mainnet
+    URL: 'https://lcd.terra.dev',
+    chainID: 'columbus-5',
+    gasPrices: { uusd: 0.45 },
+  }),
+
+  // net: 'testnet',
+  // WEFundContractAddress: WEFUND_TEST, //testnet v2.3
+  // VestingContractAddress: VESTING_TEST, //testnet
+  // lcd_client: new LCDClient({ //testnet
+  //   URL: 'https://bombay-lcd.terra.dev/',
+  //   chainID: 'bombay-12',
+  //   gasPrices: { uusd: 0.45 },
+  // }),
+
   presale: true,
   referralCount: 0,
   referralLink: '',
   projectData: '',
   activeProjectData: '',
-  oneprojectData: '',
   communityData: '',
   configData: '',
-  connectedWallet: '',
+  connectedWallet: [],
   timer: '',
   wallet: {},
   allNativeCoins: [],
   config: {},
   ustBalance: 0,
   contractBalance: {},
-  // lcd_client: new LCDClient({ //testnet
-  //     URL: 'https://bombay-lcd.terra.dev/',
-  //     chainID: 'bombay-12',
-  // }),
-  lcd_client: new LCDClient({ //mainnet
-    URL: 'https://lcd.terra.dev',
-    chainID: 'columbus-4',
-  }),
+
   investAmount: '0',
   investWfdamount: '',
   investName: '',
@@ -52,6 +65,14 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case 'setNet':
+      return { ...state, net: action.message }
+    case 'setLcdClient':
+      return { ...state, lcd_client: action.message }
+    case 'setWefundContract':
+      return { ...state, WEFundContractAddress: action.message }
+    case 'setVestingContract':
+      return { ...state, VestingContractAddress: action.message }
     case 'setPresale':
       return { ...state, presale: action.message }
     case 'setReferralCount':
@@ -75,7 +96,7 @@ const reducer = (state, action) => {
     case 'setInvestDate':
       return { ...state, investDate: action.message }
     case 'setInvestWfdAmount':
-      return { ...state, investWfdamount: action.message}
+      return { ...state, investWfdamount: action.message }
     case 'setDocxfile':
       return { ...state, docxFile: action.message }
     case 'setPdffile':
@@ -92,15 +113,13 @@ const reducer = (state, action) => {
       return { ...state, investAmount: action.message }
     case 'setContractBalance':
       return { ...state, contractBalance: action.message }
-    case 'setProjectdata':
+    case 'setProjectData':
       return { ...state, projectData: action.message }
-    case 'setOneprojectdata':
-      return { ...state, oneprojectData: action.message }
     case 'setWallet':
       return { ...state, wallet: action.message }
     case 'setAllNativeCoins':
       return { ...state, allNativeCoins: action.message }
-    case 'setConfig':
+    case 'setConfigData':
       return { ...state, config: action.message }
     case 'setUstBalance':
       return { ...state, ustBalance: action.message }
@@ -111,6 +130,17 @@ const reducer = (state, action) => {
 
 export const StoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
+
+  useEffect(()=>{
+    let net = window.localStorage.getItem('net') || "mainnet";
+    if( net == "testnet" ){
+      Set2Testnet(state, dispatch);
+    }
+    else{
+      Set2Mainnet(state, dispatch);
+    }
+  }, []);
+
   return (
     <StoreContext.Provider value={{ state, dispatch }}>
       {children}

@@ -8,7 +8,6 @@ import {
   Input,
   HStack,
   VStack,
-  Stack,
   Button,
 } from '@chakra-ui/react'
 import Pagination from '@choc-ui/paginator'
@@ -155,86 +154,82 @@ export default function Dashboard() {
 
   return (
     <PageLayout title="Dashboard" subTitle1="Admin" subTitle2="Dashboard">
-      <Flex direction="column" justify="center" mt="50px" width={{ base: '90%', md: '70%', lg: '50%' }}>
+      <Flex  direction="column" justify="center" mt="50px" px="175px">
         <SwitchButton />
-        {postCommunityData != '' && postCommunityData.map((member, index) => (
-          <Stack
+        {postCommunityData != '' &&
+          postCommunityData.map((member, index) => (
+            <HStack
+              w="100%"
+              h="80px"
+              key={index}
+              justify="space-between"
+            >
+              <Text>{member}</Text>
+              <ButtonTransition
+                unitid={'Removemember' + index}
+                selected={false}
+                width="140px"
+                height="35px"
+                rounded="33px"
+                onClick={() => removeCommunityMember({ member })}
+              >
+                Remove
+              </ButtonTransition>
+            </HStack>
+          ))}
+          <HStack
             w="100%"
-            mt='10px'
-            key={index}
+            h='80px'
+            spacing="100px"
             justify="space-between"
-            align="center"
-            direction={{ base: 'column', md: 'column', lg: 'row' }}
-            spacing="10px"
           >
-            <Text>{member}</Text>
-            <ButtonTransition
-              unitid={'Removemember' + index}
-              selected={false}
-              width="140px"
-              height="35px"
-              rounded="33px"
-              onClick={() => removeCommunityMember({ member })}
-            >
-              Remove
-            </ButtonTransition>
-          </Stack>
-        ))}
-        <Stack
-          w="100%"
-          mt='10px'
-          spacing="10px"
-          justify="space-between"
-          align="center"
-          direction={{ base: 'column', md: 'column', lg: 'row' }}
-        >
-          <InputTransition
-            unitid="wallet"
-            selected={wallet == '' ? false : true}
-            width="100%"
-            height="45px"
-            rounded="md"
-          >
-            <Input
-              style={{ border: '0', background: 'transparent' }}
-              type="text"
-              h="45px"
+            <InputTransition
+              unitid="wallet"
+              selected={wallet == '' ? false : true}
+              width="100%"
+              height="55px"
               rounded="md"
-              value={wallet}
-              onChange={(e) => setWallet(e.target.value)}
-            />
-          </InputTransition>
-          <Box w='140px'>
-            <ButtonTransition
-              unitid='addmember'
-              selected={false}
-              width="140px"
-              height="35px"
-              rounded="33px"
-              onClick={() => addCommunityMember()}
             >
-              Add
-            </ButtonTransition>
-          </Box>
-        </Stack>
-        <Flex
-          w="100%"
-          p={50}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Pagination
-            bg={
-              'linear-gradient(180deg, #FE8600 21.43%, #F83E00 147.62%)'
-            }
-            current={current}
-            onChange={(page) => onChangePaginator(page)}
-            pageSize={pageSize}
-            total={state.communityData == '' ? 0 : state.communityData.length}
-            itemRender={itemRender}
-            paginationProps={{ display: 'flex' }}
-          />
-        </Flex>
+              <Input
+                style={{ border: '0', background: 'transparent' }}
+                type="text"
+                h="55px"
+                rounded="md"
+                value={wallet}
+                onChange={(e) => setWallet(e.target.value)}
+              />
+            </InputTransition>
+            <Box w='140px'>
+              <ButtonTransition
+                unitid='addmember'
+                selected={false}
+                width="140px"
+                height="35px"
+                rounded="33px"
+                onClick={() => addCommunityMember()}
+              >
+                Add
+              </ButtonTransition>
+            </Box>
+          </HStack>
+          <Flex
+            w="1000px"
+            p={50}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Pagination
+              bg={
+                'linear-gradient(180deg, #FE8600 21.43%, #F83E00 147.62%)'
+              }
+              current={current}
+              onChange={(page) => onChangePaginator(page)}
+              pageSize={pageSize}
+              total={state.communityData == '' ? 0 : state.communityData.length}
+              itemRender={itemRender}
+              paginationProps={{ display: 'flex' }}
+            />
+          </Flex>
       </Flex>
       <Footer />
       <Notification ref={notificationRef} />

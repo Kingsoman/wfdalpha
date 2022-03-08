@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Text, Table, Thead, Tbody, Tr, Th, Td, TableCaption } from '@chakra-ui/react'
+import { Flex, Text, Button, Table, Thead, Tbody, Tr, Th, Td, TableCaption } from '@chakra-ui/react'
 import { useStore } from '../../store'
 
 export default function ProjectMileStones({ data, onOpen }) 

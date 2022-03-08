@@ -19,12 +19,6 @@ import { FetchData } from './Util'
 import { RiMapPinUserLine } from 'react-icons/ri'
 import { WasmAPI, LCDClient } from '@terra-money/terra.js'
 
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-  useConnectedWallet =
-    require('@terra-money/wallet-provider').useConnectedWallet
-}
-
 export default function UserSideSnippet() {
   const {
     isOpen: isUserDrawerOpen,
@@ -35,12 +29,6 @@ export default function UserSideSnippet() {
   const [rewards, setRewards] = useState(0)
   const [projectCount, setProjectCount] = useState(0)
   const [contributes, setContributes] = useState(0)
-
-  //-----------connect to wallet ---------------------
-  let connectedWallet = ''
-  if (typeof document !== 'undefined') {
-    connectedWallet = useConnectedWallet()
-  }
 
   //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
@@ -81,7 +69,7 @@ export default function UserSideSnippet() {
   }
   useEffect(() => {
     fetchContractQuery()
-  }, [connectedWallet])
+  }, [state.connectedWallet])
 
   return (
     <>
@@ -111,7 +99,7 @@ export default function UserSideSnippet() {
             <Box>
               <Text>
                 Wallet address: {' '}
-                {state.connectedWallet && state.connectedWallet.walletAddress}
+                {state.connectedWallet?.walletAddress}
               </Text>
               <Text mt="20px">Projects backed: {projectCount}</Text>
               <Text mt="20px">Amount contributed: {contributes}</Text>

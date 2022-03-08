@@ -59,7 +59,7 @@ export default function VestingINput({typeText, index, soon, setSoon, period, se
               onChange={(e) => onChangeSoon(e)}
             />
           </InputTransition>
-          <Text>% unlocked at TGE, then unlocked monthly over&nbsp;</Text>
+          <Text style={{margin:"0px"}}>% unlocked at TGE, then unlocked monthly over&nbsp;</Text>
         </HStack>
         <HStack>
           <InputTransition
@@ -79,7 +79,7 @@ export default function VestingINput({typeText, index, soon, setSoon, period, se
               onChange={(e) => onChangePeriod(e)}
             />
           </InputTransition>
-          <Text>months, starting from &nbsp;</Text>
+          <Text m='0px'>months, starting from &nbsp;</Text>
         </HStack>
         <HStack>
           <InputTransition
@@ -99,7 +99,7 @@ export default function VestingINput({typeText, index, soon, setSoon, period, se
               onChange={(e) => onChangeAfter(e)}
             />
           </InputTransition>
-          <Text>months after TGE</Text>
+          <Text m='0px'>months after TGE</Text>
         </HStack>
       </Stack>
     </Box>

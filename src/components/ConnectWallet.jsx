@@ -23,7 +23,12 @@ export default function ConnectWallet() {
 
   const lcd = useMemo(() => {
     if (!connectedWallet) {
-      setConnected(false)
+      setConnected(false);
+      dispatch({
+        type: 'setConnectedWallet',
+        message: '',
+      })
+
       return null
     }
     setConnected(true)
@@ -52,7 +57,7 @@ export default function ConnectWallet() {
   }
 
   async function contactBalance() {
-    if (connectedWallet && connectedWallet.walletAddress && lcd) 
+    if (connectedWallet?.walletAddress && lcd) 
     {
       dispatch({ type: 'setWallet', message: connectedWallet })
 
@@ -116,15 +121,15 @@ export default function ConnectWallet() {
     )
   }
 
-  const [scrolled, setScrolled] = useState(false)
-  const handleScroll = () => {
-    const offset = window.scrollY
-    if (offset > 25) {
-      setScrolled(true)
-    } else {
-      setScrolled(false)
-    }
-  }
+  // const [scrolled, setScrolled] = useState(false)
+  // const handleScroll = () => {
+  //   const offset = window.scrollY
+  //   if (offset > 25) {
+  //     setScrolled(true)
+  //   } else {
+  //     setScrolled(false)
+  //   }
+  // }
 
   //--------------for referral-----------------------------
   const crypto = require('crypto');
@@ -198,7 +203,7 @@ export default function ConnectWallet() {
       confirmReferral()
     }
 
-    window.addEventListener('scroll', handleScroll)
+    // window.addEventListener('scroll', handleScroll)
   }, [connectedWallet])
 
   return (

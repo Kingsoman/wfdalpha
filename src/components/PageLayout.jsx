@@ -1,11 +1,6 @@
-import React from 'react';
-import { ChakraProvider } from "@chakra-ui/react";
+import React, { useCallback, useEffect, useState } from 'react';
+import { ChakraProvider, Flex, Box, Text } from "@chakra-ui/react";
 import theme from '../theme';
-import {
-  Flex,
-  Box, 
-  Text, 
-  } from "@chakra-ui/react";
 
 export default function PageLayout(props) {
   return (
@@ -13,7 +8,7 @@ export default function PageLayout(props) {
       <Flex
         color={'white'}
         width={'100%'}
-        fontSize={{base:'14px', md:'15px', lg:'16px'}}
+        fontSize={{ base: '14px', md: '15px', lg: '16px' }}
         justify={'center'}
         fontWeight={'500'}
         alignItems={'center'}
@@ -33,50 +28,50 @@ export default function PageLayout(props) {
           boxShadow={'0px 5px 15px #000000A6'}
           backgroundImage={"url('/media/createproject_banner.svg')"}
         >
-          <Flex 
-            pt='95px' 
+          <Flex
+            pt='95px'
             justify="center"
           >
-            <Text 
-            fontSize='16px' 
-            fontWeight='normal' 
-            color={'rgba(255, 255, 255, 0.54)'}
+            <Text
+              fontSize='16px'
+              fontWeight='normal'
+              color={'rgba(255, 255, 255, 0.54)'}
             >
               Home &gt;&nbsp;
             </Text>
-            <Text 
-              fontSize='16px' 
+            <Text
+              fontSize='16px'
               color={'rgba(255, 255, 255, 0.84)'}
             >
               {props.title}
             </Text>
           </Flex>
-          <Flex 
-            mt='11px' 
-            pb='55px' 
-            mb="20px" 
+          <Flex
+            mt='11px'
+            pb='55px'
+            mb="20px"
             justify='center'
-            style={{fontFamily:'PilatExtended-Bold'}}
-            >
-            <Text 
-            fontSize={{base:'20px',md:'25px',lg:'40px'}} 
-            color='#4790f5'
+            style={{ fontFamily: 'PilatExtended-Bold' }}
+          >
+            <Text
+              fontSize={{ base: '20px', md: '25px', lg: '40px' }}
+              color='#4790f5'
             >
               {props.subTitle1}
             </Text>
-            <Text 
-              fontSize={{base:'20px',md:'25px',lg:'40px'}}
+            <Text
+              fontSize={{ base: '20px', md: '25px', lg: '40px' }}
             >
               &nbsp;{props.subTitle2}
             </Text>
           </Flex>
         </Flex>
-        <Box 
-          w='100%' 
-          justify='center' 
-          align = 'center'
+        <Box
+          w='100%'
+          justify='center'
+          align='center'
         >
-            {props.children}
+          {props.children}
         </Box>
       </Flex>
     </ChakraProvider>

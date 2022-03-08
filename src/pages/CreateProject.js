@@ -18,7 +18,10 @@ import {
   FetchData, 
   Sleep,
   isNull,
-  getVal
+  getVal,
+  getMultiplyInteger,
+  getInteger,
+  getSeconds
 } from '../components/Util'
 import Notification from '../components/Notification'
 import PageLayout from '../components/PageLayout'
@@ -37,12 +40,6 @@ import Milestones from '../components/CreateProject/Milestone/Milestones'
 import TeamMembers from '../components/CreateProject/TeamMember/TeamMembers'
 import Stages from '../components/CreateProject/Stage/Stages'
 
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-  useConnectedWallet =
-    require('@terra-money/wallet-provider').useConnectedWallet
-}
-
 export default function CreateProject() {
   const { state, dispatch } = useStore()
   const [isUST, setIsUST] = useState(true)
@@ -55,12 +52,15 @@ export default function CreateProject() {
   const [description, setDescription] = useState('')
   const [ecosystem, setEcosystem] = useState('Terra')
   const [tokenName, setTokenName] = useState('')
+  const [tokenAddress, setTokenAddress] = useState('')
+
   const [collectedAmount, setCollectedAmount] = useState('')
 
   const [teammemberDescription, setTeammemberDescription] = useState([''])
   const [teammemberLinkedin, setTeammemberLinkedin] = useState([''])
   const [teammemberRole, setTeammemberRole] = useState([''])
 
+  const [stageTitle, setStageTitle] = useState(['Seed'])
   const [stagePrice, setStagePrice] = useState([''])
   const [stageAmount, setStageAmount] = useState([''])
   const [stageVestingSoon, setStageVestingSoon] = useState([''])
@@ -84,15 +84,8 @@ export default function CreateProject() {
   const [milestoneStartdate, setMilestoneStartdate] = useState([''])
   const [milestoneEnddate, setMilestoneEnddate] = useState([''])
 
-  //---------------wallet connect-------------------------------------
-  let connectedWallet = ''
-
-  if (typeof document !== 'undefined') {
-    connectedWallet = useConnectedWallet()
-  }
   useEffect(() => {
-    CheckNetwork(connectedWallet, notificationRef, state);
-    connectedWallet = state.connectedWallet;
+    CheckNetwork(state.connectedWallet, notificationRef, state);
   }, [state.connectedWallet])
   
   //----------init api, lcd-------------------------
@@ -103,7 +96,7 @@ export default function CreateProject() {
 
   //---------------create project---------------------------------
   const checkInvalidation = async () => {
-    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false;
   
     let { projectData, communityData, configData } = await FetchData(
@@ -295,6 +288,9 @@ export default function CreateProject() {
   }
 
   async function createProject() {
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+      return false;
+
     if(await checkInvalidation() == false)
       return false;
 
@@ -315,6 +311,21 @@ export default function CreateProject() {
         teammember_role: getVal(teammemberRole[i]),
       }
       project_teammembers.push(teammember);
+    }
+
+    let vesting = []
+    let distribution_token_amount = 0;
+    for (let i = 0; i < stageTitle.length; i++){
+      let stage = {
+        stage_title: stageTitle[i],
+        stage_price: getMultiplyInteger(stagePrice[i]),
+        stage_amount: getInteger(stageAmount[i]),
+        stage_soon: "20",//getInteger(stageVestingSoon[i]),
+        stage_after: "60",//getSeconds(stageVestingAfter[i]),
+        stage_period: "1800"//getSeconds(stageVestingPeriod[i]),
+      }
+      vesting.push(stage);
+      distribution_token_amount += parseInt(getInteger(stageAmount[i]));
     }
 
     let project_milestones = []
@@ -338,7 +349,7 @@ export default function CreateProject() {
 
     let AddProjectMsg = {
       add_project: {
-        creator_wallet: connectedWallet.walletAddress,
+        creator_wallet: state.connectedWallet.walletAddress,
         project_company: company,
         project_title: title,
         project_description: description,
@@ -352,27 +363,57 @@ export default function CreateProject() {
         project_email: email,
         project_milestones: project_milestones,
         project_teammembers: project_teammembers,
+        vesting: vesting,
+        token_addr: tokenAddress
       },
     }
 
     let wefundContractAddress = state.WEFundContractAddress
 
-    let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+    let add_msg = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       AddProjectMsg,
     )
-    await EstimateSend(
-      connectedWallet,
+    let msgs = [add_msg];
+
+    if(tokenAddress != ""){
+      let token_info = await api.contractQuery(
+        tokenAddress,
+        {
+          token_info: {},
+        }
+      )
+      distribution_token_amount = distribution_token_amount * (10**token_info.decimals);
+      let ApproveMsg = {
+        increase_allowance: {
+          spender: wefundContractAddress,
+          amount: distribution_token_amount.toString()
+        }
+      }
+
+      let approve_msg = new MsgExecuteContract(
+        state.connectedWallet.walletAddress,
+        tokenAddress,
+        ApproveMsg,
+      )
+      msgs.push(approve_msg);
+    }
+
+    let res = await EstimateSend(
+      state.connectedWallet,
       state.lcd_client,
-      msg,
+      msgs,
       'Create Project success',
       notificationRef,
     )
-    await Sleep(2000)
-    await FetchData(api, notificationRef, state, dispatch, true)
+console.log(res);
+    if(res == true){
+      await Sleep(2000)
+      await FetchData(api, notificationRef, state, dispatch, true)
 
-    navigate('/explorer');
+      navigate('/explorer');
+    }
   }
 
   return (
@@ -425,24 +466,37 @@ export default function CreateProject() {
               type = {collectedAmount}
               setType = {setCollectedAmount}
               notificationRef={notificationRef}
-              w = {{base:'100%', md:'30%', lg:'30%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
             <CustomSelect
               typeText = "Blockchain"
               type = {ecosystem}
               setType = {setEcosystem}
               options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
-              w = {{base:'100%', md:'30%', lg:'30%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
+          </Stack>
+          <Stack 
+            mt = '30px'
+            direction={{base:'column', md:'column', lg:'row'}}
+            spacing='30px'
+          >
             <CustomInput
               typeText = "Token Name"
               type={tokenName} 
               setType={setTokenName}
-              w = {{base:'100%', md:'30%', lg:'30%'}}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
+            />
+            <CustomInput
+              typeText = "Token Address"
+              type={tokenAddress} 
+              setType={setTokenAddress}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
             />
           </Stack>
           <Stages
-            stages = {['Seed', 'Presale', 'IDO']}
+            stageTitle = {stageTitle}
+            setStageTitle = {setStageTitle}
             stagePrice = {stagePrice}
             setStagePrice = {setStagePrice}
             stageAmount = {stageAmount}

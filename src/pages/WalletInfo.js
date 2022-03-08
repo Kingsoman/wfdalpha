@@ -1,29 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { MsgExecuteContract, WasmAPI } from '@terra-money/terra.js'
 import { Link } from '@reach/router'
-import { Box, Flex, Text, Button } from '@chakra-ui/react'
-import { FetchData, EstimateSend } from '../components/Util'
+import { Box, Flex, Text, Button, HStack } from '@chakra-ui/react'
+import { FetchData, EstimateSend, CheckNetwork } from '../components/Util'
 import Notification from '../components/Notification'
 import { useStore } from '../store'
-
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-  useConnectedWallet =
-    require('@terra-money/wallet-provider').useConnectedWallet
-}
 
 export default function UserSideSnippet() {
   const { state, dispatch } = useStore()
   const [contributes, setContributes] = useState(0)
   const [projectCount, setProjectCount] = useState(0)
   const [activeTab, setActiveTab] = useState('Account')
-  const notificationRef = useRef()
+  const [tokens, setTokens] = useState([])
 
-  //-----------connect to wallet ---------------------
-  let connectedWallet = ''
-  if (typeof document !== 'undefined') {
-    connectedWallet = useConnectedWallet()
-  }
+  const notificationRef = useRef()
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   async function fetchContractQuery() {
@@ -32,42 +22,84 @@ export default function UserSideSnippet() {
 
       let projectCount = 0
       let totalbacked = 0
+      let tokens = [];
+      console.log(state.connectedWallet);
 
       for (let i = 0; i < projectData.length; i++) {
         let one = projectData[i]
         for (let j = 0; j < one.backer_states.length; j++) {
           if (
-            one.backer_states[j].backer_wallet == connectedWallet.walletAddress
+            one.backer_states[j].backer_wallet == state.connectedWallet.walletAddress
           ) {
-            projectCount++
-            totalbacked += one.backer_states[i].ust_amount
+            projectCount++;
+            totalbacked += one.backer_states[j].ust_amount.amount;
           }
         }
         for (let j = 0; j < one.communitybacker_states.length; j++) {
           if (
             one.communitybacker_states[j].backer_wallet ==
-            connectedWallet.walletAddress
+            state.connectedWallet.walletAddress
           ) {
-            projectCount++
-            totalbacked += one.backer_states[i].ust_amount
+            projectCount++;
+            totalbacked += one.communitybacker_states[j].ust_amount.amount;
           }
         }
+
+        if (one.project_id != state.wefundID && one.token_addr != '') {
+          let userInfo = await api.contractQuery(
+            state.VestingContractAddress,
+            {
+              get_user_info: {
+                project_id: one.project_id,
+                wallet: state.connectedWallet.walletAddress
+              }
+            }
+          )
+          console.log(userInfo)
+          let pending = await api.contractQuery(
+            state.VestingContractAddress,
+            {
+              get_pending_tokens: {
+                project_id: one.project_id,
+                wallet: state.connectedWallet.walletAddress
+              }
+            }
+          )
+
+          let tokenInfo = await api.contractQuery(
+            one.token_addr,
+            {
+              token_info: {}
+            }
+          )
+
+          tokens.push({
+            project_id: one.project_id,
+            symbol: tokenInfo.symbol,
+            amount: userInfo.total_amount - userInfo.released_amount,
+            pendingAmount: pending,
+          })
+        }
       }
-      setProjectCount(projectCount)
-      setContributes(totalbacked / 10 ** 6)
+      setProjectCount(projectCount);
+      setContributes(totalbacked / 10 ** 6);
+      setTokens(tokens);
     } catch (e) {
       console.log(e)
     }
   }
   useEffect(() => {
     fetchContractQuery()
-  }, [])
+  }, [state.connectedWallet])
 
   async function addCommunityMember() {
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+      return false;
+
     let { communityData } = await FetchData(api, null, state, dispatch)
 
-    for (let i = 0; i < communityData.length; i++){
-      if(communityData[i] == connectedWallet.walletAddress){
+    for (let i = 0; i < communityData.length; i++) {
+      if (communityData[i] == state.connectedWallet.walletAddress) {
         notificationRef.current.showNotification("Already Registered", "success", 4000)
         return;
       }
@@ -75,47 +107,74 @@ export default function UserSideSnippet() {
 
     let CommunityMsg = {
       add_communitymember: {
-        wallet: connectedWallet.walletAddress,
+        wallet: state.connectedWallet.walletAddress,
       },
     }
 
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       CommunityMsg,
     )
     EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
-      msg,
+      [msg],
       'Add community success',
       notificationRef,
     )
   }
 
   function removeCommunityMember() {
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+      return false;
+
     let CommunityMsg = {
       remove_communitymember: {
-        wallet: connectedWallet.walletAddress,
+        wallet: state.connectedWallet.walletAddress,
       },
     }
 
     let wefundContractAddress = state.WEFundContractAddress
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       CommunityMsg,
     )
     EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
-      msg,
+      [msg],
       'Remove community success',
       notificationRef,
     )
   }
 
+  function claim(project_id) {
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+      return false;
+
+    let claimMsg = {
+      claim_pending_tokens: {
+        project_id: project_id
+      }
+    }
+
+    let vestingContract = state.VestingContractAddress
+    let msg = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
+      vestingContract,
+      claimMsg,
+    )
+    EstimateSend(
+      state.connectedWallet,
+      state.lcd_client,
+      [msg],
+      'Claim pending tokens',
+      notificationRef,
+    )
+  }
   return (
     <Box color={'white'} padding={'5%'}>
       <Flex
@@ -202,7 +261,7 @@ export default function UserSideSnippet() {
         <>
           <Text fontWeight={'bold'}>Wallet address</Text>
           <Text>
-            {state.connectedWallet && state.connectedWallet.walletAddress}
+            {state.connectedWallet?.walletAddress}
           </Text>
         </>
       )}
@@ -211,6 +270,14 @@ export default function UserSideSnippet() {
         <>
           <Text mt="10px">Projects backed: {projectCount}</Text>
           <Text mt="10px">Amount contributed: {contributes}</Text>
+          {tokens.map((item, index) => {
+            return (
+              <HStack spacing='10px' mt='10px'>
+                <Text mt='10px'>{item.pendingAmount} of {item.amount}&nbsp;{item.symbol} tokens </Text>
+                <Button color="red" onClick={() => claim(item.project_id)}>Claim</Button>
+              </HStack>
+            )
+          })}
         </>
       )}
 

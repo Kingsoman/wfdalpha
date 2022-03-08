@@ -36,12 +36,6 @@ import {
   GetOneProject
 } from "../components/Util";
 
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-    useConnectedWallet =
-        require('@terra-money/wallet-provider').useConnectedWallet
-}
-
 export default function Invest_step3() {
   const [signature, setSignature] = useState('');
   const [InsTitle, setInsTitle] = useState('');
@@ -72,12 +66,6 @@ export default function Invest_step3() {
   }, 
   [project_id])
 
-  //---------------wallet connect-------------------------------------
-  let connectedWallet = ''
-
-  if (typeof document !== 'undefined') {
-    connectedWallet = useConnectedWallet()
-  }
   //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
@@ -113,8 +101,8 @@ export default function Invest_step3() {
   //---------------on next------------------------------------
   function checkValication()
   {
-    if(CheckNetwork(connectedWallet, notificationRef, state) == false)
-    return false;
+    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+      return false;
 
     if(parseInt(state.investAmount) <= 0 ){
       notificationRef.current.showNotification("Please input UST amount", "error", 40000);
@@ -225,12 +213,12 @@ console.log(oneprojectData);
       let amount = parseInt(state.investAmount) * 10**6;
 
       const msg = new MsgSend(
-        connectedWallet.walletAddress,
+        state.connectedWallet.walletAddress,
         'terra1zjwrdt4rm69d84m9s9hqsrfuchnaazhxf2ywpc',
         { uusd: amount }
       );
       let memo = state.presale? "Presale" : "Private sale";
-      let res = await EstimateSend(connectedWallet, state.lcd_client, msg, "Invest success ", notificationRef, memo);
+      let res = await EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Invest success ", notificationRef, memo);
       if(res == true)
         navigate('/invest_step4?project_id=' + project_id);
     }
@@ -270,22 +258,24 @@ console.log(oneprojectData);
     let wefundContractAddress = state.WEFundContractAddress;
     let BackProjectMsg = {
         back2_project: {
-          backer_wallet: connectedWallet.walletAddress,
+          project_id: `${project_id}`,
+          backer_wallet: state.connectedWallet.walletAddress,
+          fundraising_stage: oneprojectData.fundraising_stage,
+          token_amount: `${state.investWfdamount}`,
           otherchain: chain,
           otherchain_wallet: walletAddress,
-          project_id: `${project_id}`
         },
     }
 
     let amount = parseInt(state.investAmount) * 10**6;
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       wefundContractAddress,
       BackProjectMsg,
       {uusd: amount}
     );
 
-    return await EstimateSend(connectedWallet, state.lcd_client, msg, "Back to Project Success", notificationRef);
+    return await EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Back to Project Success", notificationRef);
   }
   const OtherChainWallet = () => {
     return(

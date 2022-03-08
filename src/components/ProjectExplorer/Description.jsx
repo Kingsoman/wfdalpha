@@ -17,7 +17,7 @@ export default function Description({ data })
       </chakra.p>
 
       <chakra.p py={2} color={'gray.400'}>
-        {data.project_description.substr(0, 250)}
+        {data.project_description.substr(0, 250)}...
       </chakra.p>
     </Flex>
   )

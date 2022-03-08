@@ -1,25 +1,19 @@
-import React,{ useRef, useState, useEffect, forwardRef, useCallback } from 'react'
-import {
-  Box,
-  Flex,
-  HStack,
-  VStack,
-  ChakraProvider
-} from '@chakra-ui/react'
+import React, { useRef, useState, useEffect, forwardRef, useCallback } from 'react'
+import { Box, Flex, HStack, VStack, } from '@chakra-ui/react'
 import {
   Sleep,
   FetchData,
   EstimateSend,
   CheckNetwork,
   GetProjectStatus,
+  GetOneProject,
 } from '../components/Util'
 
-import theme from '../theme'
 import { useStore } from '../store'
 import Footer from '../components/Footer'
+import PageLayout from '../components/PageLayout'
 
 import { Link, useNavigate } from '@reach/router'
-import CoverHeader from '../components/CoverHeader'
 import Notification from '../components/Notification'
 import { WasmAPI, MsgExecuteContract } from '@terra-money/terra.js'
 
@@ -40,12 +34,6 @@ import MobileTitle from '../components/ProjectExplorer/Mobile/Title'
 import MobileStatusButtons from '../components/ProjectExplorer/Mobile/StatusButtons'
 import MobileInformations from '../components/ProjectExplorer/Mobile/Informations'
 import MobileMainButtons from '../components/ProjectExplorer/Mobile/MainButtons'
-
-let useConnectedWallet = {}
-if (typeof document !== 'undefined') {
-  useConnectedWallet =
-    require('@terra-money/wallet-provider').useConnectedWallet
-}
 
 export default function ExplorerProject() {
   const navigate = useNavigate()
@@ -82,8 +70,8 @@ export default function ExplorerProject() {
       for (let i = 0; i < postRef.current.length; i++) {
         postRef.current[i].leftTime = parseInt(
           (parseInt(postRef.current[i].community_vote_deadline) - Date.now()) /
-            1000 /
-            60,
+          1000 /
+          60,
         ) //for minutes
       }
       setPostProjectData(postRef.current)
@@ -112,10 +100,6 @@ export default function ExplorerProject() {
     setPostProjectData(state.activeProjectData.slice(offset, offset + pageSize))
   }
   //-----------connect to wallet ---------------------
-  let connectedWallet = ''
-  if (typeof document !== 'undefined') {
-    connectedWallet = useConnectedWallet()
-  }
 
   const notificationRef = useRef()
   const api = new WasmAPI(state.lcd_client.apiRequester)
@@ -146,23 +130,23 @@ export default function ExplorerProject() {
 
   //------------Wefund Approve-----------------
   async function WefundApprove(project_id) {
-    if (CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false
     let deadline = Date.now() + 1000 * 60 * 60 * 24 * 15 //for 15days
     let msg = new MsgExecuteContract(
-      connectedWallet.walletAddress,
+      state.connectedWallet.walletAddress,
       state.WEFundContractAddress,
-      { 
-        wefund_approve: { 
-          project_id: project_id, 
-          deadline: `${deadline}` 
-        } 
+      {
+        wefund_approve: {
+          project_id: project_id,
+          deadline: `${deadline}`
+        }
       }
     )
     await EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
-      msg,
+      [msg],
       'WeFund Approve success',
       notificationRef,
     )
@@ -172,20 +156,20 @@ export default function ExplorerProject() {
 
   //-----------Community Vote----------------
   async function CommunityVote(project_id, voted, leftTime) {
-    if (CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false
     if (leftTime <= 0) {
       notificationRef.current.showNotification('Time is expired', 'error', 4000)
       return
     }
-    let wallet = connectedWallet.walletAddress
+    let wallet = state.connectedWallet.walletAddress
     let msg = new MsgExecuteContract(wallet, state.WEFundContractAddress, {
       set_community_vote: { project_id, wallet, voted },
     })
     await EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
-      msg,
+      [msg],
       'Community vote success',
       notificationRef,
     )
@@ -194,9 +178,9 @@ export default function ExplorerProject() {
   }
 
   async function MilestoneVote(project_id, voted) {
-    if (CheckNetwork(connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false
-    let wallet = connectedWallet.walletAddress
+    let wallet = state.connectedWallet.walletAddress
     let MilestoneVoteMsg = { set_milestone_vote: { project_id, wallet, voted } }
 
     let wefundContractAddress = state.WEFundContractAddress
@@ -206,9 +190,9 @@ export default function ExplorerProject() {
       MilestoneVoteMsg,
     )
     EstimateSend(
-      connectedWallet,
+      state.connectedWallet,
       state.lcd_client,
-      msg,
+      [msg],
       'Milestone vote success',
       notificationRef,
     )
@@ -216,176 +200,192 @@ export default function ExplorerProject() {
     fetchContractQuery(true)
   }
 
+  async function NextFundraisingStage(project_id, curStage) {
+    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+      return false;
+
+    let { projectData } = await FetchData(api, notificationRef, state, dispatch)
+
+    let stage = parseInt(curStage);
+    let data = GetOneProject(projectData, project_id);
+console.log(data)
+    if (stage < data.vesting.length - 1)
+      stage = stage + 1;
+    else
+      return false;
+
+    stage = stage.toString();
+    let FundraisingMsg = { set_fundraising_stage: { project_id, stage } }
+
+    let wefundContractAddress = state.WEFundContractAddress
+    let msg = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
+      wefundContractAddress,
+      FundraisingMsg,
+    )
+    EstimateSend(
+      state.connectedWallet,
+      state.lcd_client,
+      [msg],
+      'Set Fundraising stage success',
+      notificationRef,
+    )
+    await Sleep(2000)
+    fetchContractQuery(true)
+  }
   //---------initialize fetching---------------------
   useEffect(() => {
     fetchContractQuery()
-  }, [activeTab])
+  }, [activeTab, state.net])
 
   return (
-    <ChakraProvider resetCSS theme={theme}>
+    <PageLayout title="Projects" subTitle1="Explore" subTitle2="Projects">
+      <Tabs activeTab={activeTab} onChangeActivetab={onChangeActivetab} />
+
+      {/* Projects Incubated */}
       <Flex
-        color={'white'}
-        width={'100%'}
-        fontSize={'18px'}
-        justify={'center'}
-        fontWeight={'500'}
-        alignItems={'center'}
-        flexDirection={'column'}
-        fontFamily={'Sk-Modernist-Regular'}
-        background={'linear-gradient(90deg, #1F0021 0%, #120054 104.34%)'}
+        w={{ base: '90%', md: '98%', lg: '80%' }}
+        justify="center"
+        mt="50px"
       >
-        <CoverHeader
-          text2Color
-          title={'Projects'}
-          text1={'Explore'}
-          text2={'Projects'}
-        />
-
-        <Tabs activeTab={activeTab} onChangeActivetab={onChangeActivetab} />
-
-        {/* Projects Incubated */}
-        <Flex
-          w={{ base: '90%', md: '98%', lg: '80%' }}
-          justify="center"
-          mt="50px"
-        >
-          <Box fontFamily={'Sk-Modernist-Regular'} w={'100%'}>
-            <Flex w={'100%'} justify="center" zIndex={'1'}>
-              <VStack w={'100%'} paddingBottom={'50px'}>
+        <Box fontFamily={'Sk-Modernist-Regular'} w={'100%'}>
+          <Flex w={'100%'} justify="center" zIndex={'1'}>
+            <VStack w={'100%'} paddingBottom={'50px'}>
+              <Flex
+                w="100%"
+                padding={'0 20px'}
+                justify={'center'}
+                borderTopColor={'transparent'}
+                bg={'rgba(255, 255, 255, 0.05)'}
+                fontFamily={'Sk-Modernist-Regular'}
+              >
+                {/* ------------------project desktop---------- */}
                 <Flex
                   w="100%"
-                  padding={'0 20px'}
-                  justify={'center'}
-                  borderTopColor={'transparent'}
-                  bg={'rgba(255, 255, 255, 0.05)'}
-                  fontFamily={'Sk-Modernist-Regular'}
+                  flexDirection={'column'}
+                  display={{ base: 'none', md: 'flex', lg: 'flex' }}
                 >
-                  {/* ------------------project desktop---------- */}
-                  <Flex
-                    w="100%"
-                    flexDirection={'column'}
-                    display={{ base: 'none', md: 'flex', lg: 'flex' }}
-                  >
-                    <ProjectCount />
-                    {postProjectData != '' && postProjectData.map((e, index) => (
-                      <Box
-                        w="100%"
-                        key={index}
-                        shadow="lg"
-                        overflow="hidden"
-                        boxSizing="border-box"
-                        borderTop="1px solid rgba(255, 255, 255, 0.1)"
-                      >
-                        <HStack w="100%">
-                          <Logo data={e} />
-                          <Box py={4} px={2} w="100%">
-                            <Flex justify={'space-between'} mb={'20px'}>
-                              <Title activeTab={activeTab} data = {e} />
-                              <StatusButtons
-                                index = {index}
-                                data={e}
-                                activeTab = {activeTab}
-                                WefundApprove = {WefundApprove}
-                                CommunityVote = {CommunityVote}
-                                MilestoneVote = {MilestoneVote}
-                              />
-                            </Flex>
+                  <ProjectCount />
+                  {postProjectData != '' && postProjectData.map((e, index) => (
+                    <Box
+                      w="100%"
+                      key={index}
+                      shadow="lg"
+                      overflow="hidden"
+                      boxSizing="border-box"
+                      borderTop="1px solid rgba(255, 255, 255, 0.1)"
+                    >
+                      <HStack w="100%">
+                        <Logo data={e} />
+                        <Box py={4} px={2} w="100%">
+                          <Flex justify={'space-between'} mb={'20px'} alignItems='center'>
+                            <Title activeTab={activeTab} data={e} />
+                            <StatusButtons
+                              index={index}
+                              data={e}
+                              activeTab={activeTab}
+                              WefundApprove={WefundApprove}
+                              CommunityVote={CommunityVote}
+                              MilestoneVote={MilestoneVote}
+                              NextFundraisingStage={NextFundraisingStage}
+                            />
+                          </Flex>
 
-                            <Flex
-                              align="self-start"
-                              justifyContent={'space-between'}
-                            >
-                              <Description data={e} />
-                              <CircularProgresses
-                                activeTab = {activeTab}
-                                data={e}
-                                sz={{ base: '80px', md: '120px', lg: '150px'}}
-                              />
-                            </Flex>
-                            <ExtraInfos activeTab={activeTab} data={e} />
-                            <HStack justify="space-between" mt={'10px'}>
-                              <Informations data={e}/>
-                              <MainButtons index = {index} data={e}/>
-                            </HStack>
-                          </Box>
-                        </HStack>
-                      </Box>
+                          <Flex
+                            align="self-start"
+                            justifyContent={'space-between'}
+                          >
+                            <Description data={e} />
+                            <CircularProgresses
+                              activeTab={activeTab}
+                              data={e}
+                              sz={{ base: '80px', md: '120px', lg: '150px' }}
+                            />
+                          </Flex>
+                          <ExtraInfos activeTab={activeTab} data={e} />
+                          <HStack justify="space-between" mt={'10px'}>
+                            <Informations data={e} />
+                            <MainButtons index={index} data={e} />
+                          </HStack>
+                        </Box>
+                      </HStack>
+                    </Box>
+                  ))}
+                </Flex>
+
+                {/* ------------------project mobile---------- */}
+                <Flex
+                  width={'100%'}
+                  flexDirection="column"
+                  display={{ base: 'flex', md: 'none', lg: 'none' }}
+                >
+                  <ProjectCount />
+
+                  <Flex
+                    w={'100%'}
+                    shadow="lg"
+                    alignSelf={'center'}
+                    direction={'column'}
+                    boxSizing="border-box"
+                  >
+                    {postProjectData != '' && postProjectData.map((e, index) => (
+                      <Flex
+                        width={'100%'}
+                        alignSelf={'center'}
+                        direction={'column'}
+                        mb="20px"
+                        key={index}
+                        align="center"
+                      >
+                        <Flex
+                          width={'90%'}
+                          justify={'center'}
+                          direction={'column'}
+                          alignSelf={'center'}
+                        >
+                          <MobileLogo data={e} />
+                          <MobileTitle data={e} />
+                          <Flex
+                            py={2}
+                            w="100%"
+                            alignItems={'center'}
+                            flexDirection={'column'}
+                            justify={'space-between'}
+                          >
+                            <MobileInformations data={e} />
+                            <MobileStatusButtons
+                              index={index}
+                              data={e}
+                              activeTab={activeTab}
+                              WefundApprove={WefundApprove}
+                              CommunityVote={CommunityVote}
+                              MilestoneVote={MilestoneVote}
+                              NextFundraisingStage={NextFundraisingStage}
+                            />
+                          </Flex>
+                        </Flex>
+
+                        <Flex alignSelf={'center'} marginTop={'20px'}>
+                          <CircularProgresses value={e} sz="120px" />
+                        </Flex>
+
+                        <MobileMainButtons index={index} data={e} />
+                      </Flex>
                     ))}
                   </Flex>
-
-                  {/* ------------------project mobile---------- */}
-                  <Flex
-                    width={'100%'}
-                    flexDirection="column"
-                    display={{ base: 'flex', md: 'none', lg: 'none' }}
-                  >
-                    <ProjectCount />
-
-                    <Flex
-                      w={'100%'}
-                      shadow="lg"
-                      alignSelf={'center'}
-                      direction={'column'}
-                      boxSizing="border-box"
-                    >
-                      {postProjectData != '' && postProjectData.map((e, index) => (
-                        <Flex
-                          width={'100%'}
-                          alignSelf={'center'}
-                          direction={'column'}
-                          mb="20px"
-                          key={index}
-                          align="center"
-                        >
-                          <Flex
-                            width={'90%'}
-                            justify={'center'}
-                            direction={'column'}
-                            alignSelf={'center'}
-                          >
-                            <MobileLogo data={e} />
-                            <MobileTitle data={e} />
-                            <Flex
-                              py={2}
-                              w="100%"
-                              alignItems={'center'}
-                              flexDirection={'column'}
-                              justify={'space-between'}
-                            >
-                              <MobileInformations data={e}/>
-                              <MobileStatusButtons 
-                                index = {index}
-                                data={e}
-                                activeTab = {activeTab}
-                                WefundApprove = {WefundApprove}
-                                CommunityVote = {CommunityVote}
-                                MilestoneVote = {MilestoneVote}
-                              />
-                            </Flex>
-                          </Flex>
-
-                          <Flex alignSelf={'center'} marginTop={'20px'}>
-                            <CircularProgresses value={e} sz="120px" />
-                          </Flex>
-
-                          <MobileMainButtons index = {index} data={e} />
-                        </Flex>
-                      ))}
-                    </Flex>
-                  </Flex>
                 </Flex>
-                <ProjectPaginator 
-                  current = {current}
-                  pagesize = {pageSize}
-                  onChangePaginator = {onChangePaginator}
-                />
-              </VStack>
-            </Flex>
-          </Box>
-        </Flex>
-        <Footer />
-        <Notification ref={notificationRef} />
+              </Flex>
+              <ProjectPaginator
+                current={current}
+                pagesize={pageSize}
+                onChangePaginator={onChangePaginator}
+              />
+            </VStack>
+          </Flex>
+        </Box>
       </Flex>
-    </ChakraProvider>
+      <Footer />
+      <Notification ref={notificationRef} />
+    </PageLayout>
   )
 }
