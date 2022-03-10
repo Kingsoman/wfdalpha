@@ -31,12 +31,6 @@ export default function Tabs({ activeTab, onChangeActivetab }) {
         />
         <Tab
           activeTab={activeTab}
-          value={'CommuntyApproval'}
-          label={'Communty Approval'}
-          onChangeActivetab={onChangeActivetab}
-        />
-        <Tab
-          activeTab={activeTab}
           value={'Fundraising'}
           label={'Fundraising'}
           onChangeActivetab={onChangeActivetab}

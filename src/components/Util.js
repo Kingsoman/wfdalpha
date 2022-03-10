@@ -79,20 +79,17 @@ console.log(msgs);
 export function GetProjectStatusString(mode) {
   let projectstatus = "Error";
 
-  switch (parseInt(mode)) {
-    case 0:
+  switch (mode) {
+    case "WefundVote":
       projectstatus = 'WeFundApproval';
       break;
-    case 1:
-      projectstatus = 'CommuntyApproval';
-      break;
-    case 2:
+    case "Fundraising":
       projectstatus = 'Fundraising';
       break;
-    case 3:
+    case "Releasing":
       projectstatus = 'MileStoneDelivery';
       break;
-    case 4:
+    case "Done":
       projectstatus = 'ProjectComplete';
       break;
   }
@@ -102,19 +99,16 @@ export function GetProjectStatus(mode) {
   let projectstatus = 0;
   switch (mode) {
     case 'WeFundApproval':
-      projectstatus = 0;
-      break;
-    case 'CommuntyApproval':
-      projectstatus = 1;
+      projectstatus = "WefundVote";
       break;
     case 'Fundraising':
-      projectstatus = 2;
+      projectstatus = "Fundraising";
       break;
     case 'MileStoneDelivery':
-      projectstatus = 3;
+      projectstatus = "Releasing";
       break;
     case 'ProjectComplete':
-      projectstatus = 4;
+      projectstatus = "Done";
       break;
   }
   return projectstatus;
@@ -136,14 +130,6 @@ export function AddExtraInfo(state, projectData, communityData) {
       (community_backedAmount / 10 ** 6 / parseInt(projectData[i].project_collected)) *
       100,
     );
-
-    let communityVoted = 0;
-    for (let j = 0; j < projectData[i].community_votes.length; j++) {
-      if (projectData[i].community_votes[j].voted) {
-        communityVoted++;
-      }
-    }
-    projectData[i].communityVotedPercent = parseInt(communityVoted / communityData.length * 100);
 
     let released = 0;
     for (let j = 0; j < projectData[i].milestone_states.length; j++) {
@@ -241,6 +227,7 @@ export async function FetchData(api, notificationRef, state, dispatch, force = f
       }
     )
 console.log(force);
+
     if (projectData == '') {
       if (notificationRef)
         notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);

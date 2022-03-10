@@ -55,43 +55,6 @@ export default function StatusButtons({
           </ButtonTransition>
         </Flex>
       )}
-      {activeTab === 'CommuntyApproval' && isCommunityWallet(state, data.project_id) && (
-        <Flex justify={'space-between'}>
-          <ButtonTransition
-            unitid={'visit' + index}
-            width="120px"
-            height="40px"
-            selected={false}
-            rounded="30px"
-            onClick={() =>
-              CommunityVote(
-                data.project_id,
-                true,
-                data.leftTime,
-              )
-            }
-          >
-            <Text fontSize={'15px'}>Vote Yes</Text>
-          </ButtonTransition>
-
-          <ButtonTransition
-            unitid={'view' + index}
-            selected={false}
-            width="120px"
-            height="40px"
-            rounded="30px"
-            onClick={() =>
-              CommunityVote(
-                data.project_id,
-                false,
-                data.leftTime,
-              )
-            }
-          >
-            <Text fontSize={'15px'}>Vote No</Text>
-          </ButtonTransition>
-        </Flex>
-      )}
       {activeTab === 'Fundraising' && (
         <>
         <Text>{data.fundraising_stage} phase</Text>

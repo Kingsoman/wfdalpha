@@ -8,10 +8,10 @@ const StoreContext = createContext()
 //  terra1pkytkcanua4uazlpekve7qyhg2c5xwwjr4429d //testnet
 //  terra1nppndpgfusn7p8nd5d9fqy47xejg0x55jjxe2y //mainnet
 
-export const WEFUND_MAIN = "terra15aa92np7epcx8nmkzvhtphws2g0mmfvllj2tyd";
+export const WEFUND_MAIN = "terra1fe42wt74wx8z0snwnzkeytsxpmz5l4yu83uxyy";
 export const VESTING_MAIN = "terra1clufns3djy7fye5k3sq3m4y3777e85jw5v2ygk";
 
-export const WEFUND_TEST = "terra13jfz3q9km63uyz3ak86hgw0d9ltkrysl26rekn";
+export const WEFUND_TEST = "terra1ef73f5knkez000drwrne47kzvhs6m7vdx6vkz0";
 export const VESTING_TEST = "terra1055p3nlct3pg4xr2gxkvmec9d055wwfy56gf07";
 
 const initialState = {

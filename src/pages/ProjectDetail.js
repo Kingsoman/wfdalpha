@@ -150,31 +150,7 @@ export default function ProjectDetail() {
     )
     EstimateSend(state.connectedWallet, state.lcd_client, [msg], "WeFund Approve success", notificationRef);
   }
-  //-----------Community Vote----------------
-  function CommunityVote(project_id, voted, leftTime){
-    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
-      return false;
 
-    if(leftTime <= 0){
-      notificationRef.current.showNotification("Time is expired", "error", 4000);
-      return;
-    }
-    let CommunityVoteMsg = {
-      set_community_vote: {
-        project_id: project_id,
-        wallet: state.connectedWallet.walletAddress,
-        voted: voted
-      },
-    }
-
-    let wefundContractAddress = state.WEFundContractAddress
-    let msg = new MsgExecuteContract(
-      state.connectedWallet.walletAddress,
-      wefundContractAddress,
-      CommunityVoteMsg,
-    )
-    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Community vote success", notificationRef);
-  }
   function MilestoneVote(project_id, voted){
     if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
       return false;
@@ -224,7 +200,6 @@ export default function ProjectDetail() {
                 <ProjectStatusButtons 
                   data={oneprojectData}
                   WefundApprove = {WefundApprove}
-                  CommunityVote = {CommunityVote}
                   onNext = {onNext}
                   MilestoneVote = {MilestoneVote}
                 />

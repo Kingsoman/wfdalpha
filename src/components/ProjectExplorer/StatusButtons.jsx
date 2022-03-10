@@ -18,7 +18,6 @@ export default function StatusButtons({
   data,
   activeTab,
   WefundApprove,
-  CommunityVote,
   MilestoneVote,
   NextFundraisingStage,
 }) {
@@ -44,59 +43,6 @@ export default function StatusButtons({
               }}
             >
               Approve Project
-            </Text>
-          </ButtonTransition>
-        </Flex>
-      )}
-      {activeTab === 'CommuntyApproval' && isCommunityWallet(state, data.project_id) && (
-        <Flex w={'330px'} justify={'space-between'}>
-          <ButtonTransition
-            unitid={'visit' + index}
-            width="150px"
-            height="45px"
-            fontSize={{ base: '14px', lg: '16px' }}
-            selected={false}
-            rounded="33px"
-            onClick={() =>
-              CommunityVote(
-                data.project_id,
-                true,
-                data.leftTime,
-              )
-            }
-          >
-            <Text
-              fontSize={{
-                base: '14px',
-                lg: '16px',
-              }}
-            >
-              Vote Yes
-            </Text>
-          </ButtonTransition>
-
-          <ButtonTransition
-            unitid={'view' + index}
-            selected={false}
-            width="150px"
-            height="45px"
-            fontSize={{ base: '14px', lg: '16px' }}
-            rounded="33px"
-            onClick={() =>
-              CommunityVote(
-                data.project_id,
-                false,
-                data.leftTime,
-              )
-            }
-          >
-            <Text
-              fontSize={{
-                base: '14px',
-                lg: '16px',
-              }}
-            >
-              Vote No
             </Text>
           </ButtonTransition>
         </Flex>

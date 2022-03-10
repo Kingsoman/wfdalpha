@@ -7,16 +7,10 @@ import {
 export default function CircularProgresses({ activeTab, data, sz }) 
 {
   const released = data?.releasedPercent
-  const vote = data?.communityVotedPercent
   const backer = data?.backer_backedPercent
   const community = data?.community_backedPercent
   return (
     <>
-      {activeTab == 'CommuntyApproval' && (
-        <CircularProgress value={vote} size={sz} color="blue.600">
-          <CircularProgressLabel>{vote}%</CircularProgressLabel>
-        </CircularProgress>
-      )}
       {activeTab == 'Fundraising' && (
         <>
           <CircularProgress value={community} size={sz} color="blue.600">
