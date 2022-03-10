@@ -3,11 +3,10 @@ import { Box, chakra } from '@chakra-ui/react'
 import { useStore } from '../../store'
 import {
   GetProjectStatus, GetProjectStatusString
-  }  from '../Util'
-  
-export default function Title({ data, activeTab }) 
-{
-  const {state, dispatch} = useStore();
+} from '../Util'
+
+export default function Title({ data, activeTab }) {
+  const { state, dispatch } = useStore();
   return (
     <Box>
       <chakra.h1
@@ -23,6 +22,7 @@ export default function Title({ data, activeTab })
         color="white"
         fontSize="lg"
         fontWeight="bold"
+        textAlign="left"
       >
         {data.project_title}
       </chakra.h1>

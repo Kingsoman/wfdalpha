@@ -58,35 +58,7 @@ export default function ExplorerProject() {
     }
     navigate('/explorer?activetab=' + mode)
   }
-  //------------deadline timer-------------------------------
-  const postRef = useRef(postProjectData)
-  postRef.current = postProjectData
-
-  const [, updateState] = useState()
-  const forceUpdate = useCallback(() => updateState({}), [])
-
-  const myTimer = () => {
-    if (postRef.current != '') {
-      for (let i = 0; i < postRef.current.length; i++) {
-        postRef.current[i].leftTime = parseInt(
-          (parseInt(postRef.current[i].community_vote_deadline) - Date.now()) /
-          1000 /
-          60,
-        ) //for minutes
-      }
-      setPostProjectData(postRef.current)
-      forceUpdate()
-    }
-  }
-
-  useEffect(() => {
-    if (activeTab == 'CommuntyApproval') {
-      myTimer()
-      const id = setInterval(myTimer, 1000 * 60)
-      return () => clearInterval(id)
-    }
-  }, [postProjectData])
-
+ 
   //-------------paginator-----------------------------------
   const [current, setCurrent] = useState(1)
   const pageSize = 3
@@ -116,8 +88,7 @@ export default function ExplorerProject() {
       )
       //-----------------initialize--------------------------
       let activeProjectData = projectData.filter(
-        (project) =>
-          parseInt(project.project_status) == GetProjectStatus(activeTab),
+        (project) => project.project_status == GetProjectStatus(activeTab)
       )
 
       dispatch({ type: 'setActiveProjectData', message: activeProjectData })
@@ -148,29 +119,6 @@ export default function ExplorerProject() {
       state.lcd_client,
       [msg],
       'WeFund Approve success',
-      notificationRef,
-    )
-    await Sleep(2000)
-    fetchContractQuery(true)
-  }
-
-  //-----------Community Vote----------------
-  async function CommunityVote(project_id, voted, leftTime) {
-    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
-      return false
-    if (leftTime <= 0) {
-      notificationRef.current.showNotification('Time is expired', 'error', 4000)
-      return
-    }
-    let wallet = state.connectedWallet.walletAddress
-    let msg = new MsgExecuteContract(wallet, state.WEFundContractAddress, {
-      set_community_vote: { project_id, wallet, voted },
-    })
-    await EstimateSend(
-      state.connectedWallet,
-      state.lcd_client,
-      [msg],
-      'Community vote success',
       notificationRef,
     )
     await Sleep(2000)
@@ -285,7 +233,6 @@ console.log(data)
                               data={e}
                               activeTab={activeTab}
                               WefundApprove={WefundApprove}
-                              CommunityVote={CommunityVote}
                               MilestoneVote={MilestoneVote}
                               NextFundraisingStage={NextFundraisingStage}
                             />
@@ -358,7 +305,6 @@ console.log(data)
                               data={e}
                               activeTab={activeTab}
                               WefundApprove={WefundApprove}
-                              CommunityVote={CommunityVote}
                               MilestoneVote={MilestoneVote}
                               NextFundraisingStage={NextFundraisingStage}
                             />

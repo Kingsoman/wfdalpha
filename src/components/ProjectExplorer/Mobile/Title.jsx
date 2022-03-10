@@ -24,6 +24,7 @@ export default function MobileTitle({ data })
       </Flex>
       <Text color={'gray.400'} fontSize="15px">
         {data.project_description.substr(0, 300)}
+        {data.project_description.length > 300 && "..."}
       </Text>
     </>
   )
