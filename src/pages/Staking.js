@@ -16,15 +16,18 @@ import {
 import { IoBan } from 'react-icons/io5';
 import { useStore } from '../store'
 import { InputTransition, ButtonTransition, } from '../components/ImageTransition'
-
+import CardBox from '../components/Staking/CardBox'
 import PageLayout from '../components/PageLayout'
 import Footer from '../components/Footer'
 import Notification from '../components/Notification'
 import { EstimateSend, FetchData, Set2Mainnet, Set2Testnet } from '../components/Util'
 
-export default function Dashboard() {
-  const { state, dispatch } = useStore()
-  const [wallet, setWallet] = useState('');
+export default function Staking() {
+  const { state, dispatch } = useStore();
+  const [userInfo, setUserInfo] = useState({ amount: "0", card_type: "Other", card_number: "0" });
+  const [balance, setBalance] = useState("");
+  const [amount, setAmount] = useState("");
+  const [decimals, setDecimals] = useState(1);
 
   const notificationRef = useRef();
   const api = new WasmAPI(state.lcd_client.apiRequester)
@@ -32,39 +35,110 @@ export default function Dashboard() {
   //-----------fetch project data=-------------------------
   async function fetchContractQuery() {
     try {
-      let { projectData, communityData, configData } = await FetchData(api, notificationRef, state, dispatch);
+      let tokenInfo = await api.contractQuery(
+        state.WFDTokenAddress,
+        {
+          token_info: {}
+        }
+      )
+      setDecimals(parseInt(tokenInfo.decimals));
+
+      let res = await api.contractQuery(
+        state.WFDTokenAddress,
+        {
+          balance: { address: state.connectedWallet.walletAddress }
+        }
+      )
+      setBalance(res.balance);
+
+      let userInfo = await api.contractQuery(
+        state.StakingContractAddress,
+        {
+          get_user_info: { wallet: state.connectedWallet.walletAddress }
+        }
+      )
+      setUserInfo(userInfo);
+      console.log(userInfo)
     }
     catch (e) {
-
+      console.log(e)
     }
-
   }
-
 
   //---------initialize fetching---------------------
   useEffect(() => {
     fetchContractQuery();
   }, [state.connectedWallet])
 
+  function selectCard(cardType) {
+    switch (cardType.toLowerCase()) {
+      case "platium": setAmount(100000); break;
+      case "gold": setAmount(40000); break;
+      case "silver": setAmount(10000); break;
+      case "bronze": setAmount(1000); break;
+    }
+  }
+  async function staking() {
+    let realAmount = parseInt(amount) * (10 ** parseInt(decimals));
+    let deposit = {
+      deposit: {
+        wallet: state.connectedWallet.walletAddress,
+        amount: `${realAmount}`
+      }
+    }
+    let msg_deposit = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
+      state.StakingContractAddress,
+      deposit
+    )
 
+    let transfer = {
+      transfer: {
+        recipient: state.StakingContractAddress,
+        amount: `${realAmount}`
+      }
+    }
+    let msg_transfer = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
+      state.WFDTokenAddress,
+      transfer
+    )
+
+    await EstimateSend(
+      state.connectedWallet,
+      state.lcd_client,
+      [msg_transfer, msg_deposit],
+      'Staking Success',
+      notificationRef,
+    );
+  }
+  async function getRewards(){
+    let claim = {
+      claim_rewards: {
+        wallet: state.connectedWallet.walletAddress,
+      }
+    }
+    let msg_claim = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
+      state.StakingContractAddress,
+      claim
+    )
+
+    await EstimateSend(
+      state.connectedWallet,
+      state.lcd_client,
+      [msg_claim],
+      'Claim rewards success',
+      notificationRef,
+    );
+  }
   return (
     <PageLayout title="Staking" subTitle1="WFD" subTitle2="Staking">
       <VStack spacing='30px' fontFamily="PilatExtended-Bold">
         <Stack border={"1px dashed gray"} spacing="40px" rounded='15px' p='40px'
           direction={{ base: 'column', md: 'column', lg: 'row' }}
         >
-          <VStack spacing="10px" justify='center'>
-            <Image src="/media/Card/Platinum Card.png" h='200px' />
-            <Text fontSize="30px">
-              Platinum Card
-            </Text>
-            <Text fontSize='12px'>
-              Validated staked amount
-            </Text>
-            <Text fontSize='24px'>
-              1000,100.0 WFD
-            </Text>
-          </VStack>
+          <CardBox data={userInfo} />
           <Flex
             borderLeft="1px solid gray" w='1px' h='300px'
             display={{ base: 'none', md: 'none', lg: 'block' }}
@@ -74,7 +148,7 @@ export default function Dashboard() {
               TOTAL STAKED AMOUNT BY THE USER
             </Text>
             <Text fontSize='5x1'>
-              100,000.0 WFD
+              {userInfo?.amount} WFD
             </Text>
             <HStack spacing='5px'>
               <IoBan />
@@ -82,41 +156,57 @@ export default function Dashboard() {
                 No staking History
               </Text>
             </HStack>
-            <Button w='200px' h='50px' fontSize='md' color='#5f6062'>
+            <Button w='200px' h='50px' fontSize='md' color='#5f6062' onClick={getRewards}>
               Get Rewards
             </Button>
           </VStack>
         </Stack>
         <Box w={{ base: '100%', md: '70', lg: '50%' }} pb='10px'>
-          <Flex 
-            rounded="15px 15px 0 0" 
-            background='rgba(255, 255, 255, 0.09)' 
-            w='100%' 
-            h='60px' 
-            align='center' 
+          <Flex
+            rounded="15px 15px 0 0"
+            background='rgba(255, 255, 255, 0.09)'
+            w='100%'
+            h='60px'
+            align='center'
           >
             <Text fontSize='14px' textAlign='left' pl='20px'>
               Stake Now
             </Text>
           </Flex>
-          <VStack 
-            spacing='20px' 
-            background='rgba(255, 255, 255, 0.05)' 
-            rounded='0 0 15px 15px' 
+          <VStack
+            spacing='20px'
+            background='rgba(255, 255, 255, 0.05)'
+            rounded='0 0 15px 15px'
             pb='20px'
           >
-            <Stack 
-              spacing='10px' 
+            <Stack
+              spacing='10px'
               mt='10px'
               direction={{ base: 'column', md: 'column', lg: 'row' }}
             >
               <HStack spacing='10px'>
-                <Image src="/media/Card/Platinum Card.png" h='100px' _hover={{border:'1px solid red'}}/>
-                <Image src="/media/Card/Golden Card.png" h='100px'  _hover={{border:'1px solid red'}}/>
+                <Image
+                  src="/media/Card/Platinum.png" h='100px'
+                  _hover={{ border: '1px solid red' }}
+                  onClick={() => { selectCard("platium") }}
+                />
+                <Image
+                  src="/media/Card/Gold.png" h='100px'
+                  _hover={{ border: '1px solid red' }}
+                  onClick={() => { selectCard("Gold") }}
+                />
               </HStack>
               <HStack spacing='10px'>
-                <Image src="/media/Card/Silver Card.png" h='100px'  _hover={{border:'1px solid red'}}/>
-                <Image src="/media/Card/Bronze Card.png" h='100px'  _hover={{border:'1px solid red'}}/>
+                <Image
+                  src="/media/Card/Silver.png" h='100px'
+                  _hover={{ border: '1px solid red' }}
+                  onClick={() => { selectCard("Silver") }}
+                />
+                <Image
+                  src="/media/Card/Bronze.png" h='100px'
+                  _hover={{ border: '1px solid red' }}
+                  onClick={() => { selectCard("bronze") }}
+                />
               </HStack>
             </Stack>
             <Text fontSize='16px' py='20px'>
@@ -136,11 +226,11 @@ export default function Dashboard() {
                   Stake
                 </Text>
                 <Text fontSize='8px'>
-                  BALANCE:0
+                  BALANCE: {parseInt(balance)/(10**parseInt(decimals))}
                 </Text>
               </Flex>
               <HStack justify='space-between' align='flex-end' w='100%'>
-                <Input fontSize='12px' />
+                <Input fontSize='12px' value={amount} onChange={(e) => { setAmount(e.target.value) }} />
                 <HStack>
                   <Text fontSize='8px' color='gray.300'>
                     MAX
@@ -156,7 +246,7 @@ export default function Dashboard() {
                 I agree to WeFund Staking Terms
               </Text>
             </Checkbox>
-            <Button color='#5f6062'>
+            <Button color='#5f6062' onClick={staking}>
               Approve
             </Button>
           </VStack>

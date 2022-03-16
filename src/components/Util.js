@@ -1,13 +1,14 @@
 import { Fee, MsgExecuteContract, WasmAPI, LCDClient } from '@terra-money/terra.js'
 import { useStore } from '../store'
 import React, { useRef, useState, useEffect, forwardRef, useCallback } from 'react'
-import { WEFUND_MAIN, WEFUND_TEST, VESTING_MAIN, VESTING_TEST } from '../store'
+import { WEFUND_MAIN, WEFUND_TEST, VESTING_MAIN, VESTING_TEST, STAKING_TEST, STAKING_MAIN, 
+  WFDTOKEN_MAIN, WFDTOKEN_TEST } from '../store'
 
 export async function EstimateSend(connectedWallet, lcd, msgs, message, notificationRef, memo = '') {
 console.log(msgs);
-  // const obj = new Fee(10_000, { uusd: 4500 })
-  // let accountInfo;
-  let abort = false;
+//   const obj = new Fee(10_000, { uusd: 4500 })
+//   let accountInfo;
+//   let abort = false;
 //   await lcd.auth.accountInfo(
 //     connectedWallet.walletAddress
 //   )
@@ -377,6 +378,15 @@ console.log("set to mainnet")
     type: 'setVestingContract',
     message: VESTING_MAIN
   })
+  dispatch({
+    type: 'setStakingContract',
+    message: STAKING_MAIN
+  })
+  dispatch({
+    type: 'setWFDTokenContract',
+    message: WFDTOKEN_MAIN
+  })
+
 }
 
 export function Set2Testnet(state, dispatch)
@@ -403,5 +413,13 @@ console.log("set to testnet");
   dispatch({
     type: 'setVestingContract',
     message: VESTING_TEST
+  })
+  dispatch({
+    type: 'setStakingContract',
+    message: STAKING_TEST
+  })
+  dispatch({
+    type: 'setWFDTokenContract',
+    message: WFDTOKEN_TEST
   })  
 }
