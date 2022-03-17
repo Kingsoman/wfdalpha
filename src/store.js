@@ -12,7 +12,7 @@ export const WFDTOKEN_MAIN = "terra1nppndpgfusn7p8nd5d9fqy47xejg0x55jjxe2y" //ma
 
 export const WEFUND_TEST = "terra1ef73f5knkez000drwrne47kzvhs6m7vdx6vkz0";
 export const VESTING_TEST = "terra1055p3nlct3pg4xr2gxkvmec9d055wwfy56gf07";
-export const STAKING_TEST = "terra1lhnqm5ls8w0sjk94s3nuh82tzpqufyu4lzc5lm";
+export const STAKING_TEST = "terra1nvwalgxrrtadw3xmgazun57hqrf00a696g0lsl";
 export const WFDTOKEN_TEST = "terra1pkytkcanua4uazlpekve7qyhg2c5xwwjr4429d"; //testnet
 
 const initialState = {

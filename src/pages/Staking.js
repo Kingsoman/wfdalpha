@@ -27,6 +27,7 @@ export default function Staking() {
   const [userInfo, setUserInfo] = useState({ amount: "0", card_type: "Other", card_number: "0" });
   const [balance, setBalance] = useState("");
   const [amount, setAmount] = useState("");
+  const [pendingRewards, setPendingRewards] = useState("");
   const [decimals, setDecimals] = useState(1);
 
   const notificationRef = useRef();
@@ -49,7 +50,7 @@ export default function Staking() {
           balance: { address: state.connectedWallet.walletAddress }
         }
       )
-      setBalance(res.balance);
+      setBalance(parseInt(res.balance) / (10 ** parseInt(tokenInfo.decimals)));
 
       let userInfo = await api.contractQuery(
         state.StakingContractAddress,
@@ -57,7 +58,17 @@ export default function Staking() {
           get_user_info: { wallet: state.connectedWallet.walletAddress }
         }
       )
+      userInfo.amount = parseInt(userInfo.amount) / (10 ** parseInt(tokenInfo.decimals));
       setUserInfo(userInfo);
+
+      let pendingRewards = await api.contractQuery(
+        state.StakingContractAddress,
+        {
+          get_pending_rewards: { wallet: state.connectedWallet.walletAddress }
+        }
+      )
+      setPendingRewards(pendingRewards);
+
       console.log(userInfo)
     }
     catch (e) {
@@ -112,7 +123,7 @@ export default function Staking() {
       notificationRef,
     );
   }
-  async function getRewards(){
+  async function getRewards() {
     let claim = {
       claim_rewards: {
         wallet: state.connectedWallet.walletAddress,
@@ -153,7 +164,7 @@ export default function Staking() {
             <HStack spacing='5px'>
               <IoBan />
               <Text fontSize='8px' textAlign='left'>
-                No staking History
+                PendingRewards: {pendingRewards}&nbsp;WFD
               </Text>
             </HStack>
             <Button w='200px' h='50px' fontSize='md' color='#5f6062' onClick={getRewards}>
@@ -226,7 +237,7 @@ export default function Staking() {
                   Stake
                 </Text>
                 <Text fontSize='8px'>
-                  BALANCE: {parseInt(balance)/(10**parseInt(decimals))}
+                  BALANCE: {balance}
                 </Text>
               </Flex>
               <HStack justify='space-between' align='flex-end' w='100%'>
