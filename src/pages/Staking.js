@@ -135,33 +135,76 @@ export default function Staking() {
   return (
     <PageLayout title="Staking" subTitle1="WFD" subTitle2="Staking">
       <VStack spacing='30px' fontFamily="PilatExtended-Bold">
-        <Stack border={"1px dashed gray"} spacing="40px" rounded='15px' p='40px'
+        <Stack spacing="40px" rounded='15px' p='40px'
           direction={{ base: 'column', md: 'column', lg: 'row' }}
         >
-          <CardBox data={userInfo} />
-          <Flex
-            borderLeft="1px solid gray" w='1px' h='300px'
-            display={{ base: 'none', md: 'none', lg: 'block' }}
-          ></Flex>
-          <VStack spacing='20px' justify='center'>
-            <Text fontSize='sm'>
-              TOTAL STAKED AMOUNT BY THE USER
-            </Text>
-            <Text fontSize='5x1'>
-              {userInfo?.amount} WFD
-            </Text>
-            <HStack spacing='5px'>
-              <IoBan />
-              <Text fontSize='8px' textAlign='left'>
-                No staking History
-              </Text>
-            </HStack>
-            <Button w='200px' h='50px' fontSize='md' color='#5f6062' onClick={getRewards}>
-              Get Rewards
-            </Button>
-          </VStack>
+          <Flex 
+            alignContent={'center'} 
+            direction={{base:'column',md:'column',lg:'row'}} 
+            pl={'35px'}
+            pr={'35px'} 
+            >
+            <Flex 
+              max-width={{lg:'2xl'}}
+              marginRight={{lg:'25px'}}
+              height={"490px"}
+              pl={'20px'}
+              pr={'20px'}
+              bg="rgba(255, 255, 255, 0.05)"
+              boxShadow={"0px 2px 10px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.25)"}
+              border='2px solid rgba(255, 255, 255, 0.05)'
+              borderRadius={"2xl"}
+              justify={'center'}
+              backdropBlur={'54px'}
+              align='center'
+              >
+                <CardBox data={userInfo} />
+            </Flex>
+            <VStack 
+              mt={{ base: '20px', sm:'20px', md: '20px', lg: '0px' }}
+              width={{lg:'3xl'}} 
+              height={{lg:'484px'}}  
+              paddingLeft= {{lg:'55px'}}
+              backdropBlur={'54px'} 
+              style={{ 
+                paddingTop:'65px', 
+                paddingBottom:'65px', 
+                background:'rgba(255, 255, 255, 0.05)', 
+                border:'2px solid rgba(255, 255, 255, 0.05)', 
+                borderRadius: '25px'}}
+              >
+              <Flex 
+                style={{fontFamily:'PilatExtended-Bold'}} 
+                alignSelf={{base:'center', md:'center', lg:'flex-start'}}>
+                <Text fontSize='28px' fontWeight={'900'}>
+                  Welcome $Wallet
+                </Text>
+              </Flex>
+              
+              <Flex alignSelf={{base:'center', md:'center', lg:'flex-start'}}>
+                <VStack spacing='20px' justify='center'>
+                  <Text fontSize='sm'>
+                    TOTAL STAKED AMOUNT BY THE USER
+                    </Text>
+                  <Text fontSize='5x1'>
+                    {userInfo?.amount} WFD
+                  </Text>
+                  <HStack spacing='5px'>
+                      <IoBan />
+                      <Text fontSize='12px' textAlign='left'>
+                        No staking History
+                      </Text>
+                  </HStack>
+                  <Button w='200px' h='50px' fontSize='md' color='grey.300' onClick={getRewards} colorScheme="whiteAlpha">
+                    Get Rewards
+                  </Button>
+                </VStack>
+              </Flex> 
+                        
+            </VStack>
+          </Flex>
         </Stack>
-        <Box w={{ base: '100%', md: '70', lg: '50%' }} pb='10px'>
+        <Box w={{ base: '100%', md: '80%', lg: '80%', xl: '50%' }} pb='10px'>
           <Flex
             rounded="15px 15px 0 0"
             background='rgba(255, 255, 255, 0.09)'
@@ -183,6 +226,7 @@ export default function Staking() {
               spacing='10px'
               mt='10px'
               direction={{ base: 'column', md: 'column', lg: 'row' }}
+              columns={{ base: 1, sm:2, md: 1 }}
             >
               <HStack spacing='10px'>
                 <Image
@@ -222,17 +266,17 @@ export default function Staking() {
               px='10px'
             >
               <Flex direction='row' justify='space-between' w='100%'>
-                <Text fontSize='8px'>
+                <Text fontSize='10px'>
                   Stake
                 </Text>
-                <Text fontSize='8px'>
+                <Text fontSize='10px'>
                   BALANCE: {parseInt(balance)/(10**parseInt(decimals))}
                 </Text>
               </Flex>
               <HStack justify='space-between' align='flex-end' w='100%'>
                 <Input fontSize='12px' value={amount} onChange={(e) => { setAmount(e.target.value) }} />
                 <HStack>
-                  <Text fontSize='8px' color='gray.300'>
+                  <Text fontSize='10px' color='gray.300'>
                     MAX
                   </Text>
                   <Text fontSize='12px'>
@@ -246,7 +290,7 @@ export default function Staking() {
                 I agree to WeFund Staking Terms
               </Text>
             </Checkbox>
-            <Button color='#5f6062' onClick={staking}>
+            <Button color='white' onClick={staking} colorScheme="whiteAlpha">
               Approve
             </Button>
           </VStack>
