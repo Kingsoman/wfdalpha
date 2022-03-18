@@ -13,8 +13,6 @@ import {
 } from '@chakra-ui/react'
 
 export default function CardBox({data}) {
-console.log(data)
-console.log(data.card_type)
   let url = "/media/Card/Other.png";
   switch( data?.card_type?.toLowerCase() ){
     case "platium": url = "/media/Card/Platinum.png"; break;
