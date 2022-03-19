@@ -35,6 +35,7 @@ import Invest_KYC6 from 'pages/Invest_KYC6'
 import Blog from 'pages/Blog'
 import Dashboard from 'pages/Dashboard'
 import Staking from 'pages/Staking'
+import Cards from 'pages/Cards'
 import NotFound from 'pages/NotFound'
 
 export default class App extends Component {
@@ -123,6 +124,7 @@ export default class App extends Component {
                 <Blog path="blog" />
                 <Dashboard path="dashboard" />
                 <Staking path="staking" />
+                <Cards path="cards" />
                 <NotFound default />
               </Router>
             </ChakraProvider>

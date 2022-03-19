@@ -176,7 +176,11 @@ const NAV_ITEMS = [
    {
     label: 'Staking',
     href: '/staking',
-  },
+    },
+    {
+      label: 'Card Holders',
+      href: '/cards',
+      },
   // {
   //   label: 'FAQ',
   //   href: 'faq',

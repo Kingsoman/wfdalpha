@@ -98,6 +98,10 @@ export default {
             template: 'src/pages/Staking',
         },
         {
+            path: 'cards',
+            template: 'src/pages/Cards',
+        },
+        {
             path: '404',
             template: 'src/pages/NotFound',
         },
