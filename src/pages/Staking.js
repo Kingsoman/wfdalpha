@@ -178,7 +178,6 @@ export default function Staking() {
               mt={{ base: '20px', sm: '20px', md: '20px', lg: '0px' }}
               width={{ lg: '3xl' }}
               height={{ lg: '484px' }}
-              paddingLeft={{ lg: '55px' }}
               backdropBlur={'54px'}
               style={{
                 paddingTop: '65px',
@@ -188,21 +187,29 @@ export default function Staking() {
                 borderRadius: '25px'
               }}
             >
-              <Flex
-                direction="column"
-                style={{ fontFamily: 'PilatExtended-Bold' }}
-                alignSelf={{ base: 'center', md: 'center', lg: 'flex-start' }}>
-                <Text fontSize='28px' fontWeight={'900'}>
+
+              <Flex 
+                alignSelf={{ base: 'center', md: 'center', lg: 'center' }}
+                paddingLeft={'10px'}
+                paddingRight={'10px'}
+              >
+                <VStack spacing='20px' justify='center'>
+                <Text 
+                  fontSize='28px' 
+                  fontWeight={'900'}
+                >
                   Welcome
                 </Text>
-                <Text fontSize='16px' fontWeight={'900'}>
+                <Text 
+                  fontSize={{ base: '8px', sm: '12px', md: '16px', lg: '16px' }} 
+                  fontWeight={'900'}
+                  >
                   {state.connectedWallet.walletAddress}
                 </Text>
-              </Flex>
-
-              <Flex alignSelf={{ base: 'center', md: 'center', lg: 'flex-start' }}>
-                <VStack spacing='20px' justify='center'>
-                  <Text fontSize='sm'>
+                  <Text 
+                    fontSize='sm' 
+                    textAlign={'center'}
+                  >
                     TOTAL STAKED AMOUNT BY THE USER
                   </Text>
                   <Text fontSize='5x1'>
@@ -214,7 +221,13 @@ export default function Staking() {
                       PendingRewards: {pendingRewards}&nbsp;WFD
                     </Text>
                   </HStack>
-                  <Button w='200px' h='50px' fontSize='md' color='grey.300' onClick={getRewards} colorScheme="whiteAlpha">
+                  <Button 
+                    w='200px' h='50px' 
+                    fontSize='md' 
+                    color='grey.300' 
+                    onClick={getRewards} 
+                    colorScheme="whiteAlpha"
+                  >
                     Get Rewards
                   </Button>
                 </VStack>
