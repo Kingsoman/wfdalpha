@@ -320,6 +320,9 @@ console.log(oneprojectData);
                 Osmis
               </option>
               <option style={{ backgroundColor: '#1B0645' }}>
+                Algorand
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
                 Terra
               </option>
             </Select>
@@ -379,10 +382,10 @@ console.log(oneprojectData);
               borderRadius: '50%', 
               display:'inline-block'}}
             >
-            <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
+              <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
             </Box>
             <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 1</Text>
-            <Box style={{height: '0x', width: '30%', border: '2px solid #3BE489', background: ' #3BE489'}}></Box>
+            <Box style={{height: '0x', width: '30%', border: '2px solid #3BE489', background: '#3BE489'}}></Box>
             <Box 
               width={{base:'50px',md:'40px'}} 
               style={{paddingTop: '3px', 
@@ -392,7 +395,7 @@ console.log(oneprojectData);
               backgroundColor: '#3BE489', 
               borderRadius: '50%', 
               display:'inline-block'}}>
-            <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
+              <CheckIcon color="#250E3F" w={3} h={3} marginBottom={'20px'}/>
             </Box>
             <Text fontSize={{base:'12px',sm:'16px',md:'22px',lg:'22px'}}>Step 2</Text>
             <Box style={{height: '4px', width: '30%', background: 'linear-gradient(90deg, #3BE489 0%, rgba(59, 228, 137, 0) 100%)'}}></Box>
@@ -435,10 +438,10 @@ console.log(oneprojectData);
               unitid='investorname'
               selected={InsName==''?false:true}
               width='100%' height='55px' rounded='md' width='290px'
-            >      
+            >
               <InputGroup size="sm" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
                 <InputLeftElement style={{background: 'transparent', }} pointerEvents='none' color='gray.300' fontSize='1.2em' children=' ' />
-                <Input style={{ }} type="text" h='55px'placeholder="Type Name" rounded="md"  value={InsName} onChange={(e)=>{setInsName(e.target.value)}} />
+                <Input style={{ }} type="text" h='55px' placeholder="Type Name" rounded="md"  value={InsName} onChange={(e)=>{setInsName(e.target.value)}} />
               </InputGroup>
             </InputTransition>
           </Box>
@@ -450,10 +453,10 @@ console.log(oneprojectData);
               unitid='investortitle'
               selected={InsTitle==''?false:true}
               width='100%' height='55px' rounded='md' width='290px'
-            >      
+            >
               <InputGroup size="sm" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
                 <InputLeftElement style={{background: 'transparent', }} pointerEvents='none' color='gray.300' fontSize='1.2em' children=' ' />
-                <Input style={{ }} type="text" h='55px'placeholder="Your title" rounded="md"  value={InsTitle} onChange={(e)=>{setInsTitle(e.target.value)}} />
+                <Input style={{ }} type="text" h='55px' placeholder="Your title" rounded="md" value={InsTitle} onChange={(e)=>{setInsTitle(e.target.value)}} />
               </InputGroup>
             </InputTransition>
           </Box>
@@ -468,10 +471,10 @@ console.log(oneprojectData);
               unitid='investoremail'
               selected={InsEmail==''?false:true}
               width='100%' height='55px' rounded='md' width='290px'
-            >      
+            >
               <InputGroup size="sm" style={{background: 'rgba(255, 255, 255, 0.05)'}}>
                 <InputLeftElement style={{background: 'transparent', }} pointerEvents='none' color='gray.300' fontSize='1.2em' children=' ' />
-                <Input style={{ }} type="email" h='55px'placeholder="example@email.com" rounded="md"  value={InsEmail} onChange={(e)=>{setInsEmail(e.target.value)}} />
+                <Input style={{ }} type="email" h='55px' placeholder="example@email.com" rounded="md" value={InsEmail} onChange={(e)=>{setInsEmail(e.target.value)}} />
               </InputGroup>
             </InputTransition>
           </Box>
