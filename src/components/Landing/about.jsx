@@ -46,7 +46,7 @@ export default function Aboutone() {
                     border="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
                     background="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
                     color="white" mt="10px">
-              <option value='/media/Litepaper_WeFund_2_1.pdf' style={{ backgroundColor: '#1B0645' }}>English</option>
+              <option value='/media/Litepaper_WeFund_2_2.pdf' style={{ backgroundColor: '#1B0645' }}>English</option>
               <option value='/media/Litepaper_WeFund_2.1_French.pdf' style={{ backgroundColor: '#1B0645' }}>French</option>
               <option value='/media/Litepaper_Wefund_ID.pdf' style={{ backgroundColor: '#1B0645' }}>Indonesian</option>
               <option value='/media/Litepaper_Wefund_ITA.pdf' style={{ backgroundColor: '#1B0645' }}>Italian</option>
