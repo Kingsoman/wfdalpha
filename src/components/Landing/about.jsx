@@ -4,7 +4,7 @@ import { Flex, Text, Image, Select } from '@chakra-ui/react'
 import { ButtonBackTransition } from '../ImageTransition'
 
 export default function Aboutone() {
-  const [selectedLang, setSelectedlang] = useState('/media/Litepaper_WeFund_2_1.pdf') //default value
+  const [selectedLang, setSelectedlang] = useState('/media/Litepaper_WeFund_2_2.pdf') //default value
   function handleSelectChange(event) {
     setSelectedlang(event.target.value)
   }
