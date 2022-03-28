@@ -34,6 +34,7 @@ import MobileTitle from '../components/ProjectExplorer/Mobile/Title'
 import MobileStatusButtons from '../components/ProjectExplorer/Mobile/StatusButtons'
 import MobileInformations from '../components/ProjectExplorer/Mobile/Informations'
 import MobileMainButtons from '../components/ProjectExplorer/Mobile/MainButtons'
+import { toast } from 'react-toastify'
 
 export default function ExplorerProject() {
   const navigate = useNavigate()
@@ -81,7 +82,6 @@ export default function ExplorerProject() {
     try {
       let { projectData } = await FetchData(
         api,
-        notificationRef,
         state,
         dispatch,
         force,
