@@ -4,6 +4,9 @@ import { Router } from '@reach/router'
 import './styles/base.scss'
 import { Head } from 'react-static'
 import ReactGA from 'react-ga'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 let bootstrap = {}
 if (typeof document !== 'undefined') {
   bootstrap = require('bootstrap')
@@ -123,6 +126,7 @@ export default class App extends Component {
                 <Dashboard path="dashboard" />
                 <NotFound default />
               </Router>
+              <ToastContainer/>
             </ChakraProvider>
           </StoreProvider>
         </Root>

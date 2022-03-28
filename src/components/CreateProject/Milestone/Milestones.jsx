@@ -30,7 +30,6 @@ export default function Milestones({
   setMilestoneStartdate,
   milestoneEnddate,
   setMilestoneEnddate,
-  notificationRef
 }) 
 {
   function onNewMilestone() {
@@ -89,7 +88,6 @@ export default function Milestones({
               index={index}
               milestoneAmount={milestoneAmount}
               setMilestoneAmount={setMilestoneAmount}
-              notificationRef={notificationRef}
             />
           </Flex>
           <MilestoneDescription

@@ -51,32 +51,32 @@ export default function ProjectDetail() {
   //------------notification setting---------------------------------
   const notificationRef = useRef();
   
-  //------------deadline timer-------------------------------
-  const postRef = useRef(oneprojectData);
-  postRef.current = oneprojectData;
+  // //------------deadline timer-------------------------------
+  // const postRef = useRef(oneprojectData);
+  // postRef.current = oneprojectData;
 
-  const [, updateState] = useState();
-  const forceUpdate = useCallback(() => updateState({}), []);
+  // const [, updateState] = useState();
+  // const forceUpdate = useCallback(() => updateState({}), []);
 
-  const myTimer = () => {
-    if(postRef.current != '')
-    {
-      postRef.current.leftTime = 
-        parseInt((parseInt(postRef.current.community_vote_deadline) - Date.now())/1000/60); //for minutes
-    }
-    setOneprojectData(postRef.current);
-    forceUpdate();
-  };
+  // const myTimer = () => {
+  //   if(postRef.current != '')
+  //   {
+  //     postRef.current.leftTime = 
+  //       parseInt((parseInt(postRef.current.community_vote_deadline) - Date.now())/1000/60); //for minutes
+  //   }
+  //   setOneprojectData(postRef.current);
+  //   forceUpdate();
+  // };
 
-  useEffect(
-    () => {
-        if(oneprojectData.project_status == '1'){ //CommuntyApproval
-          myTimer();
-          const id = setInterval(myTimer, 1000*60);
-          return () => clearInterval(id);
-        }
-    },[]
-  );
+  // useEffect(
+  //   () => {
+  //       if(oneprojectData.project_status == '1'){ //CommuntyApproval
+  //         myTimer();
+  //         const id = setInterval(myTimer, 1000*60);
+  //         return () => clearInterval(id);
+  //       }
+  //   },[]
+  // );
 
   function onNext() {
     navigate('/invest_step1?project_id=' + oneprojectData.project_id)

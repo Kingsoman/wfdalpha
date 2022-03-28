@@ -22,20 +22,20 @@ const mk = new MnemonicKey({
     TERRA_SEED,
 });
 
-// const terra = new LCDClient({
-//   URL: 'https://bombay-lcd.terra.dev',
-//   chainID: 'bombay-12',
-//   gasPrices: { uusd: 0.45 },
-// });
-const terra = new LCDClient({ //mainnet
-  URL: 'https://lcd.terra.dev',
-  chainID: 'columbus-5',
+const terra = new LCDClient({
+  URL: 'https://bombay-lcd.terra.dev',
+  chainID: 'bombay-12',
   gasPrices: { uusd: 0.45 },
 });
+// const terra = new LCDClient({ //mainnet
+//   URL: 'https://lcd.terra.dev',
+//   chainID: 'columbus-5',
+//   gasPrices: { uusd: 0.45 },
+// });
 const wallet = terra.wallet(mk);
 
-let vestingAddress = "terra1clufns3djy7fye5k3sq3m4y3777e85jw5v2ygk";
-let wefundAddress = "terra15aa92np7epcx8nmkzvhtphws2g0mmfvllj2tyd";
+let vestingAddress = "terra1055p3nlct3pg4xr2gxkvmec9d055wwfy56gf07";
+let wefundAddress = "";
 
 run();
 

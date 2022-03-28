@@ -25,7 +25,6 @@ import {
   getMultiplyInteger,
   getInteger,
   getSeconds,
-  getMonth,
   errorOption,
   successOption,
   ParseParam,
@@ -57,7 +56,6 @@ export default function CreateProject() {
   const [logo, setLogo] = useState('')
   const [whitepaper, setWhitepaper] = useState('')
 
-  const [createDate, setCreateDate] = useState('')
   const [company, setCompany] = useState('');
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -87,7 +85,7 @@ export default function CreateProject() {
   const [serviceWefund, setServiceWefund] = useState(5)
   const [serviceCharity, setServiceCharity] = useState(0)
   const [website, setWebsite] = useState('')
-  const [profesionallink, setProfesisonalLink] = useState('')
+  const [proffesionallink, setProfesisonalLink] = useState('')
 
   const [milestoneTitle, setMilestoneTitle] = useState([''])
   const [milestoneType, setMilestoneType] = useState([''])
@@ -121,15 +119,10 @@ export default function CreateProject() {
     setDescription(data.project_description);
     setCollectedAmount(data.project_collected);
     setEcosystem(data.project_ecosystem);
-    setCreateDate(data.project_createddate);
+    setWhitepaper(data.project_whitepaper);
+    setLogo(data.realLogo);
     setWebsite(data.project_website);
     setEmail(data.project_email);
-
-    setCountry(data.country);
-    setCofounderName(data.cofounder_name);
-    setServiceWefund(data.service_wefund);
-    setServiceCharity(data.service_charity);
-    setProfesisonalLink(data.profesional_link);
 
     let _milestoneTitle = [], _milestoneAmount = [], _milestoneDescription = [], _milestoneStartdate = [], _milestoneEnddate = [];
 
@@ -140,44 +133,6 @@ export default function CreateProject() {
       _milestoneEnddate.push(data.project_milestones[i].milestone_enddate);
       _milestoneAmount.push(data.project_milestones[i].milestone_amount);
     }
-    setMilestoneTitle(_milestoneTitle);
-    setMilestoneAmount(_milestoneAmount);
-    setMilestoneDescription(_milestoneDescription);
-    setMilestoneStartdate(_milestoneStartdate);
-    setMilestoneEnddate(_milestoneEnddate);
-
-    let _teamDescription = [], _teamLinkedIn = [], _teamRole = [], _teamName = [];
-
-    for(let i=0; i<data.project_teammembers.length; i++){
-      _teamDescription.push(data.project_teammembers[i].teammember_description);
-      _teamLinkedIn.push(data.project_teammembers[i].teammember_linkedin);
-      _teamRole.push(data.project_teammembers[i].teammember_role);
-      _teamName.push(data.project_teammembers[i].teammember_name);
-    }
-
-    setTeammemberDescription(_teamDescription);
-    setTeammemberLinkedin(_teamLinkedIn);
-    setTeammemberRole(_teamRole);
-    setTeammemberName(_teamName);
-
-   let _stageTitle = [], _stagePrice = [], _stageAmount = [],
-   _stageSoon = [], _stageAfter = [], _stagePeriod = [];
-   
-   for(let i=0; i<data.vesting.length; i++){
-     _stageTitle.push(data.vesting[i].stage_title);
-     _stagePrice.push(parseFloat(data.vesting[i].stage_price)/100);
-     _stageAmount.push(data.vesting[i].stage_amount);
-     _stageSoon.push(data.vesting[i].stage_soon);
-     _stageAfter.push(getMonth(data.vesting[i].stage_after));
-     _stagePeriod.push(getMonth(data.vesting[i].stage_period));
-   }
-
-   setStageTitle(_stageTitle);
-   setStagePrice(_stagePrice);
-   setStageAmount(_stageAmount);
-   setStageVestingSoon(_stageSoon);
-   setStageVestingAfter(_stageAfter);
-   setStageVestingPeriod(_stagePeriod);
   }
   useEffect( () =>  fillItems, [project_id]);
   //---------------create project---------------------------------
@@ -358,9 +313,9 @@ export default function CreateProject() {
         stage_title: stageTitle[i],
         stage_price: getMultiplyInteger(stagePrice[i]),
         stage_amount: getInteger(stageAmount[i]),
-        stage_soon: getInteger(stageVestingSoon[i]),
-        stage_after: getSeconds(stageVestingAfter[i]),
-        stage_period: getSeconds(stageVestingPeriod[i]),
+        stage_soon: "20",//getInteger(stageVestingSoon[i]),
+        stage_after: "60",//getSeconds(stageVestingAfter[i]),
+        stage_period: "1800"//getSeconds(stageVestingPeriod[i]),
       }
       vesting.push(stage);
       distribution_token_amount += parseInt(getInteger(stageAmount[i]));
@@ -381,26 +336,19 @@ export default function CreateProject() {
       project_milestones.push(milestone)
     }
 
-    let _createDate = createDate;
-    
-    if(_createDate == ''){
-      const dt = new Date()
-      const [month, day, year] = [dt.getMonth(), dt.getDate(), dt.getFullYear()]
-      _createDate = day + '/' + ((month + 1) % 12) + '/' + year
-    }
-
-    let _projectID = _projectID == null? "0": project_id.toString();
+    const dt = new Date()
+    const [month, day, year] = [dt.getMonth(), dt.getDate(), dt.getFullYear()]
+    const createdate = day + '/' + ((month + 1) % 12) + '/' + year
 
     let AddProjectMsg = {
       add_project: {
         creator_wallet: state.connectedWallet.walletAddress,
-        project_id: _projectID,
         project_company: company,
         project_title: title,
         project_description: description,
         project_collected: collectedAmount,
         project_ecosystem: ecosystem,
-        project_createddate: _createDate,
+        project_createddate: createdate,
         project_saft: realSAFT,
         project_logo: realLogo,
         project_whitepaper: realWhitepaer,
@@ -409,13 +357,7 @@ export default function CreateProject() {
         project_milestones: project_milestones,
         project_teammembers: project_teammembers,
         vesting: vesting,
-        token_addr: tokenAddress,
-
-        country: country,
-        cofounder_name: cofounderName,
-        service_wefund: serviceWefund,
-        service_charity: serviceCharity,
-        profesional_link: profesionallink
+        token_addr: tokenAddress
       },
     }
 
@@ -647,7 +589,7 @@ console.log(res);
           />
           <Website
             typeText = "LinkedIn or similar"
-            type = {profesionallink}
+            type = {proffesionallink}
             setType = {setProfesisonalLink}
           />
           <Milestones
