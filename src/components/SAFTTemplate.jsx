@@ -1,33 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
-
-import {
-  chakra, 
-  Box, 
-  Flex, 
-  Text, 
-  VStack, 
-  Image, 
-  Img
-  } from "@chakra-ui/react";
+import { Flex,  VStack } from "@chakra-ui/react";
+import { toast } from 'react-toastify';
 
 import { Document, Page, pdfjs } from "react-pdf";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 import { useStore } from '../store';
 import { 
   FetchData,
-  GetOneProject
+  GetOneProject,
+  errorOption
  } from './Util';
 import {
-  Fee, 
-  MsgExecuteContract, 
-  MsgSend, 
+
   WasmAPI 
 } from '@terra-money/terra.js'
 
 pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
 
-export default function PDFTemplate({presale, project_id, notificationRef})
+export default function PDFTemplate({presale, project_id})
 {
   const {state, dispatch} = useStore();
   const isWeFund = state.wefundID == project_id;
@@ -37,11 +28,11 @@ export default function PDFTemplate({presale, project_id, notificationRef})
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   async function fetchData(){
-    let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+    let {projectData, communityData, configData} = await FetchData(api, state, dispatch);
 console.log(projectData);
     const oneprojectData = GetOneProject(projectData, project_id);
     if(oneprojectData == ''){
-      notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
+      toast("Can't fetch project data", errorOption);
       return '';
     }
 // console.log(oneprojectData.project_saft);

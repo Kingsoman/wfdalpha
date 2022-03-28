@@ -11,7 +11,7 @@ const StoreContext = createContext()
 export const WEFUND_MAIN = "terra1jjgxsf7kpcget7u2ay503krs0gm4l28u30km7j";
 export const VESTING_MAIN = "terra1clufns3djy7fye5k3sq3m4y3777e85jw5v2ygk";
 
-export const WEFUND_TEST = "terra16f6t370jglyxvhwgpnktdlpw8nazt4dhz3cj8s";
+export const WEFUND_TEST = "terra1505s4p4ztdw3rxp9syjdrq73xuwmzmtts9phd5";
 export const VESTING_TEST = "terra1055p3nlct3pg4xr2gxkvmec9d055wwfy56gf07";
 
 const initialState = {

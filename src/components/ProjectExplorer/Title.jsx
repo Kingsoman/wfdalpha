@@ -15,7 +15,7 @@ export default function Title({ data, activeTab }) {
         fontSize="lg"
         fontWeight="bold"
       >
-        Project Status: Under&nbsp;
+        Under&nbsp;
         {GetProjectStatusString(GetProjectStatus(activeTab))}
       </chakra.h1>
       <chakra.h1

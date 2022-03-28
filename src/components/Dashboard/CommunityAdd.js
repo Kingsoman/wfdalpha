@@ -57,13 +57,12 @@ export default function Dashboard() {
     setPostCommunityData(state.communityData.slice(offset, offset + pageSize));
   }
 
-  const notificationRef = useRef();
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
   async function fetchContractQuery() {
     try {
-      let { projectData, communityData, configData } = await FetchData(api, notificationRef, state, dispatch);
+      let { projectData, communityData, configData } = await FetchData(api, state, dispatch);
 
       //-----------------initialize--------------------------
       setCurrent(1);
@@ -87,7 +86,7 @@ export default function Dashboard() {
       wefundContractAddress,
       CommunityMsg,
     )
-    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Add Community success", notificationRef);
+    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Add Community success");
   }
 
   function removeCommunityMember(wallet) {
@@ -103,7 +102,7 @@ export default function Dashboard() {
       wefundContractAddress,
       CommunityMsg,
     )
-    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Remove Community success", notificationRef);
+    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Remove Community success");
   }
 
   //---------initialize fetching---------------------
@@ -232,7 +231,6 @@ export default function Dashboard() {
           </Flex>
       </Flex>
       <Footer />
-      <Notification ref={notificationRef} />
     </PageLayout>
   )
 }

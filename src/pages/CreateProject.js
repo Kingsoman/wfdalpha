@@ -84,10 +84,10 @@ export default function CreateProject() {
   const [signature, setSignature] = useState('')
   const [address, setAddress] = useState('')
   const [email, setEmail] = useState('')
-  const [serviceWefund, setServiceWefund] = useState(5)
-  const [serviceCharity, setServiceCharity] = useState(0)
+  const [serviceWefund, setServiceWefund] = useState('5')
+  const [serviceCharity, setServiceCharity] = useState('0')
   const [website, setWebsite] = useState('')
-  const [profesionallink, setProfesisonalLink] = useState('')
+  const [professionallink, setProfessionalLink] = useState('')
 
   const [milestoneTitle, setMilestoneTitle] = useState([''])
   const [milestoneType, setMilestoneType] = useState([''])
@@ -96,8 +96,12 @@ export default function CreateProject() {
   const [milestoneStartdate, setMilestoneStartdate] = useState([''])
   const [milestoneEnddate, setMilestoneEnddate] = useState([''])
 
-  useEffect(() => {
+  useEffect( () => {
     setTimeout( CheckNetwork(state.connectedWallet, state), 1000);
+
+    console.log("come");
+    if( project_id > 0 )
+       fillItems()
   }, [state.connectedWallet])
   
   //----------init api, lcd-------------------------
@@ -105,21 +109,19 @@ export default function CreateProject() {
 
   //----------parse Param----------------------
   let project_id = ParseParam();
-  async function fillItems(){
-    console.log(project_id);
+
+  async function fillItems()
+  {
     if(project_id == null)
       return;
 
-    let { projectData, communityData, configData } = await FetchData(
-      api,
-      state,
-      dispatch,
-    )
+    let { projectData, communityData, configData } = await FetchData( api, state, dispatch )
+
     let data = GetOneProject(projectData, project_id);
     setCompany(data.project_company);
     setTitle(data.project_title);
     setDescription(data.project_description);
-    setCollectedAmount(data.project_collected);
+    setCollectedAmount(data.project_collected.toString());
     setEcosystem(data.project_ecosystem);
     setCreateDate(data.project_createddate);
     setWebsite(data.project_website);
@@ -129,18 +131,21 @@ export default function CreateProject() {
     setCofounderName(data.cofounder_name);
     setServiceWefund(data.service_wefund);
     setServiceCharity(data.service_charity);
-    setProfesisonalLink(data.profesional_link);
+    setProfessionalLink(data.professional_link);
 
-    let _milestoneTitle = [], _milestoneAmount = [], _milestoneDescription = [], _milestoneStartdate = [], _milestoneEnddate = [];
+    let _milestoneTitle = [], _milestoneAmount = [], _milestoneDescription = [], _milestoneStartdate = [], _milestoneEnddate = [], _milestoneType = [];
 
-    for(let i=0; i<data.project_milestones.length; i++){
-      _milestoneTitle.push(data.project_milestones[i].milestone_name);
-      _milestoneDescription.push(data.project_milestones[i].milestone_description);
-      _milestoneStartdate.push(data.project_milestones[i].milestone_startdate);
-      _milestoneEnddate.push(data.project_milestones[i].milestone_enddate);
-      _milestoneAmount.push(data.project_milestones[i].milestone_amount);
+    for(let i=0; i<data.milestone_states.length; i++){
+
+      _milestoneTitle.push(data.milestone_states[i].milestone_name);
+      _milestoneType.push(data.milestone_states[i].milestone_type);
+      _milestoneDescription.push(data.milestone_states[i].milestone_description);
+      _milestoneStartdate.push(data.milestone_states[i].milestone_startdate);
+      _milestoneEnddate.push(data.milestone_states[i].milestone_enddate);
+      _milestoneAmount.push(data.milestone_states[i].milestone_amount);
     }
     setMilestoneTitle(_milestoneTitle);
+    setMilestoneType(_milestoneType);
     setMilestoneAmount(_milestoneAmount);
     setMilestoneDescription(_milestoneDescription);
     setMilestoneStartdate(_milestoneStartdate);
@@ -148,11 +153,11 @@ export default function CreateProject() {
 
     let _teamDescription = [], _teamLinkedIn = [], _teamRole = [], _teamName = [];
 
-    for(let i=0; i<data.project_teammembers.length; i++){
-      _teamDescription.push(data.project_teammembers[i].teammember_description);
-      _teamLinkedIn.push(data.project_teammembers[i].teammember_linkedin);
-      _teamRole.push(data.project_teammembers[i].teammember_role);
-      _teamName.push(data.project_teammembers[i].teammember_name);
+    for(let i=0; i<data.teammember_states.length; i++){
+      _teamDescription.push(data.teammember_states[i].teammember_description);
+      _teamLinkedIn.push(data.teammember_states[i].teammember_linkedin);
+      _teamRole.push(data.teammember_states[i].teammember_role);
+      _teamName.push(data.teammember_states[i].teammember_name);
     }
 
     setTeammemberDescription(_teamDescription);
@@ -179,7 +184,7 @@ export default function CreateProject() {
    setStageVestingAfter(_stageAfter);
    setStageVestingPeriod(_stagePeriod);
   }
-  useEffect( () =>  fillItems, [project_id]);
+
   //---------------create project---------------------------------
   const checkInvalidation = async () => {
     if(CheckNetwork(state.connectedWallet, state) == false)
@@ -375,6 +380,7 @@ export default function CreateProject() {
         milestone_startdate: getVal(milestoneStartdate[i]),
         milestone_enddate: getVal(milestoneEnddate[i]),
         milestone_amount: getVal(milestoneAmount[i]),
+        milestone_type: getVal(milestoneType[i]),
         milestone_status: '0',
         milestone_votes: [],
       }
@@ -389,7 +395,7 @@ export default function CreateProject() {
       _createDate = day + '/' + ((month + 1) % 12) + '/' + year
     }
 
-    let _projectID = _projectID == null? "0": project_id.toString();
+    let _projectID = project_id == null? "0": project_id.toString();
 
     let AddProjectMsg = {
       add_project: {
@@ -415,7 +421,7 @@ export default function CreateProject() {
         cofounder_name: cofounderName,
         service_wefund: serviceWefund,
         service_charity: serviceCharity,
-        profesional_link: profesionallink
+        professional_link: professionallink
       },
     }
 
@@ -464,9 +470,8 @@ export default function CreateProject() {
       state.connectedWallet,
       state.lcd_client,
       msgs,
-      'Create Project success',
+      project_id == null? 'Create Project success' : "Modify Project success",
     )
-console.log(res);
     if(res == true){
       await Sleep(2000)
       await FetchData(api, state, dispatch, true)
@@ -647,8 +652,8 @@ console.log(res);
           />
           <Website
             typeText = "LinkedIn or similar"
-            type = {profesionallink}
-            setType = {setProfesisonalLink}
+            type = {professionallink}
+            setType = {setProfessionalLink}
           />
           <Milestones
             milestoneTitle = {milestoneTitle}

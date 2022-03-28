@@ -121,7 +121,7 @@ export default function StatusButtons({
           </ButtonTransition>
         </Flex>
       )}
-      {isBackerWallet(state, data.project_id) && (
+      {isCreatorWallet(state, data.project_id) && (
         <Flex justify={'space-between'}>
           <ButtonTransition
             unitid={'Modification' + index}

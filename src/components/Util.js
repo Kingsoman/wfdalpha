@@ -247,23 +247,25 @@ export async function FetchData(api, state, dispatch, force = false) {
         },
       }
     )
-console.log(force);
 
     if (projectData == '') {
       toast("Can't fetch Project Data", 'error', errorOption);
     } else {
       //----------fake--------------------------
+console.log(projectData);
       let fakeone = GetOneProject(projectData, state.wefundID);
-      fakeone.project_collected = 600000;
-      fakeone.communitybacked_amount = 192000 * 10 ** 6;
-      projectData[GetProjectIndex(projectData, state.wefundID)] = fakeone;
-      //------------------------------------
+      if(fakeone != ''){
+        fakeone.project_collected = 600000;
+        fakeone.communitybacked_amount = 192000 * 10 ** 6;
+        projectData[GetProjectIndex(projectData, state.wefundID)] = fakeone;
+        //------------------------------------
 
-      projectData = AddExtraInfo(state, projectData, communityData);
-      dispatch({
-        type: 'setProjectData',
-        message: projectData,
-      })
+        projectData = AddExtraInfo(state, projectData, communityData);
+        dispatch({
+          type: 'setProjectData',
+          message: projectData,
+        })
+      }
     }
   }
 console.log(projectData);
@@ -363,11 +365,11 @@ export function getMultiplyInteger(val) {
 }
 export function getSeconds(val) {
   let month = 60 * 60 * 24 * 30;
-  return getInteger(val) * month;
+  return (parseInt(getInteger(val)) * month).toString();
 }
 export function getMonth(val) {
   let month = 60 * 60 * 24 * 30;
-  return getInteger(val) / month;
+  return (getInteger(val) / month).toString();
 }
 export function getStageTitle(data)
 {

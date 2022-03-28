@@ -10,11 +10,13 @@ import {
 import { CheckIcon } from "@chakra-ui/icons";
 import React, { useState, useRef, } from 'react';
 import { navigate } from '@reach/router'
+import { toast } from "react-toastify";
+
 import { ImageTransition, InputTransition } from "../components/ImageTransition";
 import { useStore } from '../store';
 import Notification from '../components/Notification';
 import PageLayout from '../components/PageLayout';
-import {ParseParam} from '../components/Util';
+import {ParseParam, errorOption} from '../components/Util';
 
 export default function InvestStep2() {
   const [backAmount, setBackAmount] = useState('');
@@ -24,12 +26,10 @@ export default function InvestStep2() {
   //------------parse URL for project id----------------------------
   let project_id = ParseParam();
 
-  //------------notification setting---------------------------------
-  const notificationRef = useRef();
 
   function onChangeBackamount(e){
     if(e.target.value != '' && e.target.value != parseInt(e.target.value).toString()){
-      notificationRef.current.showNotification("Please input number only", "error", 4000);
+      toast("Please input number only", errorOption);
       return;
     }
     let wefundRate = state.presale? 0.09: 0.06;
@@ -181,7 +181,6 @@ export default function InvestStep2() {
           </ImageTransition>
         </Flex>
       </Box>
-      <Notification ref={notificationRef}/>
     </PageLayout>
   )
 }

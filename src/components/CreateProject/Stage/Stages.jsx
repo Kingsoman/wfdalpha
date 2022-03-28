@@ -26,8 +26,7 @@ export default function Stages({
   stageVestingAfter,
   setStageVestingAfter,
   stageVestingPeriod,
-  setStageVestingPeriod,
-  notificationRef
+  setStageVestingPeriod
 }) 
 {
   function onNewStage() {
@@ -80,7 +79,6 @@ export default function Stages({
                 typeText = {`Stage Title`}
                 type={stageTitle}
                 setType={setStageTitle}
-                notificationRef={notificationRef}
                 w = {{base:'100%', md:'30%', lg:'30%'}}
               />
               <StageSimpleInput
@@ -88,7 +86,6 @@ export default function Stages({
                 typeText = {`Price set at ${item}`}
                 type={stagePrice}
                 setType={setStagePrice}
-                notificationRef={notificationRef}
                 w = {{base:'100%', md:'30%', lg:'30%'}}
               />
               <StageSimpleInput
@@ -96,7 +93,6 @@ export default function Stages({
                 typeText = {`Token amount at ${item}`}
                 type={stageAmount}
                 setType={setStageAmount}
-                notificationRef={notificationRef}
                 w = {{base:'100%', md:'30%', lg:'30%'}}
               />
             </Stack>

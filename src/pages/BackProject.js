@@ -47,14 +47,10 @@ export default function BackProject() {
   //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester);
 
-  //------------notification setting---------------------------------
-  const notificationRef = useRef();
-
   //----------------------change Amount--------------------------
   function changeAmount(e) {
     if (e.target.value != '' && e.target.value != parseInt(e.target.value).toString()) {
       toast("Please input only number input", errorOption);
-      // notificationRef.current.showNotification("Please input number only", "error", 4000);
       return;
     }
 
@@ -71,11 +67,11 @@ export default function BackProject() {
     if (project_id != null) _project_id = project_id
 
     try {
-      let { projectData, communityData, configData } = await FetchData(api, notificationRef, state, dispatch);
+      let { projectData, communityData, configData } = await FetchData(api, state, dispatch);
 
       const oneprojectData = GetOneProject(projectData, _project_id);
       if (oneprojectData == '') {
-        notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
+        toast("Can't fetch project data", errorOption);
         return;
       }
 
@@ -91,19 +87,19 @@ export default function BackProject() {
 
   //---------------------back project-----------------------------
   async function backProject() {
-    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, state) == false)
       return false;
 
     if (backAmount != parseInt(backAmount).toString()) {
-      notificationRef.current.showNotification("Invalid number format", "error", 4000);
+      toast("Invalid number format", errorOption);
       return;
     }
     if (parseInt(backAmount) < 6) {
-      notificationRef.current.showNotification("Amount must be at least 6 UST", "error", 4000);
+      toast("Amount must be at least 6 UST", errorOption);
       return;
     }
 
-    let { projectData, communityData, configData } = await FetchData(api, notificationRef, state, dispatch);
+    let { projectData, communityData, configData } = await FetchData(api, state, dispatch);
 
     let _project_id = 1;
     if (project_id != null)
@@ -111,7 +107,7 @@ export default function BackProject() {
 
     const oneprojectData = GetOneProject(projectData, _project_id);
     if (oneprojectData == '') {
-      notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
+      toast("Can't fetch project data", errorOption);
       return;
     }
     const isCommunityMember = isCommunityWallet(state, _project_id);
@@ -125,9 +121,9 @@ export default function BackProject() {
 
     if (leftAmount <= 0) {
       if (isCommunityMember)
-        notificationRef.current.showNotification("Community allocation is already collected! You can't back this project.", 'error', 6000);
+        toast("Community allocation is already collected! You can't back this project.", errorOption);
       else
-        notificationRef.current.showNotification("Backer allocation is already collected! You can't back back this project.", 'error', 6000);
+        toast("Backer allocation is already collected! You can't back back this project.", errorOption);
       return;
     }
 
@@ -147,7 +143,7 @@ export default function BackProject() {
       { uusd: amount }
     )
 
-    EstimateSend(state.connectedWallet, lcd, [msg], "Back to Project Success", notificationRef);
+    EstimateSend(state.connectedWallet, lcd, [msg], "Back to Project Success");
   }
 
   return (
@@ -251,7 +247,6 @@ export default function BackProject() {
           </Box>
         </Flex>
         <Footer />
-        <Notification ref={notificationRef} />
       </div>
     </ChakraProvider>
   )

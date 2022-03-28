@@ -16,7 +16,7 @@ import {
   isNull
 } from '../../Util';
 
-export default function StageSimpleInput({index, typeText, type, setType, notificationRef, w}) 
+export default function StageSimpleInput({index, typeText, type, setType, w}) 
 {
   function onChangeAmount(e) {
     if (e.target.value.length < 5000) {
