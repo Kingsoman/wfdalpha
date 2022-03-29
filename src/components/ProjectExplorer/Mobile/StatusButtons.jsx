@@ -19,7 +19,8 @@ export default function StatusButtons({
   WefundApprove,
   CommunityVote,
   MilestoneVote,
-  NextFundraisingStage
+  NextFundraisingStage,
+  Modify
 }) 
 {
   const { state, dispatch } = useStore()
@@ -117,6 +118,22 @@ export default function StatusButtons({
             }
           >
             <Text fontSize={'15px'}>Vote No</Text>
+          </ButtonTransition>
+        </Flex>
+      )}
+      {isCreatorWallet(state, data.project_id) && (
+        <Flex justify={'space-between'}>
+          <ButtonTransition
+            unitid={'Modification' + index}
+            width="120px"
+            height="40px"
+            selected={false}
+            rounded="30px"
+            onClick={() =>
+              Modify(data.project_id)
+            }
+          >
+            <Text fontSize={'15px'}>Modify</Text>
           </ButtonTransition>
         </Flex>
       )}

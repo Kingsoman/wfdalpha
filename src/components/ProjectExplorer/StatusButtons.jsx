@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Text } from '@chakra-ui/react'
+import { HStack, Flex, Text } from '@chakra-ui/react'
 import { Link, navigate } from '@reach/router'
 
 import {
@@ -20,32 +20,31 @@ export default function StatusButtons({
   WefundApprove,
   MilestoneVote,
   NextFundraisingStage,
+  Modify,
 }) {
   const { state, dispatch } = useStore()
   return (
-    <>
+    <HStack spacing='10px'>
       {activeTab === 'WeFundApproval' && isWefundWallet(state) && (
-        <Flex w={'330px'} justify={'space-between'}>
-          <ButtonTransition
-            unitid={'Approve' + index}
-            selected={false}
-            width="150px"
-            height="45px"
-            rounded="33px"
-            onClick={() =>
-              WefundApprove(data.project_id)
-            }
+        <ButtonTransition
+          unitid={'Approve' + index}
+          selected={false}
+          width="150px"
+          height="45px"
+          rounded="33px"
+          onClick={() =>
+            WefundApprove(data.project_id)
+          }
+        >
+          <Text
+            fontSize={{
+              base: '14px',
+              lg: '16px',
+            }}
           >
-            <Text
-              fontSize={{
-                base: '14px',
-                lg: '16px',
-              }}
-            >
-              Approve Project
-            </Text>
-          </ButtonTransition>
-        </Flex>
+            Approve Project
+          </Text>
+        </ButtonTransition>
       )}
       {activeTab === 'Fundraising' && (
         <>
@@ -88,7 +87,7 @@ export default function StatusButtons({
         </>
       )}
       {activeTab === 'MileStoneDelivery' && isBackerWallet(state, data.project_id) && (
-        <Flex w={'330px'} justify={'space-between'}>
+        <>
           <ButtonTransition
             unitid={'milestonevoteyes' + index}
             width="150px"
@@ -130,8 +129,24 @@ export default function StatusButtons({
               Vote No
             </Text>
           </ButtonTransition>
-        </Flex>
+        </>
       )}
-    </>
+      {isCreatorWallet(state, data.project_id) && (
+        <ButtonTransition
+          mb="10px"
+          rounded="33px"
+          selected={false}
+          unitid={'modification' + index}
+          width="150px"
+          height="45px"
+          fontSize={{ base: '14px', lg: '16px' }}
+          onClick={() => { Modify(data.project_id) }}
+        >
+          <Text fontSize={{ base: '14px', lg: '16px' }} >
+            Modify
+          </Text>
+        </ButtonTransition>
+      )}
+    </HStack>
   )
 };

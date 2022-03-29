@@ -7,16 +7,13 @@ import {chakra,
   Input, 
   InputGroup,  
   Select, 
-  Image, 
   InputLeftElement, 
-  Button, 
   HStack, 
-  VStack, 
-  Img
   } from "@chakra-ui/react";
-import React, { useEffect, useState,  useCallback, useMemo, useRef, } from 'react';
+import React, { useEffect, useState, useRef, } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 import { navigate } from '@reach/router'
+import { toast } from "react-toastify";
 
 import { useStore } from '../store'
 import { 
@@ -33,7 +30,9 @@ import {
   FetchData, 
   isCommunityWallet, 
   CheckNetwork,
-  GetOneProject
+  GetOneProject,
+  errorOption,
+  successOption
 } from "../components/Util";
 
 export default function Invest_step3() {
@@ -52,11 +51,11 @@ export default function Invest_step3() {
   let project_id = ParseParam();
   useEffect( () => {
     async function fetchData(){
-      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+      let {projectData, communityData, configData} = await FetchData(api, state, dispatch);
 
       const oneprojectData = GetOneProject(projectData, project_id);
       if(oneprojectData == ''){
-        notificationRef.current.showNotification("Can't fetch project data", 'error', 6000);
+        toast("Can't fetch project data", errorOption);
         return '';
       }
       setOneprojectData(oneprojectData);
@@ -68,9 +67,6 @@ export default function Invest_step3() {
 
   //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
-
-  //---------------notification setting---------------------------------
-  const notificationRef = useRef();
 
   //----------------upload signature----------------------------
   function openUpload(){
@@ -101,17 +97,15 @@ export default function Invest_step3() {
   //---------------on next------------------------------------
   function checkValication()
   {
-    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, state) == false)
       return false;
 
     if(parseInt(state.investAmount) <= 0 ){
-      notificationRef.current.showNotification("Please input UST amount", "error", 40000);
-      console.log('Please input UST amount');
+      toast("Please input UST amount", errorOption);
       return false;
     }
     if(state.presale == false && parseInt(state.investAmount) < 20000){
-      notificationRef.current.showNotification("Input UST amount for private sale of at least 20,000", "error", 40000);
-      console.log('Invalid private sale amount');
+      toast("Input UST amount for private sale of at least 20,000", errorOption);
       return false;
     }
     return true;
@@ -133,12 +127,12 @@ export default function Invest_step3() {
       body: formData,
     };
 
-    notificationRef.current.showNotification("Uploading", 'success', 100000)
+    toast("Uploading", successOption)
 
     await fetch(state.request + '/pdfmake', requestOptions)
     .then((res) => res.json())
     .then((data) => {
-      notificationRef.current.hideNotification();
+      toast.dismiss()
       dispatch({
         type: 'setPdffile',
         message: data.data,
@@ -165,12 +159,12 @@ console.log(oneprojectData);
       body: formData,
     };
 
-    notificationRef.current.showNotification("Uploading", 'success', 100000)
+    toast("Uploading", successOption)
 
     await fetch(state.request + '/docxmake', requestOptions)
     .then((res) => res.json())
     .then((data) => {
-      notificationRef.current.hideNotification();
+      toast.dismiss();
       dispatch({
         type: 'setDocxfile',
         message: data.data,
@@ -218,7 +212,7 @@ console.log(oneprojectData);
         { uusd: amount }
       );
       let memo = state.presale? "Presale" : "Private sale";
-      let res = await EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Invest success ", notificationRef, memo);
+      let res = await EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Invest success ",  memo);
       if(res == true)
         navigate('/invest_step4?project_id=' + project_id);
     }
@@ -244,14 +238,14 @@ console.log(oneprojectData);
 
     if(leftAmount <= 0){
       if(isCommunityMember)
-        notificationRef.current.showNotification("Community allocation has already been collected! You can't back this project.", 'error', 6000);
+        toast("Community allocation has already been collected! You can't back this project.", errorOption);
       else
-        notificationRef.current.showNotification("Backer allocation has already been collected! You can't back this project.", 'error', 6000);
+        toast("Backer allocation has already been collected! You can't back this project.", errorOption);
       return false;
     }
 
     if(parseInt(state.investAmount) < 6){
-      notificationRef.current.showNotification("Investment amount should be at least 6 UST.", 'error', 6000);
+      toast("Investment amount should be at least 6 UST.", errorOption);
       return false;
     }
 
@@ -275,7 +269,7 @@ console.log(oneprojectData);
       {uusd: amount}
     );
 
-    return await EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Back to Project Success", notificationRef);
+    return await EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Back to Project Success");
   }
   const OtherChainWallet = () => {
     return(
@@ -529,7 +523,6 @@ console.log(oneprojectData);
         </Flex>
         <Faq/>
       </Box>
-      <Notification ref={notificationRef} />
     </PageLayout>
   )
 }

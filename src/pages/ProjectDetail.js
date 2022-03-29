@@ -8,13 +8,12 @@ import {
 } from '@chakra-ui/react'
 import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react'
 import { WasmAPI, LCDClient, MsgExecuteContract } from '@terra-money/terra.js'
-// import { Chart } from "react-google-charts"
+import { toast } from 'react-toastify'
 
 import { useNavigate } from '@reach/router'
 
 import { useStore } from '../store'
 import Footer from '../components/Footer'
-import Notification from '../components/Notification'
 import PageLayout from '../components/PageLayout'
 import ProjectTitle from '../components/ProjectDetail/ProjectTitle'
 import ProjectStatusButtons from '../components/ProjectDetail/ProjectStatusButtons'
@@ -31,6 +30,8 @@ import {
   FetchData,
   GetOneProject,
   ParseParam,
+  errorOption,
+  successOption
   }  from '../components/Util'
 
 export default function ProjectDetail() {
@@ -48,35 +49,32 @@ export default function ProjectDetail() {
   //------------init api, lcd ----------------------------------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
-  //------------notification setting---------------------------------
-  const notificationRef = useRef();
-  
-  //------------deadline timer-------------------------------
-  const postRef = useRef(oneprojectData);
-  postRef.current = oneprojectData;
+  // //------------deadline timer-------------------------------
+  // const postRef = useRef(oneprojectData);
+  // postRef.current = oneprojectData;
 
-  const [, updateState] = useState();
-  const forceUpdate = useCallback(() => updateState({}), []);
+  // const [, updateState] = useState();
+  // const forceUpdate = useCallback(() => updateState({}), []);
 
-  const myTimer = () => {
-    if(postRef.current != '')
-    {
-      postRef.current.leftTime = 
-        parseInt((parseInt(postRef.current.community_vote_deadline) - Date.now())/1000/60); //for minutes
-    }
-    setOneprojectData(postRef.current);
-    forceUpdate();
-  };
+  // const myTimer = () => {
+  //   if(postRef.current != '')
+  //   {
+  //     postRef.current.leftTime = 
+  //       parseInt((parseInt(postRef.current.community_vote_deadline) - Date.now())/1000/60); //for minutes
+  //   }
+  //   setOneprojectData(postRef.current);
+  //   forceUpdate();
+  // };
 
-  useEffect(
-    () => {
-        if(oneprojectData.project_status == '1'){ //CommuntyApproval
-          myTimer();
-          const id = setInterval(myTimer, 1000*60);
-          return () => clearInterval(id);
-        }
-    },[]
-  );
+  // useEffect(
+  //   () => {
+  //       if(oneprojectData.project_status == '1'){ //CommuntyApproval
+  //         myTimer();
+  //         const id = setInterval(myTimer, 1000*60);
+  //         return () => clearInterval(id);
+  //       }
+  //   },[]
+  // );
 
   function onNext() {
     navigate('/invest_step1?project_id=' + oneprojectData.project_id)
@@ -87,11 +85,11 @@ export default function ProjectDetail() {
     if (project_id != null) _project_id = project_id
 
     try {
-      let {projectData, communityData, configData} = await FetchData(api, notificationRef, state, dispatch);
+      let {projectData, communityData, configData} = await FetchData(api, state, dispatch);
 
       const oneprojectData = GetOneProject(projectData, _project_id);
       if(oneprojectData == ''){
-        notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
+        toast("Can't fetch Project Data", errorOption);
         return;
       }
 
@@ -131,7 +129,7 @@ export default function ProjectDetail() {
 
 //------------Wefund Approve-----------------
   function WefundApprove(project_id){
-    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, state) == false)
       return false;
 
     let deadline = Date.now() + 1000*60*60*24*15; //for 15days
@@ -148,11 +146,11 @@ export default function ProjectDetail() {
       wefundContractAddress,
       WefundApproveMsg,
     )
-    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "WeFund Approve success", notificationRef);
+    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "WeFund Approve success");
   }
 
   function MilestoneVote(project_id, voted){
-    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, state) == false)
       return false;
 
     let MilestoneVoteMsg = {
@@ -169,7 +167,7 @@ export default function ProjectDetail() {
       wefundContractAddress,
       MilestoneVoteMsg,
     )
-    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Milestone vote success", notificationRef);
+    EstimateSend(state.connectedWallet, state.lcd_client, [msg], "Milestone vote success");
   }
     //--Pop Ups for Projects
 
@@ -221,7 +219,6 @@ export default function ProjectDetail() {
         </VStack>
 
         <Footer />
-        <Notification ref={notificationRef}/>
       </div>
       <VoteModal 
         data = {oneprojectData}

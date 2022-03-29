@@ -2,8 +2,31 @@ import { Fee, MsgExecuteContract, WasmAPI, LCDClient } from '@terra-money/terra.
 import { useStore } from '../store'
 import React, { useRef, useState, useEffect, forwardRef, useCallback } from 'react'
 import { WEFUND_MAIN, WEFUND_TEST, VESTING_MAIN, VESTING_TEST } from '../store'
+import { toast } from 'react-toastify'
 
-export async function EstimateSend(connectedWallet, lcd, msgs, message, notificationRef, memo = '') {
+export const successOption = {
+    position: "top-right",
+    type: "success",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+};
+
+export const errorOption = {
+  position: "top-right",
+  type: "error",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+};
+
+export async function EstimateSend(connectedWallet, lcd, msgs, message, memo = '') {
 console.log(msgs);
   // const obj = new Fee(10_000, { uusd: 4500 })
   // let accountInfo;
@@ -62,16 +85,16 @@ console.log(msgs);
     })
     .then((e) => {
       if (e.success) {
-        notificationRef.current.showNotification(message, 'success', 4000)
+        toast(message, successOption);
       } else {
-        notificationRef.current.showNotification(e.message, 'error', 4000)
+        toast(e.message, errorOption);
         console.log(e.message);
         return false;
       }
       return true;
     })
     .catch((e) => {
-      notificationRef.current.showNotification(e.message, 'error', 4000)
+      toast(e.message, errorOption);
       console.log(e.message);
       return false;
     })
@@ -142,24 +165,24 @@ export function AddExtraInfo(state, projectData, communityData) {
 
   return projectData;
 }
-export function CheckNetwork(connectedWallet, notificationRef, state) {
+export function CheckNetwork(connectedWallet, state) {
   //----------verify connection--------------------------------
   if (connectedWallet == '' || typeof connectedWallet == 'undefined') {
-    notificationRef?.current?.showNotification('Please connect wallet first!', 'error', 6000)
+    toast("Please connect wallet first!", errorOption);
     console.log("Please connect wallet first!");
     return false;
   }
   else {
-    notificationRef?.current?.hideNotification();
+    toast.dismiss();
   }
 
   if (state.net == 'mainnet' && connectedWallet.network.name == 'testnet') {
-    notificationRef?.current?.showNotification('Please switch to mainnet!', 'error', 4000);
+    toast("Please switch to mainnet!", errorOption);
     console.log("Please switch to mainnet!");
     return false;
   }
   if (state.net == 'testnet' && connectedWallet.network.name == 'mainnet') {
-    notificationRef?.current?.showNotification('Please switch to testnet!', 'error', 4000);
+    toast("Please switch to Testnet!", errorOption);
     console.log("Please switch to testnet!");
     return false;
   }
@@ -172,7 +195,7 @@ export function GetProjectIndex(projectData, project_id) {
   return index;
 }
 
-export async function FetchData(api, notificationRef, state, dispatch, force = false) {
+export async function FetchData(api, state, dispatch, force = false) {
   let projectData, communityData, configData;
   //-----------------fetch community members-----------------
   communityData = state.communityData;
@@ -185,8 +208,7 @@ export async function FetchData(api, notificationRef, state, dispatch, force = f
     )
 
     if (communityData == '') {
-      if (notificationRef)
-        notificationRef.current.showNotification("Can't fetch Community Data", 'error', 6000);
+        toast("Can't fetch Community Data", errorOption);
     } else {
       dispatch({
         type: 'setCommunityData',
@@ -206,8 +228,7 @@ export async function FetchData(api, notificationRef, state, dispatch, force = f
     )
 
     if (configData == '') {
-      if (notificationRef)
-        notificationRef.current.showNotification("Can't fetch Config Data", 'error', 6000);
+      toast("Can't fetch Config Data", errorOption);
     } else {
       dispatch({
         type: 'setConfigData',
@@ -226,24 +247,25 @@ export async function FetchData(api, notificationRef, state, dispatch, force = f
         },
       }
     )
-console.log(force);
 
     if (projectData == '') {
-      if (notificationRef)
-        notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
+      toast("Can't fetch Project Data", 'error', errorOption);
     } else {
       //----------fake--------------------------
+console.log(projectData);
       let fakeone = GetOneProject(projectData, state.wefundID);
-      fakeone.project_collected = 600000;
-      fakeone.communitybacked_amount = 192000 * 10 ** 6;
-      projectData[GetProjectIndex(projectData, state.wefundID)] = fakeone;
-      //------------------------------------
+      if(fakeone != ''){
+        fakeone.project_collected = 600000;
+        fakeone.communitybacked_amount = 192000 * 10 ** 6;
+        projectData[GetProjectIndex(projectData, state.wefundID)] = fakeone;
+        //------------------------------------
 
-      projectData = AddExtraInfo(state, projectData, communityData);
-      dispatch({
-        type: 'setProjectData',
-        message: projectData,
-      })
+        projectData = AddExtraInfo(state, projectData, communityData);
+        dispatch({
+          type: 'setProjectData',
+          message: projectData,
+        })
+      }
     }
   }
 console.log(projectData);
@@ -343,9 +365,12 @@ export function getMultiplyInteger(val) {
 }
 export function getSeconds(val) {
   let month = 60 * 60 * 24 * 30;
-  return getInteger(val) * month;
+  return (parseInt(getInteger(val)) * month).toString();
 }
-
+export function getMonth(val) {
+  let month = 60 * 60 * 24 * 30;
+  return (getInteger(val) / month).toString();
+}
 export function getStageTitle(data)
 {
   let index = parseInt(data.fundraising_stage);

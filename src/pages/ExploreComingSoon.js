@@ -34,6 +34,7 @@ import MobileTitle from '../components/ProjectExplorer/Mobile/Title'
 import MobileStatusButtons from '../components/ProjectExplorer/Mobile/StatusButtons'
 import MobileInformations from '../components/ProjectExplorer/Mobile/Informations'
 import MobileMainButtons from '../components/ProjectExplorer/Mobile/MainButtons'
+import { toast } from 'react-toastify'
 
 export default function ExplorerProject() {
   const navigate = useNavigate()
@@ -73,7 +74,6 @@ export default function ExplorerProject() {
   }
   //-----------connect to wallet ---------------------
 
-  const notificationRef = useRef()
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
@@ -81,7 +81,6 @@ export default function ExplorerProject() {
     try {
       let { projectData } = await FetchData(
         api,
-        notificationRef,
         state,
         dispatch,
         force,
@@ -101,7 +100,7 @@ export default function ExplorerProject() {
 
   //------------Wefund Approve-----------------
   async function WefundApprove(project_id) {
-    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, state) == false)
       return false
     let deadline = Date.now() + 1000 * 60 * 60 * 24 * 15 //for 15days
     let msg = new MsgExecuteContract(
@@ -119,14 +118,13 @@ export default function ExplorerProject() {
       state.lcd_client,
       [msg],
       'WeFund Approve success',
-      notificationRef,
     )
     await Sleep(2000)
     fetchContractQuery(true)
   }
 
   async function MilestoneVote(project_id, voted) {
-    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, state) == false)
       return false
     let wallet = state.connectedWallet.walletAddress
     let MilestoneVoteMsg = { set_milestone_vote: { project_id, wallet, voted } }
@@ -142,17 +140,16 @@ export default function ExplorerProject() {
       state.lcd_client,
       [msg],
       'Milestone vote success',
-      notificationRef,
     )
     await Sleep(2000)
     fetchContractQuery(true)
   }
 
   async function NextFundraisingStage(project_id, curStage) {
-    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, state) == false)
       return false;
 
-    let { projectData } = await FetchData(api, notificationRef, state, dispatch)
+    let { projectData } = await FetchData(api, state, dispatch)
 
     let stage = parseInt(curStage);
     let data = GetOneProject(projectData, project_id);
@@ -176,7 +173,6 @@ console.log(data)
       state.lcd_client,
       [msg],
       'Set Fundraising stage success',
-      notificationRef,
     )
     await Sleep(2000)
     fetchContractQuery(true)
@@ -186,6 +182,9 @@ console.log(data)
     fetchContractQuery()
   }, [activeTab, state.net])
 
+  function Modify(project_id){
+    navigate('/create?project_id=' + project_id);
+  }
   return (
     <PageLayout title="Projects" subTitle1="Explore" subTitle2="Projects">
       <Tabs activeTab={activeTab} onChangeActivetab={onChangeActivetab} />
@@ -235,6 +234,7 @@ console.log(data)
                               WefundApprove={WefundApprove}
                               MilestoneVote={MilestoneVote}
                               NextFundraisingStage={NextFundraisingStage}
+                              Modify={Modify}
                             />
                           </Flex>
 
@@ -307,6 +307,7 @@ console.log(data)
                               WefundApprove={WefundApprove}
                               MilestoneVote={MilestoneVote}
                               NextFundraisingStage={NextFundraisingStage}
+                              Modify={Modify}
                             />
                           </Flex>
                         </Flex>
@@ -331,7 +332,6 @@ console.log(data)
         </Box>
       </Flex>
       <Footer />
-      <Notification ref={notificationRef} />
     </PageLayout>
   )
 }

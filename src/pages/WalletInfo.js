@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { MsgExecuteContract, WasmAPI } from '@terra-money/terra.js'
 import { Link } from '@reach/router'
 import { Box, Flex, Text, Button, HStack } from '@chakra-ui/react'
-import { FetchData, EstimateSend, CheckNetwork } from '../components/Util'
-import Notification from '../components/Notification'
+import { toast } from 'react-toastify'
+
+import { FetchData, EstimateSend, CheckNetwork, errorOption, successOption } from '../components/Util'
 import { useStore } from '../store'
 
 export default function UserSideSnippet() {
@@ -13,12 +14,11 @@ export default function UserSideSnippet() {
   const [activeTab, setActiveTab] = useState('Account')
   const [tokens, setTokens] = useState([])
 
-  const notificationRef = useRef()
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   async function fetchContractQuery() {
     try {
-      let { projectData } = await FetchData(api, null, state, dispatch)
+      let { projectData } = await FetchData(api, state, dispatch)
 
       let projectCount = 0
       let totalbacked = 0
@@ -93,14 +93,14 @@ export default function UserSideSnippet() {
   }, [state.connectedWallet])
 
   async function addCommunityMember() {
-    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, state) == false)
       return false;
 
-    let { communityData } = await FetchData(api, null, state, dispatch)
+    let { communityData } = await FetchData(api, state, dispatch)
 
     for (let i = 0; i < communityData.length; i++) {
       if (communityData[i] == state.connectedWallet.walletAddress) {
-        notificationRef.current.showNotification("Already Registered", "success", 4000)
+        toast("Already Registered", successOption);
         return;
       }
     }
@@ -122,12 +122,11 @@ export default function UserSideSnippet() {
       state.lcd_client,
       [msg],
       'Add community success',
-      notificationRef,
     )
   }
 
   function removeCommunityMember() {
-    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, state) == false)
       return false;
 
     let CommunityMsg = {
@@ -147,12 +146,11 @@ export default function UserSideSnippet() {
       state.lcd_client,
       [msg],
       'Remove community success',
-      notificationRef,
     )
   }
 
   function claim(project_id) {
-    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, state) == false)
       return false;
 
     let claimMsg = {
@@ -172,7 +170,6 @@ export default function UserSideSnippet() {
       state.lcd_client,
       [msg],
       'Claim pending tokens',
-      notificationRef,
     )
   }
   return (
@@ -322,7 +319,6 @@ export default function UserSideSnippet() {
           Cancel
         </Button>
       </Flex>
-      <Notification ref={notificationRef} />
     </Box>
   )
 }

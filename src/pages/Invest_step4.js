@@ -3,24 +3,21 @@ import {Box, Flex, Text,Table,Thead,Tbody,Tr,Th,Td,TableCaption, VStack,Image, H
   } from "@chakra-ui/react";
 import React, { useEffect, useState,  useCallback, useContext, useRef, } from 'react';
 import { navigate } from "@reach/router";
+import { toast } from "react-toastify";
 
 import { useStore } from '../store'
 import { ImageTransition } from "../components/ImageTransition";
-import Notification from '../components/Notification'
 import PageLayout from '../components/PageLayout'
-import { ParseParam } from "../components/Util";
+import { ParseParam, successOption } from "../components/Util";
 
 export default function Invest_step4() {
   const {state, dispatch} = useStore();
   let project_id = ParseParam();
 
   //---------------notification setting---------------------------------
-  const notificationRef = useRef();
-
   function download_pdf(){
-    notificationRef.current.showNotification("Downloading", "success", 10000);
-
     window.URL = window.URL || window.webkitURL;
+    toast("Downloading", successOption);
 
     var xhr = new XMLHttpRequest(),
           a = document.createElement('a'), file;
@@ -39,7 +36,7 @@ export default function Invest_step4() {
     };
     xhr.send();
 
-    // hideNotification();
+    toast.dismiss();
   }
 
   useEffect(() => {
@@ -198,7 +195,6 @@ export default function Invest_step4() {
           </ImageTransition>
         </Flex>
       </Box>
-      <Notification ref={notificationRef}/>
     </PageLayout>
   )
 }
