@@ -8,7 +8,7 @@ const StoreContext = createContext()
 //  terra1pkytkcanua4uazlpekve7qyhg2c5xwwjr4429d //testnet
 //  terra1nppndpgfusn7p8nd5d9fqy47xejg0x55jjxe2y //mainnet
 
-export const WEFUND_MAIN = "terra1jjgxsf7kpcget7u2ay503krs0gm4l28u30km7j";
+export const WEFUND_MAIN = "terra1hvddgv0nvddlvdxu3trupun3uc0hd9hax8d8lz";
 export const VESTING_MAIN = "terra1clufns3djy7fye5k3sq3m4y3777e85jw5v2ygk";
 
 export const WEFUND_TEST = "terra1505s4p4ztdw3rxp9syjdrq73xuwmzmtts9phd5";

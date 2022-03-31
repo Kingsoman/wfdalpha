@@ -37,12 +37,12 @@ const MARKET_MAIN = "terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s"
 const AUST_TEST = "terra1ajt556dpzvjwl0kl5tzku3fc3p3knkg9mkv8jl"
 const AUST_MAIN = "terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu"
 
-const net = "test"
+const net = "main"
 let terra = net=="main"? LCD_MAIN : LCD_TEST;
 let wallet = terra.wallet(mk);
 
-let vestingAddress = "terra1055p3nlct3pg4xr2gxkvmec9d055wwfy56gf07";
-let wefundAddress = "terra1505s4p4ztdw3rxp9syjdrq73xuwmzmtts9phd5";
+let vestingAddress = "terra1clufns3djy7fye5k3sq3m4y3777e85jw5v2ygk";
+let wefundAddress = "terra1hvddgv0nvddlvdxu3trupun3uc0hd9hax8d8lz";
 
 run();
 
