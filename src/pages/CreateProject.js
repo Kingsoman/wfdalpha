@@ -535,7 +535,7 @@ export default function CreateProject() {
               typeText = "Blockchain"
               type = {ecosystem}
               setType = {setEcosystem}
-              options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
+              options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Algorand', 'Solana']}
               w = {{base:'100%', md:'50%', lg:'50%'}}
             />
           </Stack>
