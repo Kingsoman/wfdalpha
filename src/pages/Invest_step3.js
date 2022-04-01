@@ -322,6 +322,9 @@ console.log(amount);
                 Osmis
               </option>
               <option style={{ backgroundColor: '#1B0645' }}>
+                Algorand
+              </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
                 Terra
               </option>
             </Select>
