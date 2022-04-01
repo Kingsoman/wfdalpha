@@ -30,7 +30,7 @@ export async function EstimateSend(connectedWallet, lcd, msgs, message, memo = '
 console.log(msgs);
   // const obj = new Fee(10_000, { uusd: 4500 })
   // let accountInfo;
-  let abort = false;
+  // let abort = false;
 //   await lcd.auth.accountInfo(
 //     connectedWallet.walletAddress
 //   )
@@ -83,13 +83,35 @@ console.log(msgs);
       // gasAdjustment: 1.7,
       memo: memo,
     })
-    .then((e) => {
+    .then(async (e) => {
+console.log(e);
       if (e.success) {
-        toast(message, successOption);
+        toast("Successs! Please wait", successOption);
       } else {
         toast(e.message, errorOption);
         console.log(e.message);
         return false;
+      }
+
+      let count = 10;
+      let height = 0;
+      while(count > 0){
+        await lcd.tx.txInfo(e.result.txhash)
+        .then((e) => {
+          console.log(e)
+          if(e.height > 0){
+            toast.dismiss();
+            toast(message, successOption);
+            height = e.height;
+          }
+        })
+        .catch((e)=>{
+          // console.log(e)
+        })
+        if(height > 0) break;
+        await Sleep(1000);
+        count--;
+console.log(count);
       }
       return true;
     })
@@ -250,9 +272,9 @@ export async function FetchData(api, state, dispatch, force = false) {
 
     if (projectData == '') {
       toast("Can't fetch Project Data", 'error', errorOption);
+      console.log("Can't fetch project Data");
     } else {
       //----------fake--------------------------
-console.log(projectData);
       let fakeone = GetOneProject(projectData, state.wefundID);
       if(fakeone != ''){
         fakeone.project_collected = 600000;
@@ -285,13 +307,12 @@ export function isWefundWallet(state) {
     return true;
   return false;
 }
-export function isCommunityWallet(state, project_id) {
-  let one = GetOneProject(state.projectData, project_id)
-  if (one == '')
+export function isCommunityWallet(state) {
+  if(state.communityData == '')
     return false;
 
-  for (let j = 0; j < one.community_votes.length; j++) {
-    if (state.connectedWallet.walletAddress == one.community_votes[j].wallet) {
+  for (let j = 0; j < state.communityData.length; j++) {
+    if (state.connectedWallet.walletAddress == state.communityData[j].wallet) {
       return true;
     }
   }

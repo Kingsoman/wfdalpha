@@ -14,7 +14,6 @@ import Footer from '../components/Footer'
 import PageLayout from '../components/PageLayout'
 
 import { Link, useNavigate } from '@reach/router'
-import Notification from '../components/Notification'
 import { WasmAPI, MsgExecuteContract } from '@terra-money/terra.js'
 
 import ProjectCount from '../components/ProjectExplorer/ProjectCount'
@@ -119,7 +118,6 @@ export default function ExplorerProject() {
       [msg],
       'WeFund Approve success',
     )
-    await Sleep(2000)
     fetchContractQuery(true)
   }
 
@@ -135,13 +133,12 @@ export default function ExplorerProject() {
       wefundContractAddress,
       MilestoneVoteMsg,
     )
-    EstimateSend(
+    await EstimateSend(
       state.connectedWallet,
       state.lcd_client,
       [msg],
       'Milestone vote success',
     )
-    await Sleep(2000)
     fetchContractQuery(true)
   }
 
@@ -168,13 +165,13 @@ console.log(data)
       wefundContractAddress,
       FundraisingMsg,
     )
-    EstimateSend(
+    await EstimateSend(
       state.connectedWallet,
       state.lcd_client,
       [msg],
-      'Set Fundraising stage success',
+      'Set Fundraising stage success'
     )
-    await Sleep(2000)
+
     fetchContractQuery(true)
   }
   //---------initialize fetching---------------------

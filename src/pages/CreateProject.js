@@ -121,7 +121,7 @@ export default function CreateProject() {
     setCompany(data.project_company);
     setTitle(data.project_title);
     setDescription(data.project_description);
-    setCollectedAmount(data.project_collected.toString());
+    setCollectedAmount(data.project_collected);
     setEcosystem(data.project_ecosystem);
     setCreateDate(data.project_createddate);
     setWebsite(data.project_website);
@@ -404,7 +404,7 @@ export default function CreateProject() {
         project_company: company,
         project_title: title,
         project_description: description,
-        project_collected: collectedAmount,
+        project_collected: collectedAmount.toString(),
         project_ecosystem: ecosystem,
         project_createddate: _createDate,
         project_saft: realSAFT,
@@ -473,9 +473,7 @@ export default function CreateProject() {
       project_id == null? 'Create Project success' : "Modify Project success",
     )
     if(res == true){
-      await Sleep(2000)
       await FetchData(api, state, dispatch, true)
-
       navigate('/explorer');
     }
   }

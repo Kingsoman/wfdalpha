@@ -410,9 +410,7 @@ export default function CreateProject() {
     )
 console.log(res);
     if(res == true){
-      await Sleep(2000)
       await FetchData(api, state, dispatch, true)
-
       navigate('/explorer');
     }
   }
