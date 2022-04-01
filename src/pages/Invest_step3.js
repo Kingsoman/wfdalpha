@@ -444,7 +444,6 @@ console.log(amount);
             </Flex>
             <InputTransition
               unitid='investorname'
-
               selected={InsName == '' ? false : true}
               height='55px' rounded='md' width='290px'
             >
@@ -466,7 +465,6 @@ console.log(amount);
               <InputGroup size="sm" style={{ background: 'rgba(255, 255, 255, 0.05)' }}>
                 <InputLeftElement style={{ background: 'transparent', }} pointerEvents='none' color='gray.300' fontSize='1.2em' children=' ' />
                 <Input style={{}} type="text" h='55px' placeholder="Your title" rounded="md" value={InsTitle} onChange={(e) => { setInsTitle(e.target.value) }} />
-
               </InputGroup>
             </InputTransition>
           </Box>
