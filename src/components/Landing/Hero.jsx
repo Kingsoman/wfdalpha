@@ -4,33 +4,53 @@ import { Image, Flex, Text } from '@chakra-ui/react'
 
 export default function Hero() {
   return (
-    <Flex id="heroSection" direction="column">
-      <Image src="/media/stars.svg" id="starsBg" />
-      <Image src="/media/cloud.svg" id="cloudBg" />
-      <Image src="/media/stage.png" id="stageBg" />
+    <Flex
+      width="100%"
+      id="heroComponent"
+      position="relative"
+      alignItems="center"
+      flexDirection="column"
+      justifyContent={'center'}
+      height={{ base: '30em', md: '40em', lg: '90vh' }}
+      bgGradient="Linear(#058cd8, #4d188f, #2a0a31)"
+    >
+      <Image
+        top="2em"
+        width="100%"
+        height="65%"
+        objectFit="contain"
+        position="absolute"
+        src="/media/Home/2.png"
+      />
       <Image
         src="/media/horizontallogo.svg"
-        id="heroLogo"
-        data-aos="fade-down"
-        data-aos-easing="linear"
-        data-aos-duration="1500"
+        mt={{ base: '-5em', md: '-1em', lg: '-2em' }}
+        width={{ base: '6em', md: '10em', lg: '12em' }}
       />
-
-      <Text id="heroHeading" data-aos="fade-up">
-        Community
-        <br />
+      x
+      <Text
+        zIndex="2"
+        textAlign="center"
+        position="relative"
+        fontFamily="PilatExtended-Bold"
+        mt={{ base: '1em', md: '.3em', lg: '.1em' }}
+        lineHeight={{ base: '25px', md: '45px', lg: '60px' }}
+        fontSize={{ base: '25px', md: '40px', lg: '55px' }}
+      >
         Crowdfunding
         <br />
         Cross-Chain
         <br />
         Incubator
       </Text>
-
-      <Flex id="ArrowDownButton" data-aos="flip-up">
-        <a href="#aboutSection">
-          <Image src="/media/ArrowDown.png" id="ArrowDownButtonImage" />
-        </a>
-      </Flex>
+      <Image
+        left="0"
+        width="100%"
+        objectFit="contain"
+        position="absolute"
+        src="/media/Home/1.png"
+        bottom={{ base: '5em', md: '0', lg: '0' }}
+      />
     </Flex>
   )
 }

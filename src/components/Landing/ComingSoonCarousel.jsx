@@ -1,46 +1,48 @@
-import React, { useState } from 'react'
-import { Image, Flex, Text, Link, Box } from '@chakra-ui/react'
+import React from 'react'
+import { Image, Flex, Text, Link } from '@chakra-ui/react'
+
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
 
 export default function UpcomingProject() {
-  const [index, setIndex] = useState(0)
-
   return (
-    <Flex 
-      direction="column"
-      bg="rgba(255, 255, 255, 0.05)"
-      pt="25px"
-      pb="25px"
+    <Flex
+      mt={'3em'}
+      width="100%"
+      alignItems="center"
+      flexDirection="column"
+      pb={{ md: '5em', lg: '10em' }}
     >
-      <Flex
-        data-aos="fade-down"
-        direction="column"
-        textAlign="center"
-        fontFamily="Sk-Modernist-Regular"
-      >
-        <Text id="aboutUsPageLable">Upcoming Projects</Text>
-        <Flex id="headingIndustry">
-          <Box as="span">Soon to Launch on <Box as="span" color="#00A3FF">WeFund</Box></Box>
-        </Flex>
+      <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }} mb="1em">
+        <Text color="#63CDFA">UPCOMING</Text>
+        <Text color="white" ml={'10px'}>
+          PROJECTS
+        </Text>
       </Flex>
       <Carousel
         autoPlay
-        width="100vw"
+        width="100%"
+        swipeable={true}
         showArrows={false}
         showStatus={false}
         showThumbs={false}
         infiniteLoop={true}
-        onChange={(i) => setIndex(i)}
       >
         <Flex
-          height={{ base: '14em', md: '20em', lg: '25em' }}
-          justifyContent="center"
+          width="60%"
+          margin={'auto'}
+          alignItems={'center'}
           flexDirection="column"
-          alignItems="center"
-          position="relative"
+          justifyContent={'center'}
+          p={{ md: '1em', lg: '1em' }}
+          height={{ md: '25em', lg: '25em' }}
+          bgGradient="linear(#430E82, #1D0551)"
+          borderRadius={{ md: '15px', lg: '15px' }}
         >
-          <Link href="https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA" isExternal>
+          <Link
+            href="https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA"
+            isExternal
+          >
             <Image
               width="20em"
               cursor="pointer"
@@ -53,10 +55,15 @@ export default function UpcomingProject() {
           </Link>
         </Flex>
         <Flex
-          height={{ base: '14em', md: '20em', lg: '25em' }}
-          justifyContent="center"
+          width="60%"
+          margin={'auto'}
+          alignItems={'center'}
           flexDirection="column"
-          alignItems="center"
+          justifyContent={'center'}
+          p={{ md: '1em', lg: '1em' }}
+          height={{ md: '25em', lg: '25em' }}
+          bgGradient="linear(#430E82, #1D0551)"
+          borderRadius={{ md: '15px', lg: '15px' }}
         >
           <Flex
             height={{ base: '5em', md: '10em', lg: '15em' }}
@@ -77,10 +84,15 @@ export default function UpcomingProject() {
           </Flex>
         </Flex>
         <Flex
-          height={{ base: '14em', md: '20em', lg: '25em' }}
-          justifyContent="center"
+          width="60%"
+          margin={'auto'}
+          alignItems={'center'}
           flexDirection="column"
-          alignItems="center"
+          justifyContent={'center'}
+          p={{ md: '1em', lg: '1em' }}
+          height={{ md: '25em', lg: '25em' }}
+          bgGradient="linear(#430E82, #1D0551)"
+          borderRadius={{ md: '15px', lg: '15px' }}
         >
           <Link href="https://lynxverse.io/" isExternal>
             <Image

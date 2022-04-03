@@ -1,5 +1,8 @@
 body {
-  background: linear-gradient(90deg, #1f0021 0%, #120054 104.34%) !important;
+  background-image: linear-gradient(#1e0024, #150049) !important;
+}
+html {
+  scroll-behavior: smooth;
 }
 #ProjectInMobile {
   display: none;
@@ -107,7 +110,6 @@ body {
   align-items: center;
   flex-direction: column;
   flex-direction: space-between;
-  background: linear-gradient(90deg, #360847, #18075b);
 }
 #footerBottomInnerStyleBox,
 #footerBottomInnerStyleBox2 {
@@ -117,7 +119,6 @@ body {
   flex-direction: row;
   justify-content: space-between;
   font-family: 'PilatExtended-Bold';
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 #comunityBackgroundHeight {
   width: 100%;

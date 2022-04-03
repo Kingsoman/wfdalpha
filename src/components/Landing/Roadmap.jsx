@@ -4,25 +4,14 @@ import { Flex, Image, Text, UnorderedList, ListItem } from '@chakra-ui/react'
 export default function Roadmap() {
   return (
     <Flex
-      w="100%"
-      pt="47px"
-      mt="100px"
-      mb="200px"
-      justify="center"
-      direction="column"
+      width="100%"
+      position="relative"
       alignItems="center"
+      flexDirection="column"
+      pb={{ md: '5em', lg: '10em' }}
     >
-      <Flex
-        data-aos="fade-down"
-        direction="column"
-        textAlign="center"
-        fontFamily="Sk-Modernist-Regular"
-      >
-        <Text id="aboutUsPageLable">ROADMAP</Text>
-        <Flex id="headingIndustry">
-          <Text color="#00A3FF">WeFund&nbsp;</Text>
-          <Text>Roadmap</Text>
-        </Flex>
+      <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
+        <Text color="#63CDFA">ROADMAP</Text>
       </Flex>
 
       {/* {/ Roadmap For Desktop /} */}
@@ -36,11 +25,20 @@ export default function Roadmap() {
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V2</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem color={"green.300"}>Community registration system</ListItem>
-              <ListItem color={"green.300"}>Community project approval by voting power</ListItem>
-              <ListItem color={"green.300"}>Project creation with milestone system</ListItem>
-              <ListItem color={"green.300"}>Multi-stage fundraising</ListItem>
-              <ListItem color={"green.300"}>Milestone funds released with backers approval through voting power</ListItem>
+              <ListItem color={'green.300'}>
+                Community registration system
+              </ListItem>
+              <ListItem color={'green.300'}>
+                Community project approval by voting power
+              </ListItem>
+              <ListItem color={'green.300'}>
+                Project creation with milestone system
+              </ListItem>
+              <ListItem color={'green.300'}>Multi-stage fundraising</ListItem>
+              <ListItem color={'green.300'}>
+                Milestone funds released with backers approval through voting
+                power
+              </ListItem>
               <ListItem>Customer service</ListItem>
             </UnorderedList>
           </Flex>
@@ -51,8 +49,10 @@ export default function Roadmap() {
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">WeFund Investment Status</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem color={"green.300"}>Seed phase until end of January</ListItem>
-              <ListItem color={"green.300"}>Pre-sale begins</ListItem>
+              <ListItem color={'green.300'}>
+                Seed phase until end of January
+              </ListItem>
+              <ListItem color={'green.300'}>Pre-sale begins</ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
@@ -74,8 +74,8 @@ export default function Roadmap() {
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Documentation</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem color={"green.300"}>Release Whitepaper 2.0</ListItem>
-              <ListItem color={"green.300"}>Update Litepaper</ListItem>
+              <ListItem color={'green.300'}>Release Whitepaper 2.0</ListItem>
+              <ListItem color={'green.300'}>Update Litepaper</ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
@@ -85,9 +85,13 @@ export default function Roadmap() {
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V3</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem color={"green.300"}>Set up community allocation</ListItem>
-              <ListItem color={"green.300"}>Set up WeFund holder allocation</ListItem>
-              <ListItem color={"green.300"}>Set up staking mechanism</ListItem>
+              <ListItem color={'green.300'}>
+                Set up community allocation
+              </ListItem>
+              <ListItem color={'green.300'}>
+                Set up WeFund holder allocation
+              </ListItem>
+              <ListItem color={'green.300'}>Set up staking mechanism</ListItem>
             </UnorderedList>
           </Flex>
           <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
@@ -146,7 +150,9 @@ export default function Roadmap() {
               <ListItem>Sport industry first project - Seed phase</ListItem>
               <ListItem>Game industry first project - Seed phase</ListItem>
               <ListItem>Creative industry first project - Seed phase</ListItem>
-              <ListItem>Real estate industry first project - Seed phase</ListItem>
+              <ListItem>
+                Real estate industry first project - Seed phase
+              </ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
@@ -163,11 +169,20 @@ export default function Roadmap() {
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V2</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem  color={"green.300"}>Community registration system</ListItem>
-              <ListItem  color={"green.300"}>Community project approval by voting power</ListItem>
-              <ListItem  color={"green.300"}>Project creation with milestone system</ListItem>
-              <ListItem  color={"green.300"}>Multi-stage fundraising</ListItem>
-              <ListItem  color={"green.300"}>Milestone funds released with backers approval through voting power</ListItem>
+              <ListItem color={'green.300'}>
+                Community registration system
+              </ListItem>
+              <ListItem color={'green.300'}>
+                Community project approval by voting power
+              </ListItem>
+              <ListItem color={'green.300'}>
+                Project creation with milestone system
+              </ListItem>
+              <ListItem color={'green.300'}>Multi-stage fundraising</ListItem>
+              <ListItem color={'green.300'}>
+                Milestone funds released with backers approval through voting
+                power
+              </ListItem>
               <ListItem>Customer service</ListItem>
             </UnorderedList>
           </Flex>
@@ -198,8 +213,8 @@ export default function Roadmap() {
           <Flex className="RoadmapContent" data-aos="fade-right">
             <Text className="RoadmapTitle">Documentation</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem  color={"green.300"}>Release Whitepaper 2.0</ListItem>
-              <ListItem  color={"green.300"}>Update Litepaper</ListItem>
+              <ListItem color={'green.300'}>Release Whitepaper 2.0</ListItem>
+              <ListItem color={'green.300'}>Update Litepaper</ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
@@ -210,9 +225,13 @@ export default function Roadmap() {
             <Image src="/media/beautifulDash.svg" />
             <Text className="RoadmapTitle">Platform V3</Text>
             <UnorderedList className="RoadmapDesc">
-              <ListItem  color={"green.300"}>Set up community allocation</ListItem>
-              <ListItem  color={"green.300"}>Set up WeFund holder allocation</ListItem>
-              <ListItem  color={"green.300"}>Set up staking mechanism</ListItem>
+              <ListItem color={'green.300'}>
+                Set up community allocation
+              </ListItem>
+              <ListItem color={'green.300'}>
+                Set up WeFund holder allocation
+              </ListItem>
+              <ListItem color={'green.300'}>Set up staking mechanism</ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
@@ -264,7 +283,9 @@ export default function Roadmap() {
               <ListItem>Sport industry first project - Seed phase</ListItem>
               <ListItem>Game industry first project - Seed phase</ListItem>
               <ListItem>Creative industry first project - Seed phase</ListItem>
-              <ListItem>Real estate industry first project - Seed phase</ListItem>
+              <ListItem>
+                Real estate industry first project - Seed phase
+              </ListItem>
             </UnorderedList>
           </Flex>
         </Flex>

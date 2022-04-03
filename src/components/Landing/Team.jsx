@@ -6,74 +6,67 @@ export default function Team() {
     <Flex
       width="100%"
       justify="center"
+      position="relative"
       alignItems="center"
+      flexDirection="column"
+      pb={{ md: '5em', lg: '10em' }}
       fontFamily="Sk-Modernist-Regular"
     >
-      <Flex id="projectIndustryContainer">
-        <Flex
-          width="100%"
-          justify="center"
-          textAlign="center"
-          alignItems="center"
-          data-aos="fade-down"
-          flexDirection="column"
-          fontFamily="PilatExtended-Regular"
-        >
-          <Flex id="headingIndustry">
-            <Text color="#00A3FF">WeFund&nbsp;</Text>
-            <Text>Team</Text>
-          </Flex>
-        </Flex>
-        <Flex id="missionList">
-          {PROJECT_ITEMS.map((projectItem, index) => (
-            <Flex
-              key={index}
-              className="teamCard"
-              data-aos="zoom-in-up"
-              width={{ base: '100%', md: '45%', lg: '24%' }}
-            >
-              <Image
-                src={projectItem.imgsrc}
-                objectFit="contain"
-                width={'100%'}
-              />
-              <Flex my="20px" height="40px" justify="space-around">
-                {projectItem.logos?.map((e, i) => (
-                  <Image
-                    src={e}
-                    key={i}
-                    width="40px"
-                    objectFit="contain"
-                    background="white"
-                    borderRadius="3px"
-                  />
-                ))}
-              </Flex>
-              <Flex w="100%">
-                <div>
-                  <Text fontSize={'18px'} fontFamily={'PilatExtended-Bold'}>
-                    {projectItem.name}
-                  </Text>
-                  <Text fontSize={'13px'} fontFamily={'PilatExtended-Regular'}>
-                    {projectItem.role}
-                  </Text>
-                </div>
-                <Spacer />
-                <Link href={projectItem.link} mt="5px" isExternal>
-                  <Image
-                    width="40px"
-                    height="40px"
-                    src="/media/linkedin.png"
-                    cursor="pointer"
-                    background="white"
-                    borderRadius="6px"
-                    border="0"
-                  />
-                </Link>
-              </Flex>
+      <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
+        <Text color="#63CDFA">WeFund</Text>
+        <Text color="white" ml={'10px'}>
+          Team
+        </Text>
+      </Flex>
+      <Flex id="missionList">
+        {PROJECT_ITEMS.map((projectItem, index) => (
+          <Flex
+            key={index}
+            className="teamCard"
+            data-aos="zoom-in-up"
+            width={{ base: '100%', md: '45%', lg: '24%' }}
+          >
+            <Image
+              src={projectItem.imgsrc}
+              objectFit="contain"
+              width={'100%'}
+            />
+            <Flex my="20px" height="40px" justify="space-around">
+              {projectItem.logos?.map((e, i) => (
+                <Image
+                  src={e}
+                  key={i}
+                  width="40px"
+                  objectFit="contain"
+                  background="white"
+                  borderRadius="3px"
+                />
+              ))}
             </Flex>
-          ))}
-        </Flex>
+            <Flex w="100%">
+              <div>
+                <Text fontSize={'18px'} fontFamily={'PilatExtended-Bold'}>
+                  {projectItem.name}
+                </Text>
+                <Text fontSize={'13px'} fontFamily={'PilatExtended-Regular'}>
+                  {projectItem.role}
+                </Text>
+              </div>
+              <Spacer />
+              <Link href={projectItem.link} mt="5px" isExternal>
+                <Image
+                  width="40px"
+                  height="40px"
+                  src="/media/linkedin.png"
+                  cursor="pointer"
+                  background="white"
+                  borderRadius="6px"
+                  border="0"
+                />
+              </Link>
+            </Flex>
+          </Flex>
+        ))}
       </Flex>
     </Flex>
   )
