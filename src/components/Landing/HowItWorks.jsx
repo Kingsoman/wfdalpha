@@ -27,11 +27,10 @@ export default function Works() {
   return (
     <Flex
       width="100%"
+      id="HowItWorkBg"
       position="relative"
       alignItems="center"
       flexDirection="column"
-      bgImage="/media/Home/41.png"
-      bgSize={{ base: 'contain' }}
       pb={{ base: '5em', md: '5em', lg: '10em' }}
     >
       {/* <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>

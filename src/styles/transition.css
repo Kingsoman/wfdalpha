@@ -4,6 +4,14 @@ body {
 html {
   scroll-behavior: smooth;
 }
+#HowItWorkBg {
+  background-image: linear-gradient(
+    rgba(10, 37, 49, 1%),
+    rgba(21, 191, 228, 81%),
+    rgba(141, 52, 255, 66%),
+    rgba(42, 10, 49, 0%)
+  );
+}
 #ProjectInMobile {
   display: none;
 }
@@ -205,13 +213,6 @@ html {
 #RoadMapMobile {
   display: none;
 }
-#RoadMapDesktop {
-  margin-top: 2em;
-  position: relative;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-}
 .RoadmapContent {
   width: 50%;
   text-align: left;
@@ -239,7 +240,6 @@ html {
 .RoadmapTitle {
   color: white;
   font-size: 18px;
-  margin-top: -5px;
   font-weight: bolder;
   margin-bottom: 15px;
   font-family: 'Sk-Modernist-Bold';
@@ -247,9 +247,8 @@ html {
 .RoadmapDesc {
   font-size: 18px;
   color: #aea3b2;
-  margin-top: -10px;
+  margin-top: 10px;
   margin-bottom: 20px;
-  margin-right: 15px;
   font-family: 'Sk-Modernist-Regular';
 }
 .RoadmapDesc li {
@@ -276,36 +275,6 @@ html {
 #circleD {
   width: 1em;
   height: 1em;
-}
-#roadmapBox1 {
-  top: 3%;
-}
-#roadmapBox2 {
-  top: 22%;
-}
-#roadmapBox3 {
-  top: 29%;
-}
-#roadmapBox4 {
-  top: 37%;
-}
-#roadmapBox5 {
-  top: 44%;
-}
-#roadmapBox6 {
-  top: 56%;
-}
-#roadmapBox7 {
-  top: 64%;
-}
-#roadmapBox8 {
-  top: 71%;
-}
-#roadmapBox9 {
-  top: 80%;
-}
-#roadmapBox10 {
-  top: 88%;
 }
 #rotateHandGo {
   -webkit-transform: scaleX(-1);
@@ -968,9 +937,6 @@ html {
     height: 200px;
     padding: 20px 0;
   }
-  #RoadMapDesktop {
-    display: none;
-  }
   #aboutSection {
     margin-top: 60px;
     margin-bottom: 50px;
@@ -1347,36 +1313,6 @@ html {
   #circleD {
     width: 0.8em;
     height: 0.8em;
-  }
-  #roadmapBox1 {
-    top: 4%;
-  }
-  #roadmapBox2 {
-    top: 23%;
-  }
-  #roadmapBox3 {
-    top: 30%;
-  }
-  #roadmapBox4 {
-    top: 38%;
-  }
-  #roadmapBox5 {
-    top: 45%;
-  }
-  #roadmapBox6 {
-    top: 57%;
-  }
-  #roadmapBox7 {
-    top: 66%;
-  }
-  #roadmapBox8 {
-    top: 75%;
-  }
-  #roadmapBox9 {
-    top: 82%;
-  }
-  #roadmapBox10 {
-    top: 92%;
   }
   .FlexViewMobile {
     height: 10em;

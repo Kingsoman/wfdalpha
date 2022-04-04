@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
 
 import '../styles/home.css'
@@ -21,10 +21,7 @@ import Partners from '../components/Landing/Partners'
 import UpcomingProject from '../components/Landing/ComingSoonCarousel'
 
 export default () => {
-  useEffect(() => {
-    AOS.init({ duration: 1000 })
-    setTimeout(() => setSplash(false), 3000)
-  }, [])
+  useEffect(() => AOS.init({ duration: 1000 }), [])
 
   return (
     <ChakraProvider resetCSS theme={theme}>
