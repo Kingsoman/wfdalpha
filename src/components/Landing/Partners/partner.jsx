@@ -7,7 +7,6 @@ export default function Partner({ link, img }) {
       href={link}
       bg={'#f0f3fa'}
       overflow="hidden"
-      border={'2px solid #63CDFA'}
       borderRadius={{ md: '10px', lg: '10px' }}
     >
       <Center height={'100%'}>

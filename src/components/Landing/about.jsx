@@ -36,24 +36,24 @@ export default function Aboutone() {
           position="relative"
           src="/media/Home/3.png"
           mr={{ base: '0', md: '-10em', lg: '-10em' }}
-          mb={{ base: '-7em', md: '-0', lg: '0' }}
-          width={{ base: '16em', md: '16em', lg: '21em' }}
+          mb={{ base: '-5em', md: '-0', lg: '0' }}
+          width={{ base: '12em', md: '16em', lg: '21em' }}
         />
         <Flex
           flexDirection="column"
           bgGradient="Linear(#340B6E, transparent)"
           p={{ base: '1em', md: '1em', lg: '2em' }}
           pl={{ base: '1em', md: '12em', lg: '15em' }}
-          pt={{ base: '10em', md: '1em', lg: '2em' }}
+          pt={{ base: '7em', md: '1em', lg: '2em' }}
           width={{ base: '95%', md: '85%', lg: '70%' }}
           borderRadius={{ base: '10px', md: '15px', lg: '15px' }}
         >
           <Text
             color="#63CDFA"
             fontWeight="bold"
-            fontSize={{ lg: '32px' }}
             fontFamily="PilatExtended-Bold"
             mb={{ base: '.5em', md: '.5em', lg: '.5em' }}
+            fontSize={{ base: '16px', md: '28px', lg: '32px' }}
           >
             ABOUT WeFund
           </Text>
@@ -92,7 +92,7 @@ export default function Aboutone() {
         color="#63CDFA"
         fontWeight="bold"
         fontFamily="PilatExtended-Regular"
-        fontSize={{ md: '18px', lg: '20px' }}
+        fontSize={{ base: '14px', md: '18px', lg: '20px' }}
       >
         Select Litepaper Languange
       </Text>
@@ -152,7 +152,7 @@ export default function Aboutone() {
         >
           <ButtonBackTransition
             width="100%"
-            height="55px"
+            height="45px"
             rounded="100px"
             selected={false}
             unitid="downwhitepaper"
@@ -164,7 +164,12 @@ export default function Aboutone() {
               alignItems="center"
               justify="space-between"
             >
-              <Text color="white">Download Litepaper </Text>
+              <Text
+                color="white"
+                fontSize={{ base: '14px', md: '16px', lg: '16px' }}
+              >
+                Download Litepaper
+              </Text>
               <Image src="/media/Download.svg" />
             </Flex>
           </ButtonBackTransition>
@@ -172,9 +177,9 @@ export default function Aboutone() {
       </Link>
       <Text
         mt="10px"
-        fontSize="20px"
         textAlign="center"
         fontFamily="Sk-Modernist-Regular"
+        fontSize={{ base: '14px', md: '18px', lg: '18px' }}
       >
         OR
       </Text>
@@ -186,7 +191,7 @@ export default function Aboutone() {
         >
           <ButtonBackTransition
             width="100%"
-            height="55px"
+            height="45px"
             rounded="100px"
             selected={false}
             unitid="downfullwhitepaper"
@@ -198,7 +203,12 @@ export default function Aboutone() {
               alignItems="center"
               justify="space-between"
             >
-              <Text color="white">Download Whitepaper (ENG Only) </Text>
+              <Text
+                color="white"
+                fontSize={{ base: '14px', md: '16px', lg: '16px' }}
+              >
+                Download Whitepaper (ENG Only)
+              </Text>
               <Image src="/media/Download.svg" />
             </Flex>
           </ButtonBackTransition>

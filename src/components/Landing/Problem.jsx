@@ -38,12 +38,12 @@ export default function Problem() {
             <Text
               fontFamily="PilatExtended-Bold"
               fontSize={{ base: '20px', md: '25px', lg: '30px' }}
-              color="#63CDFA
-              "
+              color="#63CDFA"
             >
               PROBLEM
             </Text>
             <Flex
+              width={'100%'}
               alignItems="center"
               justifyContent="center"
               flexWrap={{ md: 'wrap', lg: 'wrap' }}
@@ -51,32 +51,38 @@ export default function Problem() {
             >
               {problems.map((e) => (
                 <Flex
-                  mt={'2em'}
-                  alignItems="flex-start"
-                  w={{ base: '80%', md: '30%', lg: '30%' }}
+                  alignItems={{
+                    base: 'center',
+                    md: 'flex-start',
+                    lg: 'flex-start',
+                  }}
+                  mt={{ base: '1em', md: '2em', lg: '2em' }}
+                  w={{ base: '98%', md: '30%', lg: '30%' }}
                 >
                   <Flex
                     alignItems="center"
                     position={'relative'}
                     borderRadius={'100px'}
                     justifyContent="center"
-                    mr={{ base: '.5em', md: '0.5em', lg: '0.5em' }}
                     bgGradient={'Linear(#F8A5FF, #FFE2FF)'}
-                    width={{ base: '5em', md: '7em', lg: '8em' }}
-                    height={{ base: '5em', md: '7em', lg: '8em' }}
+                    width={{ base: '5.5em', md: '7em', lg: '8em' }}
+                    height={{ base: '4.5em', md: '7em', lg: '8em' }}
+                    mr={{ base: '.5em', md: '0.5em', lg: '0.5em' }}
                   >
                     <Image
                       src={e.img}
                       position={'absolute'}
-                      width={{ base: '4em', md: '6em', lg: '6em' }}
+                      width={{ base: '2em', md: '6em', lg: '6em' }}
+                      height={{ base: '2em', md: 'auto', lg: 'auto' }}
+                      objectFit={{ base: 'contain', md: 'auto', lg: 'auto' }}
                     />
                   </Flex>
                   <Text
-                    w={e.width}
                     textAlign={'left'}
                     fontWeight={'bold'}
                     fontFamily="Sk-Modernist-Regular"
-                    fontSize={{ base: '16px', md: '16px', lg: '18px' }}
+                    w={{ base: '90%', md: e.width, lg: e.width }}
+                    fontSize={{ base: '14px', md: '16px', lg: '18px' }}
                   >
                     {e.lable}
                   </Text>
@@ -93,15 +99,14 @@ export default function Problem() {
             position={'relative'}
             flexDirection={'column'}
             justifyContent={'center'}
-            p={{ md: '1em', lg: '2em' }}
-            width={{ md: '90%', lg: '80%' }}
             bgGradient={'Linear(#430E82, #1D0551)'}
+            p={{ base: '1em', md: '1em', lg: '2em' }}
+            width={{ base: '95%', md: '90%', lg: '80%' }}
           >
             <Text
               fontFamily="PilatExtended-Bold"
               fontSize={{ lg: '30px' }}
-              color="#63CDFA
-              "
+              color="#63CDFA"
             >
               SOLUTION
             </Text>
@@ -116,8 +121,8 @@ export default function Problem() {
                   mt={'2em'}
                   alignItems={'center'}
                   justifyContent="center"
-                  flexDirection={'column'}
-                  w={{ md: '30%', lg: '20%' }}
+                  w={{ base: '98%', md: '30%', lg: '20%' }}
+                  flexDirection={{ base: 'row', md: 'column', lg: 'column' }}
                 >
                   <Flex
                     align="center"
@@ -126,22 +131,25 @@ export default function Problem() {
                     position={'relative'}
                     borderRadius={'100px'}
                     justifyContent="center"
-                    width={{ md: '7em', lg: '8em' }}
-                    height={{ md: '7em', lg: '8em' }}
+                    mr={{ base: '.5em', md: '0', lg: '0' }}
                     bgGradient={'Linear(#F8A5FF, #FFE2FF)'}
+                    width={{ base: '4em', md: '7em', lg: '8em' }}
+                    height={{ base: '4em', md: '7em', lg: '8em' }}
                   >
                     <Image
                       src={e.img}
-                      height="7em"
                       objectFit="contain"
-                      position={'absolute'}
+                      position="absolute"
+                      height={{ base: '3em', md: '7em', lg: '7em' }}
                     />
                   </Flex>
                   <Text
                     mt={'1em'}
                     fontWeight={'bold'}
                     fontFamily="Sk-Modernist-Regular"
+                    width={{ base: '80%', lg: '100%' }}
                     fontSize={{ md: '16px', lg: '18px' }}
+                    textAlign={{ base: 'left', md: 'center', lg: 'center' }}
                   >
                     {e.lable}
                   </Text>

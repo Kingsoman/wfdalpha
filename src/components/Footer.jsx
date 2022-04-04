@@ -19,8 +19,8 @@ const SocialMediaLinks = () => (
       aria-label="Medium"
       borderRadius={'100px'}
       className="footerButton"
-      width={{ lg: '25px', base: '16px' }}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
+      width={{ lg: '25px', base: '18px' }}
       href="https://medium.com/@wefundofficial"
       icon={<FaMedium className="footerIcon" />}
     />
@@ -28,8 +28,8 @@ const SocialMediaLinks = () => (
       as="a"
       aria-label="Youtube"
       className="footerButton"
-      width={{ lg: '25px', base: '16px' }}
       borderRadius={'100px'}
+      width={{ lg: '25px', base: '18px' }}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       icon={<FaYoutube className="footerIcon" />}
       href="https://youtube.com/channel/UCjwo-9Yj7NQSmSqiY6FvEdw"
@@ -38,8 +38,8 @@ const SocialMediaLinks = () => (
       as="a"
       aria-label="Telegram"
       className="footerButton"
-      width={{ lg: '25px', base: '16px' }}
       borderRadius={'100px'}
+      width={{ lg: '25px', base: '18px' }}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       href="https://t.me/wefundofficial"
       icon={<FaTelegram className="footerIcon" />}
@@ -48,15 +48,15 @@ const SocialMediaLinks = () => (
       as="a"
       aria-label="Twitter"
       className="footerButton"
-      width={{ lg: '25px', base: '16px' }}
       borderRadius={'100px'}
+      width={{ lg: '25px', base: '18px' }}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       icon={<FaTwitter className="footerIcon" />}
       href="https://twitter.com/WeFund_Official"
     />
     <IconButton
-      width={{ lg: '25px', base: '16px' }}
       as="a"
+      width={{ lg: '25px', base: '18px' }}
       aria-label="SiGmail"
       className="footerButton"
       href="mailto:info@wefund.app"
@@ -68,8 +68,8 @@ const SocialMediaLinks = () => (
       as="a"
       aria-label="Website"
       className="footerButton"
-      width={{ lg: '25px', base: '16px' }}
       href="https://wefund.app"
+      width={{ lg: '25px', base: '18px' }}
       borderRadius={'100px'}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       icon={<CgWebsite className="footerIcon" />}
@@ -85,26 +85,33 @@ export default function Newfooter() {
       margin={'0 auto'}
       position="relative"
       flexDirection="column"
-      width={{ md: '90%', lg: '80%' }}
+      mt={{ base: '3em', md: 'auto', lg: 'auto' }}
+      width={{ base: '95%', md: '90%', lg: '80%' }}
+      textAlign={{ base: 'center', md: 'auto', lg: 'auto' }}
     >
       <Text
         mb={'1em'}
-        fontSize={'30px'}
         fontWeight={'bold'}
         fontFamily="PilatExtended-Bold"
+        fontSize={{ base: '22px', md: '30px', lg: '30px' }}
       >
         Get Updated News
       </Text>
 
       <Text
-        fontSize={'18px'}
         fontWeight={'bold'}
         fontFamily="Sk-Modernist-Regular"
+        fontSize={{ base: '16px', md: '18px', lg: '18px' }}
       >
         Want to know more about WeFund?
       </Text>
 
-      <Flex width={{ lg: '100%' }} py={{ lg: '2em' }}>
+      <Flex
+        width={{ lg: '100%' }}
+        alignItems={{ base: 'center' }}
+        py={{ base: '2em', md: '2em', lg: '2em' }}
+        flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
+      >
         <Input
           type="text"
           color="#503E6D"
@@ -112,26 +119,26 @@ export default function Newfooter() {
           background={'#E5E7EB'}
           border="1px solid #A2A8B4"
           placeholder="Email Address"
-          mr={{ lg: '10px', base: '0px' }}
+          mr={{ lg: '10px', base: '5px' }}
           h={{ lg: '45px', base: '40px' }}
           w={{ lg: '100%', base: '100%' }}
           fontFamily="Sk-Modernist-Regular"
-          fontSize={{ lg: '16px', base: '12px' }}
+          fontSize={{ lg: '16px', md: '16px', base: '14px' }}
         />
         <Button
           backgroundColor={'#0084FF'}
           h={{ lg: '45px', base: '40px' }}
           fontFamily="Sk-Modernist-Regular"
-          fontSize={{ lg: '16px', base: '12px' }}
+          mt={{ base: '5px', md: '0', lg: '0' }}
+          fontSize={{ lg: '16px', md: '16px', base: '14px' }}
         >
           Subscribe
         </Button>
       </Flex>
 
       <Flex
-        justifyContent={'flex-end'}
         width={{ lg: '100%' }}
-        // py={{ lg: '2em' }}
+        justifyContent={{ base: 'center', md: 'flex-end', lg: 'flex-end' }}
       >
         <Flex
           fontSize={{ lg: '16px', base: '14px' }}
@@ -151,9 +158,11 @@ export default function Newfooter() {
       </Flex>
 
       <Flex
-        justifyContent={'space-between'}
+        alignItems="center"
         width={{ lg: '100%' }}
-        py={{ lg: '2em' }}
+        justifyContent="space-between"
+        py={{ base: '2em', md: '2em', lg: '2em' }}
+        flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
       >
         <Text fontSize={{ lg: '18px' }} fontFamily="Sk-Modernist-Regular">
           &copy; {new Date().getFullYear()} WeFund. All rights reserved.

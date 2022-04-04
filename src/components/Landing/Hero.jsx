@@ -25,17 +25,17 @@ export default function Hero() {
       <Image
         src="/media/horizontallogo.svg"
         mt={{ base: '-5em', md: '-1em', lg: '-2em' }}
-        width={{ base: '6em', md: '10em', lg: '12em' }}
+        width={{ base: '7em', md: '11em', lg: '13em' }}
       />
-      x
+
       <Text
         zIndex="2"
         textAlign="center"
         position="relative"
         fontFamily="PilatExtended-Bold"
         mt={{ base: '1em', md: '.3em', lg: '.1em' }}
-        lineHeight={{ base: '25px', md: '45px', lg: '60px' }}
-        fontSize={{ base: '25px', md: '40px', lg: '55px' }}
+        lineHeight={{ base: '30px', md: '50px', lg: '65px' }}
+        fontSize={{ base: '25px', md: '45px', lg: '60px' }}
       >
         Crowdfunding
         <br />
