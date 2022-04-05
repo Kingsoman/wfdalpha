@@ -110,7 +110,7 @@ export default function BackProject() {
       toast("Can't fetch project data", errorOption);
       return;
     }
-    const isCommunityMember = isCommunityWallet(state, _project_id);
+    const isCommunityMember = isCommunityWallet(state);
     const targetAmount = parseInt(oneprojectData.project_collected) * (10 ** 6) / 2;
 
     let leftAmount = 0;

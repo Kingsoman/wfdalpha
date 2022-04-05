@@ -33,6 +33,7 @@ console.log(projectData);
     const oneprojectData = GetOneProject(projectData, project_id);
     if(oneprojectData == ''){
       toast("Can't fetch project data", errorOption);
+      console.log("can't fetch project data")
       return '';
     }
 // console.log(oneprojectData.project_saft);
