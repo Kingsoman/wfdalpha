@@ -33,7 +33,7 @@ export default function Works() {
       flexDirection="column"
       pb={{ base: '5em', md: '5em', lg: '10em' }}
     >
-      {/* <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
+      <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
         <Text color="#63CDFA">HOW IT</Text>
         <Text color="white" ml={'10px'}>
           WORKS
@@ -44,18 +44,186 @@ export default function Works() {
         overflow="hidden"
         bgGradient="linear(#1E0024, #150049)"
         mb={{ base: '3em', md: '3em', lg: '3em' }}
-        width={{ base: '95%', md: '90%', lg: '80%' }}
-        height={{ base: '30em', md: '38em', lg: '45em' }}
+        width={{ base: '96%', md: '90%', lg: '75%' }}
+        height={{ base: '26em', md: '33em', lg: '40em' }}
         borderRadius={{ base: '10px', md: '20px', lg: '20px' }}
       >
         <Flex
           width="100%"
           height={'100%'}
+          fontWeight="bold"
+          alignItems="center"
           position={'relative'}
           backgroundSize={'cover'}
+          justifyContent={'center'}
+          fontFamily={{
+            base: 'Sk-Modernist-Regular',
+            md: 'PilatExtended-Regular',
+            lg: 'PilatExtended-Regular',
+          }}
           backgroundImage="/media/Home/40.png"
-        ></Flex>
-      </Flex> */}
+        >
+          <Flex
+            mt="-3em"
+            alignItems="center"
+            textAlign={'center'}
+            flexDirection="column"
+            justifyContent="center"
+            mr={{ base: '.1em', md: '1em', lg: '1em' }}
+            width={{ base: '20%', md: '16%', lg: '10em' }}
+          >
+            <Text
+              mb="10px"
+              color="#63CDFA"
+              fontFamily="PilatExtended-Bold"
+              fontSize={{ base: '12px', md: '16px', lg: '18px' }}
+              lineHeight={{ base: '13px', md: '18px', lg: '20px' }}
+            >
+              New
+              <br />
+              Project
+            </Text>
+            <Image
+              width={{ base: '12px', md: '18px', lg: '20px' }}
+              src="/media/Home/18.png"
+            />
+            <Image
+              src="/media/Home/12.png"
+              width={{ base: '80%', md: '6em', lg: '8em' }}
+            />
+            <Text
+              mt="20px"
+              color="#63CDFA"
+              lineHeight={'16px'}
+              fontSize={{ base: '12px', md: '12px', lg: '14px' }}
+            >
+              WeFund Team & Advisor approval
+            </Text>
+          </Flex>
+
+          <Flex
+            flexDirection="column"
+            justifyContent="center"
+            width={{ base: '50%', md: '50%', lg: '30em' }}
+          >
+            <Flex width={'60%'} alignItems="center" justify={'center'}>
+              <Image
+                src="/media/Home/14.png"
+                width={{ base: '5em', md: '8em', lg: '8em' }}
+              />
+            </Flex>
+            <Flex alignItems={'center'} justifyContent="space-between">
+              <Image width={'60%'} src="/media/Home/15.png" />
+              <Text
+                color="white"
+                width={'40%'}
+                lineHeight={'16px'}
+                textAlign={'center'}
+                fontSize={{ base: '11px', md: '12px', lg: '14px' }}
+              >
+                <span style={{ color: '#63CDFA' }}>
+                  Project milestone smart contracts
+                </span>{' '}
+                with automatic fund release
+              </Text>
+            </Flex>
+            <Flex
+              mt="0"
+              width={'60%'}
+              color="#63CDFA"
+              lineHeight={'16px'}
+              alignItems="center"
+              justify={'space-between'}
+              fontSize={{ base: '11px', md: '12px', lg: '14px' }}
+            >
+              <Text>Fundraising</Text>
+              <Text
+                textAlign={'center'}
+                w={{ base: '100%', md: '60%', lg: '100%' }}
+              >
+                Project Delivery
+              </Text>
+            </Flex>
+            <Text
+              lineHeight={'16px'}
+              mt={{ base: '1.5em', md: '1em', lg: '1em' }}
+              fontSize={{ base: '11px', md: '12px', lg: '14px' }}
+            >
+              Yield
+              <br />
+              benefit
+            </Text>
+
+            <Text
+              mt={'1em'}
+              lineHeight={'16px'}
+              fontSize={{ base: '11px', md: '12px', lg: '14px' }}
+            >
+              Secure &<br />
+              refundable
+              <br />
+              deposits
+            </Text>
+          </Flex>
+
+          <Flex
+            mt="-3em"
+            textAlign={'center'}
+            alignItems={'center'}
+            flexDirection="column"
+            justifyContent="center"
+            width={{ base: '20%', md: '16%', lg: '11em' }}
+          >
+            <Text
+              fontSize={{ base: '11px', md: '12px', lg: '14px' }}
+              lineHeight={{ base: '13px', md: '14px', lg: '16px' }}
+            >
+              Deliver a winning project with full community{' '}
+              <span style={{ color: '#63CDFA' }}>
+                approval, transparency, and minimal risk.
+              </span>
+            </Text>
+            <Image
+              my="10px"
+              height={'3.3em'}
+              objectFit={'contain'}
+              src="/media/Home/17.png"
+            />
+            <Flex alignItems={'center'}>
+              <Image
+                my="10px"
+                width={'20px'}
+                objectFit={'contain'}
+                src="/media/Home/16.png"
+              />
+              <Text
+                ml={'10px'}
+                color="#63CDFA"
+                fontSize={{ base: '11px', md: '12px', lg: '14px' }}
+                lineHeight={{ base: '13px', md: '14px', lg: '16px' }}
+              >
+                Investor
+                <br />
+                approval
+              </Text>
+            </Flex>
+            <Image
+              height={'3.3em'}
+              objectFit={'contain'}
+              src="/media/Home/18.png"
+            />
+            <Text
+              color="white"
+              lineHeight={'16px'}
+              fontSize={{ base: '11px', md: '12px', lg: '14px' }}
+            >
+              Remaining funds
+              <span style={{ color: '#63CDFA' }}>returned</span> to backers with{' '}
+              <span style={{ color: '#63CDFA' }}>Anchor yield</span> benefit
+            </Text>
+          </Flex>
+        </Flex>
+      </Flex>
       <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
         <Text color="#63CDFA">TOKEN</Text>
         <Text color="white" ml={'10px'}>
@@ -72,8 +240,9 @@ export default function Works() {
         width={{ base: '98%', md: '90%', lg: '90%' }}
         justifyContent={{ base: 'center', md: 'center', lg: 'center' }}
       >
-        {tokens.map((e) => (
+        {tokens.map((e, i) => (
           <Flex
+            key={i}
             textAlign="center"
             alignItems={'center'}
             flexDirection="column"
@@ -123,9 +292,10 @@ export default function Works() {
         justifyContent={'flex-start'}
         width={{ base: '100%', md: '100%', lg: '100%' }}
       >
-        <Carousel autoPlay={true} centerMode={true} responsive={responsive}>
-          {advantages.map((e) => (
+        <Carousel showThumbs={false} autoPlay={true} centerMode={true} responsive={responsive}>
+          {advantages.map((e, i) => (
             <Flex
+              key={i}
               m={'1em'}
               zIndex={'4'}
               textAlign="center"

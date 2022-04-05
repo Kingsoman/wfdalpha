@@ -22,7 +22,7 @@ export default function Problem() {
         backgroundImage="/media/Home/11.png"
         mt={{ base: '4em', md: '4em', lg: '8em' }}
       >
-        <Carousel>
+        <Carousel showThumbs={false}>
           <Flex
             zIndex={'4'}
             margin="0 auto"
@@ -49,8 +49,9 @@ export default function Problem() {
               flexWrap={{ md: 'wrap', lg: 'wrap' }}
               flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
             >
-              {problems.map((e) => (
+              {problems.map((e, i) => (
                 <Flex
+                  key={i}
                   alignItems={{
                     base: 'center',
                     md: 'flex-start',
@@ -116,8 +117,9 @@ export default function Problem() {
               flexWrap={{ md: 'wrap', lg: 'wrap' }}
               flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
             >
-              {solutions.map((e) => (
+              {solutions.map((e, i) => (
                 <Flex
+                  key={i}
                   mt={'2em'}
                   alignItems={'center'}
                   justifyContent="center"

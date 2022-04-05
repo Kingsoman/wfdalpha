@@ -3,9 +3,6 @@ import React, { useState } from 'react'
 import { Flex, Text, Image, Select, Link } from '@chakra-ui/react'
 import { ButtonBackTransition } from '../ImageTransition'
 
-import { Carousel } from 'react-responsive-carousel'
-import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
-
 export default function Aboutone() {
   const [selectedLang, setSelectedlang] = useState(
     '/media/Litepaper_WeFund_2_2.pdf',
@@ -59,20 +56,13 @@ export default function Aboutone() {
           </Text>
           <Text
             display="inline"
-            fontSize={{ lg: '20px' }}
+            fontSize={{ base: '16px', md: '20px', lg: '20px' }}
             fontFamily="Sk-Modernist-Regular"
           >
-            <Text
-              fontWeight={{ lg: 'bold' }}
-              fontSize={{ lg: '25px' }}
-              display="inline"
-            >
-              WeFund
-            </Text>{' '}
-            is a community crowdfunding incubator for blockchain and real-world
-            projects built on various blockchains including Terra, Solana,
-            Ethereum, and more. WeFund’s platform is built on the Terra
-            blockchain, a stablecoin-based ecosystem with high-quality
+            <b>WeFund</b> is a community crowdfunding incubator for blockchain
+            and real-world projects built on various blockchains including
+            Terra, Solana, Ethereum, and more. WeFund’s platform is built on the
+            Terra blockchain, a stablecoin-based ecosystem with high-quality
             protocols, low gas fees, and a strong community. WeFund has the
             capability to implement various blockchain and real-world projects,
             bridging the gap between the real world and blockchain.

@@ -7,10 +7,10 @@ export default function Partners() {
     <Box as="section" p="10" mb="28" zIndex="5" position="relative">
       <Box
         mx="auto"
-        maxW={{ base: 'xl', md: 'md', xl: 'xl' }}
         alignSelf="center"
         alignContent="center"
         px={{ base: '6', md: '8' }}
+        maxW={{ base: 'xl', md: 'md', xl: 'xl' }}
       >
         <Text
           mt="35px"

@@ -9,7 +9,7 @@ export default function Team() {
       position="relative"
       alignItems="center"
       flexDirection="column"
-      pb={{ md: '5em', lg: '10em' }}
+      pb={{ base: '3em', md: '5em', lg: '10em' }}
       fontFamily="Sk-Modernist-Regular"
     >
       <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
