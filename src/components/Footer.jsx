@@ -3,13 +3,14 @@ import {
   Text,
   Link,
   Input,
-  Button,
+  Image,
   IconButton,
   ButtonGroup,
 } from '@chakra-ui/react'
 import React from 'react'
 import { SiGmail } from 'react-icons/si'
 import { CgWebsite } from 'react-icons/cg'
+import { ButtonBackTransition } from '../components/ImageTransition'
 import { FaTelegram, FaMedium, FaTwitter, FaYoutube } from 'react-icons/fa'
 
 const SocialMediaLinks = () => (
@@ -19,8 +20,8 @@ const SocialMediaLinks = () => (
       aria-label="Medium"
       borderRadius={'100px'}
       className="footerButton"
+      width={{ lg: '25px', base: '16px' }}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
-      width={{ lg: '25px', base: '18px' }}
       href="https://medium.com/@wefundofficial"
       icon={<FaMedium className="footerIcon" />}
     />
@@ -28,8 +29,8 @@ const SocialMediaLinks = () => (
       as="a"
       aria-label="Youtube"
       className="footerButton"
+      width={{ lg: '25px', base: '16px' }}
       borderRadius={'100px'}
-      width={{ lg: '25px', base: '18px' }}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       icon={<FaYoutube className="footerIcon" />}
       href="https://youtube.com/channel/UCjwo-9Yj7NQSmSqiY6FvEdw"
@@ -38,8 +39,8 @@ const SocialMediaLinks = () => (
       as="a"
       aria-label="Telegram"
       className="footerButton"
+      width={{ lg: '25px', base: '16px' }}
       borderRadius={'100px'}
-      width={{ lg: '25px', base: '18px' }}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       href="https://t.me/wefundofficial"
       icon={<FaTelegram className="footerIcon" />}
@@ -48,15 +49,15 @@ const SocialMediaLinks = () => (
       as="a"
       aria-label="Twitter"
       className="footerButton"
+      width={{ lg: '25px', base: '16px' }}
       borderRadius={'100px'}
-      width={{ lg: '25px', base: '18px' }}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       icon={<FaTwitter className="footerIcon" />}
       href="https://twitter.com/WeFund_Official"
     />
     <IconButton
+      width={{ lg: '25px', base: '16px' }}
       as="a"
-      width={{ lg: '25px', base: '18px' }}
       aria-label="SiGmail"
       className="footerButton"
       href="mailto:info@wefund.app"
@@ -68,8 +69,8 @@ const SocialMediaLinks = () => (
       as="a"
       aria-label="Website"
       className="footerButton"
+      width={{ lg: '25px', base: '16px' }}
       href="https://wefund.app"
-      width={{ lg: '25px', base: '18px' }}
       borderRadius={'100px'}
       backgroundColor={'rgba(255, 255, 255, 0.05)'}
       icon={<CgWebsite className="footerIcon" />}
@@ -77,96 +78,103 @@ const SocialMediaLinks = () => (
   </ButtonGroup>
 )
 
+const PagesLinks = () => (
+  <Flex
+    fontSize={{ lg: '16px', base: '14px' }}
+    fontFamily="Sk-Modernist-Regular"
+    className="FlexViewMobile"
+  >
+    <Link href="/" mr="20px">
+      Home
+    </Link>
+    <Link href="/explorer" mr="20px">
+      Projects
+    </Link>
+    <Link href="/invest_step0" mr="20px">
+      Invest In WeFund
+    </Link>
+    <Link href="/blog" mr="20px">
+      Blog
+    </Link> 
+    {/* <Link href="faq" mr="20px">
+      FAQ
+    </Link> */}
+  </Flex>
+)
+
 export default function Newfooter() {
   return (
-    <Flex
-      zIndex={'5'}
-      color={'white'}
-      margin={'0 auto'}
-      position="relative"
-      flexDirection="column"
-      mt={{ base: '3em', md: 'auto', lg: 'auto' }}
-      width={{ base: '95%', md: '90%', lg: '80%' }}
-      textAlign={{ base: 'center', md: 'auto', lg: 'auto' }}
-    >
-      <Text
-        mb={'1em'}
-        fontWeight={'bold'}
-        fontFamily="PilatExtended-Bold"
-        fontSize={{ base: '22px', md: '30px', lg: '30px' }}
-      >
-        Get Updated News
-      </Text>
-
-      <Text
-        fontWeight={'bold'}
-        fontFamily="Sk-Modernist-Regular"
-        fontSize={{ base: '16px', md: '18px', lg: '18px' }}
-      >
-        Want to know more about WeFund?
-      </Text>
-
-      <Flex
-        width={{ lg: '100%' }}
-        alignItems={{ base: 'center' }}
-        py={{ base: '2em', md: '2em', lg: '2em' }}
-        flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
-      >
-        <Input
-          type="text"
-          color="#503E6D"
-          rounded={'5px'}
-          background={'#E5E7EB'}
-          border="1px solid #A2A8B4"
-          placeholder="Email Address"
-          mr={{ lg: '10px', base: '5px' }}
-          h={{ lg: '45px', base: '40px' }}
-          w={{ lg: '100%', base: '100%' }}
-          fontFamily="Sk-Modernist-Regular"
-          fontSize={{ lg: '16px', md: '16px', base: '14px' }}
-        />
-        <Button
-          backgroundColor={'#0084FF'}
-          h={{ lg: '45px', base: '40px' }}
-          fontFamily="Sk-Modernist-Regular"
-          mt={{ base: '5px', md: '0', lg: '0' }}
-          fontSize={{ lg: '16px', md: '16px', base: '14px' }}
-        >
-          Subscribe
-        </Button>
-      </Flex>
-
-      <Flex
-        width={{ lg: '100%' }}
-        justifyContent={{ base: 'center', md: 'flex-end', lg: 'flex-end' }}
-      >
-        <Flex
-          fontSize={{ lg: '16px', base: '14px' }}
-          fontFamily="Sk-Modernist-Regular"
-        >
-          <Link href="/" mr="20px">
-            Home
-          </Link>
-          <Link href="/explorer" mr="20px">
-            Projects
-          </Link>
-          <Link href="/invest_step0" mr="20px">
-            Invest In WeFund
-          </Link>
-          <Link href="/blog">Blog</Link>
+    <Flex id="footerBottomStyle" color={'white'}>
+      <Flex id="footerBottomInnerStyleBox">
+        <Flex id="FooterTextWork">
+          <Text mr="5px">Wanna know more about</Text>
+          <Flex>
+            <Text
+              color="#00A3FF"
+              fontWeight={'bold'}
+              fontFamily={'PilatExtended-Bold'}
+            >
+              WeFund
+            </Text>
+            <Text>?</Text>
+          </Flex>
+        </Flex>
+        <Flex className="SUbscriptInputFooter">
+          <Input
+            type="text"
+            color="#503E6D"
+            rounded="100px"
+            background={'transparent'}
+            mr={{ lg: '10px', base: '0px' }}
+            h={{ lg: '45px', base: '40px' }}
+            fontFamily="Sk-Modernist-Regular"
+            placeholder="Enter email address"
+            w={{ lg: '250px', base: '100%' }}
+            fontSize={{ lg: '16px', base: '12px' }}
+            style={{ border: '2px solid #503E6D' }}
+          />
+          <ButtonBackTransition
+            rounded="100px"
+            selected={false}
+            unitid="SubscribeButton"
+            height={{ lg: '45px', base: '40px' }}
+            width={{ lg: '150px', base: '100%' }}
+          >
+            <Text
+              fontFamily="Sk-Modernist-Regular"
+              fontSize={{ lg: '16px', base: '12px' }}
+            >
+              Subscribe
+            </Text>
+          </ButtonBackTransition>
         </Flex>
       </Flex>
-
-      <Flex
-        alignItems="center"
-        width={{ lg: '100%' }}
-        justifyContent="space-between"
-        py={{ base: '2em', md: '2em', lg: '2em' }}
-        flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
-      >
-        <Text fontSize={{ lg: '18px' }} fontFamily="Sk-Modernist-Regular">
-          &copy; {new Date().getFullYear()} WeFund. All rights reserved.
-        </Text>
+      <Flex id="footerBottomInnerStyleBox">
+        <Flex fontSize={{ lg: '25px', base: '18px' }}>
+          <Flex>
+            <Image
+              width={{ lg: '50px', base: '35px' }}
+              src="media/WeFund-Logos-only.png"
+              objectFit={'contain'}
+            />
+            <Text fontFamily="Sk-Modernist-Regular" ml={'5px'}>
+              We
+            </Text>
+            <Text fontFamily="Sk-Modernist-Bold" fontWeight={'bolder'}>
+              Fund
+            </Text>
+          </Flex>
+        </Flex>
+        <PagesLinks />
+      </Flex>
+      <Flex id="footerBottomInnerStyleBox2">
+        <Flex id="FooterTextWork2">
+          <Text>&copy; {new Date().getFullYear()}</Text>
+          <Text ml="5px" mr="5px" color="#00A3FF">
+            WeFund.
+          </Text>
+          <Text>All rights reserved.</Text>
+        </Flex>
         <SocialMediaLinks />
       </Flex>
     </Flex>
