@@ -7,22 +7,26 @@ export default function Partners() {
     <Box as="section" p="10" mb="28" zIndex="5" position="relative">
       <Box
         mx="auto"
-        maxW={{ base: "xl", md: "md", xl: "xl" }}
         alignSelf="center"
         alignContent="center"
         px={{ base: '6', md: '8' }}
+        maxW={{ base: 'xl', md: 'md', xl: 'xl' }}
       >
         <Text
           mt="35px"
           mb="35px"
-          fontSize={{ base: "24px", md: "36px" }}
-          color="white"
+          fontSize={{ base: '24px', md: '32px' }}
+          color="#63CDFA"
           textAlign="center"
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Powered by
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 1, sm: 2, md: 2 }}>
+        <SimpleGrid
+          spacing="5"
+          align="center"
+          columns={{ base: 1, sm: 2, md: 2 }}
+        >
           <Partner
             link="https://terra.money/"
             img="/media/partners/terra.png"
@@ -35,22 +39,26 @@ export default function Partners() {
       </Box>
       <Box
         mx="auto"
-        maxW={{ base: "xl", xl: "3xl" }}
+        maxW={{ base: 'xl', xl: '3xl' }}
         alignSelf="center"
         alignContent="center"
         px={{ base: '6', md: '8' }}
       >
         <Text
-          mt="35px"
-          mb="35px"
-          fontSize={{ base: "24px", md: "36px" }}
-          color="white"
+          mt="3em"
+          mb="1em"
+          fontSize={{ base: '24px', md: '32px' }}
+          color="#63CDFA"
           textAlign="center"
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Projects under Fellowship Incubation
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 1, sm:2, md: 3 }}>
+        <SimpleGrid
+          spacing="5"
+          align="center"
+          columns={{ base: 1, sm: 2, md: 3 }}
+        >
           <Partner
             link="https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA"
             img="/media/partners/pandai.png"
@@ -79,22 +87,26 @@ export default function Partners() {
       </Box>
       <Box
         mx="auto"
-        maxW={{ base: "xl", xl: "3xl" }}
+        maxW={{ base: 'xl', xl: '3xl' }}
         alignSelf="center"
         alignContent="center"
         px={{ base: '6', md: '8' }}
       >
         <Text
-          mt="35px"
-          mb="35px"
-          fontSize={{ base: "24px", md: "36px" }}
-          color="white"
+          mt="3em"
+          mb="1em"
+          fontSize={{ base: '24px', md: '32px' }}
+          color="#63CDFA"
           textAlign="center"
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Launchpad Partners
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 1,  sm:2, md: 3 }}>
+        <SimpleGrid
+          spacing="5"
+          align="center"
+          columns={{ base: 1, sm: 2, md: 3 }}
+        >
           <Partner
             link="https://kommunitas.net/"
             img="/media/partners/Kommunitas.png"
@@ -111,22 +123,26 @@ export default function Partners() {
       </Box>
       <Box
         mx="auto"
-        maxW={{ base: "xl", md:"4xl",xl: "7xl" }}
+        maxW={{ base: 'xl', md: '4xl', xl: '7xl' }}
         alignSelf="center"
         alignContent="center"
         px={{ base: '6', md: '8' }}
       >
         <Text
-          mt="35px"
-          mb="35px"
-          fontSize={{ base: "24px", md: "36px" }}
-          color="white"
+          mt="3em"
+          mb="1em"
+          fontSize={{ base: '24px', md: '32px' }}
+          color="#63CDFA"
           textAlign="center"
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Media Partners
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 1, sm:2, md: 3, lg: 5 }}>
+        <SimpleGrid
+          spacing="5"
+          align="center"
+          columns={{ base: 1, sm: 2, md: 3, lg: 5 }}
+        >
           <Partner
             link="https://terraspaces.org/"
             img="/media/partners/terraspace.png"
@@ -151,22 +167,26 @@ export default function Partners() {
       </Box>
       <Box
         mx="auto"
-        maxW={{ base: "xl", md:"4xl",xl: "7xl" }}
+        maxW={{ base: 'xl', md: '4xl', xl: '7xl' }}
         alignSelf="center"
         alignContent="center"
         px={{ base: '6', md: '8' }}
       >
         <Text
-          mt="35px"
-          mb="35px"
-          fontSize={{ base: "24px", md: "36px" }}
-          color="white"
+          mt="3em"
+          mb="1em"
+          fontSize={{ base: '24px', md: '32px' }}
+          color="#63CDFA"
           textAlign="center"
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Featured on
         </Text>
-        <SimpleGrid spacing="5" align="center" columns={{ base: 2, sm: 2, md: 3, lg: 5 }}>
+        <SimpleGrid
+          spacing="5"
+          align="center"
+          columns={{ base: 2, sm: 2, md: 3, lg: 5 }}
+        >
           <Partner
             link="https://thejakartapost.com/front-row/2022/02/14/wefund-to-bring-forth-open-democratized-crowdfunding.html"
             img="/media/partners/Jakpost.png"
