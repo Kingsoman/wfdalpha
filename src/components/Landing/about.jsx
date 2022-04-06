@@ -31,7 +31,7 @@ export default function Aboutone() {
           zIndex="3"
           objectFit="contain"
           position="relative"
-          src="/media/Home/3.png"
+          src="/media/Home/3.svg"
           mr={{ base: '0', md: '-10em', lg: '-10em' }}
           mb={{ base: '-5em', md: '-0', lg: '0' }}
           width={{ base: '12em', md: '16em', lg: '21em' }}

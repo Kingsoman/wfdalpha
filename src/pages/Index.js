@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
 
-import '../styles/home.css'
-
 import AOS from 'aos'
 import 'aos/dist/aos.css' // You can also use <link> for styles
 
@@ -19,9 +17,12 @@ import { Container } from '../components/Container'
 import Works from '../components/Landing/HowItWorks'
 import Partners from '../components/Landing/Partners'
 import UpcomingProject from '../components/Landing/ComingSoonCarousel'
+import IncubationProject from '../components/Landing/IncubationProject'
 
 export default () => {
-  useEffect(() => AOS.init({ duration: 1000 }), [])
+  useEffect(() => {
+    AOS.init({ duration: 1000 })
+  }, [])
 
   return (
     <ChakraProvider resetCSS theme={theme}>
@@ -32,6 +33,7 @@ export default () => {
         <Works />
         <RoadMap />
         <UpcomingProject />
+        <IncubationProject />
         <Partners />
         <Team />
         <Footer />
