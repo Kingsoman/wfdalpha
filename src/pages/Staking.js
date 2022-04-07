@@ -177,7 +177,6 @@ export default function Staking() {
               mt={{ base: '20px', sm: '20px', md: '20px', lg: '0px' }}
               width={{ lg: '3xl' }}
               height={{ lg: '484px' }}
-              paddingLeft={{ lg: '55px' }}
               backdropBlur={'54px'}
               style={{
                 paddingTop: '65px',
@@ -189,7 +188,7 @@ export default function Staking() {
             >
 
               <Flex 
-                alignSelf={{ base: 'center', md: 'center', lg: 'flex-start' }}
+                alignSelf={{ base: 'center', md: 'center', lg: 'center' }}
                 paddingLeft={'10px'}
                 paddingRight={'10px'}
               >

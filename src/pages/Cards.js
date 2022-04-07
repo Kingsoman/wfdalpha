@@ -105,10 +105,23 @@ export default function Cards() {
   }
   return (
     <PageLayout title="Cards" subTitle1="Card" subTitle2="Holders">
-      <SimpleGrid columns={3} spacing={10}>
+      <SimpleGrid 
+      columns={{
+        base: 1,
+        md: 2,
+        lg: 2,
+        xl: 3,
+    }}
+      spacing={10}
+      >
         {cards.map((item, index) => (
           <Box h='300px' direction="column" id={index}>
-            <Image src={getImagePath(item.card_type)} h='200px' />
+            <Image 
+              src={getImagePath(item.card_type)} 
+              h={{
+                base: '150px',
+                sm: '200px'}} 
+            />
             <Text>{getCardTitle(item.card_type)}</Text>
             <Text>Card Holder: {item.wallet}</Text>
           </Box>
