@@ -20,7 +20,6 @@ import { InputTransition, ButtonTransition, } from '../components/ImageTransitio
 import CardBox from '../components/Staking/CardBox'
 import PageLayout from '../components/PageLayout'
 import Footer from '../components/Footer'
-import Notification from '../components/Notification'
 import { EstimateSend, FetchData, Set2Mainnet, Set2Testnet } from '../components/Util'
 
 let constants = [
@@ -59,7 +58,6 @@ export default function Cards() {
   const { state, dispatch } = useStore();
   const [cards, setCards] = useState(constants);
 
-  const notificationRef = useRef();
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
@@ -118,7 +116,6 @@ export default function Cards() {
       </SimpleGrid>
 
       <Footer />
-      <Notification ref={notificationRef} />
     </PageLayout>
   )
 }

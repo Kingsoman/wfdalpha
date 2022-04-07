@@ -1,16 +1,13 @@
 import { useNavigate } from '@reach/router'
 import {
-  chakra,
   Box,
   Flex,
   Text,
-  VStack,
-  Image,
-  Img,
   HStack
   } from "@chakra-ui/react";
 import React, { useState, useRef } from 'react';
 import { IoCheckmark } from 'react-icons/io5';
+import { toast } from 'react-toastify';
 
 import { 
   ImageTransition,
@@ -18,15 +15,13 @@ import {
 } from "../components/ImageTransition";
 import SAFTTemplate from '../components/SAFTTemplate';
 import PageLayout from '../components/PageLayout';
-import { ParseParam } from "../components/Util";
+import { ParseParam, errorOption } from "../components/Util";
 import { useStore } from '../store';
-import Notification from '../components/Notification';
 
 export default function InvestStep1() {
   const [condition, setCondition] = useState(false);
   const navigate = useNavigate();
   const {state, dispatch} = useStore();
-  const notificationRef = useRef();
   
   //------------parse URL for project id----------------------------
   let project_id = ParseParam();
@@ -112,19 +107,18 @@ export default function InvestStep1() {
               background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
               selected={false}
               width='200px' height='50px' rounded='33px'
+              onClick={()=>onNext()}
             >
-                <Box variant="solid" color="white" justify='center' align='center'
-                onClick={()=>onNext()}>
+                <Box variant="solid" color="white" justify='center' align='center'>
                   Next
                 </Box>
             </ImageTransition>
           </Flex>
           <Flex >
-            <SAFTTemplate presale={state.presale} project_id={project_id} notificationRef={notificationRef}/>
+            <SAFTTemplate presale={state.presale} project_id={project_id} />
           </Flex>
         </Flex>
       </Box>
-      <Notification ref={notificationRef} />
     </PageLayout>
   )
 }

@@ -3,9 +3,12 @@ import { MsgExecuteContract, WasmAPI } from '@terra-money/terra.js'
 import {
   Box,
   Flex,
-  Stack
+  Stack,
+  Text
 } from '@chakra-ui/react'
 import { navigate } from '@reach/router'
+import { toast } from 'react-toastify';
+
 import {
   ButtonBackTransition,
   ButtonTransition,
@@ -21,12 +24,19 @@ import {
   getVal,
   getMultiplyInteger,
   getInteger,
-  getSeconds
+  getSeconds,
+  getMonth,
+  errorOption,
+  successOption,
+  ParseParam,
+  GetOneProject,
 } from '../components/Util'
-import Notification from '../components/Notification'
+
 import PageLayout from '../components/PageLayout'
 
 import Payment from '../components/CreateProject/Payment'
+import InputAddress from '../components/CreateProject/InputAddress';
+import CustomInputReadOnly from '../components/CreateProject/CustomInputReadOnly';
 import CustomInput from '../components/CreateProject/CustomInput'
 import CustomTextarea from '../components/CreateProject/CustomTextarea'
 import CustomNumberInput from '../components/CreateProject/CustomNumberInput'
@@ -47,6 +57,7 @@ export default function CreateProject() {
   const [logo, setLogo] = useState('')
   const [whitepaper, setWhitepaper] = useState('')
 
+  const [createDate, setCreateDate] = useState('')
   const [company, setCompany] = useState('');
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -59,6 +70,7 @@ export default function CreateProject() {
   const [teammemberDescription, setTeammemberDescription] = useState([''])
   const [teammemberLinkedin, setTeammemberLinkedin] = useState([''])
   const [teammemberRole, setTeammemberRole] = useState([''])
+  const [teammemberName, setTeammemberName] = useState([''])
 
   const [stageTitle, setStageTitle] = useState(['Seed'])
   const [stagePrice, setStagePrice] = useState([''])
@@ -72,10 +84,10 @@ export default function CreateProject() {
   const [signature, setSignature] = useState('')
   const [address, setAddress] = useState('')
   const [email, setEmail] = useState('')
-  const [serviceWefund, setServiceWefund] = useState(5)
-  const [serviceCharity, setServiceCharity] = useState(0)
+  const [serviceWefund, setServiceWefund] = useState('5')
+  const [serviceCharity, setServiceCharity] = useState('0')
   const [website, setWebsite] = useState('')
-  const [proffesionallink, setProfesisonalLink] = useState('')
+  const [professionallink, setProfessionalLink] = useState('')
 
   const [milestoneTitle, setMilestoneTitle] = useState([''])
   const [milestoneType, setMilestoneType] = useState([''])
@@ -84,97 +96,143 @@ export default function CreateProject() {
   const [milestoneStartdate, setMilestoneStartdate] = useState([''])
   const [milestoneEnddate, setMilestoneEnddate] = useState([''])
 
-  useEffect(() => {
-    CheckNetwork(state.connectedWallet, notificationRef, state);
+  useEffect( () => {
+    setTimeout( CheckNetwork(state.connectedWallet, state), 1000);
+
+    console.log("come");
+    if( project_id > 0 )
+       fillItems()
   }, [state.connectedWallet])
   
   //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
-  //------------notification setting---------------------------------
-  const notificationRef = useRef()
+  //----------parse Param----------------------
+  let project_id = ParseParam();
+
+  async function fillItems()
+  {
+    if(project_id == null)
+      return;
+
+    let { projectData, communityData, configData } = await FetchData( api, state, dispatch )
+
+    let data = GetOneProject(projectData, project_id);
+    setCompany(data.project_company);
+    setTitle(data.project_title);
+    setDescription(data.project_description);
+    setCollectedAmount(data.project_collected);
+    setEcosystem(data.project_ecosystem);
+    setCreateDate(data.project_createddate);
+    setWebsite(data.project_website);
+    setEmail(data.project_email);
+
+    setCountry(data.country);
+    setCofounderName(data.cofounder_name);
+    setServiceWefund(data.service_wefund);
+    setServiceCharity(data.service_charity);
+    setProfessionalLink(data.professional_link);
+
+    let _milestoneTitle = [], _milestoneAmount = [], _milestoneDescription = [], _milestoneStartdate = [], _milestoneEnddate = [], _milestoneType = [];
+
+    for(let i=0; i<data.milestone_states.length; i++){
+
+      _milestoneTitle.push(data.milestone_states[i].milestone_name);
+      _milestoneType.push(data.milestone_states[i].milestone_type);
+      _milestoneDescription.push(data.milestone_states[i].milestone_description);
+      _milestoneStartdate.push(data.milestone_states[i].milestone_startdate);
+      _milestoneEnddate.push(data.milestone_states[i].milestone_enddate);
+      _milestoneAmount.push(data.milestone_states[i].milestone_amount);
+    }
+    setMilestoneTitle(_milestoneTitle);
+    setMilestoneType(_milestoneType);
+    setMilestoneAmount(_milestoneAmount);
+    setMilestoneDescription(_milestoneDescription);
+    setMilestoneStartdate(_milestoneStartdate);
+    setMilestoneEnddate(_milestoneEnddate);
+
+    let _teamDescription = [], _teamLinkedIn = [], _teamRole = [], _teamName = [];
+
+    for(let i=0; i<data.teammember_states.length; i++){
+      _teamDescription.push(data.teammember_states[i].teammember_description);
+      _teamLinkedIn.push(data.teammember_states[i].teammember_linkedin);
+      _teamRole.push(data.teammember_states[i].teammember_role);
+      _teamName.push(data.teammember_states[i].teammember_name);
+    }
+
+    setTeammemberDescription(_teamDescription);
+    setTeammemberLinkedin(_teamLinkedIn);
+    setTeammemberRole(_teamRole);
+    setTeammemberName(_teamName);
+
+   let _stageTitle = [], _stagePrice = [], _stageAmount = [],
+   _stageSoon = [], _stageAfter = [], _stagePeriod = [];
+   
+   for(let i=0; i<data.vesting.length; i++){
+     _stageTitle.push(data.vesting[i].stage_title);
+     _stagePrice.push(parseFloat(data.vesting[i].stage_price)/100);
+     _stageAmount.push(data.vesting[i].stage_amount);
+     _stageSoon.push(data.vesting[i].stage_soon);
+     _stageAfter.push(getMonth(data.vesting[i].stage_after));
+     _stagePeriod.push(getMonth(data.vesting[i].stage_period));
+   }
+
+   setStageTitle(_stageTitle);
+   setStagePrice(_stagePrice);
+   setStageAmount(_stageAmount);
+   setStageVestingSoon(_stageSoon);
+   setStageVestingAfter(_stageAfter);
+   setStageVestingPeriod(_stagePeriod);
+  }
 
   //---------------create project---------------------------------
   const checkInvalidation = async () => {
-    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, state) == false)
       return false;
   
     let { projectData, communityData, configData } = await FetchData(
       api,
-      notificationRef,
       state,
       dispatch,
     )
 
     if (communityData == '') {
-      notificationRef.current.showNotification(
-        'There are no community members!',
-        'error',
-        4000,
-      )
+      toast('There are no community members!', errorOption);
       return false;
     }
 
     if (title.length == 0) {
-      notificationRef.current.showNotification(
-        'Please fill in project name!',
-        'error',
-        4000,
-      )
+      toast('Please fill in project name!', errorOption);
       return false;
     }
 
     if (parseInt(collectedAmount) < 6) {
-      notificationRef.current.showNotification(
-        'Collected money must be at least 6 UST',
-        'error',
-        4000,
-      )
+      toast('Collected money must be at least 6 UST', errorOption);
       return false;
     }
 
     let total_release = 0
     for (let i = 0; i < milestoneTitle.length; i++) {
       if (milestoneTitle[i] == '') {
-        notificationRef.current.showNotification(
-          'Please fill in milestone title!',
-          'error',
-          4000,
-        )
+        toast('Please fill in milestone title!', errorOption);
         return false;
       }
       if (milestoneStartdate[i] == '') {
-        notificationRef.current.showNotification(
-          'Please fill in milestone Start Date!',
-          'error',
-          4000,
-        )
+        toast('Please fill in milestone Start Date!', errorOption);
         return false;
       }
       if (milestoneEnddate[i] == '') {
-        notificationRef.current.showNotification(
-          'Please fill in milestone End Date!',
-          'error',
-          4000,
-        )
+        toast('Please fill in milestone End Date!', errorOption);
         return false;
       }
       if (parseInt(milestoneAmount[i]) < 6) {
-        notificationRef.current.showNotification(
-          'Collected money must be at least 6 UST',
-          'error',
-          4000,
-        )
+        toast('Collected money must be at least 6 UST', errorOption);
         return false;
       }
       total_release += parseInt(milestoneAmount[i])
     }
     if (total_release != parseInt(collectedAmount)) {
-      notificationRef.current.showNotification(
-        'Milestone total amount must equal collected amount',
-        'error',
-        4000,
-      )
+      toast('Milestone total amount must equal collected amount', errorOption);
       return false;
     }
     return true;
@@ -206,11 +264,11 @@ export default function CreateProject() {
       .then((res) => res.json())
       .then((data) => {
         realSAFT = data.data
-        notificationRef.current.showNotification(data.data + 'SAFT Success', 'success', 1000)
+        toast(data.data + 'SAFT Success', successOption);
       })
       .catch((e) => {
         console.log('Error:' + e)
-        notificationRef.current.showNotification('SAFT failed', 'error', 1000)
+        toast('SAFT failed', errorOption);
         err = true;
       })
 
@@ -234,19 +292,11 @@ export default function CreateProject() {
         .then((res) => res.json())
         .then((data) => {
           realWhitepaper = data.data;
-          notificationRef.current.showNotification(
-            'Whitepaper upload success',
-            'success',
-            1000,
-          )
+          toast('Whitepaper upload success', successOption);
         })
         .catch((e) => {
           console.log('Error:' + e)
-          notificationRef.current.showNotification(
-            'Whitepaper upload failed',
-            'error',
-            1000,
-          )
+          toast('Whitepaper upload failed', errorOption);
         })
     }
     return realWhitepaper;
@@ -269,32 +319,24 @@ export default function CreateProject() {
         .then((res) => res.json())
         .then((data) => {
           realLogo = data.data
-          notificationRef.current.showNotification(
-            data.data + 'Logo upload success',
-            'success',
-            1000,
-          )
+          toast(data.data + 'Logo upload success', successOption);
         })
         .catch((e) => {
           console.log('Error:' + e)
-          notificationRef.current.showNotification(
-            'Logo upload failed',
-            'error',
-            1000,
-          )
+          toast('Logo upload failed', errorOption);
         })
     }
     return realLogo;
   }
 
   async function createProject() {
-    if(CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if(CheckNetwork(state.connectedWallet, state) == false)
       return false;
 
     if(await checkInvalidation() == false)
       return false;
 
-    notificationRef.current.showNotification('Please wait', 'success', 10000)
+    toast('Please wait', successOption);
 
     let realSAFT = await createDocxTemplate();
     if(realSAFT == '') 
@@ -309,6 +351,7 @@ export default function CreateProject() {
         teammember_description: getVal(teammemberDescription[i]),
         teammember_linkedin: getVal(teammemberLinkedin[i]),
         teammember_role: getVal(teammemberRole[i]),
+        teammember_name: getVal(teammemberName[i])
       }
       project_teammembers.push(teammember);
     }
@@ -320,9 +363,9 @@ export default function CreateProject() {
         stage_title: stageTitle[i],
         stage_price: getMultiplyInteger(stagePrice[i]),
         stage_amount: getInteger(stageAmount[i]),
-        stage_soon: "20",//getInteger(stageVestingSoon[i]),
-        stage_after: "60",//getSeconds(stageVestingAfter[i]),
-        stage_period: "1800"//getSeconds(stageVestingPeriod[i]),
+        stage_soon: getInteger(stageVestingSoon[i]),
+        stage_after: getSeconds(stageVestingAfter[i]),
+        stage_period: getSeconds(stageVestingPeriod[i]),
       }
       vesting.push(stage);
       distribution_token_amount += parseInt(getInteger(stageAmount[i]));
@@ -337,25 +380,33 @@ export default function CreateProject() {
         milestone_startdate: getVal(milestoneStartdate[i]),
         milestone_enddate: getVal(milestoneEnddate[i]),
         milestone_amount: getVal(milestoneAmount[i]),
+        milestone_type: getVal(milestoneType[i]),
         milestone_status: '0',
         milestone_votes: [],
       }
       project_milestones.push(milestone)
     }
 
-    const dt = new Date()
-    const [month, day, year] = [dt.getMonth(), dt.getDate(), dt.getFullYear()]
-    const createdate = day + '/' + ((month + 1) % 12) + '/' + year
+    let _createDate = createDate;
+    
+    if(_createDate == ''){
+      const dt = new Date()
+      const [month, day, year] = [dt.getMonth(), dt.getDate(), dt.getFullYear()]
+      _createDate = day + '/' + ((month + 1) % 12) + '/' + year
+    }
+
+    let _projectID = project_id == null? "0": project_id.toString();
 
     let AddProjectMsg = {
       add_project: {
         creator_wallet: state.connectedWallet.walletAddress,
+        project_id: _projectID,
         project_company: company,
         project_title: title,
         project_description: description,
-        project_collected: collectedAmount,
+        project_collected: collectedAmount.toString(),
         project_ecosystem: ecosystem,
-        project_createddate: createdate,
+        project_createddate: _createDate,
         project_saft: realSAFT,
         project_logo: realLogo,
         project_whitepaper: realWhitepaer,
@@ -364,7 +415,13 @@ export default function CreateProject() {
         project_milestones: project_milestones,
         project_teammembers: project_teammembers,
         vesting: vesting,
-        token_addr: tokenAddress
+        token_addr: tokenAddress,
+
+        country: country,
+        cofounder_name: cofounderName,
+        service_wefund: serviceWefund,
+        service_charity: serviceCharity,
+        professional_link: professionallink
       },
     }
 
@@ -378,40 +435,45 @@ export default function CreateProject() {
     let msgs = [add_msg];
 
     if(tokenAddress != ""){
-      let token_info = await api.contractQuery(
-        tokenAddress,
-        {
-          token_info: {},
+      let token_info;
+      try{
+        token_info = await api.contractQuery(
+          tokenAddress,
+          {
+            token_info: {},
+          }
+        )
+        console.log(token_info)
+        
+        distribution_token_amount = distribution_token_amount * (10**token_info.decimals);
+        let ApproveMsg = {
+          increase_allowance: {
+            spender: wefundContractAddress,
+            amount: distribution_token_amount.toString()
+          }
         }
-      )
-      distribution_token_amount = distribution_token_amount * (10**token_info.decimals);
-      let ApproveMsg = {
-        increase_allowance: {
-          spender: wefundContractAddress,
-          amount: distribution_token_amount.toString()
-        }
+  
+        let approve_msg = new MsgExecuteContract(
+          state.connectedWallet.walletAddress,
+          tokenAddress,
+          ApproveMsg,
+        )
+        msgs.push(approve_msg);
       }
-
-      let approve_msg = new MsgExecuteContract(
-        state.connectedWallet.walletAddress,
-        tokenAddress,
-        ApproveMsg,
-      )
-      msgs.push(approve_msg);
+      catch(e){
+        toast("Invalid token Address, Please remove the token Address");
+        console.log(e);
+      }
     }
 
     let res = await EstimateSend(
       state.connectedWallet,
       state.lcd_client,
       msgs,
-      'Create Project success',
-      notificationRef,
+      project_id == null? 'Create Project success' : "Modify Project success",
     )
-console.log(res);
     if(res == true){
-      await Sleep(2000)
-      await FetchData(api, notificationRef, state, dispatch, true)
-
+      await FetchData(api, state, dispatch, true)
       navigate('/explorer');
     }
   }
@@ -451,6 +513,8 @@ console.log(res);
           <TeamMembers
             description = {teammemberDescription}
             setDescription = {setTeammemberDescription}
+            name = {teammemberName}
+            setName = {setTeammemberName}
             role = {teammemberRole}
             setRole = {setTeammemberRole}
             linkedin = {teammemberLinkedin}
@@ -465,14 +529,13 @@ console.log(res);
               typeText = "Amount Required"
               type = {collectedAmount}
               setType = {setCollectedAmount}
-              notificationRef={notificationRef}
               w = {{base:'100%', md:'50%', lg:'50%'}}
             />
             <CustomSelect
               typeText = "Blockchain"
               type = {ecosystem}
               setType = {setEcosystem}
-              options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Solana']}
+              options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Algorand', 'Solana']}
               w = {{base:'100%', md:'50%', lg:'50%'}}
             />
           </Stack>
@@ -481,16 +544,16 @@ console.log(res);
             direction={{base:'column', md:'column', lg:'row'}}
             spacing='30px'
           >
-            <CustomInput
-              typeText = "Token Name"
-              type={tokenName} 
-              setType={setTokenName}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
-            />
-            <CustomInput
+            <InputAddress
               typeText = "Token Address"
               type={tokenAddress} 
               setType={setTokenAddress}
+              setTokenName={setTokenName}
+              w = {{base:'100%', md:'50%', lg:'50%'}}
+            />
+            <CustomInputReadOnly
+              typeText = "TokenName"
+              type={tokenName} 
               w = {{base:'100%', md:'50%', lg:'50%'}}
             />
           </Stack>
@@ -587,8 +650,8 @@ console.log(res);
           />
           <Website
             typeText = "LinkedIn or similar"
-            type = {proffesionallink}
-            setType = {setProfesisonalLink}
+            type = {professionallink}
+            setType = {setProfessionalLink}
           />
           <Milestones
             milestoneTitle = {milestoneTitle}
@@ -603,7 +666,6 @@ console.log(res);
             setMilestoneStartdate = {setMilestoneStartdate}
             milestoneEnddate = {milestoneEnddate}
             setMilestoneEnddate = {setMilestoneEnddate}
-            notificationRef={notificationRef}
           />
           <Flex w="100%" mt="30px" justify="center" mb="30px">
             <ButtonTransition
@@ -612,13 +674,13 @@ console.log(res);
               width="400px"
               height="50px"
               rounded="33px"
+              onClick={() => createProject()}
             >
               <Box
                 variant="solid"
                 color="white"
                 justify="center"
                 align="center"
-                onClick={() => createProject()}
               >
                 Submit
               </Box>
@@ -627,7 +689,6 @@ console.log(res);
         </Box>
       </Flex>
       <Footer />
-      <Notification ref={notificationRef}/>
     </PageLayout>
   )
 }

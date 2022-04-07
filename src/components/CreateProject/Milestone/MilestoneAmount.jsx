@@ -8,21 +8,21 @@ import {
   Input,
   Select
 } from '@chakra-ui/react'
-
+import { toast } from 'react-toastify'
 import {
   InputTransition,
 } from '../../ImageTransition'
 
 import{
   isNull,
-  getVal
+  getVal,
+  errorOption
 } from '../../Util'
 
 export default function MilestoneAmount({
   index, 
   milestoneAmount,
   setMilestoneAmount,
-  notificationRef
 }) 
 {
   function onChangeMilestoneAmount(e, index){
@@ -30,7 +30,7 @@ export default function MilestoneAmount({
       e.target.value != '' &&
       e.target.value != parseInt(e.target.value).toString()
     ) {
-      notificationRef?.current.showNotification('Please input number only', 'error', 4000)
+      toast('Please input number only', errorOption);
       return
     }
 

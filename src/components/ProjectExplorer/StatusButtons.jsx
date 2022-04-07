@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Text } from '@chakra-ui/react'
+import { HStack, Flex, Text } from '@chakra-ui/react'
 import { Link, navigate } from '@reach/router'
 
 import {
@@ -8,6 +8,8 @@ import {
   isBackerWallet,
   isCreatorWallet,
   getStageTitle,
+  isCardHolder,
+  isBackable,
 } from '../Util'
 
 import { ButtonTransition } from '../ImageTransition'
@@ -20,37 +22,82 @@ export default function StatusButtons({
   WefundApprove,
   MilestoneVote,
   NextFundraisingStage,
+  Modify,
+  OpenWhitelist,
+  CloseWhitelist,
+  JoinWhitelist
 }) {
   const { state, dispatch } = useStore()
   return (
-    <>
+    <HStack spacing='10px'>
       {activeTab === 'WeFundApproval' && isWefundWallet(state) && (
-        <Flex w={'330px'} justify={'space-between'}>
-          <ButtonTransition
-            unitid={'Approve' + index}
-            selected={false}
-            width="150px"
-            height="45px"
-            rounded="33px"
-            onClick={() =>
-              WefundApprove(data.project_id)
-            }
+        <ButtonTransition
+          unitid={'Approve' + index}
+          selected={false}
+          width="150px"
+          height="45px"
+          rounded="33px"
+          onClick={() =>
+            WefundApprove(data.project_id)
+          }
+        >
+          <Text
+            fontSize={{
+              base: '14px',
+              lg: '16px',
+            }}
           >
-            <Text
-              fontSize={{
-                base: '14px',
-                lg: '16px',
-              }}
-            >
-              Approve Project
-            </Text>
-          </ButtonTransition>
-        </Flex>
+            Approve Project
+          </Text>
+        </ButtonTransition>
+      )}
+      {activeTab == "WhitelistOpen" && isCardHolder(state, data.project_id) && (
+        <ButtonTransition
+          unitid={'Whitelist' + index}
+          selected={false}
+          width="150px"
+          height="45px"
+          rounded="33px"
+          onClick={() =>
+            JoinWhitelist(state, data.project_id)
+          }
+        >
+          <Text
+            fontSize={{
+              base: '14px',
+              lg: '16px',
+            }}
+          >
+            Join Whitelist
+          </Text>
+        </ButtonTransition>
+      )}
+      {activeTab == "WhitelistOpen" && isCreatorWallet(state, data.project_id) && (
+        <ButtonTransition
+          unitid={'CloseWhitelist' + index}
+          selected={false}
+          width="150px"
+          height="45px"
+          rounded="33px"
+          onClick={() =>
+            CloseWhitelist(data.project_id)
+          }
+        >
+          <Text
+            fontSize={{
+              base: '14px',
+              lg: '16px',
+            }}
+          >
+            Close Whitelist
+          </Text>
+        </ButtonTransition>
       )}
       {activeTab === 'Fundraising' && (
         <>
           <Text>{getStageTitle(data)} phase</Text>
           {isCreatorWallet(state, data.project_id) && (
+          <>
             <ButtonTransition
               mb="10px"
               rounded="33px"
@@ -65,30 +112,48 @@ export default function StatusButtons({
                 Next Stage
               </Text>
             </ButtonTransition>
+            <ButtonTransition
+              mb="10px"
+              rounded="33px"
+              selected={false}
+              unitid={'openwhitelist' + index}
+              width="150px"
+              height="45px"
+              fontSize={{ base: '14px', lg: '16px' }}
+              onClick={() => OpenWhitelist(data.project_id)}
+            >
+              <Text fontSize={{ base: '14px', lg: '16px' }} >
+                ReOpen Whitelist
+              </Text>
+            </ButtonTransition>
+          </>
           )}
-          <ButtonTransition
-            mb="10px"
-            rounded="33px"
-            selected={false}
-            unitid={'visit' + index}
-            width="150px"
-            height="45px"
-            fontSize={{ base: '14px', lg: '16px' }}
-            onClick={() => {
-              navigate(
-                '/invest_step1?project_id=' +
-                data.project_id,
-              )
-            }}
-          >
-            <Text fontSize={{ base: '14px', lg: '16px' }} >
-              Back Project
-            </Text>
-          </ButtonTransition>
+          {isBackable(state, data.project_id) && (
+            <ButtonTransition
+              mb="10px"
+              rounded="33px"
+              selected={false}
+              unitid={'visit' + index}
+              width="150px"
+              height="45px"
+              fontSize={{ base: '14px', lg: '16px' }}
+              onClick={() => {
+                navigate(
+                  '/invest_step1?project_id=' +
+                  data.project_id,
+                )
+              }}
+            >
+              <Text fontSize={{ base: '14px', lg: '16px' }} >
+                Back Project
+              </Text>
+            </ButtonTransition>
+          )}
+
         </>
       )}
       {activeTab === 'MileStoneDelivery' && isBackerWallet(state, data.project_id) && (
-        <Flex w={'330px'} justify={'space-between'}>
+        <>
           <ButtonTransition
             unitid={'milestonevoteyes' + index}
             width="150px"
@@ -130,8 +195,24 @@ export default function StatusButtons({
               Vote No
             </Text>
           </ButtonTransition>
-        </Flex>
+        </>
       )}
-    </>
+      {isCreatorWallet(state, data.project_id) && (
+        <ButtonTransition
+          mb="10px"
+          rounded="33px"
+          selected={false}
+          unitid={'modification' + index}
+          width="150px"
+          height="45px"
+          fontSize={{ base: '14px', lg: '16px' }}
+          onClick={() => { Modify(data.project_id) }}
+        >
+          <Text fontSize={{ base: '14px', lg: '16px' }} >
+            Modify
+          </Text>
+        </ButtonTransition>
+      )}
+    </HStack>
   )
 };

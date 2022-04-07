@@ -1,14 +1,36 @@
 import { Fee, MsgExecuteContract, WasmAPI, LCDClient } from '@terra-money/terra.js'
 import { useStore } from '../store'
 import React, { useRef, useState, useEffect, forwardRef, useCallback } from 'react'
-import { WEFUND_MAIN, WEFUND_TEST, VESTING_MAIN, VESTING_TEST, STAKING_TEST, STAKING_MAIN, 
-  WFDTOKEN_MAIN, WFDTOKEN_TEST } from '../store'
+import { WEFUND_MAIN, WEFUND_TEST, VESTING_MAIN, VESTING_TEST, STAKING_MAIN, STAKING_TEST, WFDTOKEN_MAIN, WFDTOKEN_TEST } from '../store'
+import { toast } from 'react-toastify'
 
-export async function EstimateSend(connectedWallet, lcd, msgs, message, notificationRef, memo = '') {
+export const successOption = {
+    position: "top-right",
+    type: "success",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+};
+
+export const errorOption = {
+  position: "top-right",
+  type: "error",
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+};
+
+export async function EstimateSend(connectedWallet, lcd, msgs, message, memo = '') {
 console.log(msgs);
-//   const obj = new Fee(10_000, { uusd: 4500 })
-//   let accountInfo;
-//   let abort = false;
+  // const obj = new Fee(10_000, { uusd: 4500 })
+  // let accountInfo;
+  // let abort = false;
 //   await lcd.auth.accountInfo(
 //     connectedWallet.walletAddress
 //   )
@@ -61,18 +83,40 @@ console.log(msgs);
       // gasAdjustment: 1.7,
       memo: memo,
     })
-    .then((e) => {
+    .then(async (e) => {
+console.log(e);
       if (e.success) {
-        notificationRef.current.showNotification(message, 'success', 4000)
+        toast("Successs! Please wait", successOption);
       } else {
-        notificationRef.current.showNotification(e.message, 'error', 4000)
+        toast(e.message, errorOption);
         console.log(e.message);
         return false;
+      }
+
+      let count = 10;
+      let height = 0;
+      while(count > 0){
+        await lcd.tx.txInfo(e.result.txhash)
+        .then((e) => {
+          console.log(e)
+          if(e.height > 0){
+            toast.dismiss();
+            toast(message, successOption);
+            height = e.height;
+          }
+        })
+        .catch((e)=>{
+          // console.log(e)
+        })
+        if(height > 0) break;
+        await Sleep(1000);
+        count--;
+console.log(count);
       }
       return true;
     })
     .catch((e) => {
-      notificationRef.current.showNotification(e.message, 'error', 4000)
+      toast(e.message, errorOption);
       console.log(e.message);
       return false;
     })
@@ -83,6 +127,9 @@ export function GetProjectStatusString(mode) {
   switch (mode) {
     case "WefundVote":
       projectstatus = 'WeFundApproval';
+      break;
+    case "Whitelist":
+      projectstatus = 'WhitelistOpen';
       break;
     case "Fundraising":
       projectstatus = 'Fundraising';
@@ -101,6 +148,9 @@ export function GetProjectStatus(mode) {
   switch (mode) {
     case 'WeFundApproval':
       projectstatus = "WefundVote";
+      break;
+    case 'WhitelistOpen':
+      projectstatus = "Whitelist";
       break;
     case 'Fundraising':
       projectstatus = "Fundraising";
@@ -143,24 +193,24 @@ export function AddExtraInfo(state, projectData, communityData) {
 
   return projectData;
 }
-export function CheckNetwork(connectedWallet, notificationRef, state) {
+export function CheckNetwork(connectedWallet, state) {
   //----------verify connection--------------------------------
   if (connectedWallet == '' || typeof connectedWallet == 'undefined') {
-    notificationRef?.current?.showNotification('Please connect wallet first!', 'error', 6000)
+    toast("Please connect wallet first!", errorOption);
     console.log("Please connect wallet first!");
     return false;
   }
   else {
-    notificationRef?.current?.hideNotification();
+    toast.dismiss();
   }
 
   if (state.net == 'mainnet' && connectedWallet.network.name == 'testnet') {
-    notificationRef?.current?.showNotification('Please switch to mainnet!', 'error', 4000);
+    toast("Please switch to mainnet!", errorOption);
     console.log("Please switch to mainnet!");
     return false;
   }
   if (state.net == 'testnet' && connectedWallet.network.name == 'mainnet') {
-    notificationRef?.current?.showNotification('Please switch to testnet!', 'error', 4000);
+    toast("Please switch to Testnet!", errorOption);
     console.log("Please switch to testnet!");
     return false;
   }
@@ -173,81 +223,112 @@ export function GetProjectIndex(projectData, project_id) {
   return index;
 }
 
-export async function FetchData(api, notificationRef, state, dispatch, force = false) {
+export async function FetchData(api, state, dispatch, force = false) {
   let projectData, communityData, configData;
   //-----------------fetch community members-----------------
-  communityData = state.communityData;
-  if (state.communityData == '' || force == true) {
-    communityData = await api.contractQuery(
-      state.WEFundContractAddress,
-      {
-        get_communitymembers: {},
+  try{
+    communityData = state.communityData;
+    if (state.communityData == '' || force == true) {
+      communityData = await api.contractQuery(
+        state.WEFundContractAddress,
+        {
+          get_communitymembers: {},
+        }
+      )
+
+      if (communityData == '') {
+          toast("Can't fetch Community Data", errorOption);
+      } else {
+        dispatch({
+          type: 'setCommunityData',
+          message: communityData,
+        })
+
       }
-    )
-
-    if (communityData == '') {
-      if (notificationRef)
-        notificationRef.current.showNotification("Can't fetch Community Data", 'error', 6000);
-    } else {
-      dispatch({
-        type: 'setCommunityData',
-        message: communityData,
-      })
-
     }
   }
+  catch(e){}
   //-----------------fetch config-----------------------
-  configData = state.configData;
-  if (state.configData == '' || force == true) {
-    configData = await api.contractQuery(
-      state.WEFundContractAddress,
-      {
-        get_config: {},
+  try{
+    configData = state.configData;
+    if (state.configData == '' || force == true) {
+      configData = await api.contractQuery(
+        state.WEFundContractAddress,
+        {
+          get_config: {},
+        }
+      )
+
+      if (configData == '') {
+        toast("Can't fetch Config Data", errorOption);
+      } else {
+        dispatch({
+          type: 'setConfigData',
+          message: configData,
+        })
       }
-    )
-
-    if (configData == '') {
-      if (notificationRef)
-        notificationRef.current.showNotification("Can't fetch Config Data", 'error', 6000);
-    } else {
-      dispatch({
-        type: 'setConfigData',
-        message: configData,
-      })
     }
-  }
-
+  } catch(e) {}
   //---------------fetch project Data---------------------
-  projectData = state.projectData;
-  if (state.projectData == '' || force == true) {
-    projectData = await api.contractQuery(
-      state.WEFundContractAddress,
-      {
-        get_all_project: {
-        },
+  try{
+    projectData = state.projectData;
+    if (state.projectData == '' || force == true) {
+      projectData = await api.contractQuery(
+        state.WEFundContractAddress,
+        {
+          get_all_project: {
+          },
+        }
+      )
+
+      if (projectData == '') {
+        toast("Can't fetch Project Data", 'error', errorOption);
+        console.log("Can't fetch project Data");
+      } else {
+        //----------fake--------------------------
+        let fakeone = GetOneProject(projectData, state.wefundID);
+        if(fakeone != ''){
+          fakeone.project_collected = 600000;
+          fakeone.communitybacked_amount = 192000 * 10 ** 6;
+          projectData[GetProjectIndex(projectData, state.wefundID)] = fakeone;
+          //------------------------------------
+
+          projectData = AddExtraInfo(state, projectData, communityData);
+          dispatch({
+            type: 'setProjectData',
+            message: projectData,
+          })
+        }
       }
-    )
-console.log(force);
-
-    if (projectData == '') {
-      if (notificationRef)
-        notificationRef.current.showNotification("Can't fetch Project Data", 'error', 6000);
-    } else {
-      //----------fake--------------------------
-      let fakeone = GetOneProject(projectData, state.wefundID);
-      fakeone.project_collected = 600000;
-      fakeone.communitybacked_amount = 192000 * 10 ** 6;
-      projectData[GetProjectIndex(projectData, state.wefundID)] = fakeone;
-      //------------------------------------
-
-      projectData = AddExtraInfo(state, projectData, communityData);
-      dispatch({
-        type: 'setProjectData',
-        message: projectData,
-      })
     }
-  }
+  }catch(e){}
 console.log(projectData);
+
+  try{
+    if( state.cardInfo == '' || force == true){
+      let tokenInfo = await api.contractQuery(
+        state.WFDTokenAddress,
+        {
+          token_info: {}
+        }
+      )
+
+      let userInfo = await api.contractQuery(
+        state.StakingContractAddress,
+        {
+          get_user_info: { wallet: state.connectedWallet.walletAddress }
+        }
+      )
+
+      userInfo.amount = parseInt(userInfo.amount) / (10 ** parseInt(tokenInfo.decimals));
+      dispatch({
+        type: 'setCardInfo',
+        message: userInfo,
+      })
+
+    }
+  }catch(e){ }
+
   return { projectData, communityData, configData };
 }
 export function GetOneProject(projectData, project_id) {
@@ -264,13 +345,65 @@ export function isWefundWallet(state) {
     return true;
   return false;
 }
-export function isCommunityWallet(state, project_id) {
+export function isCardHolder(state, project_id){
+  if(state.cardInfo == '')
+    return false;
+
   let one = GetOneProject(state.projectData, project_id)
   if (one == '')
     return false;
 
-  for (let j = 0; j < one.community_votes.length; j++) {
-    if (state.connectedWallet.walletAddress == one.community_votes[j].wallet) {
+  for(let i=0; i<one.whitelist.length; i++){
+    let info = one.whitelist[i];
+    if(info.wallet == state.connectedWallet.walletAddress)
+      return false;
+  }
+  return true;
+}
+export function isBackable(state, project_id){
+  if(project_id == state.wefundID)//WFD
+    return true;
+
+  let one = GetOneProject(state.projectData, project_id)
+  if (one == '')
+    return false;
+
+  for(let i=0; i<one.whitelist.length; i++){
+    let info = one.whitelist[i];
+    if(info.wallet == state.connectedWallet.walletAddress &&
+      info.backed < info.allocation) {
+        return true;
+      }
+  }
+
+  return false;
+}
+export function getAllocation(state, project_id){
+  let one = GetOneProject(state.projectData, project_id)
+  if(project_id == state.wefundID)//WFD
+    return parseInt(one.project_collected);
+
+  if (one == '')
+    return 0;
+
+  console.log(state.connectedWallet.walletAddress)
+  for(let i=0; i<one.whitelist.length; i++){
+    let info = one.whitelist[i];
+    console.log(info)
+    if(info.wallet == state.connectedWallet.walletAddress &&
+      parseInt(info.backed) < parseInt(info.allocation)) {
+        return Math.floor((parseInt(info.allocation) - parseInt(info.backed))/(10**6));
+      }
+  }
+
+  return 0;
+}
+export function isCommunityWallet(state) {
+  if(state.communityData == '')
+    return false;
+
+  for (let j = 0; j < state.communityData.length; j++) {
+    if (state.connectedWallet.walletAddress == state.communityData[j].wallet) {
       return true;
     }
   }
@@ -344,9 +477,12 @@ export function getMultiplyInteger(val) {
 }
 export function getSeconds(val) {
   let month = 60 * 60 * 24 * 30;
-  return getInteger(val) * month;
+  return (parseInt(getInteger(val)) * month).toString();
 }
-
+export function getMonth(val) {
+  let month = 60 * 60 * 24 * 30;
+  return (getInteger(val) / month).toString();
+}
 export function getStageTitle(data)
 {
   let index = parseInt(data.fundraising_stage);

@@ -17,6 +17,8 @@ import TeamMemberInput from './TeamMemberInput'
 export default function TeamMembers({
   description,
   setDescription,
+  name,
+  setName,
   role,
   setRole,
   linkedin,
@@ -70,19 +72,26 @@ export default function TeamMembers({
           >
             <TeamMemberInput
               index = {index}
-              typeText= 'Role'
-              type = {role}
-              setType = {setRole}
-              w={{base:'100%', md: '30%', lg:'30%'}}
+              typeText= 'Name'
+              type = {name}
+              setType = {setName}
+              w={{base:'100%', md: '50%', lg:'50%'}}
             />
             <TeamMemberInput
               index = {index}
-              typeText= 'LinkedIn or similar'
-              type = {linkedin}
-              setType = {setLinedin}
-              w={{base:'100%', md: '70%', lg:'70%'}}
+              typeText= 'Role'
+              type = {role}
+              setType = {setRole}
+              w={{base:'100%', md: '50%', lg:'50%'}}
             />
           </Stack>
+          <TeamMemberInput
+            index = {index}
+            typeText= 'LinkedIn or similar'
+            type = {linkedin}
+            setType = {setLinedin}
+            w={{base:'100%', md: '100%', lg:'100%'}}
+          />
           {/* -----------------submit----------------- */}
         </Flex>
       )
@@ -103,13 +112,13 @@ export default function TeamMembers({
         width="250px"
         height="45px"
         rounded="33px"
+        onClick={onNewTeamMember}
       >
         <Box
           variant="solid"
           color="white"
           justify="center"
           align="center"
-          onClick={onNewTeamMember}
         >
           Add Team Member
         </Box>
@@ -121,13 +130,13 @@ export default function TeamMembers({
         height="45px"
         rounded="33px"
         ml = '30px'
+        onClick={onCancelTeamMember}
       >
         <Box
           variant="solid"
           color="white"
           justify="center"
           align="center"
-          onClick={onCancelTeamMember}
         >
           Cancel Team Member {description.length}
         </Box>

@@ -14,7 +14,7 @@ import {
 } from '../ImageTransition'
 
 
-export default function CustomNumberInput({typeText, type, setType, notificationRef, w}) 
+export default function CustomNumberInput({typeText, type, setType, w}) 
 {
   function onChangeAmount(e) {
     // if (

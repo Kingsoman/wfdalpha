@@ -6,17 +6,17 @@ import {
   Button,
   Box, 
   } from "@chakra-ui/react";
+import { toast } from 'react-toastify';
+
 
 import PageLayout from '../components/PageLayout'
-
+import { errorOption } from '../components/Util';
 import { InputTransition, ButtonTransition } from "../components/ImageTransition";
 import { useStore } from '../store'
-import Notification  from '../components/Notification';
 
 export default function InvestStep1() {
   const [showInput, setShowInput] = useState(false);
   const passRef = useRef();
-  const notificationRef = useRef();
   const navigate = useNavigate();
   const { state, dispatch } = useStore();
 
@@ -43,7 +43,7 @@ export default function InvestStep1() {
       navigate('/invest_step1?project_id=' + state.wefundID);
     }
     else{
-      notificationRef.current.showNotification("Sorry, wrong password", "error", 40000);
+      toast("Sorry, wrong password", errorOption);
     }
   }
   return (
@@ -105,7 +105,6 @@ export default function InvestStep1() {
           </Button>
         </Flex>
       </Box>
-      <Notification ref={notificationRef} />
     </PageLayout>
   )
 }

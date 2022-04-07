@@ -14,7 +14,6 @@ import Footer from '../components/Footer'
 import PageLayout from '../components/PageLayout'
 
 import { Link, useNavigate } from '@reach/router'
-import Notification from '../components/Notification'
 import { WasmAPI, MsgExecuteContract } from '@terra-money/terra.js'
 
 import ProjectCount from '../components/ProjectExplorer/ProjectCount'
@@ -34,6 +33,7 @@ import MobileTitle from '../components/ProjectExplorer/Mobile/Title'
 import MobileStatusButtons from '../components/ProjectExplorer/Mobile/StatusButtons'
 import MobileInformations from '../components/ProjectExplorer/Mobile/Informations'
 import MobileMainButtons from '../components/ProjectExplorer/Mobile/MainButtons'
+import { toast } from 'react-toastify'
 
 export default function ExplorerProject() {
   const navigate = useNavigate()
@@ -73,7 +73,6 @@ export default function ExplorerProject() {
   }
   //-----------connect to wallet ---------------------
 
-  const notificationRef = useRef()
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
@@ -81,12 +80,12 @@ export default function ExplorerProject() {
     try {
       let { projectData } = await FetchData(
         api,
-        notificationRef,
         state,
         dispatch,
         force,
       )
       //-----------------initialize--------------------------
+
       let activeProjectData = projectData.filter(
         (project) => project.project_status == GetProjectStatus(activeTab)
       )
@@ -101,7 +100,7 @@ export default function ExplorerProject() {
 
   //------------Wefund Approve-----------------
   async function WefundApprove(project_id) {
-    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, state) == false)
       return false
     let deadline = Date.now() + 1000 * 60 * 60 * 24 * 15 //for 15days
     let msg = new MsgExecuteContract(
@@ -119,14 +118,74 @@ export default function ExplorerProject() {
       state.lcd_client,
       [msg],
       'WeFund Approve success',
-      notificationRef,
     )
-    await Sleep(2000)
     fetchContractQuery(true)
   }
-
+  async function OpenWhitelist(project_id) {
+    if (CheckNetwork(state.connectedWallet, state) == false)
+      return false
+    let msg = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
+      state.WEFundContractAddress,
+      {
+        open_whitelist: {
+          project_id: project_id,
+          holder_alloc: '80'
+        }
+      }
+    )
+    await EstimateSend(
+      state.connectedWallet,
+      state.lcd_client,
+      [msg],
+      'Open Whitelist success',
+    )
+    fetchContractQuery(true)
+  }
+  async function CloseWhitelist(project_id) {
+    if (CheckNetwork(state.connectedWallet, state) == false)
+      return false
+    let msg = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
+      state.WEFundContractAddress,
+      {
+        close_whitelist: {
+          project_id: project_id,
+        }
+      }
+    )
+    await EstimateSend(
+      state.connectedWallet,
+      state.lcd_client,
+      [msg],
+      'Close Whitelist success',
+    )
+    fetchContractQuery(true)
+  }
+  async function JoinWhitelist(state, project_id) {
+    if (CheckNetwork(state.connectedWallet, state) == false)
+      return false
+    
+    let msg = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
+      state.WEFundContractAddress,
+      {
+        register_whitelist: {
+          project_id: project_id,
+          card_type: state.cardInfo.card_type
+        }
+      }
+    )
+    await EstimateSend(
+      state.connectedWallet,
+      state.lcd_client,
+      [msg],
+      'Close Whitelist success',
+    )
+    fetchContractQuery(true)
+  }
   async function MilestoneVote(project_id, voted) {
-    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, state) == false)
       return false
     let wallet = state.connectedWallet.walletAddress
     let MilestoneVoteMsg = { set_milestone_vote: { project_id, wallet, voted } }
@@ -137,26 +196,24 @@ export default function ExplorerProject() {
       wefundContractAddress,
       MilestoneVoteMsg,
     )
-    EstimateSend(
+    await EstimateSend(
       state.connectedWallet,
       state.lcd_client,
       [msg],
       'Milestone vote success',
-      notificationRef,
     )
-    await Sleep(2000)
     fetchContractQuery(true)
   }
 
   async function NextFundraisingStage(project_id, curStage) {
-    if (CheckNetwork(state.connectedWallet, notificationRef, state) == false)
+    if (CheckNetwork(state.connectedWallet, state) == false)
       return false;
 
-    let { projectData } = await FetchData(api, notificationRef, state, dispatch)
+    let { projectData } = await FetchData(api, state, dispatch)
 
     let stage = parseInt(curStage);
     let data = GetOneProject(projectData, project_id);
-console.log(data)
+
     if (stage < data.vesting.length - 1)
       stage = stage + 1;
     else
@@ -171,21 +228,23 @@ console.log(data)
       wefundContractAddress,
       FundraisingMsg,
     )
-    EstimateSend(
+    await EstimateSend(
       state.connectedWallet,
       state.lcd_client,
       [msg],
-      'Set Fundraising stage success',
-      notificationRef,
+      'Set Fundraising stage success'
     )
-    await Sleep(2000)
+
     fetchContractQuery(true)
   }
   //---------initialize fetching---------------------
   useEffect(() => {
     fetchContractQuery()
-  }, [activeTab, state.net])
+  }, [activeTab, state.net, state.connectedWallet])
 
+  function Modify(project_id){
+    navigate('/create?project_id=' + project_id);
+  }
   return (
     <PageLayout title="Projects" subTitle1="Explore" subTitle2="Projects">
       <Tabs activeTab={activeTab} onChangeActivetab={onChangeActivetab} />
@@ -235,6 +294,10 @@ console.log(data)
                               WefundApprove={WefundApprove}
                               MilestoneVote={MilestoneVote}
                               NextFundraisingStage={NextFundraisingStage}
+                              Modify={Modify}
+                              OpenWhitelist={OpenWhitelist}
+                              CloseWhitelist={CloseWhitelist}
+                              JoinWhitelist={JoinWhitelist}
                             />
                           </Flex>
 
@@ -307,6 +370,10 @@ console.log(data)
                               WefundApprove={WefundApprove}
                               MilestoneVote={MilestoneVote}
                               NextFundraisingStage={NextFundraisingStage}
+                              Modify={Modify}
+                              OpenWhitelist={OpenWhitelist}
+                              CloseWhitelist={CloseWhitelist}
+                              JoinWhitelist={JoinWhitelist}
                             />
                           </Flex>
                         </Flex>
@@ -331,7 +398,6 @@ console.log(data)
         </Box>
       </Flex>
       <Footer />
-      <Notification ref={notificationRef} />
     </PageLayout>
   )
 }

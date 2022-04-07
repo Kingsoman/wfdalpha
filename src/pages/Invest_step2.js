@@ -10,11 +10,12 @@ import {
 import { CheckIcon } from "@chakra-ui/icons";
 import React, { useState, useRef, } from 'react';
 import { navigate } from '@reach/router'
+import { toast } from "react-toastify";
+
 import { ImageTransition, InputTransition } from "../components/ImageTransition";
 import { useStore } from '../store';
-import Notification from '../components/Notification';
 import PageLayout from '../components/PageLayout';
-import {ParseParam} from '../components/Util';
+import {ParseParam, errorOption, getAllocation} from '../components/Util';
 
 export default function InvestStep2() {
   const [backAmount, setBackAmount] = useState('');
@@ -22,14 +23,12 @@ export default function InvestStep2() {
   const {state, dispatch} = useStore();
 
   //------------parse URL for project id----------------------------
-  let project_id = ParseParam();
-
-  //------------notification setting---------------------------------
-  const notificationRef = useRef();
+  const project_id = ParseParam();
+  const max = getAllocation(state, project_id);
 
   function onChangeBackamount(e){
     if(e.target.value != '' && e.target.value != parseInt(e.target.value).toString()){
-      notificationRef.current.showNotification("Please input number only", "error", 4000);
+      toast("Please input number only", errorOption);
       return;
     }
     let wefundRate = state.presale? 0.09: 0.06;
@@ -38,6 +37,10 @@ export default function InvestStep2() {
   }
 
   function onNext(){
+    if(parseInt(backAmount) > max){
+      toast("Exceed the allocation!", errorOption);
+      return;
+    }
     dispatch({
       type: 'setInvestamount',
       message: backAmount,
@@ -110,7 +113,7 @@ export default function InvestStep2() {
         <InputTransition 
           unitid='backamount'
           selected={backAmount==''?false:true}
-          width='300px' height='55px' rounded='md' mb='42px'
+          width='300px' height='55px' rounded='md'
         >
           <InputGroup 
             size={{base:'200px', lg:'sm'}}
@@ -132,6 +135,7 @@ export default function InvestStep2() {
             />
           </InputGroup>
         </InputTransition>
+        <Text  mb='42px'>Max: {max} UST</Text>
         <Flex>
           <Text mb='20px'>WFD tokens you will receive</Text>
         </Flex>
@@ -173,15 +177,14 @@ export default function InvestStep2() {
             background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
             selected={false}
             width='200px' height='50px' rounded='33px'
+            onClick = {()=>onNext()}
           >
-            <Box variant="solid" color="white" justify='center' align='center'
-                onClick = {()=>onNext()}>
+            <Box variant="solid" color="white" justify='center' align='center'>
               Invest
             </Box>
           </ImageTransition>
         </Flex>
       </Box>
-      <Notification ref={notificationRef}/>
     </PageLayout>
   )
 }

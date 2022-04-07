@@ -45,14 +45,14 @@ export default function Navbar() {
               <DesktopNav />
             </Flex>
             <Flex mr="20px" align="center" justify="center" w="40%" h="100%">
-              <ButtonBackTransition
-                unitid="CreateYourProject"
-                selected={false}
-                width="197px"
-                height="40px"
-                rounded="33px"
-              >
-                <Link to="/create">
+              <Link to="/create">
+                <ButtonBackTransition
+                  unitid="CreateYourProject"
+                  selected={false}
+                  width="197px"
+                  height="40px"
+                  rounded="33px"
+                >
                   <Box
                     variant="solid"
                     color="white"
@@ -61,8 +61,8 @@ export default function Navbar() {
                   >
                     Create Your Project
                   </Box>
-                </Link>
-              </ButtonBackTransition>
+                </ButtonBackTransition>
+              </Link>
               <Flex w="197px" ml="20px" mr={'10px'}>
                 <ConnectWallet />
               </Flex>

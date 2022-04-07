@@ -19,8 +19,8 @@ import { InputTransition, ButtonTransition, } from '../components/ImageTransitio
 import CardBox from '../components/Staking/CardBox'
 import PageLayout from '../components/PageLayout'
 import Footer from '../components/Footer'
-import Notification from '../components/Notification'
-import { EstimateSend, FetchData, Set2Mainnet, Set2Testnet } from '../components/Util'
+
+import { EstimateSend, FetchData, Set2Mainnet, Set2Testnet, CheckNetwork } from '../components/Util'
 
 export default function Staking() {
   const { state, dispatch } = useStore();
@@ -30,11 +30,13 @@ export default function Staking() {
   const [pendingRewards, setPendingRewards] = useState("");
   const [decimals, setDecimals] = useState(1);
 
-  const notificationRef = useRef();
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //-----------fetch project data=-------------------------
   async function fetchContractQuery() {
+    if(CheckNetwork(state.connectedWallet, state) == false)
+      return;
+
     try {
       let tokenInfo = await api.contractQuery(
         state.WFDTokenAddress,
@@ -42,7 +44,6 @@ export default function Staking() {
           token_info: {}
         }
       )
-      setDecimals(parseInt(tokenInfo.decimals));
 
       let res = await api.contractQuery(
         state.WFDTokenAddress,
@@ -68,8 +69,6 @@ export default function Staking() {
         }
       )
       setPendingRewards(pendingRewards);
-
-      console.log(userInfo)
     }
     catch (e) {
       console.log(e)
@@ -119,9 +118,9 @@ export default function Staking() {
       state.connectedWallet,
       state.lcd_client,
       [msg_transfer, msg_deposit],
-      'Staking Success',
-      notificationRef,
+      'Staking Success'
     );
+    await fetchContractQuery();
   }
   async function getRewards() {
     let claim = {
@@ -139,9 +138,9 @@ export default function Staking() {
       state.connectedWallet,
       state.lcd_client,
       [msg_claim],
-      'Claim rewards success',
-      notificationRef,
+      'Claim rewards success'
     );
+    await fetchContractQuery();
   }
   function setMax(){
     setAmount(balance);
@@ -309,7 +308,13 @@ export default function Staking() {
               <HStack justify='space-between' align='flex-end' w='100%'>
                 <Input fontSize='12px' value={amount} onChange={(e) => { setAmount(e.target.value) }} />
                 <HStack>
-                  <Text fontSize='10px' color='gray.300' onClick={setMax}>
+                  <Text 
+                    fontSize='10px' 
+                    color='gray.300' 
+                    cursor='pointer' 
+                    textStyle='underline'
+                    onClick={setMax}
+                  >
                     MAX
                   </Text>
                   <Text fontSize='12px'>
@@ -318,7 +323,7 @@ export default function Staking() {
                 </HStack>
               </HStack>
             </VStack>
-            <Checkbox>
+            <Checkbox onChange={(e) => console.log(e) }>
               <Text fontSize='12px'>
                 I agree to WeFund Staking Terms
               </Text>
@@ -331,7 +336,6 @@ export default function Staking() {
       </VStack>
 
       <Footer />
-      <Notification ref={notificationRef} />
     </PageLayout>
   )
 }

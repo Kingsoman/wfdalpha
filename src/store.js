@@ -5,14 +5,14 @@ import { Set2Mainnet, Set2Testnet } from './components/Util';
 const StoreContext = createContext()
 
 
-export const WEFUND_MAIN = "terra1fe42wt74wx8z0snwnzkeytsxpmz5l4yu83uxyy";
+export const WEFUND_MAIN = "terra1hvddgv0nvddlvdxu3trupun3uc0hd9hax8d8lz";
 export const VESTING_MAIN = "terra1clufns3djy7fye5k3sq3m4y3777e85jw5v2ygk";
-export const STAKING_MAIN = "";
+export const STAKING_MAIN = "terra129ue0mpavemd53s3l2zdwhw889r7jt4kqzt7t7";
 export const WFDTOKEN_MAIN = "terra1nppndpgfusn7p8nd5d9fqy47xejg0x55jjxe2y" //mainnet
 
-export const WEFUND_TEST = "terra1ef73f5knkez000drwrne47kzvhs6m7vdx6vkz0";
-export const VESTING_TEST = "terra1055p3nlct3pg4xr2gxkvmec9d055wwfy56gf07";
-export const STAKING_TEST = "terra1wsy9grwpq48trf8c0sx9v9vlygtjs6ugke6g5w";
+export const WEFUND_TEST = "terra1ytk7e0gp57qa5jyl404dle93emrwxm9khj6vcv";
+export const VESTING_TEST = "terra1xds9cxrx98t848q3p6ckjf4nuhdvt7j3ap8spd";
+export const STAKING_TEST = "terra129ue0mpavemd53s3l2zdwhw889r7jt4kqzt7t7";
 export const WFDTOKEN_TEST = "terra1pkytkcanua4uazlpekve7qyhg2c5xwwjr4429d"; //testnet
 
 const initialState = {
@@ -44,6 +44,7 @@ const initialState = {
   activeProjectData: '',
   communityData: '',
   configData: '',
+  cardInfo: '',
   connectedWallet: [],
   timer: '',
   wallet: {},
@@ -80,7 +81,7 @@ const reducer = (state, action) => {
     case 'setStakingContract':
       return { ...state, StakingContractAddress: action.message }
     case 'setWFDTokenContract':
-      return { ...state, WFDTokenContract: action.message }      
+      return { ...state, WFDTokenContract: action.message }
     case 'setPresale':
       return { ...state, presale: action.message }
     case 'setReferralCount':
@@ -93,6 +94,8 @@ const reducer = (state, action) => {
       return { ...state, timer: action.message }
     case 'setConfigData':
       return { ...state, configData: action.message }
+    case 'setCardInfo':
+      return { ...state, cardInfo: action.message }
     case 'setCommunityData':
       return { ...state, communityData: action.message }
     case 'setActiveProjectData':
@@ -139,12 +142,12 @@ const reducer = (state, action) => {
 export const StoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  useEffect(()=>{
+  useEffect(() => {
     let net = window.localStorage.getItem('net') || "mainnet";
-    if( net == "testnet" ){
+    if (net == "testnet") {
       Set2Testnet(state, dispatch);
     }
-    else{
+    else {
       Set2Mainnet(state, dispatch);
     }
   }, []);

@@ -30,7 +30,6 @@ export default function Milestones({
   setMilestoneStartdate,
   milestoneEnddate,
   setMilestoneEnddate,
-  notificationRef
 }) 
 {
   function onNewMilestone() {
@@ -89,7 +88,6 @@ export default function Milestones({
               index={index}
               milestoneAmount={milestoneAmount}
               setMilestoneAmount={setMilestoneAmount}
-              notificationRef={notificationRef}
             />
           </Flex>
           <MilestoneDescription
@@ -131,13 +129,13 @@ export default function Milestones({
         width="250px"
         height="45px"
         rounded="33px"
+        onClick={onNewMilestone}
       >
         <Box
           variant="solid"
           color="white"
           justify="center"
           align="center"
-          onClick={onNewMilestone}
         >
           Add Milestone
         </Box>
@@ -150,13 +148,13 @@ export default function Milestones({
         height="45px"
         rounded="33px"
         ml = '30px'
+        onClick={onCancelMilestone}
       >
         <Box
           variant="solid"
           color="white"
           justify="center"
           align="center"
-          onClick={onCancelMilestone}
         >
           Cancel Milestone {milestoneTitle.length}
         </Box>

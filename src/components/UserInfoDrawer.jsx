@@ -35,7 +35,7 @@ export default function UserSideSnippet() {
 
   async function fetchContractQuery() {
     try {
-      let { projectData } = await FetchData(api, null, state, dispatch)
+      let { projectData } = await FetchData(api, state, dispatch)
 
       let projectCount = 0
       let totalbacked = 0
