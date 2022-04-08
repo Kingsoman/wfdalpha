@@ -327,6 +327,9 @@ console.log(amount);
               <option style={{ backgroundColor: '#1B0645' }}>
                 Terra
               </option>
+              <option style={{ backgroundColor: '#1B0645' }}>
+                Avalanche
+              </option>
             </Select>
           </InputTransition>
         </Box>
