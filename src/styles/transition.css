@@ -15,6 +15,76 @@ html {
     rgba(42, 10, 49, 0%)
   );
 }
+#rotate180 {
+  transform: rotate(180deg);
+} /* disable Carousel original black background color*/
+
+/* style for prev/next button */
+.carousel-slider .arrow-left {
+  position: absolute;
+  top: 50%;
+  padding: 0;
+  left: 10px !important;
+  transform: translateY(-50%);
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  -webkit-transition: 0.3s all ease-in-out;
+  -o-transition: 0.3s all ease-in-out;
+  transition: 0.3s all ease-in-out;
+  line-height: 0;
+  text-align: center;
+  font-size: 25px;
+  z-index: 99;
+}
+
+.carousel-slider .arrow-left > img {
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.carousel-slider .arrow-right {
+  position: absolute;
+  top: 50%;
+  padding: 0;
+  right: 10px !important;
+  transform: translateY(-50%);
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  -webkit-transition: 0.3s all ease-in-out;
+  -o-transition: 0.3s all ease-in-out;
+  transition: 0.3s all ease-in-out;
+  line-height: 0;
+  text-align: center;
+  font-size: 25px;
+}
+
+.carousel-slider .arrow-right > img {
+  line-height: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+/* hide prev/next button in mobile client */
+@media (max-width: 991.98px) {
+  .carousel-slider .arrow-left {
+    display: none;
+  }
+
+  .carousel-slider .arrow-right {
+    display: none;
+  }
+}
 #ProjectInMobile {
   display: none;
 }

@@ -18,22 +18,62 @@ export default function Problem() {
         pt={'0'}
         width={'100%'}
         position={'relative'}
+        alignItems={'center'}
+        justifyContent="center"
         backgroundSize={'contain'}
         backgroundImage="/media/Home/11.png"
         mt={{ base: '4em', md: '4em', lg: '8em' }}
       >
-        <Carousel showThumbs={false}>
+        <Carousel
+          width="100%"
+          showThumbs={false}
+          showStatus={false}
+          useKeyboardArrows={true}
+          infiniteLoop={true}
+          autoPlay={true}
+          stopOnHover={true}
+          emulateTouch={true}
+          transitionTime={400}
+          showArrows={true}
+          renderArrowPrev={(clickHandler, hasPrev, label) => {
+            return (
+              <span className="arrow-left" onClick={clickHandler}>
+                <img
+                  id="rotate180"
+                  width={'5px'}
+                  height={'5px'}
+                  objectFit="contain"
+                  src={'/media/Home/10.svg'}
+                  className="icon-keyboard_arrow_left"
+                />
+              </span>
+            )
+          }}
+          renderArrowNext={(clickHandler, hasNext, label) => {
+            return (
+              <span className="arrow-right" onClick={clickHandler}>
+                <img
+                  width={'5px'}
+                  height={'5px'}
+                  objectFit="contain"
+                  src={'/media/Home/10.svg'}
+                  className="keyboard_arrow_right"
+                />
+              </span>
+            )
+          }}
+        >
           <Flex
             zIndex={'4'}
-            margin="0 auto"
+            margin="auto"
             borderRadius="20px"
             alignItems={'center'}
             position={'relative'}
             flexDirection={'column'}
             justifyContent={'center'}
             bgGradient={'Linear(#430E82, #1D0551)'}
-            width={{ base: '95%', md: '90%', lg: '80%' }}
             p={{ base: '1em', md: '2em 1em', lg: '2em 1em' }}
+            width={{ base: '95%', md: '90%', lg: '55em', xl: '60em' }}
           >
             <Text
               fontFamily="PilatExtended-Bold"
@@ -52,20 +92,18 @@ export default function Problem() {
               {problems.map((e, i) => (
                 <Flex
                   key={i}
-                  alignItems={{
-                    base: 'center',
-                    md: 'flex-start',
-                    lg: 'flex-start',
-                  }}
                   mt={{ base: '1em', md: '2em', lg: '2em' }}
-                  w={{ base: '98%', md: '30%', lg: '30%' }}
+                  w={{ base: '98%', md: '30%', lg: e.width, xl: e.width }}
+                  alignItems={{ base: 'center', md: 'center', lg: 'center' }}
                 >
                   <Flex
                     alignItems="center"
                     position={'relative'}
-                    borderRadius={'100px'}
+                    borderRadius={'200px'}
                     justifyContent="center"
                     bgGradient={'Linear(#F8A5FF, #FFE2FF)'}
+                    minWidth={{ base: '5.5em', md: '7em', lg: '8em' }}
+                    maxWidth={{ base: '5.5em', md: '7em', lg: '8em' }}
                     width={{ base: '5.5em', md: '7em', lg: '8em' }}
                     height={{ base: '4.5em', md: '7em', lg: '8em' }}
                     mr={{ base: '.5em', md: '0.5em', lg: '0.5em' }}
@@ -73,8 +111,8 @@ export default function Problem() {
                     <Image
                       src={e.img}
                       position={'absolute'}
-                      width={{ base: '2em', md: '6em', lg: '6em' }}
-                      height={{ base: '2em', md: 'auto', lg: 'auto' }}
+                      width={{ base: '2em', md: '80%', lg: '80%' }}
+                      height={{ base: '2em', md: '80%', lg: '80%' }}
                       objectFit={{ base: 'contain', md: 'auto', lg: 'auto' }}
                     />
                   </Flex>
@@ -82,7 +120,7 @@ export default function Problem() {
                     textAlign={'left'}
                     fontWeight={'bold'}
                     fontFamily="Sk-Modernist-Regular"
-                    w={{ base: '90%', md: e.width, lg: e.width }}
+                    w={{ base: '90%', md: e.md, lg: e.lg, xl: e.xl }}
                     fontSize={{ base: '14px', md: '16px', lg: '18px' }}
                   >
                     {e.lable}
@@ -94,7 +132,7 @@ export default function Problem() {
 
           <Flex
             zIndex={'4'}
-            margin="0 auto"
+            margin="auto"
             borderRadius="20px"
             alignItems={'center'}
             position={'relative'}
@@ -102,7 +140,7 @@ export default function Problem() {
             justifyContent={'center'}
             bgGradient={'Linear(#430E82, #1D0551)'}
             p={{ base: '1em', md: '1em', lg: '2em' }}
-            width={{ base: '95%', md: '90%', lg: '80%' }}
+            width={{ base: '95%', md: '90%', lg: '55em', xl: '60em' }}
           >
             <Text
               fontFamily="PilatExtended-Bold"
@@ -112,6 +150,7 @@ export default function Problem() {
               SOLUTION
             </Text>
             <Flex
+              width={'100%'}
               alignItems="flex-start"
               justifyContent="space-around"
               flexWrap={{ md: 'wrap', lg: 'wrap' }}
@@ -123,7 +162,7 @@ export default function Problem() {
                   mt={'2em'}
                   alignItems={'center'}
                   justifyContent="center"
-                  w={{ base: '98%', md: '30%', lg: '20%' }}
+                  w={{ base: '98%', md: '30%', lg: '12em', xl: '14em' }}
                   flexDirection={{ base: 'row', md: 'column', lg: 'column' }}
                 >
                   <Flex
@@ -149,8 +188,8 @@ export default function Problem() {
                     mt={'1em'}
                     fontWeight={'bold'}
                     fontFamily="Sk-Modernist-Regular"
-                    width={{ base: '80%', lg: '100%' }}
                     fontSize={{ md: '16px', lg: '18px' }}
+                    width={{ base: '80%', md: '100%', lg: '100%' }}
                     textAlign={{ base: 'left', md: 'center', lg: 'center' }}
                   >
                     {e.lable}
@@ -166,20 +205,43 @@ export default function Problem() {
 }
 
 const problems = [
-  { img: '/media/Home/5.png', lable: 'Pump and\ndump schemes', width: '10em' },
   {
-    width: '10em',
+    md: '8em',
+    lg: '8em',
+    xl: '10em',
+    width: '26%',
+    img: '/media/Home/5.png',
+    lable: 'Pump and\ndump schemes',
+  },
+  {
+    md: '8em',
+    lg: '8em',
+    xl: '10em',
+    width: '26%',
     img: '/media/Home/6.png',
     lable: 'Non-refundable investment',
   },
-  { img: '/media/Home/7.png', lable: 'Undelivered achievement', width: '10em' },
   {
-    width: '14em',
+    md: '8em',
+    lg: '8em',
+    xl: '10em',
+    width: '26%',
+    img: '/media/Home/7.png',
+    lable: 'Undelivered achievement',
+  },
+  {
+    lg: '12em',
+    xl: '14em',
+    md: '10em',
+    width: '35%',
     img: '/media/Home/8.png',
     lable: 'Failed projects unable to return any resources to investors',
   },
   {
-    width: '14em',
+    xl: '17em',
+    lg: '17em',
+    md: '14em',
+    width: '40%',
     img: '/media/Home/9.png',
     lable:
       'An early-stage crypto project could have a high barrier of entry such as minimum investment amounts',

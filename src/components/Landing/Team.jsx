@@ -31,19 +31,21 @@ export default function Team() {
               objectFit="contain"
               width={'100%'}
             />
-            <Flex my="20px" height="40px" justify="space-around">
-              {projectItem.logos?.map((e, i) => (
-                <Image
-                  src={e}
-                  key={i}
-                  width="40px"
-                  objectFit="contain"
-                  background="white"
-                  borderRadius="3px"
-                />
-              ))}
-            </Flex>
-            <Flex w="100%">
+            {projectItem.logos && (
+              <Flex mt="20px" height="40px" justify="space-around">
+                {projectItem.logos?.map((e, i) => (
+                  <Image
+                    src={e}
+                    key={i}
+                    width="40px"
+                    objectFit="contain"
+                    background="white"
+                    borderRadius="3px"
+                  />
+                ))}
+              </Flex>
+            )}
+            <Flex w="100%" my="20px">
               <div>
                 <Text fontSize={'18px'} fontFamily={'PilatExtended-Bold'}>
                   {projectItem.name}
@@ -53,17 +55,19 @@ export default function Team() {
                 </Text>
               </div>
               <Spacer />
-              <Link href={projectItem.link} mt="5px" isExternal>
-                <Image
-                  width="40px"
-                  height="40px"
-                  src="/media/linkedin.png"
-                  cursor="pointer"
-                  background="white"
-                  borderRadius="6px"
-                  border="0"
-                />
-              </Link>
+              {projectItem.link && (
+                <Link href={projectItem.link} mt="5px" isExternal>
+                  <Image
+                    width="40px"
+                    height="40px"
+                    src="/media/linkedin.png"
+                    cursor="pointer"
+                    background="white"
+                    borderRadius="6px"
+                    border="0"
+                  />
+                </Link>
+              )}
             </Flex>
           </Flex>
         ))}
@@ -119,5 +123,35 @@ const PROJECT_ITEMS = [
       '/media/Team_Companies/ProvidentFunding.jpg',
       '/media/Team_Companies/BearingPoint.jpg',
     ],
+  },
+  {
+    name: 'Melati Puspa Anisa',
+    role: 'Marketing & Data',
+    imgsrc: '/media/Home/60.png',
+  },
+  {
+    name: 'Pirda Fajriati',
+    role: 'Graphic Design & Marketing',
+    imgsrc: '/media/Home/61.png',
+  },
+  {
+    name: 'Marko Vitez',
+    role: 'Smart Contract Dev',
+    imgsrc: '/media/Home/62.png',
+  },
+  {
+    name: 'Manuel Guerrero',
+    role: 'Community Manager',
+    imgsrc: '/media/Home/63.png',
+  },
+  {
+    name: 'Hardin Santoso',
+    role: 'Web Development & Content Creation',
+    imgsrc: '/media/Home/64.png',
+  },
+  {
+    name: 'Ahmed Ashraf',
+    role: 'Front end Dev',
+    imgsrc: '/media/Home/65.png',
   },
 ]
