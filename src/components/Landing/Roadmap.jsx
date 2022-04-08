@@ -256,7 +256,7 @@ export default function Roadmap() {
               </ListItem>
               <ListItem color={'white'}>Platform update 2.0</ListItem>
               <ListItem color={'white'}>
-                Have 10 projects hosted on WeFund
+                <b>Have 10 projects hosted on WeFund</b>
               </ListItem>
               <ListItem color={'white'}>
                 Real-world project implementation
@@ -287,11 +287,11 @@ export default function Roadmap() {
               ml="0"
             >
               <ListItem color={'white'}>
-                Have successful fundraising for the first 10 projects
+                <b>Have successful fundraising for the first 10 projects</b>
               </ListItem>
               <ListItem color={'white'}>Platform update 3.0</ListItem>
               <ListItem color={'white'}>
-                Starting real-world project incubation
+                <b>Starting real-world project incubation</b>
               </ListItem>
             </UnorderedList>
           </Flex>
@@ -323,7 +323,7 @@ export default function Roadmap() {
                 Have successful fundraising for real-world projects
               </ListItem>
               <ListItem color={'white'}>
-                Startup pitch competition for real-world projects
+                <b>Startup pitch competition for real-world projects</b>
               </ListItem>
               <ListItem color={'white'}>Platform update 4.0</ListItem>
             </UnorderedList>

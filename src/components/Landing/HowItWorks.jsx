@@ -31,7 +31,7 @@ export default function Works() {
       position="relative"
       alignItems="center"
       flexDirection="column"
-      pb={{ base: '5em', md: '5em', lg: '10em' }}
+      pb={{ base: '5em', md: '8em', lg: '10em' }}
     >
       <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
         <Text color="#63CDFA">HOW IT</Text>
@@ -43,7 +43,7 @@ export default function Works() {
         mt={'2em'}
         overflow="hidden"
         bgGradient="linear(#1E0024, #150049)"
-        mb={{ base: '3em', md: '3em', lg: '3em' }}
+        mb={{ base: '3em', md: '5em', lg: '6em' }}
         width={{ base: '96%', md: '90%', lg: '75%' }}
         height={{ base: '26em', md: '33em', lg: '40em' }}
         borderRadius={{ base: '10px', md: '20px', lg: '20px' }}
@@ -231,45 +231,47 @@ export default function Works() {
         </Text>
       </Flex>
       <Flex
-        mb={'4em'}
         flexWrap={'wrap'}
         flexDirection="row"
         backgroundSize={'contain'}
         backgroundImage="/media/Home/42.png"
-        mt={{ base: '1em', md: '2em', lg: '2em' }}
-        width={{ base: '98%', md: '90%', lg: '90%' }}
+        mt={{ base: '1em', md: '1em', lg: '1em' }}
+        mb={{ base: '4em', md: '8em', lg: '10em' }}
+        width={{ base: '98%', md: '90%', lg: '75em' }}
         justifyContent={{ base: 'center', md: 'center', lg: 'center' }}
       >
         {tokens.map((e, i) => (
           <Flex
             key={i}
+            id="utilityToken"
             textAlign="center"
+            overflow={"hidden"}
             alignItems={'center'}
             flexDirection="column"
             justifyContent={'center'}
             bgGradient="linear(#430E82, #1D0551)"
-            m={{ base: '.2em', md: '1em', lg: '1em' }}
             p={{ base: '.2em', md: '1em', lg: '1em' }}
-            width={{ base: '46%', md: '20em', lg: '20em' }}
-            height={{ base: '14em', md: '25em', lg: '25em' }}
+            m={{ base: '.2em', md: '.5em', lg: '.5em' }}
+            width={{ base: '46%', md: '18em', lg: '19em' }}
+            height={{ base: '14em', md: '20em', lg: '22em' }}
             borderRadius={{ base: '10px', md: '15px', lg: '15px' }}
           >
             <Image
               src={e.img}
               objectFit="contain"
               width={{ base: '80%', md: '70%', lg: '70%' }}
-              height={{ base: '8em', md: '13em', lg: '15em' }}
+              height={{ base: '6em', md: '8em', lg: '60%' }}
             />
             <Text
               mt={'1em'}
-              width="90%"
+              width="95%"
               color={'white'}
               fontFamily={{
                 base: 'PilatExtended-Regular',
                 md: 'PilatExtended-Bold',
                 lg: 'PilatExtended-Bold',
               }}
-              fontSize={{ base: '12px', md: '16px', lg: '18px' }}
+              fontSize={{ base: '12px', md: '16px', lg: '16px' }}
               fontWeight={{ base: '500', md: 'bold', lg: 'bold' }}
             >
               {e.lable}
@@ -292,7 +294,12 @@ export default function Works() {
         justifyContent={'flex-start'}
         width={{ base: '100%', md: '100%', lg: '100%' }}
       >
-        <Carousel showThumbs={false} autoPlay={true} centerMode={true} responsive={responsive}>
+        <Carousel
+          showThumbs={false}
+          autoPlay={true}
+          centerMode={true}
+          responsive={responsive}
+        >
           {advantages.map((e, i) => (
             <Flex
               key={i}

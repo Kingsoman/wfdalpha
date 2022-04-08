@@ -16,6 +16,7 @@ import Problem from '../components/Landing/Problem'
 import { Container } from '../components/Container'
 import Works from '../components/Landing/HowItWorks'
 import Partners from '../components/Landing/Partners'
+import Advisors from '../components/Landing/Advisors'
 import UpcomingProject from '../components/Landing/ComingSoonCarousel'
 import IncubationProject from '../components/Landing/IncubationProject'
 
@@ -36,6 +37,7 @@ export default () => {
         <IncubationProject />
         <Partners />
         <Team />
+        <Advisors />
         <Footer />
       </Container>
     </ChakraProvider>
