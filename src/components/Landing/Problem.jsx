@@ -34,34 +34,6 @@ export default function Problem() {
           stopOnHover={true}
           emulateTouch={true}
           transitionTime={400}
-          showArrows={true}
-          renderArrowPrev={(clickHandler, hasPrev, label) => {
-            return (
-              <span className="arrow-left" onClick={clickHandler}>
-                <img
-                  id="rotate180"
-                  width={'5px'}
-                  height={'5px'}
-                  objectFit="contain"
-                  src={'/media/Home/10.svg'}
-                  className="icon-keyboard_arrow_left"
-                />
-              </span>
-            )
-          }}
-          renderArrowNext={(clickHandler, hasNext, label) => {
-            return (
-              <span className="arrow-right" onClick={clickHandler}>
-                <img
-                  width={'5px'}
-                  height={'5px'}
-                  objectFit="contain"
-                  src={'/media/Home/10.svg'}
-                  className="keyboard_arrow_right"
-                />
-              </span>
-            )
-          }}
         >
           <Flex
             zIndex={'4'}

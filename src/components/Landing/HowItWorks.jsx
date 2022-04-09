@@ -245,7 +245,7 @@ export default function Works() {
             key={i}
             id="utilityToken"
             textAlign="center"
-            overflow={"hidden"}
+            overflow={'hidden'}
             alignItems={'center'}
             flexDirection="column"
             justifyContent={'center'}
@@ -295,6 +295,7 @@ export default function Works() {
         width={{ base: '100%', md: '100%', lg: '100%' }}
       >
         <Carousel
+          infinite
           showThumbs={false}
           autoPlay={true}
           centerMode={true}

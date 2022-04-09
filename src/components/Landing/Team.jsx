@@ -1,6 +1,28 @@
 import React from 'react'
 import { Image, Flex, Text, Link, Spacer } from '@chakra-ui/react'
 
+import Carousel from 'react-multi-carousel'
+import 'react-multi-carousel/lib/styles.css'
+
+const responsive = {
+  superLargeDesktop: {
+    breakpoint: { max: 3000, min: 2000 },
+    items: 4,
+  },
+  desktop: {
+    breakpoint: { max: 2000, min: 1024 },
+    items: 4,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+  },
+}
+
 export default function Team() {
   return (
     <Flex
@@ -9,8 +31,8 @@ export default function Team() {
       position="relative"
       alignItems="center"
       flexDirection="column"
-      pb={{ base: '3em', md: '5em', lg: '10em' }}
       fontFamily="Sk-Modernist-Regular"
+      mb={{ base: '3em', md: '5em', lg: '8em' }}
     >
       <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
         <Text color="#63CDFA">WeFund</Text>
@@ -18,68 +40,92 @@ export default function Team() {
           Team
         </Text>
       </Flex>
-      <Flex id="missionList">
-        {PROJECT_ITEMS.map((projectItem, index) => (
-          <Flex
-            key={index}
-            className="teamCard"
-            data-aos="zoom-in-up"
-            width={{ base: '100%', md: '45%', lg: '24%' }}
-          >
-            <Image
-              src={projectItem.imgsrc}
-              objectFit="contain"
-              width={'100%'}
-            />
-            {projectItem.logos && (
-              <Flex mt="20px" height="40px" justify="space-around">
-                {projectItem.logos?.map((e, i) => (
-                  <Image
-                    src={e}
-                    key={i}
-                    width="40px"
-                    objectFit="contain"
-                    background="white"
-                    borderRadius="3px"
-                  />
-                ))}
-              </Flex>
-            )}
-            <Flex w="100%" my="20px">
-              <div>
-                <Text fontSize={'18px'} fontFamily={'PilatExtended-Bold'}>
-                  {projectItem.name}
-                </Text>
-                <Text fontSize={'13px'} fontFamily={'PilatExtended-Regular'}>
-                  {projectItem.role}
-                </Text>
-              </div>
-              <Spacer />
-              {projectItem.link && (
-                <Link href={projectItem.link} mt="5px" isExternal>
-                  <Image
-                    width="40px"
-                    height="40px"
-                    src="/media/linkedin.png"
-                    cursor="pointer"
-                    background="white"
-                    borderRadius="6px"
-                    border="0"
-                  />
-                </Link>
+
+      <Flex
+        pl="1em"
+        mt={'2em'}
+        position={'relative'}
+        flexDirection="column"
+        justifyContent={'flex-start'}
+        width={{ base: '100%', md: '100%', lg: '100%' }}
+      >
+        <Carousel
+          infinite
+          autoPlay={true}
+          draggable={false}
+          swipeable={true}
+          showThumbs={false}
+          autoPlaySpeed={3000}
+          keyBoardControl={true}
+          responsive={responsive}
+          transitionDuration={500}
+          removeArrowOnDeviceType={['tablet', 'mobile']}
+        >
+          {team.map((t, index) => (
+            <Flex
+              p={'1em'}
+              key={index}
+              zIndex={'5'}
+              height="30em"
+              borderRadius="10px"
+              position="relative"
+              className="teamCard"
+              data-aos="zoom-in-up"
+              flexDirection={'column'}
+              bgGradient={'linear(#360847, #18075b)'}
+              width={{ base: '20em', md: '20em', lg: '20em' }}
+            >
+              <Image src={t.imgsrc} width={'100%'} objectFit="contain" />
+              {t.logos && (
+                <Flex mt="20px" height="40px" justify="space-between">
+                  {t.logos?.map((e, i) => (
+                    <Image
+                      src={e}
+                      key={i}
+                      width="40px"
+                      objectFit="contain"
+                      background="white"
+                      borderRadius="3px"
+                    />
+                  ))}
+                </Flex>
               )}
+              <Flex w="100%" my="20px">
+                <div>
+                  <Text fontSize={'18px'} fontFamily={'PilatExtended-Bold'}>
+                    {t.name}
+                  </Text>
+                  <Text fontSize={'13px'} fontFamily={'PilatExtended-Regular'}>
+                    {t.role}
+                  </Text>
+                </div>
+                <Spacer />
+                {t.link && (
+                  <Link href={t.link} mt="5px" isExternal>
+                    <Image
+                      width="40px"
+                      height="40px"
+                      src="/media/linkedin.png"
+                      cursor="pointer"
+                      background="white"
+                      borderRadius="6px"
+                      border="0"
+                    />
+                  </Link>
+                )}
+              </Flex>
             </Flex>
-          </Flex>
-        ))}
+          ))}
+        </Carousel>
       </Flex>
     </Flex>
   )
 }
 
-const PROJECT_ITEMS = [
+const team = [
   {
     name: 'Andrea Bello',
-    role: 'CEO and Co-Founder',
+    role: 'CEO CTO & Co-Founder',
     link: 'https://linkedin.com/in/bello-andrea-380572b4/',
     logos: [
       '/media/Team_Companies/GE.png',
@@ -110,18 +156,6 @@ const PROJECT_ITEMS = [
       '/media/Team_Companies/pegasus.png',
       '/media/Team_Companies/Harman.png',
       '/media/Team_Companies/Holland.jpeg',
-    ],
-  },
-  {
-    name: 'Jason Galvin',
-    role: 'Co-CTO and Advisor',
-    link: 'https://linkedin.com/in/jasongalvin/',
-    imgsrc: '/media/Team/wfd-jason.jpg',
-    logos: [
-      '/media/Team_Companies/GoPro.jpeg',
-      '/media/Team_Companies/GeneralThings.png',
-      '/media/Team_Companies/ProvidentFunding.jpg',
-      '/media/Team_Companies/BearingPoint.jpg',
     ],
   },
   {

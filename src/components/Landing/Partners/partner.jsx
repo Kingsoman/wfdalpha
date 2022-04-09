@@ -1,17 +1,17 @@
 import * as React from 'react'
-import { Image, Link, Center } from '@chakra-ui/react'
+import { Image, Link, Flex } from '@chakra-ui/react'
 
 export default function Partner({ link, img }) {
   return (
-    <Link
-      href={link}
-      bg={'#f0f3fa'}
-      overflow="hidden"
-      borderRadius={{ md: '10px', lg: '10px' }}
-    >
-      <Center height={'100%'}>
-        <Image src={img} />
-      </Center>
+    <Link href={link}>
+      <Flex
+        width="19vw"
+        height="20em"
+        backgroundColor="#f0f3fa"
+        borderRadius={{ md: '10px', lg: '10px' }}
+      >
+        <Image src={img} objectFit="contain" />
+      </Flex>
     </Link>
   )
 }

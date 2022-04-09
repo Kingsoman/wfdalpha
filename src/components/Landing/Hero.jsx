@@ -14,7 +14,7 @@ export default function Hero() {
       height={{ base: '30em', md: '90vh', lg: '90vh' }}
     >
       <Image
-        top="2em"
+        top="3em"
         width="100%"
         height="65%"
         position="absolute"
@@ -26,14 +26,14 @@ export default function Hero() {
         pos={'relative'}
         src="/media/Home/logo.svg"
         mt={{ base: '20vh', md: '20vh', lg: '15vh' }}
-        width={{ base: '7em', md: '13em', lg: '16em' }}
+        width={{ base: '7em', md: '20em', lg: '23em' }}
       />
       <Text
         zIndex="2"
         position="relative"
         fontFamily="PilatExtended-Bold"
-        mt={{ base: '1em', md: '.3em', lg: '.1em' }}
-        fontSize={{ base: '25px', md: '3em', lg: '3.5em' }}
+        mt={{ base: '1em', md: '.2em', lg: '.2em' }}
+        fontSize={{ base: '25px', md: '3em', lg: '3em' }}
         lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
       >
         CROWDFUNDING
