@@ -11,12 +11,12 @@ export default function Hero() {
       alignItems="center"
       flexDirection="column"
       bgGradient="Linear(#058cd8, #4d188f, #2a0a31)"
-      height={{ base: '30em', md: '90vh', lg: '90vh' }}
+      height={{ base: '600px', md: '800px', lg: '1000px', xl: '1200px' }}
     >
       <Image
-        top="3em"
+        top="0"
         width="100%"
-        height="65%"
+        height="80%"
         position="absolute"
         objectFit="contain"
         src="/media/Home/2.png"
@@ -25,15 +25,17 @@ export default function Hero() {
         zIndex={'3'}
         pos={'relative'}
         src="/media/Home/logo.svg"
-        mt={{ base: '20vh', md: '20vh', lg: '15vh' }}
-        width={{ base: '7em', md: '20em', lg: '23em' }}
+        mt={{ base: '20vh', md: '20vh', lg: '25vh' }}
+        width={{ base: '80%', md: '50%', lg: '50%' }}
       />
       <Text
         zIndex="2"
         position="relative"
         fontFamily="PilatExtended-Bold"
-        mt={{ base: '1em', md: '.2em', lg: '.2em' }}
-        fontSize={{ base: '25px', md: '3em', lg: '3em' }}
+        paddingLeft={'25px'}
+        paddingRight={'25px'}
+        mt={{ base: '0', md: '.3em', lg: '.1em' }}
+        fontSize={{ base: '25px', md: '32px', lg: '40px' }}
         lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
       >
         CROWDFUNDING
@@ -43,12 +45,11 @@ export default function Hero() {
         INCUBATOR
       </Text>
       <Image
-        left="0"
         width="100%"
         objectFit="contain"
         position="absolute"
         src="/media/Home/1.svg"
-        bottom={{ base: '5em', md: '0', lg: '0' }}
+        bottom={'0'}
       />
     </Flex>
   )

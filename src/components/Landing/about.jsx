@@ -19,13 +19,17 @@ export default function Aboutone() {
       alignItems="center"
       flexDirection="column"
       pb={{ base: '5em', md: '5em', lg: '10em' }}
+      paddingLeft={'35px'}
+      paddingRight={'35px'}
     >
       <Flex
         alignItems="center"
         justifyContent="center"
         my={{ base: '5em', md: '7em', lg: '10em' }}
-        width={{ base: '98%', md: '80%', lg: '80em' }}
+        width={{ base: '98%', md: '80%', lg: '80em', xl: '100em' }}
         flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
+        paddingLeft={{ base: '0', md: '10px', lg: '50px', xl: '20px' }}
+        paddingRight={{ base: '0', md: '10px', lg: '50px', xl: '20px' }}
       >
         <Image
           zIndex="3"
@@ -62,18 +66,17 @@ export default function Aboutone() {
             <b>WeFund</b> is a community crowdfunding incubator for blockchain
             and real-world projects built on various blockchains including
             Terra, Solana, Ethereum, and more. WeFund’s platform is built on the
-            Terra blockchain, a stablecoin-based ecosystem with high-quality
-            protocols, low gas fees, and a strong community. WeFund has the
+            Terra blockchain. WeFund has the
             capability to implement various blockchain and real-world projects,
             bridging the gap between the real world and blockchain.
             <br />
             <br /> To increase transparency, minimize risk, and hold projects
             accountable for the funds raised, WeFund has a unique community
             vetting and unique milestone system. This means the WeFund community
-            will, at each milestone of a project’s development, vote as to
+            at each milestone of a project’s development, vote as to
             whether the relevant milestone has been achieved, with the outcome
-            of such vote determining the release of funds required for the
-            project to achieve its next milestone
+            determining release of funds for the
+            project to achieve its next milestone.
           </Text>
         </Flex>
       </Flex>
