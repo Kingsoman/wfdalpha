@@ -44,6 +44,7 @@ export default function Staking() {
           token_info: {}
         }
       )
+      setDecimals(tokenInfo.decimals);
 
       let res = await api.contractQuery(
         state.WFDTokenAddress,
@@ -89,6 +90,7 @@ export default function Staking() {
     }
   }
   async function staking() {
+
     let realAmount = parseInt(amount) * (10 ** parseInt(decimals));
     let deposit = {
       deposit: {

@@ -41,8 +41,9 @@ const net = "test"
 let terra = net=="main"? LCD_MAIN : LCD_TEST;
 let wallet = terra.wallet(mk);
 
-let vestingAddress = "terra1xds9cxrx98t848q3p6ckjf4nuhdvt7j3ap8spd";
-let wefundAddress = "";
+
+let wefundAddress = "terra1ugphxnr98xd9x6f93m95ygr30qqzuekefp77zl";
+let vestingAddress = "terra1cz2qk4ndts4tzxphkreeahmgxaxefpe8lltafv";
 
 run();
 

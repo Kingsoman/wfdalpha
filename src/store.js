@@ -10,8 +10,8 @@ export const VESTING_MAIN = "terra1clufns3djy7fye5k3sq3m4y3777e85jw5v2ygk";
 export const STAKING_MAIN = "terra129ue0mpavemd53s3l2zdwhw889r7jt4kqzt7t7";
 export const WFDTOKEN_MAIN = "terra1nppndpgfusn7p8nd5d9fqy47xejg0x55jjxe2y" //mainnet
 
-export const WEFUND_TEST = "terra1ytk7e0gp57qa5jyl404dle93emrwxm9khj6vcv";
-export const VESTING_TEST = "terra1xds9cxrx98t848q3p6ckjf4nuhdvt7j3ap8spd";
+export const WEFUND_TEST = "terra1ugphxnr98xd9x6f93m95ygr30qqzuekefp77zl";
+export const VESTING_TEST = "terra1cz2qk4ndts4tzxphkreeahmgxaxefpe8lltafv";
 export const STAKING_TEST = "terra129ue0mpavemd53s3l2zdwhw889r7jt4kqzt7t7";
 export const WFDTOKEN_TEST = "terra1pkytkcanua4uazlpekve7qyhg2c5xwwjr4429d"; //testnet
 

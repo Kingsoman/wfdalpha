@@ -28,9 +28,9 @@ export const errorOption = {
 
 export async function EstimateSend(connectedWallet, lcd, msgs, message, memo = '') {
 console.log(msgs);
-  // const obj = new Fee(10_000, { uusd: 4500 })
-  // let accountInfo;
-  // let abort = false;
+//   const obj = new Fee(10_000, { uusd: 4500 })
+//   let accountInfo;
+//   let abort = false;
 //   await lcd.auth.accountInfo(
 //     connectedWallet.walletAddress
 //   )
@@ -38,7 +38,7 @@ console.log(msgs);
 //       accountInfo = e;
 //     })
 //     .catch((e) => {
-//       notificationRef.current.showNotification(e.message, 'error', 4000)
+//       toast(e.message, errorOption)
 //       console.log(e.message);
 //       abort = true;
 //     })
@@ -65,10 +65,10 @@ console.log(msgs);
 //   )
 //     .then((e) => {
 //       rawFee = e;
-//       notificationRef.current.showNotification("Estimate success", 'success', 4000)
+//       toast("Estimate success", successOption)
 //     })
 //     .catch((e) => {
-//       notificationRef.current.showNotification(e.message, 'error', 4000)
+//       toast(e.message, errorOption)
 //       console.log(e.message);
 //       abort = true;
 //     })
@@ -172,13 +172,6 @@ export function AddExtraInfo(state, projectData, communityData) {
     let backer_backedAmount = parseInt(projectData[i].backerbacked_amount);
     projectData[i].backer_backedPercent = parseInt(
       (backer_backedAmount / 10 ** 6 / parseInt(projectData[i].project_collected)) *
-      100,
-    );
-
-    let community_backedAmount = parseInt(projectData[i].communitybacked_amount);
-
-    projectData[i].community_backedPercent = parseInt(
-      (community_backedAmount / 10 ** 6 / parseInt(projectData[i].project_collected)) *
       100,
     );
 
@@ -367,11 +360,13 @@ export function isBackable(state, project_id){
   let one = GetOneProject(state.projectData, project_id)
   if (one == '')
     return false;
+console.log("backable")
+console.log(one);
 
   for(let i=0; i<one.whitelist.length; i++){
     let info = one.whitelist[i];
-    if(info.wallet == state.connectedWallet.walletAddress &&
-      info.backed < info.allocation) {
+    if(info.wallet == state.connectedWallet.walletAddress && info.backed < info.allocation) {
+console.log(info);
         return true;
       }
   }
@@ -392,7 +387,7 @@ export function getAllocation(state, project_id){
     console.log(info)
     if(info.wallet == state.connectedWallet.walletAddress &&
       parseInt(info.backed) < parseInt(info.allocation)) {
-        return Math.floor((parseInt(info.allocation) - parseInt(info.backed))/(10**6));
+        return Math.floor((parseInt(info.allocation) - parseInt(info.backed))/(10**6))+1;
       }
   }
 
@@ -403,7 +398,7 @@ export function isCommunityWallet(state) {
     return false;
 
   for (let j = 0; j < state.communityData.length; j++) {
-    if (state.connectedWallet.walletAddress == state.communityData[j].wallet) {
+    if (state.connectedWallet.walletAddress == state.communityData[j]) {
       return true;
     }
   }
@@ -423,6 +418,9 @@ export function isCreatorWallet(state, project_id) {
 export function isBackerWallet(state, project_id) {
   let one = GetOneProject(state.projectData, project_id)
   if (one == '')
+    return false;
+
+  if(isCommunityWallet(state))
     return false;
 
   for (let j = 0; j < one.backer_states.length; j++) {

@@ -24,7 +24,8 @@ export default function InvestStep2() {
 
   //------------parse URL for project id----------------------------
   const project_id = ParseParam();
-  const max = getAllocation(state, project_id);
+  const allocation = getAllocation(state, project_id);
+  const max = allocation >= 100? allocation * 100 /95 : allocation + 5;
 
   function onChangeBackamount(e){
     if(e.target.value != '' && e.target.value != parseInt(e.target.value).toString()){
@@ -37,6 +38,10 @@ export default function InvestStep2() {
   }
 
   function onNext(){
+    if(allocation == 0){
+      toast("Have no allocation any more!", errorOption);
+      return;
+    }
     if(parseInt(backAmount) > max){
       toast("Exceed the allocation!", errorOption);
       return;
