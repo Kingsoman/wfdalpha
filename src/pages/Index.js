@@ -4,7 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react'
 import AOS from 'aos'
 import 'aos/dist/aos.css' // You can also use <link> for styles
 
-import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
+import 'react-multi-carousel/lib/styles.css'
 
 import theme from '../theme'
 import Footer from '../components/Footer'

@@ -20,7 +20,7 @@ const responsive = {
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 2,
+    items: 4,
   },
 }
 
@@ -29,11 +29,11 @@ export default function Partners() {
     <Box as="section" mb="28" zIndex="5" w="100%" position="relative">
       <Box mx="auto" alignSelf="center" alignContent="center">
         <Text
-          mt="3em"
-          mb="1em"
           color="#63CDFA"
           textAlign="center"
-          fontSize={{ base: '24px', md: '25px', lg: '32px' }}
+          mt={{ base: '3em', md: '3em', lg: '3em' }}
+          mb={{ base: '.5em', md: '1em', lg: '1em' }}
+          fontSize={{ base: '18px', md: '25px', lg: '32px' }}
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Powered by
@@ -44,7 +44,7 @@ export default function Partners() {
           position={'relative'}
           alignContent={'center'}
           justifyContent={'space-between'}
-          width={{ base: '100%', md: '42vw', lg: '32vw' }}
+          width={{ base: '50%', md: '42vw', lg: '32vw' }}
         >
           <Partner
             link="https://terra.money/"
@@ -58,12 +58,12 @@ export default function Partners() {
       </Box>
       <Box mx="auto" alignSelf="center" alignContent="center">
         <Text
-          mt="3em"
-          mb="1em"
           color="#63CDFA"
           textAlign="center"
+          mt={{ base: '1em', md: '3em', lg: '3em' }}
+          mb={{ base: '.5em', md: '1em', lg: '1em' }}
           style={{ fontFamily: 'PilatExtended-Bold' }}
-          fontSize={{ base: '24px', md: '25px', lg: '32px' }}
+          fontSize={{ base: '18px', md: '25px', lg: '32px' }}
         >
           Launchpad Partners
         </Text>
@@ -72,7 +72,7 @@ export default function Partners() {
           position={'relative'}
           alignContent={'center'}
           justifyContent={'space-between'}
-          width={{ base: '100%', md: '63vw', lg: '50vw' }}
+          width={{ base: '75%', md: '63vw', lg: '50vw' }}
         >
           <Partner
             link="https://kommunitas.net/"
@@ -90,11 +90,11 @@ export default function Partners() {
       </Box>
       <Box mx="auto" alignSelf="center" alignContent="center">
         <Text
-          mt="3em"
-          mb="1em"
           color="#63CDFA"
           textAlign="center"
-          fontSize={{ base: '24px', md: '25px', lg: '32px' }}
+          mt={{ base: '1em', md: '3em', lg: '3em' }}
+          mb={{ base: '.5em', md: '1em', lg: '1em' }}
+          fontSize={{ base: '18px', md: '25px', lg: '32px' }}
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Partner
@@ -102,6 +102,7 @@ export default function Partners() {
 
         <Flex
           mx="auto"
+          pb={'2em'}
           position={'relative'}
           flexDirection="column"
           alignContent={'center'}
@@ -150,12 +151,12 @@ export default function Partners() {
       </Box>
       <Box mx="auto" alignSelf="center" alignContent="center">
         <Text
-          mt="3em"
-          mb="1em"
-          fontSize={{ base: '24px', md: '25px', lg: '32px' }}
           color="#63CDFA"
           textAlign="center"
+          mt={{ base: '1em', md: '3em', lg: '3em' }}
+          mb={{ base: '.5em', md: '1em', lg: '1em' }}
           style={{ fontFamily: 'PilatExtended-Bold' }}
+          fontSize={{ base: '18px', md: '25px', lg: '32px' }}
         >
           Media Partners
         </Text>
@@ -206,12 +207,12 @@ export default function Partners() {
       </Box>
       <Box mx="auto" alignSelf="center" alignContent="center">
         <Text
-          mt="3em"
-          mb="1em"
           color="#63CDFA"
           textAlign="center"
-          fontSize={{ base: '24px', md: '25px', lg: '32px' }}
+          mt={{ base: '1em', md: '3em', lg: '3em' }}
+          mb={{ base: '.5em', md: '1em', lg: '1em' }}
           style={{ fontFamily: 'PilatExtended-Bold' }}
+          fontSize={{ base: '18px', md: '25px', lg: '32px' }}
         >
           Featured on
         </Text>

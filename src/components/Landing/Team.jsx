@@ -19,7 +19,7 @@ const responsive = {
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 1,
+    items: 2,
   },
 }
 
@@ -45,12 +45,12 @@ export default function Team() {
       </Flex>
 
       <Flex
-        pl="1em"
         mt={'2em'}
         pb={'2em'}
         position={'relative'}
         flexDirection="column"
         justifyContent={'flex-start'}
+        pl={{ base: '0', md: '1em', lg: '1em' }}
         width={{ base: '100%', md: '80vw', lg: '88vw' }}
       >
         <Carousel
@@ -58,7 +58,7 @@ export default function Team() {
           showDots
           autoPlay={true}
           swipeable={true}
-          draggable={false}
+          draggable={true}
           renderDotsOutside
           showThumbs={false}
           autoPlaySpeed={3000}
@@ -76,20 +76,23 @@ export default function Team() {
               className="teamCard"
               data-aos="zoom-in-up"
               flexDirection={'column'}
-              mx={{ md: '2vw', lg: '1vw' }}
-              py={{ md: '2vw', lg: '1vw' }}
               bgGradient={'linear(#360847, #18075b)'}
-              width={{ base: '20vw', md: '37vw', lg: '19vw' }}
+              mx={{ base: '2vw', md: '2vw', lg: '1vw' }}
+              py={{ base: '2vw', md: '2vw', lg: '1vw' }}
+              width={{ base: '48vw', md: '37vw', lg: '19vw' }}
             >
               <Image
                 src={t.imgsrc}
-                mx={{ md: '2vw', lg: '1vw' }}
-                mb={{ md: '1vw', lg: '.5vw' }}
-                width={{ md: '33vw', lg: '17vw' }}
-                height={{ md: '20em', lg: '25em' }}
+                mx={{ base: '2vw', md: '2vw', lg: '1vw' }}
+                mb={{ base: '1vw', md: '1vw', lg: '.5vw' }}
+                width={{ base: '44vw', md: '33vw', lg: '17vw' }}
+                height={{ base: '12em', md: '20em', lg: '25em' }}
               />
               {t.logos && (
-                <Flex flexWrap={'wrap'} mx={{ md: '1vw', lg: '.5vw' }}>
+                <Flex
+                  flexWrap={'wrap'}
+                  mx={{ base: '1vw', md: '1vw', lg: '.5vw' }}
+                >
                   {t.logos?.map((e, i) => (
                     <Image
                       src={e}
@@ -98,18 +101,24 @@ export default function Team() {
                       background="white"
                       borderRadius="3px"
                       objectFit="contain"
-                      m={{ md: '.5vw', lg: '.5vw' }}
-                      width={{ md: '7.5vw', lg: '3.5vw' }}
+                      m={{ base: '.5vw', md: '.5vw', lg: '.5vw' }}
+                      width={{ base: '10vw', md: '7.5vw', lg: '3.5vw' }}
                     />
                   ))}
                 </Flex>
               )}
-              <Flex w="100%" px={{ md: '2vw', lg: '1vw' }}>
+              <Flex w="100%" px={{ base: '2vw', md: '2vw', lg: '1vw' }}>
                 <div>
-                  <Text fontSize={'18px'} fontFamily={'PilatExtended-Bold'}>
+                  <Text
+                    fontFamily={'PilatExtended-Bold'}
+                    fontSize={{ base: '12px', md: '18px', lg: '18px' }}
+                  >
                     {t.name}
                   </Text>
-                  <Text fontSize={'13px'} fontFamily={'PilatExtended-Regular'}>
+                  <Text
+                    fontSize={{ base: '10px', md: '13px', lg: '13px' }}
+                    fontFamily={'PilatExtended-Regular'}
+                  >
                     {t.role}
                   </Text>
                 </div>
@@ -118,12 +127,12 @@ export default function Team() {
                   <Link href={t.link} mt="5px" isExternal>
                     <Image
                       border="0"
-                      width="40px"
-                      height="40px"
                       cursor="pointer"
                       background="white"
                       borderRadius="6px"
                       src="/media/linkedin.png"
+                      width={{ base: '25px', md: '40px', lg: '40px' }}
+                      height={{ base: '25px', md: '40px', lg: '40px' }}
                     />
                   </Link>
                 )}

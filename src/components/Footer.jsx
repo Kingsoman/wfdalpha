@@ -86,7 +86,7 @@ export default function Newfooter() {
       position="relative"
       flexDirection="column"
       mt={{ base: '3em', md: 'auto', lg: 'auto' }}
-      width={{ base: '95%', md: '90%' }}
+      width={{ base: '100%', md: '80vw', lg: '66vw' }}
       textAlign={{ base: 'center', md: 'auto', lg: 'auto' }}
     >
       <Text

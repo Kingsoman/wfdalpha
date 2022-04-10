@@ -47,7 +47,7 @@ export default function Works() {
         overflow="hidden"
         bgGradient="linear(#1E0024, #150049)"
         mb={{ base: '3em', md: '5em', lg: '6em' }}
-        width={{ base: '96%', md: '90%', lg: '75%' }}
+        width={{ base: '95%', md: '90%', lg: '65em' }}
         height={{ base: '26em', md: '33em', lg: '40em' }}
         borderRadius={{ base: '10px', md: '20px', lg: '20px' }}
       >
