@@ -8,19 +8,19 @@ import 'react-multi-carousel/lib/styles.css'
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 3000, min: 2000 },
-    items: 4,
+    items: 5,
   },
   desktop: {
     breakpoint: { max: 2000, min: 1024 },
-    items: 4,
+    items: 5,
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
-    items: 2,
+    items: 4,
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 1,
+    items: 2,
   },
 }
 
@@ -29,49 +29,31 @@ export default function Partners() {
     <Box as="section" mb="28" zIndex="5" w="100%" position="relative">
       <Box mx="auto" alignSelf="center" alignContent="center">
         <Text
-          mt="35px"
-          mb="35px"
+          mt="3em"
+          mb="1em"
           color="#63CDFA"
           textAlign="center"
-          fontSize={{ base: '24px', md: '32px' }}
+          fontSize={{ base: '24px', md: '25px', lg: '32px' }}
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Powered by
         </Text>
 
         <Flex
-          py={'2em'}
           mx="auto"
-          height="20em"
           position={'relative'}
-          flexDirection="column"
           alignContent={'center'}
-          justifyContent={'center'}
-          width={{ base: '100%', md: '80vw', lg: '80vw' }}
+          justifyContent={'space-between'}
+          width={{ base: '100%', md: '42vw', lg: '32vw' }}
         >
-          <Carousel
-            showDots
-            infinite
-            autoPlay={true}
-            swipeable={true}
-            draggable={true}
-            renderDotsOutside
-            showThumbs={false}
-            autoPlaySpeed={1000}
-            keyBoardControl={true}
-            responsive={responsive}
-            transitionDuration={500}
-            removeArrowOnDeviceType={['tablet', 'mobile']}
-          >
-            <Partner
-              link="https://terra.money/"
-              img="/media/partners/terra.png"
-            />
-            <Partner
-              link="https://anchorprotocol.com/"
-              img="/media/partners/ANC.png"
-            />
-          </Carousel>
+          <Partner
+            link="https://terra.money/"
+            img="/media/partners/terra.png"
+          />
+          <Partner
+            link="https://anchorprotocol.com/"
+            img="/media/partners/ANC.png"
+          />
         </Flex>
       </Box>
       <Box mx="auto" alignSelf="center" alignContent="center">
@@ -80,21 +62,51 @@ export default function Partners() {
           mb="1em"
           color="#63CDFA"
           textAlign="center"
-          fontSize={{ base: '24px', md: '32px' }}
+          style={{ fontFamily: 'PilatExtended-Bold' }}
+          fontSize={{ base: '24px', md: '25px', lg: '32px' }}
+        >
+          Launchpad Partners
+        </Text>
+        <Flex
+          mx="auto"
+          position={'relative'}
+          alignContent={'center'}
+          justifyContent={'space-between'}
+          width={{ base: '100%', md: '63vw', lg: '50vw' }}
+        >
+          <Partner
+            link="https://kommunitas.net/"
+            img="/media/partners/Kommunitas.png"
+          />
+          <Partner
+            link="https://www.lunapad.co/"
+            img="/media/partners/lunapad.png"
+          />
+          <Partner
+            link="https://www.ftmlaunch.com/"
+            img="/media/partners/FL.png"
+          />
+        </Flex>
+      </Box>
+      <Box mx="auto" alignSelf="center" alignContent="center">
+        <Text
+          mt="3em"
+          mb="1em"
+          color="#63CDFA"
+          textAlign="center"
+          fontSize={{ base: '24px', md: '25px', lg: '32px' }}
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Partner
         </Text>
 
         <Flex
-          py={'2em'}
           mx="auto"
-          height="20em"
           position={'relative'}
           flexDirection="column"
           alignContent={'center'}
           justifyContent={'center'}
-          width={{ base: '100%', md: '80vw', lg: '80vw' }}
+          width={{ base: '100%', md: '86vw', lg: '86vw' }}
         >
           <Carousel
             showDots
@@ -141,57 +153,7 @@ export default function Partners() {
         <Text
           mt="3em"
           mb="1em"
-          color="#63CDFA"
-          textAlign="center"
-          fontSize={{ base: '24px', md: '32px' }}
-          style={{ fontFamily: 'PilatExtended-Bold' }}
-        >
-          Launchpad Partners
-        </Text>
-        <Flex
-          py={'2em'}
-          mx="auto"
-          height="20em"
-          position={'relative'}
-          flexDirection="column"
-          alignContent={'center'}
-          justifyContent={'center'}
-          width={{ base: '100%', md: '80vw', lg: '80vw' }}
-        >
-          <Carousel
-            showDots
-            infinite
-            autoPlay={true}
-            swipeable={true}
-            draggable={true}
-            renderDotsOutside
-            showThumbs={false}
-            autoPlaySpeed={1000}
-            keyBoardControl={true}
-            responsive={responsive}
-            transitionDuration={500}
-            removeArrowOnDeviceType={['tablet', 'mobile']}
-          >
-            <Partner
-              link="https://kommunitas.net/"
-              img="/media/partners/Kommunitas.png"
-            />
-            <Partner
-              link="https://www.lunapad.co/"
-              img="/media/partners/lunapad.png"
-            />
-            <Partner
-              link="https://www.ftmlaunch.com/"
-              img="/media/partners/FL.png"
-            />
-          </Carousel>
-        </Flex>
-      </Box>
-      <Box mx="auto" alignSelf="center" alignContent="center">
-        <Text
-          mt="3em"
-          mb="1em"
-          fontSize={{ base: '24px', md: '32px' }}
+          fontSize={{ base: '24px', md: '25px', lg: '32px' }}
           color="#63CDFA"
           textAlign="center"
           style={{ fontFamily: 'PilatExtended-Bold' }}
@@ -199,14 +161,13 @@ export default function Partners() {
           Media Partners
         </Text>
         <Flex
-          py={'2em'}
           mx="auto"
-          height="20em"
+          pb={'2em'}
           position={'relative'}
           flexDirection="column"
           alignContent={'center'}
           justifyContent={'center'}
-          width={{ base: '100%', md: '80vw', lg: '80vw' }}
+          width={{ base: '100%', md: '86vw', lg: '86vw' }}
         >
           <Carousel
             showDots
@@ -249,22 +210,21 @@ export default function Partners() {
         <Text
           mt="3em"
           mb="1em"
-          fontSize={{ base: '24px', md: '32px' }}
           color="#63CDFA"
           textAlign="center"
+          fontSize={{ base: '24px', md: '25px', lg: '32px' }}
           style={{ fontFamily: 'PilatExtended-Bold' }}
         >
           Featured on
         </Text>
         <Flex
-          py={'2em'}
           mx="auto"
-          height="20em"
+          pb={'2em'}
           position={'relative'}
           flexDirection="column"
           alignContent={'center'}
           justifyContent={'center'}
-          width={{ base: '100%', md: '80vw', lg: '80vw' }}
+          width={{ base: '100%', md: '86vw', lg: '86vw' }}
         >
           <Carousel
             showDots

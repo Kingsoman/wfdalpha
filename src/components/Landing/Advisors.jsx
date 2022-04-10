@@ -7,11 +7,11 @@ import 'react-multi-carousel/lib/styles.css'
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
-    items: 4,
+    items: 3,
   },
   desktop: {
     breakpoint: { max: 3000, min: 1024 },
-    items: 4,
+    items: 3,
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
@@ -34,7 +34,10 @@ export default function Advisors() {
       fontFamily="Sk-Modernist-Regular"
       mb={{ base: '3em', md: '5em', lg: '8em' }}
     >
-      <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
+      <Flex
+        fontFamily="PilatExtended-Bold"
+        fontSize={{ md: '25px', lg: '30px' }}
+      >
         <Text color="#63CDFA">WeFund</Text>
         <Text color="white" ml={'10px'}>
           Advisors
@@ -43,52 +46,62 @@ export default function Advisors() {
       <Flex
         pl="1em"
         mt={'2em'}
+        pb={'2em'}
         position={'relative'}
         flexDirection="column"
         justifyContent={'flex-start'}
-        width={{ base: '100%', md: '100%', lg: '100%' }}
+        width={{ base: '100%', md: '80vw', lg: '66vw' }}
       >
         <Carousel
           infinite
+          showDots
           autoPlay={true}
-          draggable={false}
           swipeable={true}
+          draggable={false}
+          renderDotsOutside
           showThumbs={false}
           autoPlaySpeed={3000}
           keyBoardControl={true}
           responsive={responsive}
           transitionDuration={500}
-          removeArrowOnDeviceType={['tablet', 'mobile']}
         >
           {team.map((e, index) => (
             <Flex
-              p={'1em'}
-              mx={'.5em'}
               key={index}
               zIndex={'5'}
-              height="30em"
+              height="100%"
               borderRadius="10px"
               position="relative"
               className="teamCard"
               data-aos="zoom-in-up"
               flexDirection={'column'}
+              py={{ md: '2vw', lg: '1vw' }}
+              mx={{ md: '2vw', lg: '1vw' }}
               bgGradient={'linear(#360847, #18075b)'}
-              width={{ base: '20em', md: '20em', lg: '20em' }}
+              width={{ base: '20vw', md: '37vw', lg: '19vw' }}
             >
-              <Image src={e.imgsrc} width={'100%'} height={'70%'} />
-              <Flex my="20px" height="40px" justify="space-between">
+              <Image
+                src={e.imgsrc}
+                height={'18em'}
+                mx={{ md: '2vw', lg: '1vw' }}
+                mb={{ md: '1vw', lg: '.5vw' }}
+                width={{ md: '33vw', lg: '17vw' }}
+              />
+              <Flex flexWrap={'wrap'} mx={{ md: '1vw', lg: '.5vw' }}>
                 {e.logos?.map((e, i) => (
                   <Image
                     src={e}
                     key={i}
-                    width="40px"
-                    objectFit="contain"
+                    height={'40px'}
                     background="white"
                     borderRadius="3px"
+                    objectFit="contain"
+                    m={{ md: '.5vw', lg: '.5vw' }}
+                    width={{ md: '7.5vw', lg: '3.5vw' }}
                   />
                 ))}
               </Flex>
-              <Flex w="100%">
+              <Flex w="100%" px={{ md: '2vw', lg: '1vw' }}>
                 <div>
                   <Text fontSize={'18px'} fontFamily={'PilatExtended-Bold'}>
                     {e.name}
@@ -100,13 +113,13 @@ export default function Advisors() {
                 <Spacer />
                 <Link href={e.link} mt="5px" isExternal>
                   <Image
+                    border="0"
                     width="40px"
                     height="40px"
-                    src="/media/linkedin.png"
                     cursor="pointer"
                     background="white"
                     borderRadius="6px"
-                    border="0"
+                    src="/media/linkedin.png"
                   />
                 </Link>
               </Flex>
@@ -136,17 +149,6 @@ const team = [
       '/media/Home/58.png',
       '/media/Home/57.png',
       '/media/Home/56.png',
-    ],
-  },
-  {
-    name: 'Achuth Chandran',
-    role: 'CFO',
-    imgsrc: '/media/Home/47.png',
-    logos: [
-      '/media/Home/55.png',
-      '/media/Home/52.png',
-      '/media/Home/54.png',
-      '/media/Home/53.png',
     ],
   },
   {

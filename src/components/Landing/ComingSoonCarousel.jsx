@@ -13,7 +13,11 @@ export default function UpcomingProject() {
       flexDirection="column"
       pb={{ md: '5em', lg: '10em' }}
     >
-      <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }} mb="1em">
+      <Flex
+        fontFamily="PilatExtended-Bold"
+        fontSize={{ md: '25px', lg: '30px' }}
+        mb="1em"
+      >
         <Text color="#63CDFA">UPCOMING</Text>
         <Text color="white" ml={'10px'}>
           PROJECTS

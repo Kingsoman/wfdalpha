@@ -9,8 +9,8 @@ export default function Roadmap() {
       position="relative"
       alignItems="center"
       flexDirection="column"
-      pb={{ base: '2em', md: '5em', lg: '10em' }}
       mt={{ base: '2em', md: '5em', lg: '5em' }}
+      pb={{ base: '2em', md: '10em', lg: '10em' }}
     >
       <Flex fontFamily="PilatExtended-Bold" fontSize="20px">
         <Text color="#63CDFA">ROADMAP</Text>

@@ -18,7 +18,11 @@ export default function Problem() {
       mt={{ base: '4em', md: '4em', lg: '8em' }}
       mb={{ base: '1em', md: '5em', lg: '10em' }}
     >
-      <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }} mb="2em">
+      <Flex
+        mb="2em"
+        fontFamily="PilatExtended-Bold"
+        fontSize={{ md: '25px', lg: '30px' }}
+      >
         <Text color="#63CDFA">INCUBATION</Text>
         <Text color="white" ml={'10px'}>
           PROJECT

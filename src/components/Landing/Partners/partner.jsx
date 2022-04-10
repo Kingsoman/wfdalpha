@@ -5,10 +5,9 @@ export default function Partner({ link, img }) {
   return (
     <Link href={link}>
       <Flex
-        width="19vw"
-        height="20em"
         backgroundColor="#f0f3fa"
-        borderRadius={{ md: '10px', lg: '10px' }}
+        width={{ md: '20vw', lg: '14.5vw' }}
+        height={{ md: '20vw', lg: '14.5vw' }}
       >
         <Image src={img} objectFit="contain" />
       </Flex>

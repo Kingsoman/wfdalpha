@@ -33,7 +33,10 @@ export default function Works() {
       flexDirection="column"
       pb={{ base: '5em', md: '8em', lg: '10em' }}
     >
-      <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
+      <Flex
+        fontFamily="PilatExtended-Bold"
+        fontSize={{ md: '25px', lg: '30px' }}
+      >
         <Text color="#63CDFA">HOW IT</Text>
         <Text color="white" ml={'10px'}>
           WORKS
@@ -220,13 +223,17 @@ export default function Works() {
               fontSize={{ base: '11px', md: '12px', lg: '14px' }}
             >
               Remaining funds
-              <span style={{ color: '#63CDFA' }}>returned </span> to backers with{' '}
-              <span style={{ color: '#63CDFA' }}>Anchor yield</span> benefit
+              <span style={{ color: '#63CDFA' }}>returned </span> to backers
+              with <span style={{ color: '#63CDFA' }}>Anchor yield</span>{' '}
+              benefit
             </Text>
           </Flex>
         </Flex>
       </Flex>
-      <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
+      <Flex
+        fontFamily="PilatExtended-Bold"
+        fontSize={{ md: '25px', lg: '30px' }}
+      >
         <Text color="#63CDFA">TOKEN</Text>
         <Text color="white" ml={'10px'}>
           UTILITY
@@ -282,7 +289,10 @@ export default function Works() {
         ))}
       </Flex>
 
-      <Flex fontFamily="PilatExtended-Bold" fontSize={{ lg: '30px' }}>
+      <Flex
+        fontFamily="PilatExtended-Bold"
+        fontSize={{ md: '25px', lg: '30px' }}
+      >
         <Text color="#63CDFA">COMPETITIVE</Text>
         <Text color="white" ml={'10px'}>
           ADVANTAGES
