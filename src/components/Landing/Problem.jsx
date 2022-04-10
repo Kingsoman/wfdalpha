@@ -21,7 +21,8 @@ export default function Problem() {
         alignItems={'center'}
         justifyContent="center"
         backgroundSize={'contain'}
-        backgroundImage="/media/Home/11.png"
+        backgroundImage="/media/Home/grid-2.svg"
+        paddingTop={'20px'}
         mt={{ base: '4em', md: '4em', lg: '8em' }}
       >
         <Carousel
@@ -45,6 +46,7 @@ export default function Problem() {
             justifyContent={'center'}
             bgGradient={'Linear(#430E82, #1D0551)'}
             p={{ base: '1em', md: '2em 1em', lg: '2em 1em' }}
+            maxWidth={{ base: '40%', sm: '70%', md: '80%', lg: '90%', xl: '100%' }}
             width={{ base: '95%', md: '90%', lg: '55em', xl: '60em' }}
           >
             <Text
@@ -112,6 +114,7 @@ export default function Problem() {
             justifyContent={'center'}
             bgGradient={'Linear(#430E82, #1D0551)'}
             p={{ base: '1em', md: '1em', lg: '2em' }}
+            maxWidth={{ base: '40%', sm: '70%', md: '80%', lg: '90%', xl: '100%' }}
             width={{ base: '95%', md: '90%', lg: '55em', xl: '60em' }}
           >
             <Text

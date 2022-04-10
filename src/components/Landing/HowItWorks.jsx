@@ -53,6 +53,7 @@ export default function Works() {
           height={'100%'}
           fontWeight="bold"
           alignItems="center"
+          padding={'10px 10px 10px 10px'}
           position={'relative'}
           backgroundSize={'cover'}
           justifyContent={'center'}
@@ -171,6 +172,7 @@ export default function Works() {
             textAlign={'center'}
             alignItems={'center'}
             flexDirection="column"
+            padding={'25px'}
             justifyContent="center"
             width={{ base: '20%', md: '16%', lg: '11em' }}
           >
@@ -218,7 +220,7 @@ export default function Works() {
               fontSize={{ base: '11px', md: '12px', lg: '14px' }}
             >
               Remaining funds
-              <span style={{ color: '#63CDFA' }}>returned</span> to backers with{' '}
+              <span style={{ color: '#63CDFA' }}>returned </span> to backers with{' '}
               <span style={{ color: '#63CDFA' }}>Anchor yield</span> benefit
             </Text>
           </Flex>
