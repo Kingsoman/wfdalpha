@@ -259,8 +259,8 @@ export default function Works() {
             flexDirection="column"
             justifyContent={'center'}
             bgGradient="linear(#430E82, #1D0551)"
-            p={{ base: '.2em', md: '1em', lg: '1em' }}
             m={{ base: '.2em', md: '.5em', lg: '.5em' }}
+            p={{ base: '.2em', md: '.5em 1em', lg: '1em' }}
             width={{ base: '46%', md: '18em', lg: '19em' }}
             height={{ base: '14em', md: '20em', lg: '22em' }}
             borderRadius={{ base: '10px', md: '15px', lg: '15px' }}
@@ -269,7 +269,7 @@ export default function Works() {
               src={e.img}
               objectFit="contain"
               width={{ base: '80%', md: '70%', lg: '70%' }}
-              height={{ base: '6em', md: '8em', lg: '60%' }}
+              height={{ base: '6em', md: '7em', lg: '60%' }}
             />
             <Text
               mt={'1em'}
@@ -308,10 +308,15 @@ export default function Works() {
       >
         <Carousel
           infinite
-          showThumbs={false}
           autoPlay={true}
+          swipeable={true}
+          draggable={true}
           centerMode={true}
+          showThumbs={false}
+          autoPlaySpeed={2000}
+          keyBoardControl={true}
           responsive={responsive}
+          transitionDuration={500}
         >
           {advantages.map((e, i) => (
             <Flex

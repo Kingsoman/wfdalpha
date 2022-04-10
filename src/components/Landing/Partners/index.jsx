@@ -120,7 +120,6 @@ export default function Partners() {
             keyBoardControl={true}
             responsive={responsive}
             transitionDuration={500}
-            removeArrowOnDeviceType={['tablet', 'mobile']}
           >
             <Partner
               link="https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA"
@@ -181,7 +180,6 @@ export default function Partners() {
             keyBoardControl={true}
             responsive={responsive}
             transitionDuration={500}
-            removeArrowOnDeviceType={['tablet', 'mobile']}
           >
             <Partner
               link="https://terraspaces.org/"
@@ -238,7 +236,6 @@ export default function Partners() {
             keyBoardControl={true}
             responsive={responsive}
             transitionDuration={500}
-            removeArrowOnDeviceType={['tablet', 'mobile']}
           >
             <Partner
               link="https://thejakartapost.com/front-row/2022/02/14/wefund-to-bring-forth-open-democratized-crowdfunding.html"
