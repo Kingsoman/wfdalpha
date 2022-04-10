@@ -40,9 +40,9 @@ export default function Hero() {
       >
         CROWDFUNDING
         <br />
-        CROSS-CHAIN
-        <br />
         INCUBATOR
+        <br />
+        LAUNCHPAD
       </Text>
       <Image
         width="100%"
