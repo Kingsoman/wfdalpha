@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box, Text, Flex } from '@chakra-ui/react'
+import { Box, Text, Flex, VStack } from '@chakra-ui/react'
 import Partner from './partner'
 
 import Carousel from 'react-multi-carousel'
@@ -33,8 +33,8 @@ export default function Partners() {
           textAlign="center"
           mt={{ base: '3em', md: '3em', lg: '3em' }}
           mb={{ base: '.5em', md: '1em', lg: '1em' }}
-          fontSize={{ base: '18px', md: '25px', lg: '32px' }}
           style={{ fontFamily: 'PilatExtended-Bold' }}
+          fontSize={{ base: '18px', md: '25px', lg: '32px' }}
         >
           Powered by
         </Text>
@@ -110,12 +110,10 @@ export default function Partners() {
           width={{ base: '100%', md: '86vw', lg: '86vw' }}
         >
           <Carousel
-            showDots
             infinite
             autoPlay={true}
             swipeable={true}
             draggable={true}
-            renderDotsOutside
             showThumbs={false}
             autoPlaySpeed={1000}
             keyBoardControl={true}
@@ -170,12 +168,10 @@ export default function Partners() {
           width={{ base: '100%', md: '86vw', lg: '86vw' }}
         >
           <Carousel
-            showDots
             infinite
             autoPlay={true}
             swipeable={true}
             draggable={true}
-            renderDotsOutside
             showThumbs={false}
             autoPlaySpeed={1000}
             keyBoardControl={true}
@@ -226,70 +222,92 @@ export default function Partners() {
           width={{ base: '100%', md: '86vw', lg: '86vw' }}
         >
           <Carousel
-            showDots
             infinite
             autoPlay={true}
             swipeable={true}
             draggable={true}
-            renderDotsOutside
             showThumbs={false}
             autoPlaySpeed={1000}
             keyBoardControl={true}
             responsive={responsive}
             transitionDuration={500}
           >
-            <Partner
-              link="https://thejakartapost.com/front-row/2022/02/14/wefund-to-bring-forth-open-democratized-crowdfunding.html"
-              img="/media/partners/Jakpost.png"
-            />
-            <Partner
-              link="https://cnnindonesia.com/teknologi/20220218213931-303-761215/wefund-manfaatkan-blockchain-terra-untuk-crowdfunding"
-              img="/media/partners/CNN_Indonesia.png"
-            />
-            <Partner
-              link="https://cryptodaily.io/wefund-project-overview/"
-              img="/media/partners/Cryptodaily.png"
-            />
-            <Partner
-              link="https://www.youtube.com/watch?v=srwWRK86ZTk"
-              img="/media/partners/lunatic.png"
-            />
-            <Partner
-              link="https://twitter.com/ETH_Daily/status/1462292597200719875"
-              img="/media/partners/ethdaily.png"
-            />
-            <Partner
-              link="https://twitter.com/bsc_daily/status/1465644599855124489"
-              img="/media/partners/bscdaily.png"
-            />
-            <Partner
-              link="https://twitter.com/PolygonDaily/status/1483137329175068672"
-              img="/media/partners/polygondaily.png"
-            />
-            <Partner
-              link="https://twitter.com/TerraLUNADaily/status/1461214295656517641"
-              img="/media/partners/terradaily.png"
-            />
-            <Partner
-              link="https://twitter.com/tyranoanalytics"
-              img="/media/partners/tyrano.jpg"
-            />
-            <Partner
-              link="https://twitter.com/solana_daily/status/1460133912861048841"
-              img="/media/partners/solanadaily.jpg"
-            />
-            <Partner
-              link="https://twitter.com/cardano_daily"
-              img="/media/partners/cardanodaily.png"
-            />
-            <Partner
-              link="https://twitter.com/bullcryptonews1/"
-              img="/media/partners/bull.jpg"
-            />
-            <Partner
-              link="https://twitter.com/"
-              img="/media/partners/fantom.jpg"
-            />
+            <VStack>
+              <Partner
+                link="https://cnnindonesia.com/teknologi/20220218213931-303-761215/wefund-manfaatkan-blockchain-terra-untuk-crowdfunding"
+                img="/media/partners/CNN_Indonesia.png"
+              />
+              <Partner
+                link="https://cryptodaily.io/wefund-project-overview/"
+                img="/media/partners/Cryptodaily.png"
+              />
+            </VStack>
+
+            <VStack>
+              <Partner
+                link="https://www.youtube.com/watch?v=srwWRK86ZTk"
+                img="/media/partners/lunatic.png"
+              />
+              <Partner
+                link="https://twitter.com/ETH_Daily/status/1462292597200719875"
+                img="/media/partners/ethdaily.png"
+              />
+            </VStack>
+
+            <VStack>
+              <Partner
+                link="https://twitter.com/bsc_daily/status/1465644599855124489"
+                img="/media/partners/bscdaily.png"
+              />
+              <Partner
+                link="https://twitter.com/PolygonDaily/status/1483137329175068672"
+                img="/media/partners/polygondaily.png"
+              />
+            </VStack>
+
+            <VStack>
+              <Partner
+                link="https://twitter.com/TerraLUNADaily/status/1461214295656517641"
+                img="/media/partners/terradaily.png"
+              />
+              <Partner
+                link="https://twitter.com/tyranoanalytics"
+                img="/media/partners/tyrano.jpg"
+              />
+            </VStack>
+
+            <VStack>
+              <Partner
+                link="https://twitter.com/solana_daily/status/1460133912861048841"
+                img="/media/partners/solanadaily.jpg"
+              />
+              <Partner
+                link="https://twitter.com/cardano_daily"
+                img="/media/partners/cardanodaily.png"
+              />
+            </VStack>
+
+            <VStack>
+              <Partner
+                link="https://twitter.com/bullcryptonews1/"
+                img="/media/partners/bull.jpg"
+              />
+              <Partner
+                link="https://twitter.com/"
+                img="/media/partners/fantom.jpg"
+              />
+            </VStack>
+
+            <VStack>
+              <Partner
+                link="https://thejakartapost.com/front-row/2022/02/14/wefund-to-bring-forth-open-democratized-crowdfunding.html"
+                img="/media/partners/Jakpost.png"
+              />
+              <Partner
+                link="https://cnnindonesia.com/teknologi/20220218213931-303-761215/wefund-manfaatkan-blockchain-terra-untuk-crowdfunding"
+                img="/media/partners/CNN_Indonesia.png"
+              />
+            </VStack>
           </Carousel>
         </Flex>
       </Box>

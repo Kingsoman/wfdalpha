@@ -55,11 +55,9 @@ export default function Team() {
       >
         <Carousel
           infinite
-          showDots
           autoPlay={true}
           swipeable={true}
           draggable={true}
-          renderDotsOutside
           showThumbs={false}
           autoPlaySpeed={3000}
           keyBoardControl={true}
@@ -86,7 +84,8 @@ export default function Team() {
                 mx={{ base: '2vw', md: '2vw', lg: '1vw' }}
                 mb={{ base: '1vw', md: '1vw', lg: '.5vw' }}
                 width={{ base: '44vw', md: '33vw', lg: '17vw' }}
-                height={{ base: '12em', md: '20em', lg: '25em' }}
+                height={{ base: '44vw', md: '33vw', lg: '17vw' }}
+                // height={{ base: '12em', md: '20em', lg: '25em' }}
               />
               {t.logos && (
                 <Flex

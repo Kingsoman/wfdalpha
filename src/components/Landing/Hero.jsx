@@ -11,12 +11,12 @@ export default function Hero() {
       alignItems="center"
       flexDirection="column"
       bgGradient="Linear(#058cd8, #4d188f, #2a0a31)"
-      height={{ base: '600px', md: '800px', lg: '1000px', xl: '1200px' }}
+      height={{ base: '30em', md: '90vh', lg: '90vh' }}
     >
       <Image
-        top="0"
+        top="1em"
         width="100%"
-        height="80%"
+        height="70%"
         position="absolute"
         objectFit="contain"
         src="/media/Home/2.png"
@@ -26,14 +26,14 @@ export default function Hero() {
         pos={'relative'}
         src="/media/Home/logo.svg"
         mt={{ base: '20vh', md: '20vh', lg: '25vh' }}
-        width={{ base: '80%', md: '50%', lg: '50%' }}
+        width={{ base: '12em', md: '23em', lg: '25em' }}
       />
       <Text
         zIndex="2"
         position="relative"
-        fontFamily="PilatExtended-Bold"
         paddingLeft={'25px'}
         paddingRight={'25px'}
+        fontFamily="PilatExtended-Bold"
         mt={{ base: '0', md: '.3em', lg: '.1em' }}
         fontSize={{ base: '25px', md: '32px', lg: '40px' }}
         lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
@@ -45,11 +45,11 @@ export default function Hero() {
         LAUNCHPAD
       </Text>
       <Image
-        width="100%"
-        objectFit="contain"
-        position="absolute"
-        src="/media/Home/1.svg"
         bottom={'0'}
+        width="100%"
+        position="absolute"
+        objectFit="contain"
+        src="/media/Home/1.svg"
       />
     </Flex>
   )

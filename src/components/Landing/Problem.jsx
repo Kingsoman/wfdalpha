@@ -33,11 +33,12 @@ export default function Problem() {
       my={{ base: '5em', md: '8em', lg: '10em' }}
     >
       <Flex
-        pb={'2em'}
-        width={'100%'}
-        position={'relative'}
+        pb="2em"
+        width="100%"
+        position="relative"
+        bgRepeat="no-repeat"
         flexDirection="column"
-        backgroundSize="contain"
+        backgroundSize="cover"
         justifyContent="flex-start"
         backgroundImage="/media/Home/grid-2.svg"
       >

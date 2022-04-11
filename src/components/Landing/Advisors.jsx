@@ -54,11 +54,9 @@ export default function Advisors() {
       >
         <Carousel
           infinite
-          showDots
           autoPlay={true}
           swipeable={true}
           draggable={true}
-          renderDotsOutside
           showThumbs={false}
           autoPlaySpeed={3000}
           keyBoardControl={true}
