@@ -37,6 +37,8 @@ import Invest_KYC5 from 'pages/Invest_KYC5'
 import Invest_KYC6 from 'pages/Invest_KYC6'
 import Blog from 'pages/Blog'
 import Dashboard from 'pages/Dashboard'
+import Staking from 'pages/Staking'
+import Cards from 'pages/Cards'
 import NotFound from 'pages/NotFound'
 
 export default class App extends Component {
@@ -44,7 +46,7 @@ export default class App extends Component {
     ReactGA.initialize('UA-219919867-1');
     ReactGA.pageview(window.location.pathname + window.location.search);
   };
-  componentDidMount(){
+  componentDidMount() {
     this.setGA();
   }
   render() {
@@ -124,6 +126,8 @@ export default class App extends Component {
                 <WalletInfo path="walletInfo" />
                 <Blog path="blog" />
                 <Dashboard path="dashboard" />
+                <Staking path="staking" />
+                <Cards path="cards" />
                 <NotFound default />
               </Router>
               <ToastContainer/>

@@ -35,7 +35,7 @@ export default function Navbar() {
             backdropFilter="blur(54px)"
             borderBottom="2px solid rgba(255, 255, 255, 0.103)"
           >
-            <Flex w="40%" h="100%" align="center" justify="space-between">
+            <Flex w="50%" h="100%" align="center" justify="space-between">
               <Flex ml="90px">
                 <Link className="navbar-brand" to="/">
                   <Image alt="WeFund" src="/media/WeFund-Logos-only.png" h="30px" />
@@ -45,14 +45,14 @@ export default function Navbar() {
               <DesktopNav />
             </Flex>
             <Flex mr="20px" align="center" justify="center" w="40%" h="100%">
-              <ButtonBackTransition
-                unitid="CreateYourProject"
-                selected={false}
-                width="197px"
-                height="40px"
-                rounded="33px"
-              >
-                <Link to="/create">
+              <Link to="/create">
+                <ButtonBackTransition
+                  unitid="CreateYourProject"
+                  selected={false}
+                  width="197px"
+                  height="40px"
+                  rounded="33px"
+                >
                   <Box
                     variant="solid"
                     color="white"
@@ -61,8 +61,8 @@ export default function Navbar() {
                   >
                     Create Your Project
                   </Box>
-                </Link>
-              </ButtonBackTransition>
+                </ButtonBackTransition>
+              </Link>
               <Flex w="197px" ml="20px" mr={'10px'}>
                 <ConnectWallet />
               </Flex>
@@ -173,6 +173,14 @@ const NAV_ITEMS = [
      label: 'Blog',
      href: '/blog',
    },
+   {
+    label: 'Staking',
+    href: '/staking',
+    },
+    {
+      label: 'Card Holders',
+      href: '/cards',
+      },
   // {
   //   label: 'FAQ',
   //   href: 'faq',

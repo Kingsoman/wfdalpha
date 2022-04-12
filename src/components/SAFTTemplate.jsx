@@ -127,7 +127,7 @@ console.log(src);
             <iframe 
               width="100%" 
               height="1200" 
-              frameborder="0" 
+              frameBorder="0" 
               src={`https://docs.google.com/gview?url=${src}&embedded=true`}
             />
           </Flex>

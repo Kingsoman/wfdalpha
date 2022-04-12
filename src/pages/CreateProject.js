@@ -31,7 +31,7 @@ import {
   ParseParam,
   GetOneProject,
 } from '../components/Util'
-import Notification from '../components/Notification'
+
 import PageLayout from '../components/PageLayout'
 
 import Payment from '../components/CreateProject/Payment'
@@ -674,13 +674,13 @@ export default function CreateProject() {
               width="400px"
               height="50px"
               rounded="33px"
+              onClick={() => createProject()}
             >
               <Box
                 variant="solid"
                 color="white"
                 justify="center"
                 align="center"
-                onClick={() => createProject()}
               >
                 Submit
               </Box>

@@ -125,13 +125,13 @@ export default function Stages({
           width="250px"
           height="45px"
           rounded="33px"
+          onClick={onNewStage}
         >
           <Box
             variant="solid"
             color="white"
             justify="center"
             align="center"
-            onClick={onNewStage}
           >
             Add Stage
           </Box>
@@ -144,13 +144,13 @@ export default function Stages({
           height="45px"
           rounded="33px"
           ml = '30px'
+          onClick={onCancelStage}
         >
           <Box
             variant="solid"
             color="white"
             justify="center"
             align="center"
-            onClick={onCancelStage}
           >
             Cancel Stage {stageTitle.length}
           </Box>

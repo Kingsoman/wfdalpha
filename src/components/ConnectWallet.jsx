@@ -45,6 +45,8 @@ export default function ConnectWallet() {
   }, [connectedWallet])
 
   function connectTo(to) {
+
+console.log(wallet)
     if (to == 'extension') {
       wallet.connect(wallet.availableConnectTypes[1])
     } else if (to == 'mobile') {

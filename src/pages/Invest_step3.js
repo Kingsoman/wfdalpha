@@ -22,7 +22,6 @@ import {
   ButtonTransition,
   InputTransition
 } from "../components/ImageTransition";
-import Notification from '../components/Notification'
 import Faq from '../components/FAQ'
 import PageLayout from '../components/PageLayout'
 import {
@@ -227,36 +226,32 @@ export default function Invest_step3() {
   }
 
   async function backProject() {
-    const isCommunityMember = isCommunityWallet(state);
-    const targetAmount = parseInt(oneprojectData.project_collected) * (10 ** 6) / 2;
+    const targetAmount = parseInt(oneprojectData.project_collected) * (10 ** 6);
 
-    let leftAmount = 0;
-    if (isCommunityMember)
-      leftAmount = targetAmount - oneprojectData.communitybacked_amount;
-    else
-      leftAmount = targetAmount - oneprojectData.backerbacked_amount;
+    let leftAmount = targetAmount - oneprojectData.backerbacked_amount;
 
     if (leftAmount <= 0) {
-      if (isCommunityMember)
-        toast("Community allocation has already been collected! You can't back this project.", errorOption);
-      else
-        toast("Backer allocation has already been collected! You can't back this project.", errorOption);
+      toast("Backer allocation has already been collected! You can't back this project.", errorOption);
       return false;
     }
 
     let amount = parseInt(state.investAmount) * 10 ** 6;
-    let maxAmount = leftAmount / 100 * 105 + 4;
+    // let maxAmount;
+    // if(leftAmount >= 100_000_000)
+    //   maxAmount = leftAmount * 100 / 95 + 1_000_000;
+    // else
+    //   maxAmount = leftAmount + 5_000_000;
+
 console.log(leftAmount);
-console.log(maxAmount);
 console.log(amount);
-    if (amount < 6) {
+    if (amount < 6_000_000) {
       toast("Investment amount should be at least 6 UST.", errorOption);
       return false;
     }
-    if (amount > maxAmount) {
-      toast("Investment amount should be less than " + (maxAmount/10**6).toString() + " UST", errorOption);
-      return false;
-    }
+    // if (amount > maxAmount) {
+    //   toast("Investment amount should be less than " + (maxAmount/10**6).toString() + " UST", errorOption);
+    //   return false;
+    // }
 
     let wefundContractAddress = state.WEFundContractAddress;
     let BackProjectMsg = {
@@ -502,14 +497,16 @@ console.log(amount);
                 <ButtonTransition unitid="clear"
                   selected={false}
                   width='100px' height='40px' rounded='20px'
+                  onClick={() => { canvasRef.current.clear() }}
                 >
-                  <Box onClick={() => { canvasRef.current.clear() }}>Clear</Box>
+                  <Box >Clear</Box>
                 </ButtonTransition>
                 <ButtonTransition unitid="Open Signature"
                   selected={false}
                   width='150px' height='40px' rounded='20px' ml='40px'
+                  onClick={() => openUpload()}
                 >
-                  <Box onClick={() => openUpload()}>Open Signature</Box>
+                  <Box >Open Signature</Box>
                 </ButtonTransition>
               </Flex>
             </Box>
@@ -530,10 +527,9 @@ console.log(amount);
             background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
             selected={false}
             width='200px' height='50px' rounded='33px'
+            onClick={() => onNext()}
           >
-            <Box variant="solid" color="white" justify='center' align='center'
-              onClick={() => onNext()}
-            >
+            <Box variant="solid" color="white" justify='center' align='center'>
               Submit
             </Box>
           </ImageTransition>

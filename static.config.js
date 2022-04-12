@@ -94,6 +94,14 @@ export default {
             template: 'src/pages/Dashboard',
         },
         {
+            path: 'staking',
+            template: 'src/pages/Staking',
+        },
+        {
+            path: 'cards',
+            template: 'src/pages/Cards',
+        },
+        {
             path: '404',
             template: 'src/pages/NotFound',
         },

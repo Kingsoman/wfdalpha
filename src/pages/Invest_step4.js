@@ -187,9 +187,9 @@ export default function Invest_step4() {
             background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
             selected={false}
             width='200px' height='50px' rounded='33px'
+            onClick = {()=>{navigate('/')}} 
           >
-            <Box variant="solid" color="white" justify='center' align='center'
-                onClick = {()=>{navigate('/')}} >
+            <Box variant="solid" color="white" justify='center' align='center'>
               Go Home
             </Box>
           </ImageTransition>

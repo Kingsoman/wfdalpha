@@ -85,6 +85,7 @@ export default function ExplorerProject() {
         force,
       )
       //-----------------initialize--------------------------
+
       let activeProjectData = projectData.filter(
         (project) => project.project_status == GetProjectStatus(activeTab)
       )
@@ -120,7 +121,69 @@ export default function ExplorerProject() {
     )
     fetchContractQuery(true)
   }
-
+  async function OpenWhitelist(project_id) {
+    if (CheckNetwork(state.connectedWallet, state) == false)
+      return false
+    let msg = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
+      state.WEFundContractAddress,
+      {
+        open_whitelist: {
+          project_id: project_id,
+          holder_alloc: '80'
+        }
+      }
+    )
+    await EstimateSend(
+      state.connectedWallet,
+      state.lcd_client,
+      [msg],
+      'Open Whitelist success',
+    )
+    fetchContractQuery(true)
+  }
+  async function CloseWhitelist(project_id) {
+    if (CheckNetwork(state.connectedWallet, state) == false)
+      return false
+    let msg = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
+      state.WEFundContractAddress,
+      {
+        close_whitelist: {
+          project_id: project_id,
+        }
+      }
+    )
+    await EstimateSend(
+      state.connectedWallet,
+      state.lcd_client,
+      [msg],
+      'Close Whitelist success',
+    )
+    fetchContractQuery(true)
+  }
+  async function JoinWhitelist(state, project_id) {
+    if (CheckNetwork(state.connectedWallet, state) == false)
+      return false
+    
+    let msg = new MsgExecuteContract(
+      state.connectedWallet.walletAddress,
+      state.WEFundContractAddress,
+      {
+        register_whitelist: {
+          project_id: project_id,
+          card_type: state.cardInfo.card_type
+        }
+      }
+    )
+    await EstimateSend(
+      state.connectedWallet,
+      state.lcd_client,
+      [msg],
+      'Close Whitelist success',
+    )
+    fetchContractQuery(true)
+  }
   async function MilestoneVote(project_id, voted) {
     if (CheckNetwork(state.connectedWallet, state) == false)
       return false
@@ -150,7 +213,7 @@ export default function ExplorerProject() {
 
     let stage = parseInt(curStage);
     let data = GetOneProject(projectData, project_id);
-console.log(data)
+
     if (stage < data.vesting.length - 1)
       stage = stage + 1;
     else
@@ -177,7 +240,7 @@ console.log(data)
   //---------initialize fetching---------------------
   useEffect(() => {
     fetchContractQuery()
-  }, [activeTab, state.net])
+  }, [activeTab, state.net, state.connectedWallet])
 
   function Modify(project_id){
     navigate('/create?project_id=' + project_id);
@@ -232,6 +295,9 @@ console.log(data)
                               MilestoneVote={MilestoneVote}
                               NextFundraisingStage={NextFundraisingStage}
                               Modify={Modify}
+                              OpenWhitelist={OpenWhitelist}
+                              CloseWhitelist={CloseWhitelist}
+                              JoinWhitelist={JoinWhitelist}
                             />
                           </Flex>
 
@@ -305,6 +371,9 @@ console.log(data)
                               MilestoneVote={MilestoneVote}
                               NextFundraisingStage={NextFundraisingStage}
                               Modify={Modify}
+                              OpenWhitelist={OpenWhitelist}
+                              CloseWhitelist={CloseWhitelist}
+                              JoinWhitelist={JoinWhitelist}
                             />
                           </Flex>
                         </Flex>

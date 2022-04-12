@@ -6,7 +6,9 @@ import {
   isWefundWallet,
   isCommunityWallet,
   isBackerWallet, 
-  isCreatorWallet, 
+  isCreatorWallet,
+  isCardHolder,
+  isBackable,
   }  from '../../Util'
 
 import { ButtonTransition } from '../../ImageTransition'
@@ -20,18 +22,15 @@ export default function StatusButtons({
   CommunityVote,
   MilestoneVote,
   NextFundraisingStage,
-  Modify
+  Modify,
+  OpenWhitelist,
+  CloseWhitelist,
+  JoinWhitelist
 }) 
 {
   const { state, dispatch } = useStore()
   return (
     <>
-      {activeTab === 'CommuntyApproval' && (
-        <Text py={2} color={'gray.400'}>
-          Community Voting will be finished in{' '}
-          {data.leftTime} minutes
-        </Text>
-      )}
       {activeTab === 'MileStoneDelivery' && (
         <Text py={2} color={'gray.400'}>
           Project Milestone step -{' '}
@@ -56,10 +55,47 @@ export default function StatusButtons({
           </ButtonTransition>
         </Flex>
       )}
+      {activeTab === 'WhistlistOpen' && isCardHolder(state, data.project_id) && (
+        <Flex justify={'center'}>
+          <ButtonTransition
+            unitid={'Whitelist' + index}
+            selected={false}
+            width="180px"
+            height="40px"
+            rounded="30px"
+            onClick={() => {
+              JoinWhitelist(state, data.project_id)
+            }}
+          >
+            <Text fontSize={'15px'}>
+              Join Whitelist
+            </Text>
+          </ButtonTransition>
+        </Flex>
+      )}
+      {activeTab === 'WhistlistOpen' && isCreatorWallet(state, data.project_id) && (
+        <Flex justify={'center'}>
+          <ButtonTransition
+            unitid={'Closewhitelist' + index}
+            selected={false}
+            width="180px"
+            height="40px"
+            rounded="30px"
+            onClick={() => {
+              CloseWhitelist(data.project_id)
+            }}
+          >
+            <Text fontSize={'15px'}>
+              Close Whitelist
+            </Text>
+          </ButtonTransition>
+        </Flex>
+      )}
       {activeTab === 'Fundraising' && (
         <>
         <Text>{data.fundraising_stage} phase</Text>
         {isCreatorWallet(state, data.project_id) && (
+        <>
           <ButtonTransition
             mb="10px"
             rounded="30px"
@@ -74,22 +110,36 @@ export default function StatusButtons({
               Next Stage
             </Text>
           </ButtonTransition>
+          <ButtonTransition
+            unitid={'openwhitelist' + index}
+            width="180px"
+            height="40px"
+            selected={false}
+            rounded="30px"
+            mb="10px"
+            onClick={() =>OpenWhitelist(data.project_id)}
+          >
+            <Text fontSize={'15px'}>Reopen Whitelist</Text>
+          </ButtonTransition>
+        </>
         )}
-        <ButtonTransition
-          unitid={'visit' + index}
-          width="180px"
-          height="40px"
-          selected={false}
-          rounded="30px"
-          mb="10px"
-          onClick={() =>
-            navigate(
-              `/back?project_id=${data.project_id}`,
-            )
-          }
-        >
-          <Text fontSize={'15px'}>Back Project</Text>
-        </ButtonTransition>
+        {isBackable(state, data.project_id ) && (
+          <ButtonTransition
+            unitid={'visit' + index}
+            width="180px"
+            height="40px"
+            selected={false}
+            rounded="30px"
+            mb="10px"
+            onClick={() =>
+              navigate(
+                `/back?project_id=${data.project_id}`,
+              )
+            }
+          >
+            <Text fontSize={'15px'}>Back Project</Text>
+          </ButtonTransition>
+        )}
         </>
       )}
       {activeTab === 'MileStoneDelivery' && isBackerWallet(state, data.project_id) && (

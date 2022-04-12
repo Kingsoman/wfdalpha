@@ -35,19 +35,19 @@ export default function ProjectMainButtons({ data, onNext })
             width="200px"
             height="50px"
             rounded="33px"
+            onClick={() => {
+              window.open(
+                data.project_website,
+                '_blank',
+                'noopener,noreferrer',
+              )
+            }}
           >
             <Box
               variant="solid"
               color="white"
               justify="center"
               align="center"
-              onClick={() => {
-                window.open(
-                  data.project_website,
-                  '_blank',
-                  'noopener,noreferrer',
-                )
-              }}
             >
               Visit Website{' '}
               <Icon as={BsArrowUpRight} h={4} w={4} mr={3} />
@@ -71,6 +71,7 @@ export default function ProjectMainButtons({ data, onNext })
             width="200px"
             height="50px"
             rounded="33px"
+            onClick={() => {}}
           >
             <a href={ state.request + '/download?filename=' + data.project_whitepaper}>
             <Box
@@ -78,7 +79,6 @@ export default function ProjectMainButtons({ data, onNext })
               color="white"
               justify="center"
               align="center"
-              onClick={() => {}}
             >
               See Whitepaper
             </Box>

@@ -28,6 +28,7 @@ export const ImageTransition = (props) => {
       mt={props.mt}
       ml={props.ml}
       mb={props.mb}
+      onClick={props.onClick}
     >
       <Flex
         style={{ background: props.border1, position: 'absolute' }}
@@ -68,7 +69,6 @@ export const ImageTransition = (props) => {
         onMouseLeave={() => {
           handleMouseLeave()
         }}
-        onClick={props.onClick}
       >
         <Flex
           direction="column"
