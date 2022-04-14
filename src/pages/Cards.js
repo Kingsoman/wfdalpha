@@ -30,29 +30,24 @@ let constants = [
     metadata: ""
   },
   {
-    wallet: "terra1qvyj7tqs35hckd395rglc7lsyf2acuhgdcmj77",
+    wallet: "terra1jpk9c2xne8aj7myszy3cq0ehfrgjf4ndfkfmln",
     card_type: "gold",
     card_number: "3",
     metadata: ""
   },  
   {
-    wallet: "terra1qvyj7tqs35hckd395rglc7lsyf2acuhgdcmj77",
+    wallet: "terra1c48dty5gaxvyx382tq70k5rqx5l7aflehvqf7g",
     card_type: "silver",
     card_number: "3",
     metadata: ""
   },  
   {
-    wallet: "terra1qvyj7tqs35hckd395rglc7lsyf2acuhgdcmj77",
+    wallet: "terra15y7n2g49d6f6y8wk7rs347a07hxy8h9fddk2fh",
     card_type: "bronze",
     card_number: "3",
     metadata: ""
   },  
-  {
-    wallet: "terra1qvyj7tqs35hckd395rglc7lsyf2acuhgdcmj77",
-    card_type: "gold",
-    card_number: "3",
-    metadata: ""
-  },
+
 ];
 export default function Cards() {
   const { state, dispatch } = useStore();
