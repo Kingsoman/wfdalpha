@@ -448,7 +448,14 @@ export function ShortenText(text, startingPoint, maxLength) {
     ? text.slice(startingPoint, maxLength)
     : text;
 }
-
+export function ShortenAddress(address) {
+  if (address) {
+    let prefix = address.slice(0, 5);
+    let suffix = address.slice(-5)
+    return prefix + "..." + suffix;
+  }
+  return "";
+}
 export function ParseParam() {
   let queryString, urlParams, project_id = 1;
   if (typeof window != 'undefined') {
