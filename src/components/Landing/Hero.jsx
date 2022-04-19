@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Flex, Text } from '@chakra-ui/react'
+import { Image, Flex, Text, Stack, Container } from '@chakra-ui/react'
 
 export default function Hero() {
   return (
@@ -15,35 +15,37 @@ export default function Hero() {
     >
       <Image
         top="1em"
-        width="100%"
-        height="70%"
+        width='100%'
         position="absolute"
         objectFit="contain"
         src="/media/Home/2.png"
       />
-      <Image
-        zIndex={'3'}
-        pos={'relative'}
-        src="/media/Home/logo.svg"
-        mt={{ base: '20vh', md: '20vh', lg: '25vh' }}
-        width={{ base: '12em', md: '23em', lg: '25em' }}
-      />
-      <Text
-        zIndex="2"
-        position="relative"
-        paddingLeft={'25px'}
-        paddingRight={'25px'}
-        fontFamily="PilatExtended-Bold"
-        mt={{ base: '0', md: '.3em', lg: '.1em' }}
-        fontSize={{ base: '25px', md: '32px', lg: '40px' }}
-        lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
-      >
-        CROWDFUNDING
-        <br />
-        INCUBATOR
-        <br />
-        LAUNCHPAD
-      </Text>
+      <Container position={'relative'} mt={{base: '15vh', lg: '20vh'}} zIndex={'3'} maxW='container.lg'>
+      <Stack>
+        <Text
+          fontFamily="PilatExtended-Bold"
+          fontSize={{ base: '25px', md: '32px', lg: '40px' }}
+          lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
+          textTransform={'uppercase'}>
+          Community
+        </Text>
+        <Text
+          fontFamily="PilatExtended-Black"
+          fontSize={{ base: '25px', md: '32px', lg: '40px' }}
+          lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
+          textTransform={'uppercase'}
+          color={'brand'}>
+          Crowdfunding
+        </Text>
+        <Text
+          fontFamily="PilatExtended-Black"
+          fontSize={{ base: '25px', md: '32px', lg: '40px' }}
+          lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
+          textTransform={'uppercase'}>
+          Incubator
+        </Text>
+      </Stack>
+      </Container>
       <Image
         bottom={'0'}
         width="100%"

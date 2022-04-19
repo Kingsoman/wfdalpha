@@ -10,7 +10,8 @@ import theme from '../theme'
 import Footer from '../components/Footer'
 import Team from '../components/Landing/Team'
 import Hero from '../components/Landing/Hero'
-import About from '../components/Landing/about'
+import About from '../components/Landing/About'
+import Litepaper from '../components/Landing/Litepaper'
 import RoadMap from '../components/Landing/Roadmap'
 import Problem from '../components/Landing/Problem'
 import { Container } from '../components/Container'
@@ -30,6 +31,7 @@ export default () => {
       <Container>
         <Hero />
         <About />
+        <Litepaper />
         <Problem />
         <Works />
         <RoadMap />

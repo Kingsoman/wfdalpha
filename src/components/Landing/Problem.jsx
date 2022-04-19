@@ -40,7 +40,6 @@ export default function Problem() {
         flexDirection="column"
         backgroundSize="cover"
         justifyContent="flex-start"
-        backgroundImage="/media/Home/grid-2.svg"
       >
         <Carousel
           infinite
