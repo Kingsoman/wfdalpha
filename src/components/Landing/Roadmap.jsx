@@ -1,7 +1,144 @@
-import React from 'react'
-import { Flex, Text, UnorderedList, ListItem } from '@chakra-ui/react'
+import React, { useRef, useState } from 'react'
+import { Flex, Stack, Text, UnorderedList, IconButton, Button, ListItem, Box, HStack, VStack, useBreakpointValue, Image } from '@chakra-ui/react'
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
-export default function Roadmap() {
+const timelines = [
+  {
+    title: 'Q1 2022',
+    items: [
+      {text: 'Platform 1.0 launch', complete: true},
+      {text: 'Community registration system', complete: true},
+      {text: 'Investor project approval by voting power', complete: true},
+      {text: 'Create a project with the milestone system', complete: true},
+      {text: 'Multi-stage fundraising', complete: true},
+      {text: 'Milestone money release with backer\'s approval voting power', complete: true},
+      {text: 'Complete Seed/Private sale fundraise', complete: false},
+      {text: 'Complete Presale fundraise', complete: false},
+      {text: 'Marketing for Initial Offering', complete: false},
+      {text: '10 project for incubation and fundraise', complete: false},
+    ]
+  },
+  {
+    title: 'Q2 2022',
+    items: [
+      {text: 'Fundraising for the project hosted on WeFund', complete: false},
+      {text: 'Platform update 2.0', complete: false},
+      {text: 'Have 10 project hosted on WeFund', complete: false},
+      {text: 'Fundraising for the project hosted on WeFund', complete: false},
+      {text: 'Real-world project implementation', complete: false},
+    ]
+  },
+  {
+    title: 'Q3 2022',
+    items: [
+      {text: 'Have successfull fundraising for the first 10 projects', complete: false},
+      {text: 'Platform update 3.0', complete: false},
+      {text: 'Starting real-word project incubation', complete: false},
+    ]
+  },
+  {
+    title: 'Q4 2022',
+    items: [
+      {text: 'Have successful fundraising for real-world projects', complete: false},
+      {text: 'Startup pitch competition for real-world projects', complete: false},
+      {text: 'Platform update 4.0', complete: false},
+    ]
+  },
+]
+
+const RoadmapItem = function(props) {
+  const {title, items, isTop, isLast} = props
+  
+  return (
+    <Flex direction={'column'} minW={'360px'} maxW={'360px'} alignItems={'center'} scrollSnapAlign={'center'} data-aos="fade-up">
+      {!isTop && <>
+      <Box minH={'40vh'}  mt={'1em'} display={'flex'} alignItems={'center'} flexDirection={'column'} justifyContent={'flex-end'}>
+        <Image width={'150px'} mb={'-1em'} src='/media/Home/timeline-item-point.png' />
+      </Box>
+      <Box backgroundColor={'brand'} rounded={'full'} width={'24px'} height={'24px'} position={'relative'} zIndex={5}>
+        {!isLast && <Box
+          backgroundColor={'brand'}
+          position={'absolute'}
+          height={'10px'}
+          width={'360px'}
+          top={'calc(50% - 5px)'}
+          left={'12px'}
+          data-aos="fade-left"
+          data-aos-delay="500"
+          />}
+        
+      </Box>
+      <VStack minH={'40vh'} mt={'1em'} justifyContent={'start'} spacing={'0'}>
+        <Text fontWeight="bold" fontFamily="PilatExtended-Bold" marginBottom={1}>{title}</Text>
+        {items.map((item, i)=><Text key={i} textAlign={'center'} marginTop={'0'} color={item.complete? '#63F060':'white'}>{item.text}</Text>)}
+      </VStack>
+      </>}
+      {isTop && <>
+      <VStack minH={'40vh'} mb={'1em'} justifyContent={'end'} spacing={'0'}>
+        {items.map((item, i)=><Text key={i} textAlign={'center'} marginTop={'0'} color={item.complete? '#63F060':'white'}>{item.text}</Text>)}
+        <Text fontWeight="bold" fontFamily="PilatExtended-Bold" marginTop={1}>{title}</Text>
+      </VStack>
+      <Box backgroundColor={'brand'} rounded={'full'} width={'24px'} height={'24px'} position={'relative'} zIndex={5}>
+        {!isLast && <Box
+          backgroundColor={'brand'}
+          position={'absolute'}
+          height={'10px'}
+          width={'360px'}
+          top={'calc(50% - 5px)'}
+          left={'12px'}
+          data-aos="fade-left"
+          data-aos-delay="1000"
+          />}
+      </Box>
+      <Box minH={'40vh'}  mb={'1em'} display={'flex'} alignItems={'center'} flexDirection={'column'} justifyContent={'flex-end'} transform={'rotate(180deg)'}>
+        <Image width={'150px'} mb={'-1em'} src='/media/Home/timeline-item-point.png' />
+      </Box>
+      </>}
+    </Flex>
+  )
+}
+
+const HorizontalRoadmap = function() {
+  const carouselEl = useRef()
+
+  const navBtn = useBreakpointValue({base: true, md: false})
+  
+  const onClickNext = () => {
+    carouselEl.current.scrollBy(340, 0)
+  }
+
+  const onClickPrev = () => {
+    carouselEl.current.scrollBy(-340, 0)
+  }
+
+  return (
+    <Stack mb={''}>
+      <Text
+        color="#63CDFA"
+        fontFamily="PilatExtended-Bold"
+        fontSize={{ md: '25px', lg: '30px' }}
+        textTransform={'uppercase'}
+        alignSelf={'center'}
+        mb="1em">Roadmap</Text>
+      <Box position={'relative'}>
+        {navBtn && <>
+        <IconButton aria-label='Previous' onClick={onClickPrev} position={'absolute'} top={'50%'} left={'1em'} zIndex={5} icon={<ChevronLeftIcon />} rounded="full" color={'gray'} />
+        <IconButton aria-label='Next' onClick={onClickNext} position={'absolute'} top={'50%'} right={'1em'} zIndex={5} icon={<ChevronRightIcon />} rounded="full" color={'gray'} />
+        </>}
+        
+
+        <HStack alignItems={'center'} height={'calc(80vh + 24px)'} scrollSnapType={'x mandatory'} overflowY={'hidden'} overflowX={'hidden'} overscrollBehaviorX={'contain'} ref={carouselEl} scrollBehavior={'smooth'}>
+          <Box pl={'12em'}></Box>
+          {timelines.map((item, i) => <RoadmapItem key={i} title={item.title} items={item.items} isTop={(i % 2) == 1} isLast={timelines.length == i+1} />)}
+          <Box pr={'12em'}></Box>
+        </HStack>
+        
+      </Box>
+    </Stack>
+  )
+}
+
+const VerticalRoadmap = function() {
   return (
     <Flex
       pt={'3em'}
@@ -332,4 +469,16 @@ export default function Roadmap() {
       </Flex>
     </Flex>
   )
+}
+
+export default function Roadmap() {
+  const [direction, setDirection] = useState('horizontal')
+
+  if (direction === 'horizontal' ) {
+    return (<HorizontalRoadmap />)
+  }
+  if (direction === 'vertical') {
+    return (<VerticalRoadmap />)
+  }
+  return (<HorizontalRoadmap />)
 }

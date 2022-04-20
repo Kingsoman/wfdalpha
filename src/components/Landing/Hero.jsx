@@ -24,23 +24,29 @@ export default function Hero() {
       <Stack>
         <Text
           fontFamily="PilatExtended-Bold"
-          fontSize={{ base: '25px', md: '32px', lg: '40px' }}
+          fontSize={{ base: '40px', md: '64px'}}
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
-          textTransform={'uppercase'}>
+          letterSpacing={{base: '0.1em'}}
+          textTransform={'uppercase'}
+          textShadow="lg">
           Community
         </Text>
         <Text
           fontFamily="PilatExtended-Black"
-          fontSize={{ base: '25px', md: '32px', lg: '40px' }}
+          fontSize={{ base: '40px', md: '64px'}}
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
+          letterSpacing={{base: '0.1em'}}
           textTransform={'uppercase'}
+          textShadow="lg"
           color={'brand'}>
           Crowdfunding
         </Text>
         <Text
           fontFamily="PilatExtended-Black"
-          fontSize={{ base: '25px', md: '32px', lg: '40px' }}
+          fontSize={{ base: '40px', md: '64px'}}
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
+          letterSpacing={{base: '0.1em'}}
+          textShadow="lg"
           textTransform={'uppercase'}>
           Incubator
         </Text>

@@ -71,9 +71,9 @@ const AboutDesktop = function() {
       alignItems="center"
       justifyContent="center"
       direction={'column'}
-      my={{ base: '5em', md: '7em', lg: '10em' }}
+      my={{ base: '4em', md: '5em'}}
       width={{ base: '98%', md: '80%', lg: '80em', xl: '100em' }}
-      px={{ base: '0', md: '10px', lg: '50px', xl: '20px' }}
+      px={{ base: '0', md: '10px'}}
     >
       <Text
         color="#63CDFA"
@@ -86,54 +86,69 @@ const AboutDesktop = function() {
       </Text>
       <Flex
         direction={'row'}>
-        <Box flex={4}>
+        <Box marginX={'80px'}>
           <Image
             zIndex="3"
             objectFit="contain"
-            src="/media/Home/3.svg"
+            src="/media/Home/wfd-logo-projection.png"
           />
         </Box>
 
         <Stack
-          flex={6}
+          flex={1}
           flexDirection="column"
           width={{ base: '95%', md: '85%', lg: '70%' }}
+          spacing={1}
         >
-          <Box
+          <Flex
+            direction={'row'}
             bgGradient="Linear(#340B6E, transparent)"
             borderRadius={{ base: '10px', md: '15px', lg: '15px' }}
-            p={4}>
+            p={'32px'}>
+            <Image
+              objectFit="contain"
+              src="/media/Home/about-icon-2.png"
+            />
             <Text
+              flex={1}
               display="inline"
               fontSize={{ base: '16px', md: '20px', lg: '20px' }}
               fontFamily="Sk-Modernist-Regular"
+              marginLeft={'32px'}
             >
-              <b>WeFund</b> is a community crowdfunding incubator for blockchain
+              <chakra.span color={'brand'}><b>WeFund</b> is a community crowdfunding incubator</chakra.span> for blockchain
               and real-world projects built on various blockchains including
               Terra, Solana, Ethereum, and more. WeFund's platform is built on the
               Terra blockchain. WeFund has the
               capability to implement various blockchain and real-world projects,
               bridging the gap between the real world and blockchain.
             </Text>
-          </Box>
-          <Box
+          </Flex>
+          <Flex
+            direction={'row'}
             bgGradient="Linear(#340B6E, transparent)"
             borderRadius={{ base: '10px', md: '15px', lg: '15px' }}
-            p={4}>
+            p={'32px'}>
+            <Image
+              objectFit="contain"
+              src="/media/Home/about-icon-1.png"
+            />
             <Text
+              flex={1}
               display="inline"
               fontSize={{ base: '16px', md: '20px', lg: '20px' }}
               fontFamily="Sk-Modernist-Regular"
+              marginLeft={'32px'}
             >
               To increase transparency, minimize risk, and hold projects
-              accountable for the funds raised, WeFund has a unique community
-              vetting and unique milestone system. This means the WeFund community
+              accountable for the funds raised, <chakra.span color={'brand'}>WeFund has a unique community
+              vetting and unique milestone system.</chakra.span> This means the WeFund community
               at each milestone of a project's development, vote as to
               whether the relevant milestone has been achieved, with the outcome
               determining release of funds for the
               project to achieve its next milestone.
             </Text>
-          </Box>
+          </Flex>
         </Stack>
       </Flex>
 

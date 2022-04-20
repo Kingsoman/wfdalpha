@@ -87,6 +87,7 @@ export default function Litepaper() {
         >
           {paperLangs.map((lang) => 
             <option
+              key={lang.name}
               value={lang.name}
               style={{ backgroundColor: '#1B0645' }}>
               {lang.label}
