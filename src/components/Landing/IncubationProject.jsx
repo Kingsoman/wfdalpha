@@ -1,8 +1,27 @@
 import React from 'react'
-import { Flex, Text, Image } from '@chakra-ui/react'
+import { Flex, Text, Image, Box } from '@chakra-ui/react'
 
-import { Carousel } from 'react-responsive-carousel'
-import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
+import Carousel from 'react-multi-carousel'
+import 'react-multi-carousel/lib/styles.css'
+
+const responsive = {
+  superLargeDesktop: {
+    breakpoint: { max: 3000, min: 2000 },
+    items: 3,
+  },
+  desktop: {
+    breakpoint: { max: 2000, min: 1024 },
+    items: 3,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 1,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+  },
+}
 
 export default function Problem() {
   return (
@@ -28,16 +47,22 @@ export default function Problem() {
           PROJECT
         </Text>
       </Flex>
-      <Carousel showThumbs={false} width="100%">
+      <Box
+      width={{ base: '100%', md: '86vw', lg: '86vw' }}>
+      <Carousel showDots={true} swipeable={true} keyBoardControl={true} responsive={responsive} >
         {projects.map((e, i) => (
+          <Flex justifyContent={'center'}>
           <Image
             key={i}
             src={e}
             objectFit="contain"
-            height={{ base: '12em', md: '20em', lg: '25em' }}
+            maxH={'225px'}
+            minH={'225px'}
           />
+          </Flex>
         ))}
       </Carousel>
+      </Box>
     </Flex>
   )
 }

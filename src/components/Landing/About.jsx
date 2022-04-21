@@ -1,53 +1,53 @@
 import React, { useState } from 'react'
 
-import { Flex, Text, Image, Select, Link, Stack, useBreakpointValue, chakra, Box } from '@chakra-ui/react'
+import { Container, Flex, Text, Image, Select, Link, Stack, useBreakpointValue, chakra, Box } from '@chakra-ui/react'
 
 const AboutMobile = function() {
   return (
     <Flex
       alignItems="center"
       justifyContent="center"
-      my={{ base: '5em', md: '7em', lg: '10em' }}
-      width={{ base: '98%', md: '80%', lg: '80em', xl: '100em' }}
-      flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
-      paddingLeft={{ base: '0', md: '10px', lg: '50px', xl: '20px' }}
-      paddingRight={{ base: '0', md: '10px', lg: '50px', xl: '20px' }}
+      my={{ base: '5em' }}
+      width={{ base: '98%' }}
+      flexDirection={{ base: 'column' }}
+      paddingLeft={{ base: '0' }}
+      paddingRight={{ base: '0' }}
     >
       <Image
         zIndex="3"
         objectFit="contain"
         position="relative"
         src="/media/Home/3.svg"
-        mr={{ base: '0', md: '-10em', lg: '-10em' }}
-        mb={{ base: '-5em', md: '-0', lg: '0' }}
-        width={{ base: '12em', md: '16em', lg: '21em' }}
+        mr={{ base: '0' }}
+        mb={{ base: '-5em' }}
+        width={{ base: '12em' }}
       />
       <Flex
         flexDirection="column"
         bgGradient="Linear(#340B6E, transparent)"
-        p={{ base: '1em', md: '1em', lg: '2em' }}
-        pl={{ base: '1em', md: '12em', lg: '15em' }}
-        pt={{ base: '7em', md: '1em', lg: '2em' }}
-        width={{ base: '95%', md: '85%', lg: '70%' }}
-        borderRadius={{ base: '10px', md: '15px', lg: '15px' }}
+        p={{ base: '1em' }}
+        pl={{ base: '1em' }}
+        pt={{ base: '7em' }}
+        width={{ base: '95%' }}
+        borderRadius={{ base: '10px' }}
       >
         <Text
           color="#63CDFA"
           fontWeight="bold"
           fontFamily="PilatExtended-Bold"
-          mb={{ base: '.5em', md: '.5em', lg: '.5em' }}
-          fontSize={{ base: '16px', md: '28px', lg: '32px' }}
+          mb={{ base: '.5em' }}
+          fontSize={{ base: '16px' }}
         >
           ABOUT WeFund
         </Text>
         <Text
           display="inline"
-          fontSize={{ base: '16px', md: '20px', lg: '20px' }}
+          fontSize={{ base: '16px' }}
           fontFamily="Sk-Modernist-Regular"
         >
           <b>WeFund</b> is a community crowdfunding incubator for blockchain
           and real-world projects built on various blockchains including
-          Terra, Solana, Ethereum, and more. WeFund’s platform is built on the
+          Terra, Solana, Ethereum, and more. WeFund's platform is built on the
           Terra blockchain. WeFund has the
           capability to implement various blockchain and real-world projects,
           bridging the gap between the real world and blockchain.
@@ -55,7 +55,7 @@ const AboutMobile = function() {
           <br /> To increase transparency, minimize risk, and hold projects
           accountable for the funds raised, WeFund has a unique community
           vetting and unique milestone system. This means the WeFund community
-          at each milestone of a project’s development, vote as to
+          at each milestone of a project's development, vote as to
           whether the relevant milestone has been achieved, with the outcome
           determining release of funds for the
           project to achieve its next milestone.
@@ -67,12 +67,13 @@ const AboutMobile = function() {
 
 const AboutDesktop = function() {
   return (
+    <Container minW={'container.xl'}>
     <Stack
       alignItems="center"
       justifyContent="center"
       direction={'column'}
       my={{ base: '4em', md: '5em'}}
-      width={{ base: '98%', md: '80%', lg: '80em', xl: '100em' }}
+      width={{ base: '100%'}}
       px={{ base: '0', md: '10px'}}
     >
       <Text
@@ -98,7 +99,7 @@ const AboutDesktop = function() {
           flex={1}
           flexDirection="column"
           width={{ base: '95%', md: '85%', lg: '70%' }}
-          spacing={1}
+          spacing={'3em'}
         >
           <Flex
             direction={'row'}
@@ -153,11 +154,12 @@ const AboutDesktop = function() {
       </Flex>
 
     </Stack>
+    </Container>
   )
 }
 
 export default function Aboutone() {
-  const variant = useBreakpointValue({base: 'mobile', md: 'desktop'})
+  const variant = useBreakpointValue({base: 'mobile', lg: 'desktop'})
   return (
     <Flex
       width="100%"

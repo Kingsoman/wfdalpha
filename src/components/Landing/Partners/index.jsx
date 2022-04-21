@@ -8,6 +8,25 @@ import 'react-multi-carousel/lib/styles.css'
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 3000, min: 2000 },
+    items: 6,
+  },
+  desktop: {
+    breakpoint: { max: 2000, min: 1024 },
+    items: 6,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 4,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 3,
+  },
+}
+
+const mediaPartnerResponsive = {
+  superLargeDesktop: {
+    breakpoint: { max: 3000, min: 2000 },
     items: 5,
   },
   desktop: {
@@ -16,11 +35,11 @@ const responsive = {
   },
   tablet: {
     breakpoint: { max: 1024, min: 464 },
-    items: 4,
+    items: 3,
   },
   mobile: {
     breakpoint: { max: 464, min: 0 },
-    items: 4,
+    items: 3,
   },
 }
 
@@ -115,10 +134,10 @@ export default function Partners() {
             swipeable={true}
             draggable={true}
             showThumbs={false}
-            autoPlaySpeed={1000}
+            autoPlaySpeed={2000}
             keyBoardControl={true}
             responsive={responsive}
-            transitionDuration={500}
+            transitionDuration={2000}
           >
             <Partner
               link="https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA"
@@ -158,13 +177,9 @@ export default function Partners() {
         >
           Media Partners
         </Text>
-        <Flex
+        <Box
           mx="auto"
           pb={'2em'}
-          position={'relative'}
-          flexDirection="column"
-          alignContent={'center'}
-          justifyContent={'center'}
           width={{ base: '100%', md: '86vw', lg: '86vw' }}
         >
           <Carousel
@@ -175,7 +190,7 @@ export default function Partners() {
             showThumbs={false}
             autoPlaySpeed={1000}
             keyBoardControl={true}
-            responsive={responsive}
+            responsive={mediaPartnerResponsive}
             transitionDuration={500}
           >
             <Partner
@@ -199,7 +214,7 @@ export default function Partners() {
               img="/media/partners/cryptonews.png"
             />
           </Carousel>
-        </Flex>
+        </Box>
       </Box>
       <Box mx="auto" alignSelf="center" alignContent="center">
         <Text
@@ -227,10 +242,10 @@ export default function Partners() {
             swipeable={true}
             draggable={true}
             showThumbs={false}
-            autoPlaySpeed={1000}
+            autoPlaySpeed={2000}
             keyBoardControl={true}
             responsive={responsive}
-            transitionDuration={500}
+            transitionDuration={2000}
           >
             <VStack>
               <Partner

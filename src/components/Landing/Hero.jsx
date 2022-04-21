@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Flex, Text, Stack, Container } from '@chakra-ui/react'
+import { Image, Flex, Text, Stack, Container, Box } from '@chakra-ui/react'
 
 export default function Hero() {
   return (
@@ -28,7 +28,7 @@ export default function Hero() {
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
           letterSpacing={{base: '0.1em'}}
           textTransform={'uppercase'}
-          textShadow="lg">
+          textShadow="0px 10px 10px rgba(9, 2, 90, 0.73)">
           Community
         </Text>
         <Text
@@ -37,7 +37,7 @@ export default function Hero() {
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
           letterSpacing={{base: '0.1em'}}
           textTransform={'uppercase'}
-          textShadow="lg"
+          textShadow="0px 10px 10px rgba(9, 2, 90, 0.73)"
           color={'brand'}>
           Crowdfunding
         </Text>
@@ -46,7 +46,7 @@ export default function Hero() {
           fontSize={{ base: '40px', md: '64px'}}
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
           letterSpacing={{base: '0.1em'}}
-          textShadow="lg"
+          textShadow="0px 10px 10px rgba(9, 2, 90, 0.73)"
           textTransform={'uppercase'}>
           Incubator
         </Text>
@@ -59,6 +59,7 @@ export default function Hero() {
         objectFit="contain"
         src="/media/Home/1.svg"
       />
+      <Box position={'absolute'} bottom={'0'} width={'100%'} height={'140px'} background={'linear-gradient(180deg, rgba(30, 0, 39, 0) 0%, #1E0027 60.72%)'} />
     </Flex>
   )
 }
