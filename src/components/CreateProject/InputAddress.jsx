@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import {
   Flex,
   Text,
@@ -9,37 +9,29 @@ import {
 import { MsgExecuteContract, WasmAPI } from '@terra-money/terra.js'
 
 import { toast } from 'react-toastify';
-import {errorOption} from "../Util"
+import { errorOption, getTokenInfo } from "../Util"
 import {
   InputTransition,
 } from '../ImageTransition'
 import { useStore } from '../../store'
 
-export default function InputAddress({typeText, type, setType, setTokenName, w, mt}) {
-  const {state, dispatch} = useStore();
+export default function InputAddress({ typeText, type, setType, setTokenName, setTokenBalance, w, mt }) {
+  const { state, dispatch } = useStore();
   //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
-  
+
   async function onChangeType(e) {
     setType(e.target.value);
 
-    if(e.target.value.length < 44 )
+    if (e.target.value.length < 44)
       return;
 
-    let token_info;
-    try{
-      token_info = await api.contractQuery(
-        e.target.value,
-        {
-          token_info: {},
-        }
-      )
-      setTokenName(token_info.symbol)
-    }
-    catch(e){
-      setTokenName("");
-      toast("Invalid Token Address", errorOption);
-    }
+    let res = await getTokenInfo(api, state, e.target.value)
+    if (res == false)
+      return;
+
+    setTokenName(res.symbol);
+    setTokenBalance(res.balance);
   }
 
   return (

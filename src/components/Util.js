@@ -493,7 +493,34 @@ export function getStageTitle(data)
   let index = parseInt(data.fundraising_stage);
   return data.vesting[index].stage_title;
 }
+export async function getTokenInfo(api, state, tokenAddress)
+{
+  let tokenInfo;
+  let balance;
+  try{
+    tokenInfo = await api.contractQuery(
+      tokenAddress,
+      {
+        token_info: {},
+      }
+    )
+console.log(tokenInfo)
+    let res = await api.contractQuery(
+      tokenAddress,
+      {
+        balance: { address: state.connectedWallet.walletAddress}
+      }
+    )
 
+console.log(res)
+    balance = parseInt(res.balance)/10**(parseInt(tokenInfo.decimals))
+  }
+  catch(e){
+    toast("Invalid Token Address", errorOption);
+    return false;
+  }
+  return {symbol: tokenInfo.symbol, balance: balance};
+}
 export function Set2Mainnet(state, dispatch)
 {
   window.localStorage.setItem('net', "mainnet");

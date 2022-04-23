@@ -41,7 +41,7 @@ export default function ExplorerProject() {
   const navigate = useNavigate()
   const { state, dispatch } = useStore()
   const [postProjectData, setPostProjectData] = useState('')
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpenCloseWhitelist, onOpenCloseWhitelist, onCloseCloseWhitelist } = useDisclosure()
   const [projectID, setProjectID] = useState(0);
 
   let activeTab
@@ -153,7 +153,7 @@ export default function ExplorerProject() {
       return false
 
     setProjectID(project_id);
-    onOpen();
+    onOpenCloseWhitelist();
   }
   async function JoinWhitelist(state, project_id) {
     if (CheckNetwork(state.connectedWallet, state) == false)
@@ -391,7 +391,7 @@ export default function ExplorerProject() {
           </Flex>
         </Box>
       </Flex>
-      <Whitelist projectID={projectID} fetch={fetchContractQuery} isOpen={isOpen} onClose={onClose} />
+      <Whitelist projectID={projectID} fetch={fetchContractQuery} isOpen={isOpenCloseWhitelist} onClose={onCloseCloseWhitelist} />
       <Footer />
     </PageLayout>
   )
