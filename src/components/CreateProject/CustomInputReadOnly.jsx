@@ -17,9 +17,6 @@ export default function CustomInputReadOnly({typeText, type, w, mt}) {
     <Box w={w} mt={mt}>
       <Flex justify="space-between">
         <Text mb="20px">{typeText}</Text>
-        <Text fontSize="15px" opacity="0.5">
-          {type?.length}/100 words
-        </Text>
       </Flex>
       <InputTransition
         unitid={"inputtransition" + typeText}

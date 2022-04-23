@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, forwardRef, useCallback } from 'react'
-import { Box, Flex, HStack, VStack, } from '@chakra-ui/react'
+import { Box, Flex, HStack, VStack,   useDisclosure} from '@chakra-ui/react'
 import {
   Sleep,
   FetchData,
@@ -27,18 +27,22 @@ import Informations from '../components/ProjectExplorer/Informations'
 import MainButtons from '../components/ProjectExplorer/MainButtons'
 import ProjectPaginator from '../components/ProjectExplorer/ProjectPaginator'
 import CircularProgresses from '../components/ProjectExplorer/CircularProgresses'
+import Whitelist from '../components/ProjectExplorer/Whitelist'
 
 import MobileLogo from '../components/ProjectExplorer/Mobile/Logo'
 import MobileTitle from '../components/ProjectExplorer/Mobile/Title'
 import MobileStatusButtons from '../components/ProjectExplorer/Mobile/StatusButtons'
 import MobileInformations from '../components/ProjectExplorer/Mobile/Informations'
 import MobileMainButtons from '../components/ProjectExplorer/Mobile/MainButtons'
+
 import { toast } from 'react-toastify'
 
 export default function ExplorerProject() {
   const navigate = useNavigate()
   const { state, dispatch } = useStore()
   const [postProjectData, setPostProjectData] = useState('')
+  const { isOpenCloseWhitelist, onOpenCloseWhitelist, onCloseCloseWhitelist } = useDisclosure()
+  const [projectID, setProjectID] = useState(0);
 
   let activeTab
   //------------extract active mode----------------------------
@@ -56,9 +60,11 @@ export default function ExplorerProject() {
       clearInterval(state.timer)
       dispatch({ type: 'setTimer', message: '' })
     }
+
+    setPostProjectData('');
     navigate('/explorer?activetab=' + mode)
   }
- 
+
   //-------------paginator-----------------------------------
   const [current, setCurrent] = useState(1)
   const pageSize = 3
@@ -145,27 +151,14 @@ export default function ExplorerProject() {
   async function CloseWhitelist(project_id) {
     if (CheckNetwork(state.connectedWallet, state) == false)
       return false
-    let msg = new MsgExecuteContract(
-      state.connectedWallet.walletAddress,
-      state.WEFundContractAddress,
-      {
-        close_whitelist: {
-          project_id: project_id,
-        }
-      }
-    )
-    await EstimateSend(
-      state.connectedWallet,
-      state.lcd_client,
-      [msg],
-      'Close Whitelist success',
-    )
-    fetchContractQuery(true)
+
+    setProjectID(project_id);
+    onOpenCloseWhitelist();
   }
   async function JoinWhitelist(state, project_id) {
     if (CheckNetwork(state.connectedWallet, state) == false)
       return false
-    
+
     let msg = new MsgExecuteContract(
       state.connectedWallet.walletAddress,
       state.WEFundContractAddress,
@@ -242,9 +235,10 @@ export default function ExplorerProject() {
     fetchContractQuery()
   }, [activeTab, state.net, state.connectedWallet])
 
-  function Modify(project_id){
+  function Modify(project_id) {
     navigate('/create?project_id=' + project_id);
   }
+
   return (
     <PageLayout title="Projects" subTitle1="Explore" subTitle2="Projects">
       <Tabs activeTab={activeTab} onChangeActivetab={onChangeActivetab} />
@@ -397,6 +391,7 @@ export default function ExplorerProject() {
           </Flex>
         </Box>
       </Flex>
+      <Whitelist projectID={projectID} fetch={fetchContractQuery} isOpen={isOpenCloseWhitelist} onClose={onCloseCloseWhitelist} />
       <Footer />
     </PageLayout>
   )

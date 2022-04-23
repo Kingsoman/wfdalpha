@@ -23,7 +23,6 @@ export default function UserSideSnippet() {
       let projectCount = 0
       let totalbacked = 0
       let tokens = [];
-      console.log(state.connectedWallet);
 
       for (let i = 0; i < projectData.length; i++) {
         let one = projectData[i]
@@ -33,15 +32,6 @@ export default function UserSideSnippet() {
           ) {
             projectCount++;
             totalbacked += one.backer_states[j].ust_amount.amount;
-          }
-        }
-        for (let j = 0; j < one.communitybacker_states.length; j++) {
-          if (
-            one.communitybacker_states[j].backer_wallet ==
-            state.connectedWallet.walletAddress
-          ) {
-            projectCount++;
-            totalbacked += one.communitybacker_states[j].ust_amount.amount;
           }
         }
 

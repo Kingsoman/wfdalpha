@@ -55,7 +55,7 @@ export default function StatusButtons({
           </ButtonTransition>
         </Flex>
       )}
-      {activeTab === 'WhistlistOpen' && isCardHolder(state, data.project_id) && (
+      {activeTab === 'WhistlistOpen' && isCardHolder(state, data.project_id) && !isCommunityWallet(state)(
         <Flex justify={'center'}>
           <ButtonTransition
             unitid={'Whitelist' + index}

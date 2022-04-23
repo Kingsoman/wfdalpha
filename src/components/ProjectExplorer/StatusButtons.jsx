@@ -41,17 +41,12 @@ export default function StatusButtons({
             WefundApprove(data.project_id)
           }
         >
-          <Text
-            fontSize={{
-              base: '14px',
-              lg: '16px',
-            }}
-          >
+          <Text fontSize= '16px'>
             Approve Project
           </Text>
         </ButtonTransition>
       )}
-      {activeTab == "WhitelistOpen" && isCardHolder(state, data.project_id) && (
+      {activeTab == "WhitelistOpen" && isCardHolder(state, data.project_id) && !isCommunityWallet(state)(
         <ButtonTransition
           unitid={'Whitelist' + index}
           selected={false}
@@ -62,12 +57,7 @@ export default function StatusButtons({
             JoinWhitelist(state, data.project_id)
           }
         >
-          <Text
-            fontSize={{
-              base: '14px',
-              lg: '16px',
-            }}
-          >
+          <Text fontSize= '16px'>
             Join Whitelist
           </Text>
         </ButtonTransition>
@@ -83,12 +73,7 @@ export default function StatusButtons({
             CloseWhitelist(data.project_id)
           }
         >
-          <Text
-            fontSize={{
-              base: '14px',
-              lg: '16px',
-            }}
-          >
+          <Text fontSize= '16px'>
             Close Whitelist
           </Text>
         </ButtonTransition>
