@@ -1,8 +1,9 @@
 import React from 'react'
-import { Flex, Text, Image } from '@chakra-ui/react'
+import { Flex, Text, Image, Button } from '@chakra-ui/react'
 
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
+import {MdArrowLeft, MdArrowRight} from 'react-icons/md'
 
 const responsive = {
   superLargeDesktop: {
@@ -51,6 +52,8 @@ export default function Problem() {
           keyBoardControl={true}
           responsive={responsive}
           transitionDuration={500}
+          customLeftArrow={<Flex w='80px' position='absolute' left='calc(4% + 1px)' color='#63CDFA'><MdArrowLeft size='80' /></Flex>}
+          customRightArrow={<Flex w='80px' position='absolute' right='calc(4% + 1px)' color='#63CDFA'><MdArrowRight size='80px' /></Flex>}
         >
           <Flex
             zIndex={'4'}
