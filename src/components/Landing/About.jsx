@@ -103,9 +103,10 @@ const AboutDesktop = function() {
         >
           <Flex
             direction={'row'}
-            bgGradient="Linear(#340B6E, transparent)"
+            bgGradient="linear-gradient(90deg, #5201C5 0%, rgba(52, 11, 110, 0) 100%)"
             borderRadius={{ base: '10px', md: '15px', lg: '15px' }}
-            p={'32px'}>
+            p={'32px'}
+          >
             <Image
               objectFit="contain"
               src="/media/Home/about-icon-2.png"
@@ -127,7 +128,7 @@ const AboutDesktop = function() {
           </Flex>
           <Flex
             direction={'row'}
-            bgGradient="Linear(#340B6E, transparent)"
+            bgGradient="linear-gradient(90deg, #5201C5 0%, rgba(52, 11, 110, 0) 100%)"
             borderRadius={{ base: '10px', md: '15px', lg: '15px' }}
             p={'32px'}>
             <Image

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Flex, Text, Select, Link, Image, Stack } from "@chakra-ui/react";
-import { ButtonBackTransition } from '../ImageTransition';
+import { Flex, Text, Select, Link, Image, Stack, Icon, Box } from "@chakra-ui/react";
+import { ButtonBackTransition, ImageTransition } from '../ImageTransition';
+import {MdArrowDropDown} from 'react-icons/md';
 
 const litepaperLinks = {
   en: '/media/Litepaper_WeFund_2_2.pdf',
@@ -83,6 +84,9 @@ export default function Litepaper() {
           backgroundColor="#1A133E"
           onChange={handleSelectChange}
           placeholder="Select language"
+          icon={<Flex minW={'40px'} mr={'30px'}><MdArrowDropDown size={'40px'} /></Flex>}
+          iconSize={'40px'}
+          iconColor={'#63CDFA'}
           width={{ base: '90%', md: '70%', lg: '50%' }}
         >
           {paperLangs.map((lang) => 
@@ -101,12 +105,18 @@ export default function Litepaper() {
             mt="30px"
             width={{ base: '90%', md: '70%', lg: '50%' }}
           >
-            <ButtonBackTransition
-              width="100%"
-              height="45px"
-              rounded="100px"
+            <ImageTransition
+              unitid={'downwhitepaper1'}
+              border1="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
+              background1="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
+              border2="linear-gradient(93.39deg, #9EB2F8 32.71%, #35D4F8 54.1%, #14327D 79.26%)"
+              background2="#1B0032"
+              border3="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
+              background3="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
               selected={false}
-              unitid="downwhitepaper"
+              width={'100%'}
+              height={'45px'}
+              rounded={'100px'}
             >
               <Flex
                 w="100%"
@@ -123,7 +133,7 @@ export default function Litepaper() {
                 </Text>
                 <Image src="/media/Download.svg" />
               </Flex>
-            </ButtonBackTransition>
+            </ImageTransition>
           </Flex>
         </Link>
         <Text
@@ -140,7 +150,13 @@ export default function Litepaper() {
             mt="10px"
             width={{ base: '90%', md: '70%', lg: '50%' }}
           >
-            <ButtonBackTransition
+            <ImageTransition
+              border1="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
+              background1="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
+              border2="linear-gradient(270.84deg, #9EB2F8 18.92%, #35D4F8 58.24%, #14327D 104.49%)"
+              background2="#1B0032"
+              border3="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
+              background3="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
               width="100%"
               height="45px"
               rounded="100px"
@@ -162,7 +178,7 @@ export default function Litepaper() {
                 </Text>
                 <Image src="/media/Download.svg" />
               </Flex>
-            </ButtonBackTransition>
+            </ImageTransition>
           </Flex>
         </Link>
       </Stack>
