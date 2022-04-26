@@ -1,6 +1,7 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Flex, Stack, Text, UnorderedList, IconButton, Button, ListItem, Box, HStack, VStack, useBreakpointValue, Image } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
+import { Parallax } from 'react-scroll-parallax';
 
 const timelines = [
   {
@@ -46,6 +47,41 @@ const timelines = [
   },
 ]
 
+function getScrollPosition() {
+  return typeof window !== 'undefined'
+    ? { x: window.pageXOffset, y: window.pageYOffset }
+    : { x: 0, y: 0 };
+}
+
+function useScrollFollow() {
+  const targetRef = useRef();
+  // const [position, setPosition] = useState(getScrollPosition());
+  const [percentage, setPercentage] = useState(0.0);
+
+  const scrollCallback = () => {
+    setPosition(getScrollPosition())
+    if (!targetRef.current) {
+      return
+    }
+
+    
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollCallback);
+    window.addEventListener('resize', scrollCallback);
+    return () => window.removeEventListener('scroll', scrollCallback)
+  }, []);
+
+
+
+  return {
+    position,
+    percentage,
+    targetRef,
+  };
+}
+
 const RoadmapItem = function(props) {
   const {title, items, isTop, isLast} = props
   
@@ -63,7 +99,7 @@ const RoadmapItem = function(props) {
           width={'360px'}
           top={'calc(50% - 5px)'}
           left={'12px'}
-          data-aos="fade-left"
+          data-aos="fade-in"
           data-aos-delay="500"
           />}
         
@@ -86,7 +122,7 @@ const RoadmapItem = function(props) {
           width={'360px'}
           top={'calc(50% - 5px)'}
           left={'12px'}
-          data-aos="fade-left"
+          data-aos="fade-in"
           data-aos-delay="1000"
           />}
       </Box>
@@ -98,21 +134,82 @@ const RoadmapItem = function(props) {
   )
 }
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}
+
+
 const HorizontalRoadmap = function() {
-  const carouselEl = useRef()
+  const carouselEl = useRef();
+  const scrollFollowEl = useRef();
+  const {width} = useWindowDimensions()
+  const [scrollable, setScrollable] = useState(true)
 
-  const navBtn = useBreakpointValue({base: true, md: false})
+  const [progress, setProgress] = useState(0);
   
-  const onClickNext = () => {
-    carouselEl.current.scrollBy(340, 0)
+  // useEffect(() => {
+  //   console.log(`Progress : ${progress}`)
+  // }, [progress])
+  useEffect(() => {
+    if (!carouselEl.current) {
+      return
+    }
+
+    setScrollable(carouselEl.current.scrollWidth > width)
+
+    if (scrollable) {
+      let scrollTo = progress * carouselEl.current.scrollWidth
+      carouselEl.current.scrollTo(scrollTo, 0)
+    }
+  }, [width, progress])
+
+  const maxScroll = 0.66
+  const minScroll = 0.36
+  const setScrollableNormalize = (newProgress) => {
+    let _progress = (newProgress - minScroll) / (maxScroll - minScroll)
+    if (_progress < 0) {
+      _progress = 0
+    } else if (_progress > 1) {
+      _progress = 1
+    }
+    
+    console.log(`Progress : ${newProgress}`)
+    console.log(`Normalize Progress : ${_progress}`)
+    setProgress(_progress)
   }
 
-  const onClickPrev = () => {
-    carouselEl.current.scrollBy(-340, 0)
-  }
+
+  // const onClickNext = () => {
+  //   carouselEl.current.scrollBy(340, 0)
+  // }
+
+  // const onClickPrev = () => {
+  //   carouselEl.current.scrollBy(-340, 0)
+  // }
+
 
   return (
-    <Stack mb={''}>
+    
+    <Stack>
       <Text
         color="#63CDFA"
         fontFamily="PilatExtended-Bold"
@@ -120,21 +217,18 @@ const HorizontalRoadmap = function() {
         textTransform={'uppercase'}
         alignSelf={'center'}
         mb="1em">Roadmap</Text>
-      <Box position={'relative'}>
-        {navBtn && <>
-        <IconButton aria-label='Previous' onClick={onClickPrev} position={'absolute'} top={'50%'} left={'1em'} zIndex={5} icon={<ChevronLeftIcon />} rounded="full" color={'gray'} />
-        <IconButton aria-label='Next' onClick={onClickNext} position={'absolute'} top={'50%'} right={'1em'} zIndex={5} icon={<ChevronRightIcon />} rounded="full" color={'gray'} />
-        </>}
         
-
-        <HStack alignItems={'center'} height={'calc(80vh + 24px)'} scrollSnapType={'x mandatory'} overflowY={'hidden'} overflowX={'hidden'} overscrollBehaviorX={'contain'} ref={carouselEl} scrollBehavior={'smooth'}>
-          <Box pl={'12em'}></Box>
-          {timelines.map((item, i) => <RoadmapItem key={i} title={item.title} items={item.items} isTop={(i % 2) == 1} isLast={timelines.length == i+1} />)}
-          <Box pr={'12em'}></Box>
-        </HStack>
-        
+      <Box position={'relative'} height={'90vh'}>
+        <Parallax speed={-10} onProgressChange={(progress) => setScrollableNormalize(progress)}>
+          <HStack alignItems={'center'} justifyContent={!scrollable?'center':'initial'} height={'calc(80vh + 24px)'} overflowY={'hidden'} overflowX={'hidden'} ref={carouselEl} >
+            <Box ml={'12em'} ref={scrollFollowEl}></Box>
+            {timelines.map((item, i) => <RoadmapItem key={i} title={item.title} items={item.items} isTop={(i % 2) == 0} isLast={timelines.length == i+1} />)}
+            <Box mr={'12em'}></Box>
+          </HStack>
+        </Parallax>
       </Box>
     </Stack>
+    
   )
 }
 

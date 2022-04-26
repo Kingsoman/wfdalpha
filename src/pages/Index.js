@@ -6,6 +6,7 @@ import 'aos/dist/aos.css' // You can also use <link> for styles
 
 import 'react-multi-carousel/lib/styles.css'
 
+
 import theme from '../theme'
 import Footer from '../components/Footer'
 import Team from '../components/Landing/Team'
