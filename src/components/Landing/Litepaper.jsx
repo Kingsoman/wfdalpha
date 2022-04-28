@@ -72,6 +72,7 @@ export default function Litepaper() {
           fontWeight="bold"
           fontFamily="PilatExtended-Bold"
           fontSize={{ base: '24', md: '36' }}
+          textAlign={'center'}
         >
           Select Litepaper Languange
         </Text>
