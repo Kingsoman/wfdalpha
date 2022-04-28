@@ -21,6 +21,7 @@ import Partners from '../components/Landing/Partners'
 import Advisors from '../components/Landing/Advisors'
 import UpcomingProject from '../components/Landing/ComingSoonCarousel'
 import IncubationProject from '../components/Landing/IncubationProject'
+import Eco from '../components/Landing/Ecosystem'
 
 export default () => {
   useEffect(() => {
@@ -39,6 +40,7 @@ export default () => {
         <UpcomingProject />
         <IncubationProject />
         <Partners />
+        <Eco />
         <Team />
         <Advisors />
         <Footer />
