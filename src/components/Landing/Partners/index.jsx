@@ -180,7 +180,7 @@ export default function Partners() {
         <Box
           mx="auto"
           pb={'2em'}
-          width={{ base: '100%', md: '86vw', lg: '86vw' }}
+          width={{ base: '100%', md: '86vw', lg: '76vw' }}
         >
           <Carousel
             infinite
@@ -234,7 +234,7 @@ export default function Partners() {
           flexDirection="column"
           alignContent={'center'}
           justifyContent={'center'}
-          width={{ base: '100%', md: '86vw', lg: '86vw' }}
+          width={{ base: '100%', md: '86vw', lg: '76vw' }}
         >
           <Carousel
             infinite
