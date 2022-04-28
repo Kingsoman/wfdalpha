@@ -9,7 +9,7 @@ export default function Eco() {
  alignItems="center"
  flexDirection="column"
  backgroundSize={'contain'}
- backgroundImage="/media/Home/40.png"
+ backgroundImage="/media/Home/40_1.png"
  padding={{ base: '5em', md: '8em', lg: '10em' }}>
     <Box boxSize='full'>
         <Image src='/media/partners/eco.jpg'/>

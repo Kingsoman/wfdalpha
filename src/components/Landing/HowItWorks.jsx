@@ -48,10 +48,11 @@ export default function Works() {
         bgGradient="linear(#1E0024, #150049)"
         mb={{ base: '3em', md: '5em', lg: '6em' }}
         width={{ base: '95%', md: '90%', lg: '65em' }}
-        height={{ base: '26em', md: '33em', lg: '40em' }}
-        borderRadius={{ base: '10px', md: '20px', lg: '20px' }}
+        // height={{ base: '26em', md: '33em', lg: '40em' }}
+        borderRadius={{ base: '10px', md: '20px', lg: '40px' }}
       >
-        <Flex
+        <Image src="/media/Home/40.png" width="100%"/>
+        {/* <Flex
           width="100%"
           height={'100%'}
           fontWeight="bold"
@@ -228,7 +229,7 @@ export default function Works() {
               benefit
             </Text>
           </Flex>
-        </Flex>
+        </Flex> */}
       </Flex>
       <Flex
         fontFamily="PilatExtended-Bold"
