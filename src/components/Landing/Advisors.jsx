@@ -83,7 +83,6 @@ export default function Advisors() {
                 mx={{ base: '2vw', md: '2vw', lg: '1vw' }}
                 mb={{ base: '1vw', md: '1vw', lg: '.5vw' }}
                 width={{ base: '44vw', md: '33vw', lg: '17vw' }}
-                height={{ base: '12em', md: '18em', lg: '18em' }}
               />
               <Flex
                 flexWrap={'wrap'}

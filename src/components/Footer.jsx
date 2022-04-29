@@ -110,6 +110,7 @@ export default function Newfooter() {
         width={{ lg: '100%' }}
         alignItems={{ base: 'center' }}
         py={{ base: '2em', md: '2em', lg: '2em' }}
+        px={{ base: '1em', md: '1em', lg: '1em' }}
         flexDirection={{ base: 'column', md: 'row', lg: 'row' }}
       >
         <Input
@@ -131,6 +132,7 @@ export default function Newfooter() {
           fontFamily="Sk-Modernist-Regular"
           mt={{ base: '5px', md: '0', lg: '0' }}
           fontSize={{ lg: '16px', md: '16px', base: '14px' }}
+          width={{ base: '100%', md: 'auto' }}
         >
           Subscribe
         </Button>

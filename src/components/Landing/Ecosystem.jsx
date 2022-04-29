@@ -11,7 +11,7 @@ export default function Eco() {
  backgroundSize={'contain'}
  backgroundImage="/media/Home/40_1.png"
  padding={{ base: '1em', md: '8em', lg: '10em' }}
- my={'12'}
+ my={'4em'}
 >
     <Box boxSize='full'>
         <Image src='/media/partners/eco.jpg'/>

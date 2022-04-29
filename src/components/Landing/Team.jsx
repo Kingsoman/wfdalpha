@@ -45,8 +45,8 @@ export default function Team() {
       </Flex>
 
       <Flex
-        mt={'2em'}
-        pb={'2em'}
+        mt={{base:'1em', md:'2em'}}
+        pb={{base:'1em', md:'2em'}}
         position={'relative'}
         flexDirection="column"
         justifyContent={'flex-start'}

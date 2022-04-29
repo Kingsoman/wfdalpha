@@ -24,7 +24,7 @@ export default function Hero() {
       <Stack>
         <Text
           fontFamily="PilatExtended-Bold"
-          fontSize={{ base: '24px', md: '64px'}}
+          fontSize={{ base: '20px', md: '64px'}}
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
           letterSpacing={{base: '0.1em'}}
           textTransform={'uppercase'}
@@ -33,7 +33,7 @@ export default function Hero() {
         </Text>
         <Text
           fontFamily="PilatExtended-Black"
-          fontSize={{ base: '24px', md: '64px'}}
+          fontSize={{ base: '21px', md: '64px'}}
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
           letterSpacing={{base: '0.1em'}}
           textTransform={'uppercase'}
@@ -43,7 +43,7 @@ export default function Hero() {
         </Text>
         <Text
           fontFamily="PilatExtended-Black"
-          fontSize={{ base: '24px', md: '64px'}}
+          fontSize={{ base: '21px', md: '64px'}}
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
           letterSpacing={{base: '0.1em'}}
           textShadow="0px 10px 10px rgba(9, 2, 90, 0.73)"
@@ -59,7 +59,7 @@ export default function Hero() {
         objectFit="contain"
         src="/media/Home/1.svg"
       />
-      <Box position={'absolute'} bottom={'0'} width={'100%'} height={'124px'} background={'linear-gradient(180deg, rgba(30, 0, 39, 0) 0%, #1E0027 60.72%)'} />
+      <Box position={'absolute'} bottom={'0'} width={'100%'} height={'121px'} background={'linear-gradient(180deg, rgba(30, 0, 39, 0) 0%, #1E0027 60.72%)'} />
     </Flex>
   )
 }

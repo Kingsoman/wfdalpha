@@ -27,7 +27,8 @@ const responsive = {
 export default function UpcomingProject() {
   return (
     <Flex
-      mt={'3em'}
+      mt={{base:'1em', md:'3em'}}
+      mb={{base:'5em', md:'3em'}}
       width="100%"
       alignItems="center"
       flexDirection="column"
@@ -38,11 +39,11 @@ export default function UpcomingProject() {
         fontSize={{ md: '25px', lg: '30px' }}
         mb="1em"
         background={'linear-gradient(90deg, rgba(42, 246, 255, 0) 20%, #63CDFA 48.75%, rgba(42, 246, 255, 0) 80%)'}
-        width={'100%'}
+        width={'150%'}
         justifyContent={'center'}
       >
         
-        <Text color="#1F196B" >UPCOMING PROJECTS</Text>
+        <Text color="#cbe3ff" >UPCOMING PROJECTS</Text>
       </Flex>
       <Box
         width={{ base: '100%', md: '86vw', lg: '86vw' }}
