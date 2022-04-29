@@ -183,7 +183,8 @@ const team = [
   {
     name: 'Achuth Chandran',
     role: 'CFO',
-    imgsrc: '/media/Home/47.png',
+    link: 'https://ae.linkedin.com/in/achuth-k-chandran-b17880102',
+    imgsrc: '/media/Home/Achuth.png',
     logos: [
       '/media/Home/55.png',
       '/media/Home/52.png',
@@ -216,9 +217,5 @@ const team = [
     role: 'Web Development & Content Creation',
     imgsrc: '/media/Home/64.png',
   },
-  {
-    name: 'Ahmed Ashraf',
-    role: 'Front end Dev',
-    imgsrc: '/media/Home/65.png',
-  },
+  
 ]
