@@ -33,7 +33,7 @@ export default function Problem() {
       alignItems="center"
       flexDirection="column"
       backgroundSize={'contain'}
-      backgroundImage="/media/Home/40.png"
+      backgroundImage="/media/Home/40_1.png"
       mt={{ base: '4em', md: '4em', lg: '8em' }}
       mb={{ base: '1em', md: '5em', lg: '10em' }}
     >

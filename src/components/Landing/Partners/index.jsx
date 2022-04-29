@@ -45,7 +45,7 @@ const mediaPartnerResponsive = {
 
 export default function Partners() {
   return (
-    <Box as="section" mb="28" zIndex="5" w="100%" position="relative">
+    <Box as="section" mb={{base:"5", md: "10", lg:"28"}} zIndex="5" w="100%" position="relative">
       <Box mx="auto" alignSelf="center" alignContent="center">
         <Text
           color="#63CDFA"
