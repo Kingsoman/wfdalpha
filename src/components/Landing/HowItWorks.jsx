@@ -292,7 +292,7 @@ export default function Works() {
 
       <Flex
         fontFamily="PilatExtended-Bold"
-        fontSize={{ md: '25px', lg: '30px' }}
+        fontSize={{ base: '14px', sm: '18px', md: '25px', lg: '30px' }}
       >
         <Text color="#63CDFA">COMPETITIVE</Text>
         <Text color="white" ml={'10px'}>
@@ -305,7 +305,7 @@ export default function Works() {
         position={'relative'}
         flexDirection="column"
         justifyContent={'flex-start'}
-        width={{ base: '70%', md: '90%', lg: '100%' }}
+        width={{ base: '100%', md: '100%', lg: '100%' }}
       >
         <Carousel
           infinite
@@ -323,6 +323,7 @@ export default function Works() {
             <Flex
               key={i}
               m={'1em'}
+              px={{base: '1em', md:'0.25em'}}
               zIndex={'4'}
               textAlign="center"
               alignItems={'center'}

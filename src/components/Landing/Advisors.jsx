@@ -143,7 +143,7 @@ const team = [
     name: 'John McLean',
     role: 'Legal',
     logos: ['/media/Home/44.png', '/media/Home/59.png', '/media/Home/45.png'],
-    imgsrc: '/media/Home/John.jpg',
+    imgsrc: '/media/Home/john.jpg',
   },
   {
     name: 'Achuth',
