@@ -9,24 +9,21 @@ const timelines = [
     items: [
       {text: 'Platform 1.0 launch', complete: true},
       {text: 'Community registration system', complete: true},
-      {text: 'Investor project approval by voting power', complete: true},
-      {text: 'Create a project with the milestone system', complete: true},
-      {text: 'Multi-stage fundraising', complete: true},
-      {text: 'Milestone money release with backer\'s approval voting power', complete: true},
+      {text: 'Investor project approval ', complete: true},
+      {text: 'Create a project milestone system', complete: true},
+      {text: 'Milestone money release', complete: true},
       {text: 'Complete Seed/Private sale fundraise', complete: false},
-      {text: 'Complete Presale fundraise', complete: false},
-      {text: 'Marketing for Initial Offering', complete: false},
-      {text: '10 project for incubation and fundraise', complete: false},
+      {text: 'Marketing for Initial Offering', complete: true},
+      {text: '10 project for incubation and fundraise', complete: true},
     ]
   },
   {
     title: 'Q2 2022',
     items: [
+      {text: 'Platform update 2.0', complete: true},
+      {text: 'Have 10 project hosted on WeFund', complete: true},
       {text: 'Fundraising for the project hosted on WeFund', complete: false},
-      {text: 'Platform update 2.0', complete: false},
-      {text: 'Have 10 project hosted on WeFund', complete: false},
-      {text: 'Fundraising for the project hosted on WeFund', complete: false},
-      {text: 'Real-world project implementation', complete: false},
+      {text: 'Real-world project implementation', complete: true},
     ]
   },
   {
@@ -34,7 +31,7 @@ const timelines = [
     items: [
       {text: 'Have successfull fundraising for the first 10 projects', complete: false},
       {text: 'Platform update 3.0', complete: false},
-      {text: 'Starting real-word project incubation', complete: false},
+      {text: 'Starting real-word project incubation', complete: true},
     ]
   },
   {

@@ -72,7 +72,7 @@ export default function UpcomingProject() {
                 cursor="pointer"
                 data-aos="fade-down"
                 objectFit="contain"
-                src="/media/partners/pandai.png"
+                src="/partner/Kosu.png"
                 width={{ base: '20em' }}
                 height={{ base: '15em' }}
               />
