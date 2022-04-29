@@ -7,7 +7,7 @@ dist/
 **/.DS_Store
 tmp/
 package-lock.json
-yarn.lock
+
 yarn-error.log
 public/upload/
 public/PDF/*.pdf
