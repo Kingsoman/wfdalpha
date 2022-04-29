@@ -38,8 +38,6 @@ export default () => {
         <Works />
         <RoadMap />
         <UpcomingProject />
-        <IncubationProject />
-        <Partners />
         <Eco />
         <Team />
         <Advisors />
