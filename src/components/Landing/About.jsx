@@ -41,21 +41,36 @@ const AboutMobile = function() {
           ABOUT WeFund
         </Text>
         <Text
-          display="inline"
-          fontSize={{ base: '16px' }}
-          fontFamily="Sk-Modernist-Regular"
-        >
-          <b>WeFund</b> is a crowdfunding incubator and launchpad for blockchain
-          and real-world projects built on various blockchains.
+              flex={1}
+              display="inline"
+              fontSize={{ base: '16px', md: '20px', lg: '20px' }}
+              fontFamily="Sk-Modernist-Regular"
+              marginLeft={'32px'}
+            >
+              <chakra.span color={'brand'}><b>WeFund</b> is a crowdfunding incubator and launchpad</chakra.span> for blockchain
+              and real-world projects built on various blockchains.
           The mission is to incubate and deliver real world impact projects using blockchian technology
-          <br />
-          <br /> To increase transparency, minimize risk, and hold projects
-          accountable for the funds raised, WeFund has a unique milestone system. This means the WeFund backers
-          at each milestone of a project's development, vote as to
-          whether the relevant milestone has been achieved, with the outcome
-          determining release of funds for the
-          project to achieve its next milestone.
-        </Text>
+            </Text>
+          </Flex>
+          <Flex
+            direction={'row'}
+            bgGradient="linear-gradient(90deg, #5201C5 0%, rgba(52, 11, 110, 0) 100%)"
+            borderRadius={{ base: '10px', md: '15px', lg: '15px' }}
+            p={'32px'}>
+            <Image
+              objectFit="contain"
+              src="/media/Home/about-icon-1.png"
+            />
+            <Text
+              flex={1}
+              display="inline"
+              fontSize={{ base: '16px', md: '20px', lg: '20px' }}
+              fontFamily="Sk-Modernist-Regular"
+              marginLeft={'32px'}
+            >
+              To increase transparency, minimize risk, and hold projects
+              accountable for the funds raised, <chakra.span color={'brand'}>WeFund has a milestone system.</chakra.span> 
+            </Text>
       </Flex>
     </Flex>
   )

@@ -145,13 +145,7 @@ const team = [
     logos: ['/media/Home/44.png', '/media/Home/59.png', '/media/Home/45.png'],
     imgsrc: '/media/Home/john.jpg',
   },
-  {
-    name: 'Achuth',
-    role: 'Legal',
-    link: 'https://ae.linkedin.com/in/achuth-k-chandran-b17880102',
-    logos: ['/media/Home/44.png', '/media/Home/59.png', '/media/Home/45.png'],
-    imgsrc: '/media/Home/Achuth.png',
-  },
+
   {
     name: 'Trevor.UST',
     role: 'Terra Ecosystem',

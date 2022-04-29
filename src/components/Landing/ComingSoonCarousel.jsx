@@ -51,7 +51,7 @@ export default function UpcomingProject() {
         <Carousel
           autoPlay
           swipeable={true}
-          showDots={true}
+          showDots={false}
           showThumbs={false}
 
           responsive={responsive}
