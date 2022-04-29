@@ -247,7 +247,7 @@ export default function Works() {
         backgroundImage="/media/Home/42.png"
         mt={{ base: '1em', md: '1em', lg: '1em' }}
         mb={{ base: '4em', md: '8em', lg: '10em' }}
-        width={{ base: '98%', md: '90%', lg: '75em' }}
+        width={{ base: '88%', md: '90%', lg: '75em' }}
         justifyContent={{ base: 'center', md: 'center', lg: 'center' }}
       >
         {tokens.map((e, i) => (
@@ -262,14 +262,14 @@ export default function Works() {
             bgGradient="linear(#430E82, #1D0551)"
             m={{ base: '.2em', md: '.5em', lg: '.5em' }}
             p={{ base: '.2em', md: '.5em 1em', lg: '1em' }}
-            width={{ base: '46%', md: '18em', lg: '19em' }}
-            height={{ base: '14em', md: '20em', lg: '22em' }}
+            width={{ base: '36%', md: '18em', lg: '19em' }}
+            height={{ base: '14em', md: '20em', lg: '18em' }}
             borderRadius={{ base: '10px', md: '15px', lg: '15px' }}
           >
             <Image
               src={e.img}
               objectFit="contain"
-              width={{ base: '80%', md: '70%', lg: '70%' }}
+              width={{ base: '50%', md: '70%', lg: '70%' }}
               height={{ base: '6em', md: '7em', lg: '60%' }}
             />
             <Text
@@ -305,7 +305,7 @@ export default function Works() {
         position={'relative'}
         flexDirection="column"
         justifyContent={'flex-start'}
-        width={{ base: '100%', md: '100%', lg: '100%' }}
+        width={{ base: '70%', md: '90%', lg: '100%' }}
       >
         <Carousel
           infinite

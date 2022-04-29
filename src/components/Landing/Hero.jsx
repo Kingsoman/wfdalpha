@@ -29,7 +29,7 @@ export default function Hero() {
           letterSpacing={{base: '0.1em'}}
           textTransform={'uppercase'}
           textShadow="0px 10px 10px rgba(9, 2, 90, 0.73)">
-          Community
+          Crowdfunding
         </Text>
         <Text
           fontFamily="PilatExtended-Black"
@@ -39,7 +39,7 @@ export default function Hero() {
           textTransform={'uppercase'}
           textShadow="0px 10px 10px rgba(9, 2, 90, 0.73)"
           color={'brand'}>
-          Crowdfunding
+          Incubator
         </Text>
         <Text
           fontFamily="PilatExtended-Black"
@@ -48,7 +48,7 @@ export default function Hero() {
           letterSpacing={{base: '0.1em'}}
           textShadow="0px 10px 10px rgba(9, 2, 90, 0.73)"
           textTransform={'uppercase'}>
-          Incubator
+          Launchpad
         </Text>
       </Stack>
       </Container>

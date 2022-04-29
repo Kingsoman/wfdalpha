@@ -45,16 +45,12 @@ const AboutMobile = function() {
           fontSize={{ base: '16px' }}
           fontFamily="Sk-Modernist-Regular"
         >
-          <b>WeFund</b> is a community crowdfunding incubator for blockchain
-          and real-world projects built on various blockchains including
-          Terra, Solana, Ethereum, and more. WeFund's platform is built on the
-          Terra blockchain. WeFund has the
-          capability to implement various blockchain and real-world projects,
-          bridging the gap between the real world and blockchain.
+          <b>WeFund</b> is a crowdfunding incubator and launchpad for blockchain
+          and real-world projects built on various blockchains.
+          The mission is to incubate and deliver real world impact projects using blockchian technology
           <br />
           <br /> To increase transparency, minimize risk, and hold projects
-          accountable for the funds raised, WeFund has a unique community
-          vetting and unique milestone system. This means the WeFund community
+          accountable for the funds raised, WeFund has a unique milestone system. This means the WeFund backers
           at each milestone of a project's development, vote as to
           whether the relevant milestone has been achieved, with the outcome
           determining release of funds for the
@@ -118,12 +114,9 @@ const AboutDesktop = function() {
               fontFamily="Sk-Modernist-Regular"
               marginLeft={'32px'}
             >
-              <chakra.span color={'brand'}><b>WeFund</b> is a community crowdfunding incubator</chakra.span> for blockchain
-              and real-world projects built on various blockchains including
-              Terra, Solana, Ethereum, and more. WeFund's platform is built on the
-              Terra blockchain. WeFund has the
-              capability to implement various blockchain and real-world projects,
-              bridging the gap between the real world and blockchain.
+              <chakra.span color={'brand'}><b>WeFund</b> is a crowdfunding incubator and launchpad</chakra.span> for blockchain
+              and real-world projects built on various blockchains.
+          The mission is to incubate and deliver real world impact projects using blockchian technology
             </Text>
           </Flex>
           <Flex
@@ -143,12 +136,7 @@ const AboutDesktop = function() {
               marginLeft={'32px'}
             >
               To increase transparency, minimize risk, and hold projects
-              accountable for the funds raised, <chakra.span color={'brand'}>WeFund has a unique community
-              vetting and unique milestone system.</chakra.span> This means the WeFund community
-              at each milestone of a project's development, vote as to
-              whether the relevant milestone has been achieved, with the outcome
-              determining release of funds for the
-              project to achieve its next milestone.
+              accountable for the funds raised, <chakra.span color={'brand'}>WeFund has a milestone system.</chakra.span> 
             </Text>
           </Flex>
         </Stack>
