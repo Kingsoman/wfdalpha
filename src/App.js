@@ -16,6 +16,8 @@ import { StoreProvider } from './store'
 import { ChakraProvider } from '@chakra-ui/react'
 import theme from './theme'
 
+import { ParallaxProvider } from 'react-scroll-parallax'
+
 import Navbar from './components/Navbar'
 import Index from 'pages/Index'
 import Faq from 'pages/Faq'
@@ -104,33 +106,35 @@ export default class App extends Component {
           </Head>
           <StoreProvider>
             <ChakraProvider resetCSS theme={theme}>
-              <Navbar />
-              <Router>
-                <Index path="/" />
-                <Faq path="faq" />
-                <CreateProject path="create" />
-                <BackProject path="back" />
-                <ExplorerProject path="explorer" />
-                <DetailProject path="detail" />
-                <Invest_step0 path="invest_step0" />
-                <Invest_step1 path="invest_step1" />
-                <Invest_step2 path="invest_step2" />
-                <Invest_step3 path="invest_step3" />
-                <Invest_step4 path="invest_step4" />
-                <Invest_KYC1 path="invest_kyc1" />
-                <Invest_KYC2 path="invest_kyc2" />
-                <Invest_KYC3 path="invest_kyc3" />
-                <Invest_KYC4 path="invest_kyc4" />
-                <Invest_KYC5 path="invest_kyc5" />
-                <Invest_KYC6 path="invest_kyc6" />
-                <WalletInfo path="walletInfo" />
-                <Blog path="blog" />
-                <Dashboard path="dashboard" />
-                <Staking path="staking" />
-                <Cards path="cards" />
-                <NotFound default />
-              </Router>
-              <ToastContainer/>
+              <ParallaxProvider>
+                <Navbar />
+                <Router>
+                  <Index path="/" />
+                  <Faq path="faq" />
+                  <CreateProject path="create" />
+                  <BackProject path="back" />
+                  <ExplorerProject path="explorer" />
+                  <DetailProject path="detail" />
+                  <Invest_step0 path="invest_step0" />
+                  <Invest_step1 path="invest_step1" />
+                  <Invest_step2 path="invest_step2" />
+                  <Invest_step3 path="invest_step3" />
+                  <Invest_step4 path="invest_step4" />
+                  <Invest_KYC1 path="invest_kyc1" />
+                  <Invest_KYC2 path="invest_kyc2" />
+                  <Invest_KYC3 path="invest_kyc3" />
+                  <Invest_KYC4 path="invest_kyc4" />
+                  <Invest_KYC5 path="invest_kyc5" />
+                  <Invest_KYC6 path="invest_kyc6" />
+                  <WalletInfo path="walletInfo" />
+                  <Blog path="blog" />
+                  <Dashboard path="dashboard" />
+                  <Staking path="staking" />
+                  <Cards path="cards" />
+                  <NotFound default />
+                </Router>
+                <ToastContainer/>
+              </ParallaxProvider>
             </ChakraProvider>
           </StoreProvider>
         </Root>

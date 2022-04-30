@@ -1,6 +1,23 @@
 body {
-  background: linear-gradient(90deg, #1f0021 0%, #120054 104.34%) !important;
+  background-image: linear-gradient(#1e0024, #150049) !important;
 }
+html {
+  scroll-behavior: smooth;
+}
+#utilityToken:hover {
+  background-image: linear-gradient(#1c83bd, #210656);
+}
+#HowItWorkBg {
+  background-image: linear-gradient(
+    rgba(10, 37, 49, 1%),
+    rgba(21, 191, 228, 81%),
+    rgba(141, 52, 255, 66%),
+    rgba(42, 10, 49, 0%)
+  );
+}
+#rotate180 {
+  transform: rotate(180deg);
+} /* disable Carousel original black background color*/
 #ProjectInMobile {
   display: none;
 }
@@ -340,19 +357,8 @@ body {
   flex-wrap: wrap;
   flex-direction: row;
 }
-.teamCard {
-  z-index: 5;
-  padding: 10px;
-  margin: 1em 0.5%;
-  position: relative;
-  border-radius: 10px;
-  flex-direction: column;
-  background: linear-gradient(45deg, #360847, #18075b);
-}
 .teamCard:hover {
-  position: relative;
-  z-index: 5;
-  background: linear-gradient(180deg, #00a3ff 0%, #0048ff5b 100%);
+  background-image: linear-gradient(#1c83bd, #0048ff5b);
 }
 .missionCard {
   width: 30%;

@@ -1,100 +1,240 @@
-import React, { useState } from 'react'
-import { Image, Flex, Text, Link, Box } from '@chakra-ui/react'
-import { Carousel } from 'react-responsive-carousel'
-import 'react-responsive-carousel/lib/styles/carousel.min.css' // requires a loader
+import React, {useState} from 'react'
+import { Image, Flex, Box, Text, Link, Center } from '@chakra-ui/react'
+
+import Carousel from 'react-multi-carousel'
+import 'react-multi-carousel/lib/styles.css'
+
+const responsive = {
+  superLargeDesktop: {
+    breakpoint: { max: 3000, min: 2000 },
+    items: 3,
+  },
+  desktop: {
+    breakpoint: { max: 2000, min: 1024 },
+    items: 3,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+  },
+}
+
 
 export default function UpcomingProject() {
   const [index, setIndex] = useState(0)
 
   return (
-    <Flex 
-      direction="column"
-      bg="rgba(255, 255, 255, 0.05)"
-      pt="25px"
-      pb="25px"
+    <Flex
+      mt={{base:'1em', md:'3em'}}
+      mb={{base:'5em', md:'3em'}}
+      width="100%"
+      alignItems="center"
+      flexDirection="column"
+      pb={{ md: '5em', lg: '10em' }}
     >
       <Flex
-        data-aos="fade-down"
-        direction="column"
-        textAlign="center"
-        fontFamily="Sk-Modernist-Regular"
+        fontFamily="PilatExtended-Bold"
+        fontSize={{ md: '25px', lg: '30px' }}
+        mb="1em"
+        background={'linear-gradient(90deg, rgba(42, 246, 255, 0) 20%, #63CDFA 48.75%, rgba(42, 246, 255, 0) 80%)'}
+        width={'150%'}
+        justifyContent={'center'}
       >
-        <Text id="aboutUsPageLable">Upcoming Projects</Text>
-        <Flex id="headingIndustry">
-          <Box as="span">Soon to Launch on <Box as="span" color="#00A3FF">WeFund</Box></Box>
-        </Flex>
+        
+        <Text color="#cbe3ff" >UPCOMING PROJECTS</Text>
       </Flex>
-      <Carousel
-        autoPlay
-        width="100vw"
-        showArrows={false}
-        showStatus={false}
-        showThumbs={false}
-        infiniteLoop={true}
-        onChange={(i) => setIndex(i)}
-      >
-        <Flex
-          height={{ base: '14em', md: '20em', lg: '25em' }}
-          justifyContent="center"
-          flexDirection="column"
-          alignItems="center"
-          position="relative"
+      <Box
+        width={{ base: '100%', md: '86vw', lg: '86vw' }}
+        
         >
-          <Link href="https://youtube.com/channel/UCmNM2yxDyy6NonRrzGSXQVA" isExternal>
-            <Image
-              width="20em"
-              cursor="pointer"
-              position="relative"
-              data-aos="fade-down"
-              objectFit="contain"
-              src="/media/partners/pandai.png"
-              height={{ base: '5em', md: '10em', lg: '15em' }}
-            />
-          </Link>
-        </Flex>
-        <Flex
-          height={{ base: '14em', md: '20em', lg: '25em' }}
-          justifyContent="center"
-          flexDirection="column"
-          alignItems="center"
+        <Carousel
+          autoPlay
+          swipeable={true}
+          showDots={false}
+          showThumbs={false}
+
+          responsive={responsive}
+          
         >
+          
           <Flex
-            height={{ base: '5em', md: '10em', lg: '15em' }}
-            alignItems="center"
-            justify="center"
-          >
-            <Link href="https://portalkripto.com/" isExternal>
+                justifyContent={'center'}>
+            <Link
+              href="https://kosu.space/"
+              isExternal
+            >
+              <Center width={{ base: '220px', md:'375px' }}
+                  height={{ base: '220px', md:'375px'  }}
+                  bgGradient="linear(#430E82, #1D0551)"
+                  borderRadius={{ base: '10px', md: '15px', lg: '15px' }}>
+              <Image
+                cursor="pointer"
+                data-aos="fade-down"
+                objectFit="contain"
+                src="/media/partners/Kosu.png"
+                width={{ base: '20em' }}
+                height={{ base: '15em' }}
+              />
+              </Center>
+            </Link>
+            </Flex>
+          
+            <Flex
+                  justifyContent={'center'}>
+            <Link
+              href="https://portalkripto.com/"
+              isExternal>
+                <Center width={{ base: '220px', md:'375px' }}
+                  height={{ base: '220px', md:'375px'  }}
+                  bgGradient="linear(#430E82, #1D0551)"
+                  borderRadius={{ base: '10px', md: '15px', lg: '15px' }}>
               <Image
                 width="20em"
                 cursor="pointer"
-                position="relative"
                 data-aos="fade-down"
                 objectFit="contain"
                 src="/media/partners/Portalkripto.png"
-                height={{ base: '2em', md: '4em', lg: '6em' }}
+                width={{ base: '20em' }}
+                height={{ base: '6em' }}
               />
+              </Center>
+              
             </Link>
-          </Flex>
-        </Flex>
-        <Flex
-          height={{ base: '14em', md: '20em', lg: '25em' }}
-          justifyContent="center"
-          flexDirection="column"
-          alignItems="center"
-        >
-          <Link href="https://lynxverse.io/" isExternal>
-            <Image
-              width="20em"
-              cursor="pointer"
-              data-aos="fade-down"
-              position="relative"
-              objectFit="contain"
-              src="/media/partners/lynx-dark.png"
-              height={{ base: '5em', md: '10em', lg: '15em' }}
-            />
-          </Link>
-        </Flex>
-      </Carousel>
+            
+            </Flex>
+            
+            <Flex justifyContent={'center'}>
+            <Link href="https://lynxverse.io/"
+              isExternal>
+                <Center
+                  width={{ base: '220px', md:'375px' }}
+                  height={{ base: '220px', md:'375px'  }}
+                  bgGradient="linear(#430E82, #1D0551)"
+                  borderRadius={{ base: '10px', md: '15px', lg: '15px' }}>
+              <Image
+                cursor="pointer"
+                data-aos="fade-down"
+                objectFit="contain"
+                src="/media/partners/lynx-dark.png"
+                width={{ base: '20em' }}
+                height={{ base: '15em' }}
+              />
+              </Center>
+              
+            </Link>
+            </Flex>
+
+            <Flex justifyContent={'center'}>
+            <Link href="#"
+              isExternal>
+                <Center
+                  width={{ base: '220px', md:'375px' }}
+                  height={{ base: '220px', md:'375px'  }}
+                  bgGradient="linear(#430E82, #1D0551)"
+                  borderRadius={{ base: '10px', md: '15px', lg: '15px' }}>
+              <Image
+                cursor="pointer"
+                data-aos="fade-down"
+                objectFit="contain"
+                src="/media/partners/Africred.jpeg"
+                width={{ base: '20em' }}
+                height={{ base: '15em' }}
+              />
+              </Center>
+              
+            </Link>
+            </Flex>
+
+            <Flex justifyContent={'center'}>
+            <Link href="https://luna-miners.com/"
+              isExternal>
+                <Center
+                  width={{ base: '220px', md:'375px' }}
+                  height={{ base: '220px', md:'375px'  }}
+                  bgGradient="linear(#430E82, #1D0551)"
+                  borderRadius={{ base: '10px', md: '15px', lg: '15px' }}>
+              <Image
+                cursor="pointer"
+                data-aos="fade-down"
+                objectFit="contain"
+                src="/media/partners/Lunaminers.png"
+                width={{ base: '20em' }}
+                height={{ base: '15em' }}
+              />
+              </Center>
+              
+            </Link>
+            </Flex>
+
+            <Flex justifyContent={'center'}>
+            <Link href="https://data-lake.co/"
+              isExternal>
+                <Center
+                  width={{ base: '220px', md:'375px' }}
+                  height={{ base: '220px', md:'375px'  }}
+                  bgGradient="linear(#430E82, #1D0551)"
+                  borderRadius={{ base: '10px', md: '15px', lg: '15px' }}>
+              <Image
+                cursor="pointer"
+                data-aos="fade-down"
+                objectFit="contain"
+                src="/media/partners/Datalake.png"
+                width={{ base: '20em' }}
+                height={{ base: '15em' }}
+              />
+              </Center>
+              
+            </Link>
+            </Flex>
+
+            <Flex justifyContent={'center'}>
+            <Link href="#"
+              isExternal>
+                <Center
+                  width={{ base: '220px', md:'375px' }}
+                  height={{ base: '220px', md:'375px'  }}
+                  bgGradient="linear(#430E82, #1D0551)"
+                  borderRadius={{ base: '10px', md: '15px', lg: '15px' }}>
+              <Image
+                cursor="pointer"
+                data-aos="fade-down"
+                objectFit="contain"
+                src="/media/partners/Scamscanner.png"
+                width={{ base: '20em' }}
+                height={{ base: '15em' }}
+              />
+              </Center>
+              
+            </Link>
+            </Flex>
+
+            <Flex justifyContent={'center'}>
+            <Link href="#"
+              isExternal>
+                <Center
+                  width={{ base: '220px', md:'375px' }}
+                  height={{ base: '220px', md:'375px'  }}
+                  bgGradient="linear(#430E82, #1D0551)"
+                  borderRadius={{ base: '10px', md: '15px', lg: '15px' }}>
+              <Image
+                cursor="pointer"
+                data-aos="fade-down"
+                objectFit="contain"
+                src="/media/partners/Greenprotocol.png"
+                width={{ base: '20em' }}
+                height={{ base: '15em' }}
+              />
+              </Center>
+              
+            </Link>
+            </Flex>
+          
+        </Carousel>
+      </Box>
     </Flex>
   )
 }

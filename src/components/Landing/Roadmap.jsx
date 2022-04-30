@@ -1,7 +1,235 @@
-import React from 'react'
-import { Flex, Image, Text, UnorderedList, ListItem } from '@chakra-ui/react'
+import React, { useEffect, useRef, useState } from 'react'
+import { Flex, Stack, Text, UnorderedList, IconButton, Button, ListItem, Box, HStack, VStack, useBreakpointValue, Image } from '@chakra-ui/react'
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
+import { Parallax } from 'react-scroll-parallax';
 
-export default function Roadmap() {
+const timelines = [
+  {
+    title: 'Q1 2022',
+    items: [
+      {text: 'Platform 1.0 launch', complete: true},
+      {text: 'Community registration system', complete: true},
+      {text: 'Investor project approval ', complete: true},
+      {text: 'Create a project milestone system', complete: true},
+      {text: 'Milestone money release', complete: true},
+      {text: 'Complete Seed/Private sale fundraise', complete: false},
+      {text: 'Marketing for Initial Offering', complete: true},
+      {text: '10 project for incubation and fundraise', complete: true},
+    ]
+  },
+  {
+    title: 'Q2 2022',
+    items: [
+      {text: 'Platform update 2.0', complete: true},
+      {text: 'Have 10 project hosted on WeFund', complete: true},
+      {text: 'Fundraising for the project hosted on WeFund', complete: false},
+      {text: 'Real-world project implementation', complete: true},
+    ]
+  },
+  {
+    title: 'Q3 2022',
+    items: [
+      {text: 'Have successfull fundraising for the first 10 projects', complete: false},
+      {text: 'Platform update 3.0', complete: false},
+      {text: 'Starting real-word project incubation', complete: true},
+    ]
+  },
+  {
+    title: 'Q4 2022',
+    items: [
+      {text: 'Have successful fundraising for real-world projects', complete: false},
+      {text: 'Startup pitch competition for real-world projects', complete: false},
+      {text: 'Platform update 4.0', complete: false},
+    ]
+  },
+]
+
+function getScrollPosition() {
+  return typeof window !== 'undefined'
+    ? { x: window.pageXOffset, y: window.pageYOffset }
+    : { x: 0, y: 0 };
+}
+
+function useScrollFollow() {
+  const targetRef = useRef();
+  // const [position, setPosition] = useState(getScrollPosition());
+  const [percentage, setPercentage] = useState(0.0);
+
+  const scrollCallback = () => {
+    setPosition(getScrollPosition())
+    if (!targetRef.current) {
+      return
+    }
+
+    
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollCallback);
+    window.addEventListener('resize', scrollCallback);
+    return () => window.removeEventListener('scroll', scrollCallback)
+  }, []);
+
+
+
+  return {
+    position,
+    percentage,
+    targetRef,
+  };
+}
+
+const RoadmapItem = function(props) {
+  const {title, items, isTop, isLast} = props
+  
+  return (
+    <Flex direction={'column'} minW={'360px'} maxW={'360px'} alignItems={'center'} scrollSnapAlign={'center'} data-aos="fade-up">
+      {!isTop && <>
+      <Box minH={'40vh'}  mt={'1em'} display={'flex'} alignItems={'center'} flexDirection={'column'} justifyContent={'flex-end'}>
+        <Image width={'150px'} mb={'-1em'} src='/media/Home/timeline-item-point.png' />
+      </Box>
+      <Box backgroundColor={'brand'} rounded={'full'} width={'24px'} height={'24px'} position={'relative'} zIndex={5}>
+        {!isLast && <Box
+          backgroundColor={'brand'}
+          position={'absolute'}
+          height={'10px'}
+          width={'360px'}
+          top={'calc(50% - 5px)'}
+          left={'12px'}
+          data-aos="fade-in"
+          data-aos-delay="500"
+          />}
+        
+      </Box>
+      <VStack minH={'40vh'} mt={'1em'} justifyContent={'start'} spacing={'0'}>
+        <Text fontWeight="bold" fontFamily="PilatExtended-Bold" marginBottom={1}>{title}</Text>
+        {items.map((item, i)=><Text key={i} textAlign={'center'} marginTop={'0'} color={item.complete? '#63F060':'white'}>{item.text}</Text>)}
+      </VStack>
+      </>}
+      {isTop && <>
+      <VStack minH={'40vh'} mb={'1em'} justifyContent={'end'} spacing={'0'}>
+        {items.map((item, i)=><Text key={i} textAlign={'center'} marginTop={'0'} color={item.complete? '#63F060':'white'}>{item.text}</Text>)}
+        <Text fontWeight="bold" fontFamily="PilatExtended-Bold" marginTop={1}>{title}</Text>
+      </VStack>
+      <Box backgroundColor={'brand'} rounded={'full'} width={'24px'} height={'24px'} position={'relative'} zIndex={5}>
+        {!isLast && <Box
+          backgroundColor={'brand'}
+          position={'absolute'}
+          height={'10px'}
+          width={'360px'}
+          top={'calc(50% - 5px)'}
+          left={'12px'}
+          data-aos="fade-in"
+          data-aos-delay="1000"
+          />}
+      </Box>
+      <Box minH={'40vh'}  mb={'1em'} display={'flex'} alignItems={'center'} flexDirection={'column'} justifyContent={'flex-end'} transform={'rotate(180deg)'}>
+        <Image width={'150px'} mb={'-1em'} src='/media/Home/timeline-item-point.png' />
+      </Box>
+      </>}
+    </Flex>
+  )
+}
+
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height
+  };
+}
+
+function useWindowDimensions() {
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return windowDimensions;
+}
+
+
+const HorizontalRoadmap = function() {
+  const carouselEl = useRef();
+  const scrollFollowEl = useRef();
+  const {width} = useWindowDimensions()
+  const [scrollable, setScrollable] = useState(true)
+
+  const [progress, setProgress] = useState(0);
+  
+  // useEffect(() => {
+  //   console.log(`Progress : ${progress}`)
+  // }, [progress])
+  useEffect(() => {
+    if (!carouselEl.current) {
+      return
+    }
+
+    setScrollable(carouselEl.current.scrollWidth > width)
+
+    if (scrollable) {
+      let scrollTo = progress * carouselEl.current.scrollWidth
+      carouselEl.current.scrollTo(scrollTo, 0)
+    }
+  }, [width, progress])
+
+  const maxScroll = 0.66
+  const minScroll = 0.36
+  const setScrollableNormalize = (newProgress) => {
+    let _progress = (newProgress - minScroll) / (maxScroll - minScroll)
+    if (_progress < 0) {
+      _progress = 0
+    } else if (_progress > 1) {
+      _progress = 1
+    }
+    
+    console.log(`Progress : ${newProgress}`)
+    console.log(`Normalize Progress : ${_progress}`)
+    setProgress(_progress)
+  }
+
+
+  // const onClickNext = () => {
+  //   carouselEl.current.scrollBy(340, 0)
+  // }
+
+  // const onClickPrev = () => {
+  //   carouselEl.current.scrollBy(-340, 0)
+  // }
+
+
+  return (
+    
+    <Stack>
+      <Text
+        color="#63CDFA"
+        fontFamily="PilatExtended-Bold"
+        fontSize={{ md: '25px', lg: '30px' }}
+        textTransform={'uppercase'}
+        alignSelf={'center'}
+        mb="1em">Roadmap</Text>
+        
+      <Box position={'relative'} height={'90vh'}>
+        <Parallax speed={-10} onProgressChange={(progress) => setScrollableNormalize(progress)}>
+          <HStack alignItems={'center'} justifyContent={!scrollable?'center':'initial'} height={'calc(80vh + 24px)'} overflowY={'hidden'} overflowX={'hidden'} ref={carouselEl} >
+            <Box ml={'12em'} ref={scrollFollowEl}></Box>
+            {timelines.map((item, i) => <RoadmapItem key={i} title={item.title} items={item.items} isTop={(i % 2) == 0} isLast={timelines.length == i+1} />)}
+            <Box mr={'12em'}></Box>
+          </HStack>
+        </Parallax>
+      </Box>
+    </Stack>
+    
+  )
+}
+
+const VerticalRoadmap = function() {
   return (
     <Flex
       w="100%"
@@ -11,6 +239,9 @@ export default function Roadmap() {
       justify="center"
       direction="column"
       alignItems="center"
+      flexDirection="column"
+      mt={{ base: '2em', md: '5em', lg: '5em' }}
+      pb={{ base: '2em', md: '10em', lg: '10em' }}
     >
       <Flex
         data-aos="fade-down"
@@ -172,103 +403,119 @@ export default function Roadmap() {
             </UnorderedList>
           </Flex>
         </Flex>
-        <Flex id="roadmapBox2">
-          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
-          <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapTitle">WeFund Investment Status</Text>
-            <UnorderedList className="RoadmapDesc">
-              <ListItem>Seed phase until end of January</ListItem>
-              <ListItem>Pre-sale begins</ListItem>
+        <Flex width={'95%'} id="roadmapBox2" top={'16em'}>
+          <Flex
+            ml="-0.4em"
+            width={'1.2em'}
+            height={'1.2em'}
+            borderRadius="100px"
+            data-aos="zoom-in-up"
+            backgroundColor="#69E4FF"
+          />
+          <Flex className="RoadmapContent" width={'95%'} data-aos="fade-right">
+            <Flex fontFamily="PilatExtended-Bold" fontSize="12px">
+              <Text color="#63CDFA">Q2</Text>
+              <Text color="white" ml={'10px'}>
+                2022
+              </Text>
+            </Flex>
+            <UnorderedList
+              className="RoadmapDesc"
+              fontSize={'14px'}
+              mt={'10px'}
+              ml="0"
+            >
+              <ListItem color={'white'}>
+                Fundraising for the project hosted on WeFund
+              </ListItem>
+              <ListItem color={'white'}>Platform update 2.0</ListItem>
+              <ListItem color={'white'}>
+                <b>Have 10 projects hosted on WeFund</b>
+              </ListItem>
+              <ListItem color={'white'}>
+                Real-world project implementation
+              </ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
-        <Flex id="roadmapBox3">
-          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
-          <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapTitle">Project Incubation</Text>
-            <UnorderedList className="RoadmapDesc">
-              <ListItem>Bakso Mania Seed Phase</ListItem>
-              <ListItem>Pandai Crypto Seed Phase</ListItem>
-              <ListItem>LynxVR Seed Phase</ListItem>
+        <Flex width={'95%'} id="roadmapBox3" top={'24em'}>
+          <Flex
+            ml="-0.4em"
+            width={'1.2em'}
+            height={'1.2em'}
+            borderRadius="100px"
+            data-aos="zoom-in-up"
+            backgroundColor="#69E4FF"
+          />
+          <Flex className="RoadmapContent" width={'95%'} data-aos="fade-right">
+            <Flex fontFamily="PilatExtended-Bold" fontSize="12px">
+              <Text color="#63CDFA">Q3</Text>
+              <Text color="white" ml={'10px'}>
+                2022
+              </Text>
+            </Flex>
+            <UnorderedList
+              className="RoadmapDesc"
+              fontSize={'14px'}
+              mt={'10px'}
+              ml="0"
+            >
+              <ListItem color={'white'}>
+                <b>Have successful fundraising for the first 10 projects</b>
+              </ListItem>
+              <ListItem color={'white'}>Platform update 3.0</ListItem>
+              <ListItem color={'white'}>
+                <b>Starting real-world project incubation</b>
+              </ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
-        <Flex id="roadmapBox4">
-          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
-          <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapTitle">Documentation</Text>
-            <UnorderedList className="RoadmapDesc">
-              <ListItem  color={"green.300"}>Release Whitepaper 2.0</ListItem>
-              <ListItem  color={"green.300"}>Update Litepaper</ListItem>
-            </UnorderedList>
-          </Flex>
-        </Flex>
-        <Flex id="roadmapBox5">
-          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
-          <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapHeading">February 2022</Text>
-            <Image src="/media/beautifulDash.svg" />
-            <Text className="RoadmapTitle">Platform V3</Text>
-            <UnorderedList className="RoadmapDesc">
-              <ListItem  color={"green.300"}>Set up community allocation</ListItem>
-              <ListItem  color={"green.300"}>Set up WeFund holder allocation</ListItem>
-              <ListItem  color={"green.300"}>Set up staking mechanism</ListItem>
-            </UnorderedList>
-          </Flex>
-        </Flex>
-        <Flex id="roadmapBox6">
-          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
-          <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapTitle">WeFund Investment Status</Text>
-            <UnorderedList className="RoadmapDesc">
-              <ListItem>Presale phase until end of February</ListItem>
-              <ListItem>Marketing for IWO (ICO/IDO)</ListItem>
-            </UnorderedList>
-          </Flex>
-        </Flex>
-        <Flex id="roadmapBox7">
-          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
-          <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapTitle">Project Incubation</Text>
-            <UnorderedList className="RoadmapDesc">
-              <ListItem>Real World Projects (Details coming soon)</ListItem>
-            </UnorderedList>
-          </Flex>
-        </Flex>
-        <Flex id="roadmapBox8">
-          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
-          <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapTitle">Documentation</Text>
-            <UnorderedList className="RoadmapDesc">
-              <ListItem>Release Whitepaper 3.0</ListItem>
-              <ListItem>Update Litepaper</ListItem>
-            </UnorderedList>
-          </Flex>
-        </Flex>
-        <Flex id="roadmapBox9">
-          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
-          <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapHeading">March 2022</Text>
-            <Image src="/media/beautifulDash.svg" />
-            <Text className="RoadmapTitle">WeFund Investment Status</Text>
-            <UnorderedList className="RoadmapDesc">
-              <ListItem>IWO (ICO/IDO)</ListItem>
-            </UnorderedList>
-          </Flex>
-        </Flex>
-        <Flex id="roadmapBox10">
-          <Image src="/media/circle.svg" id="circleD" data-aos="zoom-in-up" />
-          <Flex className="RoadmapContent" data-aos="fade-right">
-            <Text className="RoadmapTitle">Project Incubation</Text>
-            <UnorderedList className="RoadmapDesc">
-              <ListItem>Sport industry first project - Seed phase</ListItem>
-              <ListItem>Game industry first project - Seed phase</ListItem>
-              <ListItem>Creative industry first project - Seed phase</ListItem>
-              <ListItem>Real estate industry first project - Seed phase</ListItem>
+        <Flex width={'95%'} id="roadmapBox4" top={'32em'}>
+          <Flex
+            mt="-0.5em"
+            ml="-0.4em"
+            width={'1.2em'}
+            height={'1.2em'}
+            borderRadius="100px"
+            data-aos="zoom-in-up"
+            backgroundColor="#69E4FF"
+          />
+          <Flex className="RoadmapContent" width={'95%'} data-aos="fade-right">
+            <Flex fontFamily="PilatExtended-Bold" fontSize="12px">
+              <Text color="#63CDFA">Q4</Text>
+              <Text color="white" ml={'10px'}>
+                2022
+              </Text>
+            </Flex>
+            <UnorderedList
+              className="RoadmapDesc"
+              fontSize={'14px'}
+              mt={'10px'}
+              ml="0"
+            >
+              <ListItem color={'white'}>
+                Have successful fundraising for real-world projects
+              </ListItem>
+              <ListItem color={'white'}>
+                <b>Startup pitch competition for real-world projects</b>
+              </ListItem>
+              <ListItem color={'white'}>Platform update 4.0</ListItem>
             </UnorderedList>
           </Flex>
         </Flex>
       </Flex>
     </Flex>
   )
+}
+
+export default function Roadmap() {
+  const [direction, setDirection] = useState('horizontal')
+
+  if (direction === 'horizontal' ) {
+    return (<HorizontalRoadmap />)
+  }
+  if (direction === 'vertical') {
+    return (<VerticalRoadmap />)
+  }
+  return (<HorizontalRoadmap />)
 }
