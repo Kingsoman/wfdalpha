@@ -4,34 +4,38 @@ import { Set2Mainnet, Set2Testnet } from './components/Util';
 
 const StoreContext = createContext()
 
-//  WFD
-//  terra1pkytkcanua4uazlpekve7qyhg2c5xwwjr4429d //testnet
-//  terra1nppndpgfusn7p8nd5d9fqy47xejg0x55jjxe2y //mainnet
 
 export const WEFUND_MAIN = "terra1hvddgv0nvddlvdxu3trupun3uc0hd9hax8d8lz";
 export const VESTING_MAIN = "terra1clufns3djy7fye5k3sq3m4y3777e85jw5v2ygk";
+export const STAKING_MAIN = "terra129ue0mpavemd53s3l2zdwhw889r7jt4kqzt7t7";
+export const WFDTOKEN_MAIN = "terra1nppndpgfusn7p8nd5d9fqy47xejg0x55jjxe2y" //mainnet
 
-export const WEFUND_TEST = "terra1505s4p4ztdw3rxp9syjdrq73xuwmzmtts9phd5";
-export const VESTING_TEST = "terra1055p3nlct3pg4xr2gxkvmec9d055wwfy56gf07";
+export const WEFUND_TEST = "terra1ugphxnr98xd9x6f93m95ygr30qqzuekefp77zl";
+export const VESTING_TEST = "terra1cz2qk4ndts4tzxphkreeahmgxaxefpe8lltafv";
+export const STAKING_TEST = "terra129ue0mpavemd53s3l2zdwhw889r7jt4kqzt7t7";
+export const WFDTOKEN_TEST = "terra1pkytkcanua4uazlpekve7qyhg2c5xwwjr4429d"; //testnet
 
 const initialState = {
-  net: 'mainnet',
-  WEFundContractAddress: WEFUND_MAIN, //mainnet v2.3
-  VestingContractAddress: VESTING_MAIN, //mainnet
-  lcd_client: new LCDClient({ //mainnet
-    URL: 'https://lcd.terra.dev',
-    chainID: 'columbus-5',
-    gasPrices: { uusd: 0.45 },
-  }),
-
-  // net: 'testnet',
-  // WEFundContractAddress: WEFUND_TEST, //testnet v2.3
-  // VestingContractAddress: VESTING_TEST, //testnet
-  // lcd_client: new LCDClient({ //testnet
-  //   URL: 'https://bombay-lcd.terra.dev/',
-  //   chainID: 'bombay-12',
+  // net: 'mainnet',
+  // WEFundContractAddress: WEFUND_MAIN, //mainnet v2.3
+  // VestingContractAddress: VESTING_MAIN, //mainnet
+  // WEFUNDTokenAddress: WFDTOKEN_MAIN,
+  // lcd_client: new LCDClient({ //mainnet
+  //   URL: 'https://lcd.terra.dev',
+  //   chainID: 'columbus-5',
   //   gasPrices: { uusd: 0.45 },
   // }),
+
+  net: 'testnet',
+  WEFundContractAddress: WEFUND_TEST, //testnet v2.3
+  VestingContractAddress: VESTING_TEST, //testnet
+  StakingContractAddress: STAKING_TEST,
+  WFDTokenAddress: WFDTOKEN_TEST,
+  lcd_client: new LCDClient({ //testnet
+    URL: 'https://bombay-lcd.terra.dev/',
+    chainID: 'bombay-12',
+    gasPrices: { uusd: 0.45 },
+  }),
 
   presale: true,
   referralCount: 0,
@@ -40,6 +44,7 @@ const initialState = {
   activeProjectData: '',
   communityData: '',
   configData: '',
+  cardInfo: '',
   connectedWallet: [],
   timer: '',
   wallet: {},
@@ -73,6 +78,10 @@ const reducer = (state, action) => {
       return { ...state, WEFundContractAddress: action.message }
     case 'setVestingContract':
       return { ...state, VestingContractAddress: action.message }
+    case 'setStakingContract':
+      return { ...state, StakingContractAddress: action.message }
+    case 'setWFDTokenContract':
+      return { ...state, WFDTokenContract: action.message }
     case 'setPresale':
       return { ...state, presale: action.message }
     case 'setReferralCount':
@@ -85,6 +94,8 @@ const reducer = (state, action) => {
       return { ...state, timer: action.message }
     case 'setConfigData':
       return { ...state, configData: action.message }
+    case 'setCardInfo':
+      return { ...state, cardInfo: action.message }
     case 'setCommunityData':
       return { ...state, communityData: action.message }
     case 'setActiveProjectData':
@@ -131,12 +142,12 @@ const reducer = (state, action) => {
 export const StoreProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  useEffect(()=>{
+  useEffect(() => {
     let net = window.localStorage.getItem('net') || "mainnet";
-    if( net == "testnet" ){
+    if (net == "testnet") {
       Set2Testnet(state, dispatch);
     }
-    else{
+    else {
       Set2Mainnet(state, dispatch);
     }
   }, []);

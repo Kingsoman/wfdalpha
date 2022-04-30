@@ -28,7 +28,6 @@ export default function Team() {
     <Flex
       width="100%"
       justify="center"
-      position="relative"
       alignItems="center"
       flexDirection="column"
       fontFamily="Sk-Modernist-Regular"

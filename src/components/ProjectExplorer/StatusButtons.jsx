@@ -8,6 +8,8 @@ import {
   isBackerWallet,
   isCreatorWallet,
   getStageTitle,
+  isCardHolder,
+  isBackable,
 } from '../Util'
 
 import { ButtonTransition } from '../ImageTransition'
@@ -21,6 +23,9 @@ export default function StatusButtons({
   MilestoneVote,
   NextFundraisingStage,
   Modify,
+  OpenWhitelist,
+  CloseWhitelist,
+  JoinWhitelist
 }) {
   const { state, dispatch } = useStore()
   return (
@@ -36,13 +41,40 @@ export default function StatusButtons({
             WefundApprove(data.project_id)
           }
         >
-          <Text
-            fontSize={{
-              base: '14px',
-              lg: '16px',
-            }}
-          >
+          <Text fontSize= '16px'>
             Approve Project
+          </Text>
+        </ButtonTransition>
+      )}
+      {activeTab == "WhitelistOpen" && isCardHolder(state, data.project_id) && !isCommunityWallet(state)(
+        <ButtonTransition
+          unitid={'Whitelist' + index}
+          selected={false}
+          width="150px"
+          height="45px"
+          rounded="33px"
+          onClick={() =>
+            JoinWhitelist(state, data.project_id)
+          }
+        >
+          <Text fontSize= '16px'>
+            Join Whitelist
+          </Text>
+        </ButtonTransition>
+      )}
+      {activeTab == "WhitelistOpen" && isCreatorWallet(state, data.project_id) && (
+        <ButtonTransition
+          unitid={'CloseWhitelist' + index}
+          selected={false}
+          width="150px"
+          height="45px"
+          rounded="33px"
+          onClick={() =>
+            CloseWhitelist(data.project_id)
+          }
+        >
+          <Text fontSize= '16px'>
+            Close Whitelist
           </Text>
         </ButtonTransition>
       )}
@@ -50,6 +82,7 @@ export default function StatusButtons({
         <>
           <Text>{getStageTitle(data)} phase</Text>
           {isCreatorWallet(state, data.project_id) && (
+          <>
             <ButtonTransition
               mb="10px"
               rounded="33px"
@@ -64,26 +97,44 @@ export default function StatusButtons({
                 Next Stage
               </Text>
             </ButtonTransition>
+            <ButtonTransition
+              mb="10px"
+              rounded="33px"
+              selected={false}
+              unitid={'openwhitelist' + index}
+              width="150px"
+              height="45px"
+              fontSize={{ base: '14px', lg: '16px' }}
+              onClick={() => OpenWhitelist(data.project_id)}
+            >
+              <Text fontSize={{ base: '14px', lg: '16px' }} >
+                ReOpen Whitelist
+              </Text>
+            </ButtonTransition>
+          </>
           )}
-          <ButtonTransition
-            mb="10px"
-            rounded="33px"
-            selected={false}
-            unitid={'visit' + index}
-            width="150px"
-            height="45px"
-            fontSize={{ base: '14px', lg: '16px' }}
-            onClick={() => {
-              navigate(
-                '/invest_step1?project_id=' +
-                data.project_id,
-              )
-            }}
-          >
-            <Text fontSize={{ base: '14px', lg: '16px' }} >
-              Back Project
-            </Text>
-          </ButtonTransition>
+          {isBackable(state, data.project_id) && (
+            <ButtonTransition
+              mb="10px"
+              rounded="33px"
+              selected={false}
+              unitid={'visit' + index}
+              width="150px"
+              height="45px"
+              fontSize={{ base: '14px', lg: '16px' }}
+              onClick={() => {
+                navigate(
+                  '/invest_step1?project_id=' +
+                  data.project_id,
+                )
+              }}
+            >
+              <Text fontSize={{ base: '14px', lg: '16px' }} >
+                Back Project
+              </Text>
+            </ButtonTransition>
+          )}
+
         </>
       )}
       {activeTab === 'MileStoneDelivery' && isBackerWallet(state, data.project_id) && (

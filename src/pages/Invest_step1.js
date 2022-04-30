@@ -107,9 +107,9 @@ export default function InvestStep1() {
               background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
               selected={false}
               width='200px' height='50px' rounded='33px'
+              onClick={()=>onNext()}
             >
-                <Box variant="solid" color="white" justify='center' align='center'
-                onClick={()=>onNext()}>
+                <Box variant="solid" color="white" justify='center' align='center'>
                   Next
                 </Box>
             </ImageTransition>

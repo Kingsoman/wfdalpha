@@ -18,7 +18,6 @@ import { InputTransition, ButtonTransition, } from '../components/ImageTransitio
 
 import PageLayout from '../components/PageLayout'
 import Footer from '../components/Footer'
-import Notification from '../components/Notification'
 import { EstimateSend, FetchData, Set2Mainnet, Set2Testnet } from '../components/Util'
 
 export default function Dashboard() {

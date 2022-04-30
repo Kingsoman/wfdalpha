@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Image, Flex, Box, Text, Link, Center } from '@chakra-ui/react'
 
 import Carousel from 'react-multi-carousel'
@@ -25,6 +25,8 @@ const responsive = {
 
 
 export default function UpcomingProject() {
+  const [index, setIndex] = useState(0)
+
   return (
     <Flex
       mt={{base:'1em', md:'3em'}}
@@ -91,6 +93,7 @@ export default function UpcomingProject() {
                   bgGradient="linear(#430E82, #1D0551)"
                   borderRadius={{ base: '10px', md: '15px', lg: '15px' }}>
               <Image
+                width="20em"
                 cursor="pointer"
                 data-aos="fade-down"
                 objectFit="contain"

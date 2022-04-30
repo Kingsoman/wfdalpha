@@ -17,7 +17,7 @@ import { ButtonTransition, InputTransition } from "../components/ImageTransition
 import theme from '../theme';
 import Footer from "../components/Footer"
 import { useStore } from '../store'
-import Notification from '../components/Notification'
+
 import {
   EstimateSend,
   CheckNetwork,
@@ -232,9 +232,9 @@ export default function BackProject() {
                 background3="linear-gradient(180deg, #171347 0%, #171347 100%)"
                 selected={false}
                 width='200px' height='50px' rounded='33px'
+                onClick={() => { backProject() }} 
               >
-                <Box variant="solid" color="white" justify='center' align='center'
-                  onClick={() => { backProject() }} >
+                <Box variant="solid" color="white" justify='center' align='center'>
                   Back Project
                 </Box>
               </ButtonTransition>

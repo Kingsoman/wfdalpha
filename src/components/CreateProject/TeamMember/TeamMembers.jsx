@@ -112,13 +112,13 @@ export default function TeamMembers({
         width="250px"
         height="45px"
         rounded="33px"
+        onClick={onNewTeamMember}
       >
         <Box
           variant="solid"
           color="white"
           justify="center"
           align="center"
-          onClick={onNewTeamMember}
         >
           Add Team Member
         </Box>
@@ -130,13 +130,13 @@ export default function TeamMembers({
         height="45px"
         rounded="33px"
         ml = '30px'
+        onClick={onCancelTeamMember}
       >
         <Box
           variant="solid"
           color="white"
           justify="center"
           align="center"
-          onClick={onCancelTeamMember}
         >
           Cancel Team Member {description.length}
         </Box>

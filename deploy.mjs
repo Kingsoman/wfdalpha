@@ -11,9 +11,9 @@ import {
 
 
 const VESTING_PATH =
-  "../Vesting.wasm";
+  "../vesting.wasm";
 const WEFUND_PATH =
-  "../wefund17.wasm";
+  "../wefund.wasm";
 
 // Get the wallet seed phrase from the environment variable.
 const TERRA_SEED = process.env.TERRA_SEED
@@ -37,12 +37,13 @@ const MARKET_MAIN = "terra1sepfj7s0aeg5967uxnfk4thzlerrsktkpelm5s"
 const AUST_TEST = "terra1ajt556dpzvjwl0kl5tzku3fc3p3knkg9mkv8jl"
 const AUST_MAIN = "terra1hzh9vpxhsk8253se0vv5jj6etdvxu3nv8z07zu"
 
-const net = "main"
+const net = "test"
 let terra = net=="main"? LCD_MAIN : LCD_TEST;
 let wallet = terra.wallet(mk);
 
-let vestingAddress = "terra1clufns3djy7fye5k3sq3m4y3777e85jw5v2ygk";
-let wefundAddress = "terra1hvddgv0nvddlvdxu3trupun3uc0hd9hax8d8lz";
+
+let wefundAddress = "terra1ugphxnr98xd9x6f93m95ygr30qqzuekefp77zl";
+let vestingAddress = "terra1cz2qk4ndts4tzxphkreeahmgxaxefpe8lltafv";
 
 run();
 

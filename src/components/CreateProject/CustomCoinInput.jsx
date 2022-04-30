@@ -14,7 +14,7 @@ import {
 } from '../ImageTransition'
 
 
-export default function CustomNumberInput({typeText, type, setType, w}) 
+export default function CustomCoinInput({typeText, type, setType, w}) 
 {
   function onChangeAmount(e) {
     // if (

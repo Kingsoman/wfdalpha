@@ -15,10 +15,10 @@ import {
 } from '../components/ImageTransition'
 import { useStore } from '../store'
 import Footer from '../components/Footer'
-import { 
-  EstimateSend, 
-  CheckNetwork, 
-  FetchData, 
+import {
+  EstimateSend,
+  CheckNetwork,
+  FetchData,
   Sleep,
   isNull,
   getVal,
@@ -30,8 +30,9 @@ import {
   successOption,
   ParseParam,
   GetOneProject,
+  getTokenInfo,
 } from '../components/Util'
-import Notification from '../components/Notification'
+
 import PageLayout from '../components/PageLayout'
 
 import Payment from '../components/CreateProject/Payment'
@@ -39,7 +40,8 @@ import InputAddress from '../components/CreateProject/InputAddress';
 import CustomInputReadOnly from '../components/CreateProject/CustomInputReadOnly';
 import CustomInput from '../components/CreateProject/CustomInput'
 import CustomTextarea from '../components/CreateProject/CustomTextarea'
-import CustomNumberInput from '../components/CreateProject/CustomNumberInput'
+import CustomPercentInput from '../components/CreateProject/CustomPercentInput'
+import CustomCoinInput from '../components/CreateProject/CustomCoinInput'
 import CustomSimpleNumberInput from '../components/CreateProject/CustomSimpleNumberInput'
 import CustomSelect from '../components/CreateProject/CustomSelect'
 import CustomEmailInput from '../components/CreateProject/CustomEmailInput'
@@ -64,6 +66,8 @@ export default function CreateProject() {
   const [ecosystem, setEcosystem] = useState('Terra')
   const [tokenName, setTokenName] = useState('')
   const [tokenAddress, setTokenAddress] = useState('')
+  const [tokenBalance, setTokenBalance] = useState('');
+  const [communityAlloc, setCommunityAlloc] = useState('');
 
   const [collectedAmount, setCollectedAmount] = useState('')
 
@@ -96,26 +100,24 @@ export default function CreateProject() {
   const [milestoneStartdate, setMilestoneStartdate] = useState([''])
   const [milestoneEnddate, setMilestoneEnddate] = useState([''])
 
-  useEffect( () => {
-    setTimeout( CheckNetwork(state.connectedWallet, state), 1000);
+  useEffect(() => {
+    setTimeout(CheckNetwork(state.connectedWallet, state), 1000);
 
-    console.log("come");
-    if( project_id > 0 )
-       fillItems()
+    if (project_id > 0)
+      fillItems()
   }, [state.connectedWallet])
-  
+
   //----------init api, lcd-------------------------
   const api = new WasmAPI(state.lcd_client.apiRequester)
 
   //----------parse Param----------------------
   let project_id = ParseParam();
 
-  async function fillItems()
-  {
-    if(project_id == null)
+  async function fillItems() {
+    if (project_id == null)
       return;
 
-    let { projectData, communityData, configData } = await FetchData( api, state, dispatch )
+    let { projectData, communityData, configData } = await FetchData(api, state, dispatch)
 
     let data = GetOneProject(projectData, project_id);
     setCompany(data.project_company);
@@ -135,7 +137,7 @@ export default function CreateProject() {
 
     let _milestoneTitle = [], _milestoneAmount = [], _milestoneDescription = [], _milestoneStartdate = [], _milestoneEnddate = [], _milestoneType = [];
 
-    for(let i=0; i<data.milestone_states.length; i++){
+    for (let i = 0; i < data.milestone_states.length; i++) {
 
       _milestoneTitle.push(data.milestone_states[i].milestone_name);
       _milestoneType.push(data.milestone_states[i].milestone_type);
@@ -153,7 +155,7 @@ export default function CreateProject() {
 
     let _teamDescription = [], _teamLinkedIn = [], _teamRole = [], _teamName = [];
 
-    for(let i=0; i<data.teammember_states.length; i++){
+    for (let i = 0; i < data.teammember_states.length; i++) {
       _teamDescription.push(data.teammember_states[i].teammember_description);
       _teamLinkedIn.push(data.teammember_states[i].teammember_linkedin);
       _teamRole.push(data.teammember_states[i].teammember_role);
@@ -165,31 +167,31 @@ export default function CreateProject() {
     setTeammemberRole(_teamRole);
     setTeammemberName(_teamName);
 
-   let _stageTitle = [], _stagePrice = [], _stageAmount = [],
-   _stageSoon = [], _stageAfter = [], _stagePeriod = [];
-   
-   for(let i=0; i<data.vesting.length; i++){
-     _stageTitle.push(data.vesting[i].stage_title);
-     _stagePrice.push(parseFloat(data.vesting[i].stage_price)/100);
-     _stageAmount.push(data.vesting[i].stage_amount);
-     _stageSoon.push(data.vesting[i].stage_soon);
-     _stageAfter.push(getMonth(data.vesting[i].stage_after));
-     _stagePeriod.push(getMonth(data.vesting[i].stage_period));
-   }
+    let _stageTitle = [], _stagePrice = [], _stageAmount = [],
+      _stageSoon = [], _stageAfter = [], _stagePeriod = [];
 
-   setStageTitle(_stageTitle);
-   setStagePrice(_stagePrice);
-   setStageAmount(_stageAmount);
-   setStageVestingSoon(_stageSoon);
-   setStageVestingAfter(_stageAfter);
-   setStageVestingPeriod(_stagePeriod);
+    for (let i = 0; i < data.vesting.length; i++) {
+      _stageTitle.push(data.vesting[i].stage_title);
+      _stagePrice.push(parseFloat(data.vesting[i].stage_price) / 100);
+      _stageAmount.push(data.vesting[i].stage_amount);
+      _stageSoon.push(data.vesting[i].stage_soon);
+      _stageAfter.push(getMonth(data.vesting[i].stage_after));
+      _stagePeriod.push(getMonth(data.vesting[i].stage_period));
+    }
+
+    setStageTitle(_stageTitle);
+    setStagePrice(_stagePrice);
+    setStageAmount(_stageAmount);
+    setStageVestingSoon(_stageSoon);
+    setStageVestingAfter(_stageAfter);
+    setStageVestingPeriod(_stagePeriod);
   }
 
   //---------------create project---------------------------------
   const checkInvalidation = async () => {
-    if(CheckNetwork(state.connectedWallet, state) == false)
+    if (CheckNetwork(state.connectedWallet, state) == false)
       return false;
-  
+
     let { projectData, communityData, configData } = await FetchData(
       api,
       state,
@@ -235,6 +237,38 @@ export default function CreateProject() {
       toast('Milestone total amount must equal collected amount', errorOption);
       return false;
     }
+    if(getInteger(communityAlloc) == 0){
+      toast("Communit allocation can't be 0")
+      return;
+    }
+    let distribution_token_amount = 0;
+    for (let i = 0; i < stageTitle.length; i++) {
+      if (getMultiplyInteger(stagePrice[i]) == 0) {
+        toast("Stage Price can't be zero", errorOption);
+        return false;
+      }
+      if (getInteger(stageAmount[i]) == 0) {
+        toast("Stage token amount can't be zero", errorOption);
+        return false;
+      }
+      if (getInteger(stageAmount[i]) == 0) {
+        toast("Stage token amount can't be zero", errorOption);
+        return false;
+      }
+      if (getInteger(stageVestingSoon[i]) == 0 && getInteger(stageVestingAfter[i]) == 0 && getInteger(stageVestingPeriod[i]) == 0) {
+        toast("Stage vesting paramebers are invalid", errorOption);
+        return false;
+      }
+      distribution_token_amount += parseInt(getInteger(stageAmount[i]));
+    }
+    if(tokenAddress != ''){
+      let res = await getTokenInfo(api, state, tokenAddress);
+      if(res == false) return false;
+      if(distribution_token_amount > res.balance) {
+        toast(`${distribution_token_amount} ${res.symbol} for vesting is larger than ${res.balance}`);
+        return false;
+      }
+    }
     return true;
   }
 
@@ -272,7 +306,7 @@ export default function CreateProject() {
         err = true;
       })
 
-    if(err) return '';
+    if (err) return '';
     return realSAFT;
   }
 
@@ -330,16 +364,16 @@ export default function CreateProject() {
   }
 
   async function createProject() {
-    if(CheckNetwork(state.connectedWallet, state) == false)
+    if (CheckNetwork(state.connectedWallet, state) == false)
       return false;
 
-    if(await checkInvalidation() == false)
+    if (await checkInvalidation() == false)
       return false;
 
     toast('Please wait', successOption);
 
     let realSAFT = await createDocxTemplate();
-    if(realSAFT == '') 
+    if (realSAFT == '')
       return false;
 
     let realWhitepaer = await uploadWhitepaper();
@@ -358,7 +392,7 @@ export default function CreateProject() {
 
     let vesting = []
     let distribution_token_amount = 0;
-    for (let i = 0; i < stageTitle.length; i++){
+    for (let i = 0; i < stageTitle.length; i++) {
       let stage = {
         stage_title: stageTitle[i],
         stage_price: getMultiplyInteger(stagePrice[i]),
@@ -388,14 +422,14 @@ export default function CreateProject() {
     }
 
     let _createDate = createDate;
-    
-    if(_createDate == ''){
+
+    if (_createDate == '') {
       const dt = new Date()
       const [month, day, year] = [dt.getMonth(), dt.getDate(), dt.getFullYear()]
       _createDate = day + '/' + ((month + 1) % 12) + '/' + year
     }
 
-    let _projectID = project_id == null? "0": project_id.toString();
+    let _projectID = project_id == null ? "0" : project_id.toString();
 
     let AddProjectMsg = {
       add_project: {
@@ -434,9 +468,9 @@ export default function CreateProject() {
     )
     let msgs = [add_msg];
 
-    if(tokenAddress != ""){
+    if (tokenAddress != "") {
       let token_info;
-      try{
+      try {
         token_info = await api.contractQuery(
           tokenAddress,
           {
@@ -444,15 +478,15 @@ export default function CreateProject() {
           }
         )
         console.log(token_info)
-        
-        distribution_token_amount = distribution_token_amount * (10**token_info.decimals);
+
+        distribution_token_amount = distribution_token_amount * (10 ** token_info.decimals);
         let ApproveMsg = {
           increase_allowance: {
             spender: wefundContractAddress,
             amount: distribution_token_amount.toString()
           }
         }
-  
+
         let approve_msg = new MsgExecuteContract(
           state.connectedWallet.walletAddress,
           tokenAddress,
@@ -460,7 +494,7 @@ export default function CreateProject() {
         )
         msgs.push(approve_msg);
       }
-      catch(e){
+      catch (e) {
         toast("Invalid token Address, Please remove the token Address");
         console.log(e);
       }
@@ -470,9 +504,9 @@ export default function CreateProject() {
       state.connectedWallet,
       state.lcd_client,
       msgs,
-      project_id == null? 'Create Project success' : "Modify Project success",
+      project_id == null ? 'Create Project success' : "Modify Project success",
     )
-    if(res == true){
+    if (res == true) {
       await FetchData(api, state, dispatch, true)
       navigate('/explorer');
     }
@@ -480,192 +514,210 @@ export default function CreateProject() {
 
   return (
     <PageLayout title="Create Your Project" subTitle1="Create a" subTitle2="New Project">
-      <Flex width="100%" justify="center" mb={'150px'} zIndex={'1'} mt = '-30px'>
+      <Flex width="100%" justify="center" mb={'150px'} zIndex={'1'} mt='-30px'>
         <Box
-          w = {{base:'sm',sm:'md',md:'2xl',lg:'2xl',xl:'3xl'}}
-          background = 'rgba(255, 255, 255, 0.05)'
-          border = '1.5px solid rgba(255, 255, 255, 0.15)'
-          borderTopColor =  'transparent'
-          fontFamily = 'Sk-Modernist-Regular'
-          paddingLeft = '50px'
-          paddingRight = '50px'
-          zIndex = '1'
+          w={{ base: 'sm', sm: 'md', md: '2xl', lg: '2xl', xl: '3xl' }}
+          background='rgba(255, 255, 255, 0.05)'
+          border='1.5px solid rgba(255, 255, 255, 0.15)'
+          borderTopColor='transparent'
+          fontFamily='Sk-Modernist-Regular'
+          paddingLeft='50px'
+          paddingRight='50px'
+          zIndex='1'
         >
-          <Payment isUST={isUST} setIsUST={setIsUST}/>
+          <Payment isUST={isUST} setIsUST={setIsUST} />
           <CustomInput
-            typeText = "Company Name"
-            type={company} 
+            typeText="Company Name"
+            type={company}
             setType={setCompany}
             mt='30px'
           />
           <CustomInput
-            typeText = "Project Title"
-            type={title} 
+            typeText="Project Title"
+            type={title}
             setType={setTitle}
             mt='30px'
           />
           <CustomTextarea
-            typeText = "Project Description"
-            type={description} 
+            typeText="Project Description"
+            type={description}
             setType={setDescription}
             mt='30px'
           />
           <TeamMembers
-            description = {teammemberDescription}
-            setDescription = {setTeammemberDescription}
-            name = {teammemberName}
-            setName = {setTeammemberName}
-            role = {teammemberRole}
-            setRole = {setTeammemberRole}
-            linkedin = {teammemberLinkedin}
-            setLinedin = {setTeammemberLinkedin}
+            description={teammemberDescription}
+            setDescription={setTeammemberDescription}
+            name={teammemberName}
+            setName={setTeammemberName}
+            role={teammemberRole}
+            setRole={setTeammemberRole}
+            linkedin={teammemberLinkedin}
+            setLinedin={setTeammemberLinkedin}
           />
-          <Stack 
-            mt = '30px'
-            direction={{base:'column', md:'column', lg:'row'}}
+          <Stack
+            mt='30px'
+            direction={{ base: 'column', md: 'column', lg: 'row' }}
             spacing='30px'
           >
-            <CustomNumberInput
-              typeText = "Amount Required"
-              type = {collectedAmount}
-              setType = {setCollectedAmount}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+            <CustomCoinInput
+              typeText="Amount Required"
+              type={collectedAmount}
+              setType={setCollectedAmount}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
             <CustomSelect
-              typeText = "Blockchain"
-              type = {ecosystem}
-              setType = {setEcosystem}
-              options = {['Terra', 'Ethereum', 'BSC', 'Harmony', 'Algorand', 'Solana']}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+              typeText="Blockchain"
+              type={ecosystem}
+              setType={setEcosystem}
+              options={['Terra', 'Ethereum', 'BSC', 'Harmony', 'Algorand', 'Solana', 'Avalanche']}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
           </Stack>
-          <Stack 
-            mt = '30px'
-            direction={{base:'column', md:'column', lg:'row'}}
+          <Stack
+            mt='30px'
+            direction={{ base: 'column', md: 'column', lg: 'row' }}
             spacing='30px'
           >
             <InputAddress
-              typeText = "Token Address"
-              type={tokenAddress} 
+              typeText="Token Address"
+              type={tokenAddress}
               setType={setTokenAddress}
               setTokenName={setTokenName}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+              setTokenBalance={setTokenBalance}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
             <CustomInputReadOnly
-              typeText = "TokenName"
-              type={tokenName} 
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+              typeText="TokenName"
+              type={tokenName}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
+            />
+          </Stack>
+          <Stack
+            mt='30px'
+            direction={{ base: 'column', md: 'column', lg: 'row' }}
+            spacing='30px'
+          >
+            <CustomPercentInput
+              typeText="Community Allocation"
+              type={communityAlloc}
+              setType={setCommunityAlloc}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
+            />
+            <CustomInputReadOnly
+              typeText="Balance"
+              type={tokenBalance}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
           </Stack>
           <Stages
-            stageTitle = {stageTitle}
-            setStageTitle = {setStageTitle}
-            stagePrice = {stagePrice}
-            setStagePrice = {setStagePrice}
-            stageAmount = {stageAmount}
-            setStageAmount = {setStageAmount} 
-            stageVestingSoon = {stageVestingSoon}
-            setStageVestingSoon = {setStageVestingSoon}
-            stageVestingAfter = {stageVestingAfter}
-            setStageVestingAfter = {setStageVestingAfter}
-            stageVestingPeriod = {stageVestingPeriod}
-            setStageVestingPeriod = {setStageVestingPeriod}
+            stageTitle={stageTitle}
+            setStageTitle={setStageTitle}
+            stagePrice={stagePrice}
+            setStagePrice={setStagePrice}
+            stageAmount={stageAmount}
+            setStageAmount={setStageAmount}
+            stageVestingSoon={stageVestingSoon}
+            setStageVestingSoon={setStageVestingSoon}
+            stageVestingAfter={stageVestingAfter}
+            setStageVestingAfter={setStageVestingAfter}
+            stageVestingPeriod={stageVestingPeriod}
+            setStageVestingPeriod={setStageVestingPeriod}
           />
           <Stack
-            mt = '30px'
-            direction={{base:'column', md:'row', lg:'row'}}
+            mt='30px'
+            direction={{ base: 'column', md: 'row', lg: 'row' }}
             spacing='30px'
           >
             <CustomInput
-              typeText = "Country"
-              type={country} 
+              typeText="Country"
+              type={country}
               setType={setCountry}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
             <CustomInput
-              typeText = "Founder Name"
-              type={cofounderName} 
+              typeText="Founder Name"
+              type={cofounderName}
               setType={setCofounderName}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
           </Stack>
           <Stack
-            mt = '30px' 
-            direction={{base:'column', md:'row', lg:'row'}} 
+            mt='30px'
+            direction={{ base: 'column', md: 'row', lg: 'row' }}
             spacing='30px'
           >
             <CustomInput
-              typeText = "Address"
-              type={address} 
+              typeText="Address"
+              type={address}
               setType={setAddress}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
             <CustomEmailInput
-              typeText = "Email"
-              type = {email}
-              setType = {setEmail}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+              typeText="Email"
+              type={email}
+              setType={setEmail}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
           </Stack>
-          <Stack 
-            mt = '30px' 
-            direction={{base:'column', md:'row', lg:'row'}} 
+          <Stack
+            mt='30px'
+            direction={{ base: 'column', md: 'row', lg: 'row' }}
             spacing='30px'
           >
             <CustomSimpleNumberInput
-              typeText = "% for WeFund Service"
-              type = {serviceWefund}
-              setType = {setServiceWefund}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+              typeText="% for WeFund Service"
+              type={serviceWefund}
+              setType={setServiceWefund}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
             <CustomSimpleNumberInput
-              typeText = '% for Charity'
-              type = {serviceCharity}
-              setType= {setServiceCharity}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+              typeText='% for Charity'
+              type={serviceCharity}
+              setType={setServiceCharity}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
           </Stack>
-          <Stack 
-            mt = '30px' 
-            direction={{base:'column', md:'row', lg:'row'}} 
+          <Stack
+            mt='30px'
+            direction={{ base: 'column', md: 'row', lg: 'row' }}
             spacing='30px'
           >
             <CustomUpload
-              typeText = 'Signature'
-              type = {signature}
-              setType = {setSignature}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+              typeText='Signature'
+              type={signature}
+              setType={setSignature}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
             <CustomUpload
-              typeText = 'Whitepaper'
-              type = {whitepaper}
-              setType = {setWhitepaper}
-              w = {{base:'100%', md:'50%', lg:'50%'}}
+              typeText='Whitepaper'
+              type={whitepaper}
+              setType={setWhitepaper}
+              w={{ base: '100%', md: '50%', lg: '50%' }}
             />
           </Stack>
           <Website
-            typeText = "Project website"
-            type = {website}
-            setType = {setWebsite}
+            typeText="Project website"
+            type={website}
+            setType={setWebsite}
           />
           <Website
-            typeText = "LinkedIn or similar"
-            type = {professionallink}
-            setType = {setProfessionalLink}
+            typeText="LinkedIn or similar"
+            type={professionallink}
+            setType={setProfessionalLink}
           />
           <Milestones
-            milestoneTitle = {milestoneTitle}
-            setMilestoneTitle = {setMilestoneTitle}
-            milestoneType = {milestoneType}
-            setMilestoneType = {setMilestoneType}
-            milestoneAmount = {milestoneAmount}
-            setMilestoneAmount = {setMilestoneAmount}
-            milestoneDescription = {milestoneDescription}
-            setMilestoneDescription = {setMilestoneDescription}
-            milestoneStartdate = {milestoneStartdate}
-            setMilestoneStartdate = {setMilestoneStartdate}
-            milestoneEnddate = {milestoneEnddate}
-            setMilestoneEnddate = {setMilestoneEnddate}
+            milestoneTitle={milestoneTitle}
+            setMilestoneTitle={setMilestoneTitle}
+            milestoneType={milestoneType}
+            setMilestoneType={setMilestoneType}
+            milestoneAmount={milestoneAmount}
+            setMilestoneAmount={setMilestoneAmount}
+            milestoneDescription={milestoneDescription}
+            setMilestoneDescription={setMilestoneDescription}
+            milestoneStartdate={milestoneStartdate}
+            setMilestoneStartdate={setMilestoneStartdate}
+            milestoneEnddate={milestoneEnddate}
+            setMilestoneEnddate={setMilestoneEnddate}
           />
           <Flex w="100%" mt="30px" justify="center" mb="30px">
             <ButtonTransition
@@ -674,13 +726,13 @@ export default function CreateProject() {
               width="400px"
               height="50px"
               rounded="33px"
+              onClick={() => createProject()}
             >
               <Box
                 variant="solid"
                 color="white"
                 justify="center"
                 align="center"
-                onClick={() => createProject()}
               >
                 Submit
               </Box>
