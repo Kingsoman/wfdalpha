@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Flex, Stack, Text, UnorderedList, IconButton, Button, ListItem, Box, HStack, VStack, useBreakpointValue, Image } from '@chakra-ui/react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { Parallax } from 'react-scroll-parallax';
+import { getScrollPosition } from "react-window";
 
 const timelines = [
   {
