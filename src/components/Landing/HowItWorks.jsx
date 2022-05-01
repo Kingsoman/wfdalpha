@@ -377,7 +377,7 @@ const tokens = [
   { img: '/media/Home/21.png', lable: 'Staking Rewards' },
   {
     img: '/media/Home/22.png',
-    lable: '0% Transaction Fee',
+    lable: '0% Transaction Fee for NFT card holders',
   },
   {
     img: '/media/Home/23.png',
