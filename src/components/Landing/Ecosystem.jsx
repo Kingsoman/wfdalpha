@@ -9,7 +9,6 @@ export default function Eco() {
  alignItems="center"
  flexDirection="column"
  backgroundSize={'contain'}
- backgroundImage="/media/Home/40_1.png"
  padding={{ base: '1em', md: '8em', lg: '10em' }}
  my={'4em'}
 >
