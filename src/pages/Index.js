@@ -36,9 +36,9 @@ export default () => {
         <Litepaper />
         <Problem />
         <Works />
-        <RoadMap />
         <UpcomingProject />
         <Eco />
+        <RoadMap />
         <Team />
         <Advisors />
         <Footer />
