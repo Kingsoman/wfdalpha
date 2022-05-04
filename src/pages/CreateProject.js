@@ -94,7 +94,6 @@ export default function CreateProject() {
   const [professionallink, setProfessionalLink] = useState('')
 
   const [milestoneTitle, setMilestoneTitle] = useState([''])
-  const [milestoneType, setMilestoneType] = useState([''])
   const [milestoneAmount, setMilestoneAmount] = useState([''])
   const [milestoneDescription, setMilestoneDescription] = useState([''])
   const [milestoneStartdate, setMilestoneStartdate] = useState([''])
@@ -140,14 +139,12 @@ export default function CreateProject() {
     for (let i = 0; i < data.milestone_states.length; i++) {
 
       _milestoneTitle.push(data.milestone_states[i].milestone_name);
-      _milestoneType.push(data.milestone_states[i].milestone_type);
       _milestoneDescription.push(data.milestone_states[i].milestone_description);
       _milestoneStartdate.push(data.milestone_states[i].milestone_startdate);
       _milestoneEnddate.push(data.milestone_states[i].milestone_enddate);
       _milestoneAmount.push(data.milestone_states[i].milestone_amount);
     }
     setMilestoneTitle(_milestoneTitle);
-    setMilestoneType(_milestoneType);
     setMilestoneAmount(_milestoneAmount);
     setMilestoneDescription(_milestoneDescription);
     setMilestoneStartdate(_milestoneStartdate);
@@ -198,10 +195,6 @@ export default function CreateProject() {
       dispatch,
     )
 
-    if (communityData == '') {
-      toast('There are no community members!', errorOption);
-      return false;
-    }
 
     if (title.length == 0) {
       toast('Please fill in project name!', errorOption);
@@ -213,78 +206,25 @@ export default function CreateProject() {
       return false;
     }
 
-    let total_release = 0
-    for (let i = 0; i < milestoneTitle.length; i++) {
-      if (milestoneTitle[i] == '') {
-        toast('Please fill in milestone title!', errorOption);
-        return false;
-      }
-      if (milestoneStartdate[i] == '') {
-        toast('Please fill in milestone Start Date!', errorOption);
-        return false;
-      }
-      if (milestoneEnddate[i] == '') {
-        toast('Please fill in milestone End Date!', errorOption);
-        return false;
-      }
-      if (parseInt(milestoneAmount[i]) < 6) {
-        toast('Collected money must be at least 6 UST', errorOption);
-        return false;
-      }
-      total_release += parseInt(milestoneAmount[i])
-    }
-    if (total_release != parseInt(collectedAmount)) {
-      toast('Milestone total amount must equal collected amount', errorOption);
-      return false;
-    }
-    if(getInteger(communityAlloc) == 0){
-      toast("Communit allocation can't be 0")
-      return;
-    }
-    let distribution_token_amount = 0;
-    for (let i = 0; i < stageTitle.length; i++) {
-      if (getMultiplyInteger(stagePrice[i]) == 0) {
-        toast("Stage Price can't be zero", errorOption);
-        return false;
-      }
-      if (getInteger(stageAmount[i]) == 0) {
-        toast("Stage token amount can't be zero", errorOption);
-        return false;
-      }
-      if (getInteger(stageAmount[i]) == 0) {
-        toast("Stage token amount can't be zero", errorOption);
-        return false;
-      }
-      if (getInteger(stageVestingSoon[i]) == 0 && getInteger(stageVestingAfter[i]) == 0 && getInteger(stageVestingPeriod[i]) == 0) {
-        toast("Stage vesting paramebers are invalid", errorOption);
-        return false;
-      }
-      distribution_token_amount += parseInt(getInteger(stageAmount[i]));
-    }
-    if(tokenAddress != ''){
-      let res = await getTokenInfo(api, state, tokenAddress);
-      if(res == false) return false;
-      if(distribution_token_amount > res.balance) {
-        toast(`${distribution_token_amount} ${res.symbol} for vesting is larger than ${res.balance}`);
-        return false;
-      }
-    }
+
+
+
     return true;
   }
 
   const createDocxTemplate = async () => {
     var formData = new FormData()
     formData.append('tokenName', tokenName);
-    formData.append('company', company);
+  /*  formData.append('company', company);*/
     formData.append('title', title);
-    formData.append('address', address);
+ /*   formData.append('address', address);*/
     formData.append('description', description);
     formData.append('ecosystem', ecosystem);
     formData.append('priceSeed', stagePrice[0]);
     formData.append('pricePresale', stagePrice[1]);
     formData.append('priceIDO', stagePrice[2]);
-    formData.append('cofounderName', cofounderName);
-    formData.append('country', country);
+ /*   formData.append('cofounderName', cofounderName);
+    formData.append('country', country);*/
     formData.append('email', email);
     formData.append('file', signature);
 
@@ -414,7 +354,6 @@ export default function CreateProject() {
         milestone_startdate: getVal(milestoneStartdate[i]),
         milestone_enddate: getVal(milestoneEnddate[i]),
         milestone_amount: getVal(milestoneAmount[i]),
-        milestone_type: getVal(milestoneType[i]),
         milestone_status: '0',
         milestone_votes: [],
       }
@@ -435,8 +374,8 @@ export default function CreateProject() {
       add_project: {
         creator_wallet: state.connectedWallet.walletAddress,
         project_id: _projectID,
-        project_company: company,
-        project_title: title,
+     /*   project_company: company,*/
+    /*    project_title: title,*/
         project_description: description,
         project_collected: collectedAmount.toString(),
         project_ecosystem: ecosystem,
@@ -451,8 +390,8 @@ export default function CreateProject() {
         vesting: vesting,
         token_addr: tokenAddress,
 
-        country: country,
-        cofounder_name: cofounderName,
+      /*  country: country,
+        cofounder_name: cofounderName,*/
         service_wefund: serviceWefund,
         service_charity: serviceCharity,
         professional_link: professionallink
@@ -517,7 +456,7 @@ export default function CreateProject() {
       <Flex width="100%" justify="center" mb={'150px'} zIndex={'1'} mt='-30px'>
         <Box
           w={{ base: 'sm', sm: 'md', md: '2xl', lg: '2xl', xl: '3xl' }}
-          background='rgba(255, 255, 255, 0.05)'
+          background='rgba(200, 255, 255, 0.05)'
           border='1.5px solid rgba(255, 255, 255, 0.15)'
           borderTopColor='transparent'
           fontFamily='Sk-Modernist-Regular'
@@ -525,13 +464,7 @@ export default function CreateProject() {
           paddingRight='50px'
           zIndex='1'
         >
-          <Payment isUST={isUST} setIsUST={setIsUST} />
-          <CustomInput
-            typeText="Company Name"
-            type={company}
-            setType={setCompany}
-            mt='30px'
-          />
+        
           <CustomInput
             typeText="Project Title"
             type={title}
@@ -573,42 +506,7 @@ export default function CreateProject() {
               w={{ base: '100%', md: '50%', lg: '50%' }}
             />
           </Stack>
-          <Stack
-            mt='30px'
-            direction={{ base: 'column', md: 'column', lg: 'row' }}
-            spacing='30px'
-          >
-            <InputAddress
-              typeText="Token Address"
-              type={tokenAddress}
-              setType={setTokenAddress}
-              setTokenName={setTokenName}
-              setTokenBalance={setTokenBalance}
-              w={{ base: '100%', md: '50%', lg: '50%' }}
-            />
-            <CustomInputReadOnly
-              typeText="TokenName"
-              type={tokenName}
-              w={{ base: '100%', md: '50%', lg: '50%' }}
-            />
-          </Stack>
-          <Stack
-            mt='30px'
-            direction={{ base: 'column', md: 'column', lg: 'row' }}
-            spacing='30px'
-          >
-            <CustomPercentInput
-              typeText="Community Allocation"
-              type={communityAlloc}
-              setType={setCommunityAlloc}
-              w={{ base: '100%', md: '50%', lg: '50%' }}
-            />
-            <CustomInputReadOnly
-              typeText="Balance"
-              type={tokenBalance}
-              w={{ base: '100%', md: '50%', lg: '50%' }}
-            />
-          </Stack>
+        
           <Stages
             stageTitle={stageTitle}
             setStageTitle={setStageTitle}
@@ -628,30 +526,14 @@ export default function CreateProject() {
             direction={{ base: 'column', md: 'row', lg: 'row' }}
             spacing='30px'
           >
-            <CustomInput
-              typeText="Country"
-              type={country}
-              setType={setCountry}
-              w={{ base: '100%', md: '50%', lg: '50%' }}
-            />
-            <CustomInput
-              typeText="Founder Name"
-              type={cofounderName}
-              setType={setCofounderName}
-              w={{ base: '100%', md: '50%', lg: '50%' }}
-            />
+
           </Stack>
           <Stack
             mt='30px'
             direction={{ base: 'column', md: 'row', lg: 'row' }}
             spacing='30px'
           >
-            <CustomInput
-              typeText="Address"
-              type={address}
-              setType={setAddress}
-              w={{ base: '100%', md: '50%', lg: '50%' }}
-            />
+         
             <CustomEmailInput
               typeText="Email"
               type={email}
@@ -682,14 +564,9 @@ export default function CreateProject() {
             direction={{ base: 'column', md: 'row', lg: 'row' }}
             spacing='30px'
           >
+ 
             <CustomUpload
-              typeText='Signature'
-              type={signature}
-              setType={setSignature}
-              w={{ base: '100%', md: '50%', lg: '50%' }}
-            />
-            <CustomUpload
-              typeText='Whitepaper'
+              typeText='Documents'
               type={whitepaper}
               setType={setWhitepaper}
               w={{ base: '100%', md: '50%', lg: '50%' }}
@@ -708,8 +585,6 @@ export default function CreateProject() {
           <Milestones
             milestoneTitle={milestoneTitle}
             setMilestoneTitle={setMilestoneTitle}
-            milestoneType={milestoneType}
-            setMilestoneType={setMilestoneType}
             milestoneAmount={milestoneAmount}
             setMilestoneAmount={setMilestoneAmount}
             milestoneDescription={milestoneDescription}
