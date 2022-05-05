@@ -31,7 +31,7 @@ export default function MilestoneTitle({
   }
 
   return (
-    <Box mt="40px">
+    <Box  mt={{base:"40px", md:"0px"}} w="100%">
       <Flex justify="space-between">
         <Text mb="20px">Milestone Title</Text>
         <Text fontSize="15px" opacity="0.5">

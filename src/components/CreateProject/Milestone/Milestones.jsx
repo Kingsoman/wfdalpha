@@ -20,8 +20,6 @@ import MilestoneDate from './MilestoneDate'
 export default function Milestones({
   milestoneTitle,
   setMilestoneTitle,
-  milestoneType,
-  setMilestoneType,
   milestoneAmount,
   setMilestoneAmount,
   milestoneDescription,
@@ -73,16 +71,11 @@ export default function Milestones({
           >
             Milestone - {index+1}
           </Text>
-          <MilestoneTitle 
-            index={index}
-            milestoneTitle={milestoneTitle}
-            setMilestoneTitle={setMilestoneTitle}
-          />
           <Flex direction={{ base: 'column', md: 'row', lg: 'row' }} mt="40px">
-            <MilestoneType
+            <MilestoneTitle 
               index={index}
-              milestoneType={milestoneType}
-              setMilestoneType={setMilestoneType}
+              milestoneTitle={milestoneTitle}
+              setMilestoneTitle={setMilestoneTitle}
             />
             <MilestoneAmount
               index={index}

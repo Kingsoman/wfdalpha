@@ -24,6 +24,7 @@ import Faq from 'pages/Faq'
 import WalletInfo from 'pages/WalletInfo'
 import ExplorerProject from 'pages/ExploreComingSoon'
 import CreateProject from 'pages/CreateProject'
+import ModifyProject from 'pages/ModifyProject'
 import BackProject from 'pages/BackProject'
 import DetailProject from 'pages/ProjectDetail'
 import Invest_step0 from 'pages/Invest_step0'
@@ -112,6 +113,7 @@ export default class App extends Component {
                   <Index path="/" />
                   <Faq path="faq" />
                   <CreateProject path="create" />
+                  <ModifyProject path="modify" />
                   <BackProject path="back" />
                   <ExplorerProject path="explorer" />
                   <DetailProject path="detail" />

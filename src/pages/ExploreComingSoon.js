@@ -236,7 +236,7 @@ export default function ExplorerProject() {
   }, [activeTab, state.net, state.connectedWallet])
 
   function Modify(project_id) {
-    navigate('/create?project_id=' + project_id);
+    navigate('/modify?project_id=' + project_id);
   }
 
   return (

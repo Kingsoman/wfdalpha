@@ -29,6 +29,10 @@ export default {
             template: 'src/pages/BackProject',
         },
         {
+            path: 'back',
+            template: 'src/pages/ModifyProject',
+        },
+        {
             path: 'explorer',
             template: 'src/pages/ExploreComingSoon',
         },
