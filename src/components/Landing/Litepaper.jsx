@@ -35,7 +35,7 @@ export default function Litepaper() {
       name: "en",
       label: "English",
     },
-    {
+ /*   {
       name: "fr",
       label: "Franch",
     },
@@ -54,7 +54,7 @@ export default function Litepaper() {
     {
       name: "sw",
       label: "Swahili"
-    }
+    }*/
   ]
 
   return (
