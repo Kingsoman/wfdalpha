@@ -366,8 +366,8 @@ export default function CreateProject() {
       add_project: {
         creator_wallet: state.connectedWallet.walletAddress,
         project_id: _projectID,
-     /*   project_company: company,*/
-    /*    project_title: title,*/
+        project_company: company,
+        project_title: title,
         project_description: description,
         project_collected: collectedAmount.toString(),
         project_ecosystem: ecosystem,
@@ -382,8 +382,8 @@ export default function CreateProject() {
         vesting: vesting,
         token_addr: tokenAddress,
 
-      /*  country: country,
-        cofounder_name: cofounderName,*/
+        country: country,
+        cofounder_name: cofounderName,
         service_wefund: serviceWefund,
         service_charity: serviceCharity,
         professional_link: professionallink
