@@ -195,10 +195,6 @@ export default function CreateProject() {
       dispatch,
     )
 
-    if (communityData == '') {
-      toast('There are no community members!', errorOption);
-      return false;
-    }
 
     if (title.length == 0) {
       toast('Please fill in project name!', errorOption);
@@ -216,16 +212,16 @@ export default function CreateProject() {
   const createDocxTemplate = async () => {
     var formData = new FormData()
     formData.append('tokenName', tokenName);
-    formData.append('company', company);
+  /*  formData.append('company', company);*/
     formData.append('title', title);
-    formData.append('address', address);
+ /*   formData.append('address', address);*/
     formData.append('description', description);
     formData.append('ecosystem', ecosystem);
     formData.append('priceSeed', stagePrice[0]);
     formData.append('pricePresale', stagePrice[1]);
     formData.append('priceIDO', stagePrice[2]);
-    formData.append('cofounderName', cofounderName);
-    formData.append('country', country);
+ /*   formData.append('cofounderName', cofounderName);
+    formData.append('country', country);*/
     formData.append('email', email);
     formData.append('file', signature);
 
@@ -370,8 +366,8 @@ export default function CreateProject() {
       add_project: {
         creator_wallet: state.connectedWallet.walletAddress,
         project_id: _projectID,
-        project_company: company,
-        project_title: title,
+     /*   project_company: company,*/
+    /*    project_title: title,*/
         project_description: description,
         project_collected: collectedAmount.toString(),
         project_ecosystem: ecosystem,
@@ -386,8 +382,8 @@ export default function CreateProject() {
         vesting: vesting,
         token_addr: tokenAddress,
 
-        country: country,
-        cofounder_name: cofounderName,
+      /*  country: country,
+        cofounder_name: cofounderName,*/
         service_wefund: serviceWefund,
         service_charity: serviceCharity,
         professional_link: professionallink
@@ -419,7 +415,7 @@ export default function CreateProject() {
       <Flex width="100%" justify="center" mb={'150px'} zIndex={'1'} mt='-30px'>
         <Box
           w={{ base: 'sm', sm: 'md', md: '2xl', lg: '2xl', xl: '3xl' }}
-          background='rgba(255, 255, 255, 0.05)'
+          background='rgba(200, 255, 255, 0.05)'
           border='1.5px solid rgba(255, 255, 255, 0.15)'
           borderTopColor='transparent'
           fontFamily='Sk-Modernist-Regular'

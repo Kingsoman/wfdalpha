@@ -144,7 +144,7 @@ const team = [
     logos: ['/media/Home/44.png', '/media/Home/59.png', '/media/Home/45.png'],
     imgsrc: '/media/Home/john.jpg',
   },
-
+/*
   {
     name: 'Trevor.UST',
     role: 'Terra Ecosystem',
@@ -157,7 +157,7 @@ const team = [
       '/media/Home/57.png',
       '/media/Home/56.png',
     ],
-  },
+  },*/
   {
     name: 'Jason Galvin',
     role: 'Co-CTO Advisor',
