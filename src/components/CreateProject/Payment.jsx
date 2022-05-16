@@ -40,10 +40,10 @@ export default function Payment({isUST, setIsUST}) {
             mt="23px"
             boxSize="50px"
             objectFit="cover"
-            src="/media/UST.svg"
-            alt="UST Avatar"
+            src="/media/USDT.jpeg"
+            alt="USDT Avatar"
           />
-          <Text mt="13px">UST</Text>
+          <Text mt="13px">USDT</Text>
           <Img
             mt="15px"
             mb="20px"
