@@ -22,9 +22,19 @@ export default function Hero() {
       />
       <Container position={'relative'} mt={{base: '15vh', lg: '20vh'}} zIndex={'3'} maxW='container.lg'>
       <Stack>
+      <Text
+          fontFamily="PilatExtended-Bold"
+          fontSize={{ base: '20px', md: '58px'}}
+          lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
+          letterSpacing={{base: '0.1em'}}
+          textTransform={'uppercase'}
+          textShadow="0px 10px 10px rgba(9, 2, 90, 0.73)"
+          color={'brand'}>
+          Community
+        </Text>
         <Text
           fontFamily="PilatExtended-Bold"
-          fontSize={{ base: '20px', md: '64px'}}
+          fontSize={{ base: '20px', md: '58px'}}
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
           letterSpacing={{base: '0.1em'}}
           textTransform={'uppercase'}
@@ -33,7 +43,7 @@ export default function Hero() {
         </Text>
         <Text
           fontFamily="PilatExtended-Black"
-          fontSize={{ base: '21px', md: '64px'}}
+          fontSize={{ base: '21px', md: '58px'}}
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
           letterSpacing={{base: '0.1em'}}
           textTransform={'uppercase'}
@@ -43,7 +53,7 @@ export default function Hero() {
         </Text>
         <Text
           fontFamily="PilatExtended-Black"
-          fontSize={{ base: '21px', md: '64px'}}
+          fontSize={{ base: '21px', md: '58px'}}
           lineHeight={{ base: '30px', md: '1em', lg: '1.1em' }}
           letterSpacing={{base: '0.1em'}}
           textShadow="0px 10px 10px rgba(9, 2, 90, 0.73)"

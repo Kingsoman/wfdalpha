@@ -247,12 +247,12 @@ const solutions = [
   {
     img: '/media/Home/37.svg',
     lable:
-      'All projects will have a dedicated smart contract to deposit all funds in the Anchor protocol for security. WeFund does not touch the funds raised.',
+      'All projects will have a dedicated smart contract to deposit all funds in the Yield Protocol for security. WeFund does not touch the funds raised.',
   },
   {
     img: '/media/Home/38.png',
     lable:
-      'Milestones will be approved by the project backers for the next set of funds to be released from Anchor to the project.',
+      'Milestones will be approved by the project backers for the next set of funds to be released from Yield Protocol to the project.',
   },
   {
     img: '/media/Home/39.png',
