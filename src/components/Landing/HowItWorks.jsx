@@ -37,10 +37,7 @@ export default function Works() {
         fontFamily="PilatExtended-Bold"
         fontSize={{ md: '25px', lg: '30px' }}
       >
-        <Text color="#63CDFA">HOW IT</Text>
-        <Text color="white" ml={'10px'}>
-          WORKS
-        </Text>
+ 
       </Flex>
       <Flex
         mt={'2em'}
@@ -51,7 +48,6 @@ export default function Works() {
         // height={{ base: '26em', md: '33em', lg: '40em' }}
         borderRadius={{ base: '10px', md: '20px', lg: '40px' }}
       >
-        <Image src="/media/Home/40.png" width="100%"/>
         {/* <Flex
           width="100%"
           height={'100%'}

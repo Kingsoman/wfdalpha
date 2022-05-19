@@ -143,45 +143,9 @@ export default function Litepaper() {
           fontFamily="Sk-Modernist-Regular"
           fontSize={{ base: '14px', md: '18px', lg: '18px' }}
         >
-          OR
+         
         </Text>
-        <Link href={whitepaperLink} w="100%">
-          <Flex
-            m="0 auto"
-            mt="10px"
-            width={{ base: '90%', md: '70%', lg: '50%' }}
-          >
-            <ImageTransition
-              border1="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-              background1="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-              border2="linear-gradient(270.84deg, #9EB2F8 18.92%, #35D4F8 58.24%, #14327D 104.49%)"
-              background2="#1B0032"
-              border3="linear-gradient(180deg, #00A3FF 0%, #0047FF 100%)"
-              background3="linear-gradient(180deg, #1A133E 0%, #1A133E 100%)"
-              width="100%"
-              height="45px"
-              rounded="100px"
-              selected={false}
-              unitid="downfullwhitepaper"
-            >
-              <Flex
-                w="100%"
-                pl="25px"
-                pr="25px"
-                alignItems="center"
-                justify="space-between"
-              >
-                <Text
-                  color="white"
-                  fontSize={{ base: '14px', md: '16px', lg: '16px' }}
-                >
-                  Download Whitepaper (ENG Only)
-                </Text>
-                <Image src="/media/Download.svg" />
-              </Flex>
-            </ImageTransition>
-          </Flex>
-        </Link>
+        
       </Stack>
     </Flex>
   )
