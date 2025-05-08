@@ -1,7 +1,0 @@
-{
-    "eslint.options": {
-      "ignorePattern": ["!src/*"],
-    },
-    "git.ignoreLimitWarning": true
-  }
-  
